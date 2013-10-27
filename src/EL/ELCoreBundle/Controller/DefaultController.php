@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\Controller;
+namespace EL\ELCoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

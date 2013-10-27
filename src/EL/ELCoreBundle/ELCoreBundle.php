@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle;
+namespace EL\ELCoreBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,5 +1,5 @@
 parameters:
-#    el_core.example.class: EL\CoreBundle\Example
+#    el_core.example.class: EL\ELCoreBundle\Example
 
 services:
 #    el_core.example:

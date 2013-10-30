@@ -22,7 +22,7 @@ class Game
     private $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category", inversedBy="games")
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;

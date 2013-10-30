@@ -20,6 +20,16 @@ class Category
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\Game", mappedBy="category")
+     */
+    private $games;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\Categorie_Lang", mappedBy="category")
+     */
+    private $langs;
 
     /**
      * @var string

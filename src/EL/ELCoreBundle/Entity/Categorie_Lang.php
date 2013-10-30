@@ -29,7 +29,7 @@ class Categorie_Lang
     private $title;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category, inversedBy="langs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

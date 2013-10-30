@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Party
  *
- * @ORM\Table(name="dev_core_party")
+ * @ORM\Table(name="el_core_party")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\PartyRepository")
  */
 class Party

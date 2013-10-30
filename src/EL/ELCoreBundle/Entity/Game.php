@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Game
  *
- * @ORM\Table(name="dev_core_game")
+ * @ORM\Table(name="el_core_game")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\GameRepository")
  */
 class Game
@@ -20,6 +20,12 @@ class Game
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $category;
 
     /**
      * @var string
@@ -150,5 +156,28 @@ class Game
     public function getVisible()
     {
         return $this->visible;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \EL\ELCoreBundle\Entity\Category $category
+     * @return Game
+     */
+    public function setCategory(\EL\ELCoreBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+    
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \EL\ELCoreBundle\Entity\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

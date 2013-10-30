@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Message
  *
- * @ORM\Table(name="dev_core_message")
+ * @ORM\Table(name="el_core_message")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\MessageRepository")
  */
 class Message
@@ -24,7 +24,7 @@ class Message
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=63)
+     * @ORM\Column(name="content", type="string", length=255)
      */
     private $content;
 

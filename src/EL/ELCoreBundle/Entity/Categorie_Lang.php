@@ -5,12 +5,12 @@ namespace EL\ELCoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Country_Lang
+ * Categorie_Lang
  *
- * @ORM\Table(name="dev_core_country_lang")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\Country_LangRepository")
+ * @ORM\Table(name="el_core_category_lang")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\Categorie_LangRepository")
  */
-class Country_Lang
+class Categorie_Lang
 {
     /**
      * @var integer
@@ -20,32 +20,25 @@ class Country_Lang
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=31)
+     */
+    private $title;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Country")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $country;
+    private $category;
     
     /**
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Lang")
      * @ORM\JoinColumn(nullable=false)
      */
     private $lang;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=63)
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="habitant", type="string", length=63)
-     */
-    private $habitant;
 
 
     /**
@@ -62,7 +55,7 @@ class Country_Lang
      * Set title
      *
      * @param string $title
-     * @return Country_Lang
+     * @return Categorie_Lang
      */
     public function setTitle($title)
     {
@@ -82,56 +75,33 @@ class Country_Lang
     }
 
     /**
-     * Set habitant
+     * Set category
      *
-     * @param string $habitant
-     * @return Country_Lang
+     * @param \EL\ELCoreBundle\Entity\Category $category
+     * @return Categorie_Lang
      */
-    public function setHabitant($habitant)
+    public function setCategory(\EL\ELCoreBundle\Entity\Category $category)
     {
-        $this->habitant = $habitant;
+        $this->category = $category;
     
         return $this;
     }
 
     /**
-     * Get habitant
+     * Get category
      *
-     * @return string 
+     * @return \EL\ELCoreBundle\Entity\Category 
      */
-    public function getHabitant()
+    public function getCategory()
     {
-        return $this->habitant;
-    }
-
-    /**
-     * Set country
-     *
-     * @param \EL\ELCoreBundle\Entity\Country $country
-     * @return Country_Lang
-     */
-    public function setCountry(\EL\ELCoreBundle\Entity\Country $country)
-    {
-        $this->country = $country;
-    
-        return $this;
-    }
-
-    /**
-     * Get country
-     *
-     * @return \EL\ELCoreBundle\Entity\Country 
-     */
-    public function getCountry()
-    {
-        return $this->country;
+        return $this->category;
     }
 
     /**
      * Set lang
      *
      * @param \EL\ELCoreBundle\Entity\Lang $lang
-     * @return Country_Lang
+     * @return Categorie_Lang
      */
     public function setLang(\EL\ELCoreBundle\Entity\Lang $lang)
     {

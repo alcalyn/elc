@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Player_Chat
  *
- * @ORM\Table(name="dev_core_player_chat")
+ * @ORM\Table(name="el_core_player_chat")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\Player_ChatRepository")
  */
 class Player_Chat

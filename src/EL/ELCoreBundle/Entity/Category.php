@@ -5,12 +5,12 @@ namespace EL\ELCoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Country
+ * Category
  *
- * @ORM\Table(name="dev_core_country")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\CountryRepository")
+ * @ORM\Table(name="el_core_category")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\CategoryRepository")
  */
-class Country
+class Category
 {
     /**
      * @var integer
@@ -24,9 +24,9 @@ class Country
     /**
      * @var string
      *
-     * @ORM\Column(name="locale", type="string", length=3, unique=true)
+     * @ORM\Column(name="name", type="string", length=31)
      */
-    private $locale;
+    private $name;
 
 
     /**
@@ -40,25 +40,25 @@ class Country
     }
 
     /**
-     * Set locale
+     * Set name
      *
-     * @param string $locale
-     * @return Country
+     * @param string $name
+     * @return Category
      */
-    public function setLocale($locale)
+    public function setName($name)
     {
-        $this->locale = $locale;
+        $this->name = $name;
     
         return $this;
     }
 
     /**
-     * Get locale
+     * Get name
      *
      * @return string 
      */
-    public function getLocale()
+    public function getName()
     {
-        return $this->locale;
+        return $this->name;
     }
 }

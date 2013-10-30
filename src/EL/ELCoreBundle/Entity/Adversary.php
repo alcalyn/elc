@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Adversary
  *
- * @ORM\Table(name="dev_core_adversary")
+ * @ORM\Table(name="el_core_adversary")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\AdversaryRepository")
  */
 class Adversary

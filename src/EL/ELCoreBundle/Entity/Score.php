@@ -5,12 +5,12 @@ namespace EL\ELCoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Slot
+ * Score
  *
- * @ORM\Table(name="el_core_slot")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\SlotRepository")
+ * @ORM\Table(name="el_core_score")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\ScoreRepository")
  */
-class Slot
+class Score
 {
     /**
      * @var integer
@@ -23,7 +23,7 @@ class Slot
     
     /**
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Player")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $player;
     
@@ -32,27 +32,20 @@ class Slot
      * @ORM\JoinColumn(nullable=false)
      */
     private $party;
-    
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="position", type="smallint")
+     * @ORM\Column(name="value", type="integer")
      */
-    private $position;
+    private $value;
 
     /**
-     * @var boolean
+     * @var \DateTime
      *
-     * @ORM\Column(name="open", type="boolean")
+     * @ORM\Column(name="date_create", type="date")
      */
-    private $open;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="score", type="float")
-     */
-    private $score;
+    private $dateCreate;
 
 
     /**
@@ -66,81 +59,58 @@ class Slot
     }
 
     /**
-     * Set position
+     * Set value
      *
-     * @param integer $position
-     * @return Slot
+     * @param integer $value
+     * @return Score
      */
-    public function setPosition($position)
+    public function setValue($value)
     {
-        $this->position = $position;
+        $this->value = $value;
     
         return $this;
     }
 
     /**
-     * Get position
+     * Get value
      *
      * @return integer 
      */
-    public function getPosition()
+    public function getValue()
     {
-        return $this->position;
+        return $this->value;
     }
 
     /**
-     * Set open
+     * Set dateCreate
      *
-     * @param boolean $open
-     * @return Slot
+     * @param \DateTime $dateCreate
+     * @return Score
      */
-    public function setOpen($open)
+    public function setDateCreate($dateCreate)
     {
-        $this->open = $open;
+        $this->dateCreate = $dateCreate;
     
         return $this;
     }
 
     /**
-     * Get open
+     * Get dateCreate
      *
-     * @return boolean 
+     * @return \DateTime 
      */
-    public function getOpen()
+    public function getDateCreate()
     {
-        return $this->open;
-    }
-
-    /**
-     * Set score
-     *
-     * @param float $score
-     * @return Slot
-     */
-    public function setScore($score)
-    {
-        $this->score = $score;
-    
-        return $this;
-    }
-
-    /**
-     * Get score
-     *
-     * @return float 
-     */
-    public function getScore()
-    {
-        return $this->score;
+        return $this->dateCreate;
     }
 
     /**
      * Set player
      *
      * @param \EL\ELCoreBundle\Entity\Player $player
-     * @return Slot
+     * @return Score
      */
-    public function setPlayer(\EL\ELCoreBundle\Entity\Player $player = null)
+    public function setPlayer(\EL\ELCoreBundle\Entity\Player $player)
     {
         $this->player = $player;
     
@@ -161,7 +131,7 @@ class Slot
      * Set party
      *
      * @param \EL\ELCoreBundle\Entity\Party $party
-     * @return Slot
+     * @return Score
      */
     public function setParty(\EL\ELCoreBundle\Entity\Party $party)
     {

@@ -1,7 +1,7 @@
 parameters:
-#    el_core.example.class: EL\ELCoreBundle\Example
+    el_core.session.class: EL\ELCoreBundle\Services\Session
 
 services:
-#    el_core.example:
-#        class: %el_core.example.class%
+    el_core.session:
+        class: %el_core.session.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

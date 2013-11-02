@@ -21,7 +21,9 @@ class FrontController extends Controller
     {
         $session = $this->get('session');
         $session->start();
-        return $this->render('ELCoreBundle:Front:index.'.$_locale.'.html.twig');
+        return $this->render('ELCoreBundle:Front:index.'.$_locale.'.html.twig', array(
+            'slideshow' => true,
+        ));
     }
     
     /**
@@ -39,5 +41,22 @@ class FrontController extends Controller
     public function aboutAction($_locale)
     {
         return $this->render('ELCoreBundle:Front:about.'.$_locale.'.html.twig');
+    }
+    
+    /**
+     * @Route(
+     *      "/en/faq",
+     *      name = "elcore_en_faq",
+     *      defaults = {"_locale": "en"}
+     * )
+     * @Route(
+     *      "/fr/faq",
+     *      name = "elcore_fr_faq",
+     *      defaults = {"_locale": "fr"}
+     * )
+     */
+    public function faqAction($_locale)
+    {
+        return $this->render('ELCoreBundle:Front:faq.'.$_locale.'.html.twig');
     }
 }

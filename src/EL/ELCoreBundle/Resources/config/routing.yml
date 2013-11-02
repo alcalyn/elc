@@ -1,3 +1,7 @@
-post:
+elcore_front_controller:
     resource: "@ELCoreBundle/Controller/FrontController.php"
+    type:     annotation
+
+elcore_games_controller:
+    resource: "@ELCoreBundle/Controller/GamesController.php"
     type:     annotation

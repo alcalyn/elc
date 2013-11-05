@@ -5,12 +5,12 @@ namespace EL\ELCoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Game_Lang
+ * GameLang
  *
  * @ORM\Table(name="el_core_game_lang")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\Game_LangRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\GameLangRepository")
  */
-class Game_Lang
+class GameLang
 {
     /**
      * @var integer
@@ -76,7 +76,7 @@ class Game_Lang
      * Set title
      *
      * @param string $title
-     * @return Game_Lang
+     * @return GameLang
      */
     public function setTitle($title)
     {
@@ -99,7 +99,7 @@ class Game_Lang
      * Set slug
      *
      * @param string $slug
-     * @return Game_Lang
+     * @return GameLang
      */
     public function setSlug($slug)
     {
@@ -122,7 +122,7 @@ class Game_Lang
      * Set shortDesc
      *
      * @param string $shortDesc
-     * @return Game_Lang
+     * @return GameLang
      */
     public function setShortDesc($shortDesc)
     {
@@ -145,7 +145,7 @@ class Game_Lang
      * Set longDesc
      *
      * @param string $longDesc
-     * @return Game_Lang
+     * @return GameLang
      */
     public function setLongDesc($longDesc)
     {
@@ -162,5 +162,51 @@ class Game_Lang
     public function getLongDesc()
     {
         return $this->longDesc;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \EL\ELCoreBundle\Entity\Game $game
+     * @return GameLang
+     */
+    public function setGame(\EL\ELCoreBundle\Entity\Game $game)
+    {
+        $this->game = $game;
+    
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \EL\ELCoreBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * Set lang
+     *
+     * @param \EL\ELCoreBundle\Entity\Lang $lang
+     * @return GameLang
+     */
+    public function setLang(\EL\ELCoreBundle\Entity\Lang $lang)
+    {
+        $this->lang = $lang;
+    
+        return $this;
+    }
+
+    /**
+     * Get lang
+     *
+     * @return \EL\ELCoreBundle\Entity\Lang 
+     */
+    public function getLang()
+    {
+        return $this->lang;
     }
 }

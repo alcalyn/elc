@@ -5,12 +5,12 @@ namespace EL\ELCoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Country_Lang
+ * CountryLang
  *
  * @ORM\Table(name="el_core_country_lang")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\Country_LangRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\CountryLangRepository")
  */
-class Country_Lang
+class CountryLang
 {
     /**
      * @var integer
@@ -62,7 +62,7 @@ class Country_Lang
      * Set title
      *
      * @param string $title
-     * @return Country_Lang
+     * @return CountryLang
      */
     public function setTitle($title)
     {
@@ -85,7 +85,7 @@ class Country_Lang
      * Set habitant
      *
      * @param string $habitant
-     * @return Country_Lang
+     * @return CountryLang
      */
     public function setHabitant($habitant)
     {
@@ -108,7 +108,7 @@ class Country_Lang
      * Set country
      *
      * @param \EL\ELCoreBundle\Entity\Country $country
-     * @return Country_Lang
+     * @return CountryLang
      */
     public function setCountry(\EL\ELCoreBundle\Entity\Country $country)
     {
@@ -131,7 +131,7 @@ class Country_Lang
      * Set lang
      *
      * @param \EL\ELCoreBundle\Entity\Lang $lang
-     * @return Country_Lang
+     * @return CountryLang
      */
     public function setLang(\EL\ELCoreBundle\Entity\Lang $lang)
     {

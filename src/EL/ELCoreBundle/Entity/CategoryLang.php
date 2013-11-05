@@ -5,12 +5,12 @@ namespace EL\ELCoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Categorie_Lang
+ * CategorieLang
  *
  * @ORM\Table(name="el_core_category_lang")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\Category_LangRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\CategoryLangRepository")
  */
-class Category_Lang
+class CategoryLang
 {
     /**
      * @var integer
@@ -29,7 +29,7 @@ class Category_Lang
     private $title;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category, inversedBy="langs")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category", inversedBy="langs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
@@ -55,7 +55,7 @@ class Category_Lang
      * Set title
      *
      * @param string $title
-     * @return Categorie_Lang
+     * @return CategorieLang
      */
     public function setTitle($title)
     {
@@ -78,7 +78,7 @@ class Category_Lang
      * Set category
      *
      * @param \EL\ELCoreBundle\Entity\Category $category
-     * @return Categorie_Lang
+     * @return CategorieLang
      */
     public function setCategory(\EL\ELCoreBundle\Entity\Category $category)
     {
@@ -101,7 +101,7 @@ class Category_Lang
      * Set lang
      *
      * @param \EL\ELCoreBundle\Entity\Lang $lang
-     * @return Categorie_Lang
+     * @return CategorieLang
      */
     public function setLang(\EL\ELCoreBundle\Entity\Lang $lang)
     {

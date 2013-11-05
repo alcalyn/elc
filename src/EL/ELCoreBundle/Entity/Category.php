@@ -27,7 +27,7 @@ class Category
     private $games;
     
     /**
-     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\Category_Lang", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\CategoryLang", mappedBy="category")
      */
     private $langs;
 
@@ -70,5 +70,79 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->games = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->langs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add games
+     *
+     * @param \EL\ELCoreBundle\Entity\Game $games
+     * @return Category
+     */
+    public function addGame(\EL\ELCoreBundle\Entity\Game $games)
+    {
+        $this->games[] = $games;
+    
+        return $this;
+    }
+
+    /**
+     * Remove games
+     *
+     * @param \EL\ELCoreBundle\Entity\Game $games
+     */
+    public function removeGame(\EL\ELCoreBundle\Entity\Game $games)
+    {
+        $this->games->removeElement($games);
+    }
+
+    /**
+     * Get games
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGames()
+    {
+        return $this->games;
+    }
+
+    /**
+     * Add langs
+     *
+     * @param \EL\ELCoreBundle\Entity\CategoryLang $langs
+     * @return Category
+     */
+    public function addLang(\EL\ELCoreBundle\Entity\CategoryLang $langs)
+    {
+        $this->langs[] = $langs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove langs
+     *
+     * @param \EL\ELCoreBundle\Entity\CategoryLang $langs
+     */
+    public function removeLang(\EL\ELCoreBundle\Entity\CategoryLang $langs)
+    {
+        $this->langs->removeElement($langs);
+    }
+
+    /**
+     * Get langs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLangs()
+    {
+        return $this->langs;
     }
 }

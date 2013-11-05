@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Categorie_Lang
  *
  * @ORM\Table(name="el_core_category_lang")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\Categorie_LangRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\Category_LangRepository")
  */
-class Categorie_Lang
+class Category_Lang
 {
     /**
      * @var integer

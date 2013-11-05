@@ -27,7 +27,7 @@ class Category
     private $games;
     
     /**
-     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\Categorie_Lang", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\Category_Lang", mappedBy="category")
      */
     private $langs;
 

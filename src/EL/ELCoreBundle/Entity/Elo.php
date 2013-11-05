@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Elo
  *
  * @ORM\Table(name="el_core_elo")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\EloRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\EloRepository")
  */
 class Elo
 {

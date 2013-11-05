@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * WLD
  *
  * @ORM\Table(name="el_core_wld")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\WLDRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\WLDRepository")
  */
 class WLD
 {

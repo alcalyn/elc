@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\ELCoreBundle\Repositories;
+namespace EL\ELCoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

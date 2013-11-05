@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Score
  *
  * @ORM\Table(name="el_core_score")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\ScoreRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\ScoreRepository")
  */
 class Score
 {

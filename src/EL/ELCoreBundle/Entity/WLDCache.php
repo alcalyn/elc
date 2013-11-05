@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * WLDCache
  *
  * @ORM\Table(name="el_core_wld_cache")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repositories\WLDCacheRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\WLDCacheRepository")
  */
 class WLDCache
 {

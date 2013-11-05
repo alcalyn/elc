@@ -22,7 +22,15 @@ class GamesController extends Controller
      */
     public function listAction()
     {
-        return $this->render('ELCoreBundle:Games:list.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        
+        $games = $em
+                ->getRepository('ELCoreBundle:Game')
+                ->findAll();
+        
+        return $this->render('ELCoreBundle:Games:list.html.twig', array(
+            'games' => $games,
+        ));
     }
 
 }

@@ -49,10 +49,11 @@
 </div>
 <hr />
 <div class="row jeux-list">
-	<div class="col-md-6">
+    {% for game in games %}
+    <div class="col-md-6">
 		<a href="#" class="block">
 			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
+				<h3>{{ game.name }} <span>1678 Élo</span></h3>
 				<small class="nb-player"><span>2</span> joueurs</small>
 				<div class="game-desc">
 					<p>
@@ -63,117 +64,6 @@
 			</div>
 		</a>
 	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 {% trans %}Elo{% endtrans %}</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
-	<div class="col-md-6">
-		<a href="#" class="block">
-			<div class="jeu-item">
-				<h3>Echecs<span>1678 Élo</span></h3>
-				<small class="nb-player"><span>2</span> joueurs</small>
-				<div class="game-desc">
-					<p>
-						Fuerit toto in consulatu sine provincia, cui fuerit, antequam designatus est, decreta provincia.
-						Sortietur an non...
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
+    {% endfor %}
 </div>
 {% endblock %}

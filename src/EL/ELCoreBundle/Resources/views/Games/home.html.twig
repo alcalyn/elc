@@ -1,0 +1,60 @@
+{% extends "ELCoreBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - {{ game.title }}{% endblock %}
+
+{% block body %}
+<div class="row-game row">
+	<div class="col-md-4">
+		<img src="http://www.centresocial-lorette.fr/wp-content/uploads/2010/09/17954-Tatice-EchecsJeux.png" alt="echecs" />
+	</div>
+	<div class="col-md-8">
+		<h2 class="game-title">{{ game.title }}</h2>
+		<small class="nb-player"><span>{{ game.nbplayer }}</span> {{ 'players'|trans }}</small>
+		<div class="game-desc">
+			<p>
+				{{ game.longdesc }}
+			</p>
+		</div>
+	</div>
+</div>
+<div class="row-action row">
+	<div class="col-md-4">
+        <p>{% trans %}Let the computer to find me a suitable game to play.{% endtrans %}</p>
+		<p><button type="button" class="btn btn-primary btn-lg">{{ 'Play now'|trans }}</button></p>
+	</div>
+	<div class="col-md-4">
+		<p>{% trans %}Join a game among this list :{% endtrans %}</p>
+		<div class="list-group-container">
+		  <a href="#" class="list-group-item">partie_de_machin<span class="badge">1548 élo</span></a>
+		  <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+		  <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+		  <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+		  <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<p>{% trans %}Create a customized game{% endtrans %}</p>
+		<p><button type="button" class="btn btn-primary btn-lg">{% trans %}Create a game{% endtrans %}</button></p>
+	</div>
+</div>
+<div class="row-rank row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>{{ 'Ranking'|trans }}</h3></div>
+			<table class="ranking table table-striped">
+				<thead><tr>
+					<th>#</th><th>Joueur</th><th>Nb de partie</th><th>Victoires</th><th>Défaites</th><th>Nulles</th><th>Elo</th>
+				</tr></thead>
+				<tbody>
+					<tr class="rank-gold"><td>1</td><td><a href="#">rogerDuGhetto</a></td><td>125</td><td>120</td><td>4</td><td>1</td><td>2139</td></tr>
+					<tr class="rank-silver"><td>2</td><td><a href="#">alcalyn</a></td><td>159</td><td>99</td><td>45</td><td>11</td><td>2074</td></tr>
+					<tr class="rank-bronze"><td>3</td><td><a href="#">roberta</a></td><td>542</td><td>250</td><td>145</td><td>79</td><td>1801</td></tr>
+					<tr><td>4</td><td><a href="#">jerry</a></td><td>45</td><td>45</td><td>0</td><td>0</td><td>1756</td></tr>
+					<tr><td>5</td><td><a href="#">fabiendupoil</a></td><td>78</td><td>25</td><td>47</td><td>4</td><td>1752</td></tr>
+					<tr class="rank-you"><td>452</td><td><a href="#">vous</a></td><td>45</td><td>15</td><td>30</td><td>0</td><td>1421</td></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

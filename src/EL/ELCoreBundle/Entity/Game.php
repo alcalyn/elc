@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="el_core_game")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\GameRepository")
  */
-class Game
+class Game extends AbstractLangEntity
 {
     /**
      * @var integer
@@ -26,6 +26,12 @@ class Game
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\GameLang", mappedBy="game")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $langs;
 
     /**
      * @var string
@@ -180,4 +186,18 @@ class Game
     {
         return $this->category;
     }
+    
+    
+    public function getNbPlayer()
+    {
+        if($this->getNbplayerMin() == $this->getNbplayerMax()) {
+            return $this->getNbplayerMin();
+        } else {
+            return implode(' - ', array(
+                $this->getNbplayerMin(),
+                $this->getNbplayerMax(),
+            ));
+        }
+    }
+    
 }

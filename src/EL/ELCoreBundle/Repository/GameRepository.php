@@ -12,4 +12,36 @@ use Doctrine\ORM\EntityRepository;
  */
 class GameRepository extends EntityRepository
 {
+    public function findAllByLang($locale)
+    {
+        $query = $this->_em->createQuery('
+                select g, gl
+                from ELCoreBundle:Game g
+                join g.langs gl
+                join gl.lang l
+                where  l.locale = :locale
+        ')->setParameters(array(
+            'locale'    => $locale,
+        ));
+        
+        return $query->getResult();
+    }
+    
+    
+    public function findByLang($locale, $slug)
+    {
+        $query = $this->_em->createQuery('
+                select g, gl
+                from ELCoreBundle:Game g
+                join g.langs gl
+                join gl.lang l
+                where  l.locale = :locale
+                and gl.slug = :slug
+        ')->setParameters(array(
+            'locale'    => $locale,
+            'slug'      => $slug,
+        ));
+        
+        return $query->getSingleResult();
+    }
 }

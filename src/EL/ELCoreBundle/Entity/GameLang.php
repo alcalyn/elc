@@ -22,7 +22,7 @@ class GameLang
     private $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Game", inversedBy="langs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $game;

@@ -1,0 +1,14 @@
+# Desc: /about
+elcore_about: /a-propos
+
+# Desc: /faq
+elcore_faq: /faq
+
+# Desc: /games/{slug}
+elcore_game_home: '/jeux/{slug}'
+
+# Desc: /games
+elcore_games_list: /jeux
+
+# Desc: /
+elcore_home: /

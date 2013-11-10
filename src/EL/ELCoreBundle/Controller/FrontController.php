@@ -12,8 +12,7 @@ class FrontController extends Controller
 {
     /**
      * @Route(
-     *      "/{_locale}",
-     *      defaults = {"_locale": "en"},
+     *      "/",
      *      name = "elcore_home"
      * )
      */
@@ -28,14 +27,8 @@ class FrontController extends Controller
     
     /**
      * @Route(
-     *      "/en/about",
-     *      name = "elcore_en_about",
-     *      defaults = {"_locale": "en"}
-     * )
-     * @Route(
-     *      "/fr/a-propos",
-     *      name = "elcore_fr_about",
-     *      defaults = {"_locale": "fr"}
+     *      "/about",
+     *      name = "elcore_about"
      * )
      */
     public function aboutAction($_locale)
@@ -45,14 +38,8 @@ class FrontController extends Controller
     
     /**
      * @Route(
-     *      "/en/faq",
-     *      name = "elcore_en_faq",
-     *      defaults = {"_locale": "en"}
-     * )
-     * @Route(
-     *      "/fr/faq",
-     *      name = "elcore_fr_faq",
-     *      defaults = {"_locale": "fr"}
+     *      "/faq",
+     *      name = "elcore_faq"
      * )
      */
     public function faqAction($_locale)

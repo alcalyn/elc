@@ -51,7 +51,7 @@
 <div class="row jeux-list">
     {% for game in games %}
     <div class="col-md-6">
-		<a href="{{ path('elcore_'~app.request.locale~'_game_home', {'slug': game.slug}) }}" class="block">
+		<a href="{{ path('elcore_game_home', {'slug': game.slug}) }}" class="block">
 			<div class="jeu-item">
 				<h3>{{ game.title }} <span>1678 Élo</span></h3>
 				<small class="nb-player"><span>{{ game.nbplayer }}</span> {{ 'players'|trans }}</small>

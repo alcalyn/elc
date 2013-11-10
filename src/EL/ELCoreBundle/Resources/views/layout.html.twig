@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app.request.locale }}">
 	<head>
 		<title>{% block title %}Electron Libre{% endblock %}</title>
 		<meta charset="utf-8">
@@ -16,7 +16,7 @@
 		<div id="body-container">
 			<div id="body">
 				<header>
-                    <a href="{{ path('elcore_home', {'_locale': app.request.locale}) }}">
+                    <a href="{{ path('elcore_home') }}">
                         <div id="top-illustration" style="cursor:pointer">
                             <h1>Electron Libre</h1>
                         </div>
@@ -72,10 +72,10 @@
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-						  <li><a href="{{ path('elcore_' ~ app.request.locale ~ '_games_list') }}">{{ 'Games'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_games_list') }}">{{ 'Games'|trans }}</a></li>
 						  <li><a href="#">{{ 'Community'|trans }}</a></li>
-						  <li><a href="{{ path('elcore_' ~ app.request.locale ~ '_about') }}">{{ 'About'|trans }}</a></li>
-						  <li><a href="{{ path('elcore_' ~ app.request.locale ~ '_faq') }}">{{ 'FAQ'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_about') }}">{{ 'About'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_faq') }}">{{ 'FAQ'|trans }}</a></li>
 						</ul>
 					  </div>
 					</nav>

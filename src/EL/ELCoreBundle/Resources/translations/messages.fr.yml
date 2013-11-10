@@ -1,20 +1,26 @@
-Games: Jeux
-Community: Communauté
 About: 'A propos'
+Community: Communauté
 Contact: Contact
-FAQ: FAQ
-'My account': 'Mon compte'
-'My page': 'Ma page'
-Logout: Déconnexion
-Home: Accueil
 Contacts: Contacts
-'Game name': 'Nom du jeu'
-Search: Rechercher
+'Create a customized game': 'Créer une partie personalisée'
+'Create a game': 'Créer une partie'
+FAQ: FAQ
 'Filter by': 'Filtrer par'
+'Game name': 'Nom du jeu'
+Games: Jeux
+Go: Go
+Home: Accueil
+'Join a game among this list :': 'Rejoindre une partie dans cette liste :'
+'Let the computer to find me a suitable game to play':
+    '': 'Laisser l''ordinateur me trouver une partie de mon niveau'
+
+'Log out': Déconnexion
+'My account': 'Mon compte'
+'My favorites': 'Mes favoris'
+'My page': 'Ma page'
 Name: Nom
 'Opponents note': 'Note des adversaires'
-'My favorites': 'Mes favoris'
+'Play now': 'Jouer maintenant'
+Ranking: Classement
+Search: Rechercher
 players: joueurs
-Elo: Élo
-'Log out': Déconnexion
-Go: Go

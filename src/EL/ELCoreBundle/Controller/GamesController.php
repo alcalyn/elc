@@ -10,14 +10,8 @@ class GamesController extends Controller
 {
     /**
      * @Route(
-     *      "/en/games",
-     *      defaults = {"_locale": "en"},
-     *      name = "elcore_en_games_list"
-     * )
-     * @Route(
-     *      "/fr/jeux",
-     *      defaults = {"_locale": "fr"},
-     *      name = "elcore_fr_games_list"
+     *      "/games",
+     *      name = "elcore_games_list"
      * )
      */
     public function listAction($_locale)
@@ -36,14 +30,8 @@ class GamesController extends Controller
     
     /**
      * @Route(
-     *      "/en/games/{slug}",
-     *      defaults = {"_locale": "en"},
-     *      name = "elcore_en_game_home"
-     * )
-     * @Route(
-     *      "/fr/jeux/{slug}",
-     *      defaults = {"_locale": "fr"},
-     *      name = "elcore_fr_game_home"
+     *      "/games/{slug}",
+     *      name = "elcore_game_home"
      * )
      */
     public function homeAction($_locale, $slug)

@@ -20,7 +20,7 @@
 <div class="row-action row">
 	<div class="col-md-4">
         <p>{% trans %}Let the computer to find me a suitable game to play.{% endtrans %}</p>
-		<p><button type="button" class="btn btn-primary btn-lg">{{ 'Play now'|trans }}</button></p>
+		<p><a href="#" class="btn btn-primary btn-lg">{{ 'Play now'|trans }}</a></p>
 	</div>
 	<div class="col-md-4">
 		<p>{% trans %}Join a game among this list :{% endtrans %}</p>
@@ -34,7 +34,7 @@
 	</div>
 	<div class="col-md-4">
 		<p>{% trans %}Create a customized game{% endtrans %}</p>
-		<p><button type="button" class="btn btn-primary btn-lg">{% trans %}Create a game{% endtrans %}</button></p>
+		<p><a href="{{ path('elcore_game_creation', {'slug': game.slug}) }}" class="btn btn-primary btn-lg">{% trans %}Create a game{% endtrans %}</a></p>
 	</div>
 </div>
 <div class="row-rank row">

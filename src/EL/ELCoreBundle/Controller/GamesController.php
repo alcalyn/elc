@@ -46,5 +46,48 @@ class GamesController extends Controller
             'game' => $game,
         ));
     }
+    
+    
+    
+    /**
+     * @Route(
+     *      "/games/{slug}/creation",
+     *      name = "elcore_game_creation"
+     * )
+     */
+    public function createAction($_locale, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $game = $em
+                ->getRepository('ELCoreBundle:Game')
+                ->findByLang($_locale, $slug);
+        
+        return $this->render('ELCoreBundle:Games:creation.html.twig', array(
+            'game' => $game,
+        ));
+    }
+    
+    
+    
+    /**
+     * @Route(
+     *      "/games/{slug}/preparation",
+     *      name = "elcore_game_preparation"
+     * )
+     */
+    public function prepareAction($_locale, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $game = $em
+                ->getRepository('ELCoreBundle:Game')
+                ->findByLang($_locale, $slug);
+        
+        return $this->render('ELCoreBundle:Games:preparation.html.twig', array(
+            'game' => $game,
+        ));
+    }
+    
 
 }

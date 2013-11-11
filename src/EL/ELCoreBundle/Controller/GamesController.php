@@ -63,8 +63,11 @@ class GamesController extends Controller
                 ->getRepository('ELCoreBundle:Game')
                 ->findByLang($_locale, $slug);
         
+        $randomTitle = $game->title().' '.rand(10000, 99999);
+        
         return $this->render('ELCoreBundle:Games:creation.html.twig', array(
-            'game' => $game,
+            'game'          => $game,
+            'random_title'  => $randomTitle,
         ));
     }
     

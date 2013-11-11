@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new EL\ELCoreBundle\ELCoreBundle(),
+            new EL\ELTicTacToeBundle\ELTicTacToeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -187,7 +187,10 @@ class Game extends AbstractLangEntity
         return $this->category;
     }
     
-    
+    /**
+     * @return string displayable player number :
+     *      "2" or "2 - 4"
+     */
     public function getNbPlayer()
     {
         if($this->getNbplayerMin() == $this->getNbplayerMax()) {
@@ -199,5 +202,6 @@ class Game extends AbstractLangEntity
             ));
         }
     }
+    
     
 }

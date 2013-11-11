@@ -17,14 +17,18 @@ class AbstractLangEntity
     
     public function __call($name, $args)
     {
-        $getter = 'get'.ucfirst($name);
+        if (strtolower(substr($name, 0, 3)) === 'get') {
+            $getter = ucfirst($name);
+        } else {
+            $getter = 'get'.ucfirst($name);
+        }
         
         if (method_exists($this->langs[0], $getter)) {
             return $this->langs[0]->$getter();
         } else {
             throw new \Exception(sprintf(
                     'Method "%s" for object "%s" does not exist',
-                    $name,
+                    $getter,
                     get_class($this)
             ));
         }

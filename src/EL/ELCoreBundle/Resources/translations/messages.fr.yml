@@ -1,12 +1,16 @@
 About: 'A propos'
+'Allow observers': 'Autoriser les observateurs'
 Community: Communauté
 Contact: Contact
 Contacts: Contacts
+'Create a %gametitle% game': 'Créer une partie : %gametitle%'
 'Create a customized game': 'Créer une partie personalisée'
 'Create a game': 'Créer une partie'
 FAQ: FAQ
 'Filter by': 'Filtrer par'
 'Game name': 'Nom du jeu'
+'Game options': 'Options du jeu'
+'Game title': 'Titre de la partie'
 Games: Jeux
 Go: Go
 Home: Accueil
@@ -21,7 +25,9 @@ Home: Accueil
 'My page': 'Ma page'
 Name: Nom
 'Opponents note': 'Note des adversaires'
+'Party options': 'Options de la partie'
 'Play now': 'Jouer maintenant'
+'Private (only on invitation)': 'Privée (seulement sur invitation)'
 Ranking: Classement
 Search: Rechercher
 players: joueurs

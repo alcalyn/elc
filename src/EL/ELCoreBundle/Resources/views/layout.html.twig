@@ -21,32 +21,7 @@
                             <h1>Electron Libre</h1>
                         </div>
                     </a>
-					<div id="login-container">
-						<div id="login">
-							<div class="user-info">
-								<div class="user-info-container">
-								<p class="pseudo">robert60</p>
-									<div class="btn-group">
-										<button type="button" class="btn btn-primary btn-xs">{{ 'My account'|trans }}</button>
-										<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li><a href="#">{{ 'My account'|trans }}</a></li>
-											<li><a href="#">{{ 'My page'|trans }}</a></li>
-											<li class="divider"></li>
-											<li><a href="#">{{ 'Log out'|trans }}</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="user-avatar">
-								<img src="http://dummyimage.com/120x90.png" class="avatar" alt="robert60" />
-							</div>
-							<div class="user-avatar shadow">
-							</div>
-						</div>
-					</div>
+                    {{ render(controller('ELCoreBundle:User:index')) }}
 				</header>
 				<div id="main-page-container">
 					<nav class="navbar navbar-default" role="navigation">

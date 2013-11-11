@@ -31,7 +31,7 @@ class Player
     /**
      * @var string
      *
-     * @ORM\Column(name="password_hash", type="string", length=32)
+     * @ORM\Column(name="password_hash", type="string", length=32, nullable=true)
      */
     private $passwordHash;
 
@@ -57,6 +57,14 @@ class Player
     private $dateCreate;
 
 
+    public function __construct()
+    {
+        $this
+                ->setDateCreate(new \DateTime())
+                ->setBot(false);
+    }
+    
+    
     /**
      * Get id
      *
@@ -180,5 +188,21 @@ class Player
     public function getBot()
     {
         return $this->bot;
+    }
+    
+    
+    public static function generateGuest($lang = 'en')
+    {
+        $guest = new Player();
+        
+        return $guest
+                ->setPseudo(self::generateGuestName($lang))
+                ->setInvited(true);
+    }
+    
+    
+    public static function generateGuestName($lang = 'en')
+    {
+        return 'Guest '.rand(10000, 99999);
     }
 }

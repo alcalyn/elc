@@ -1,7 +1,8 @@
 parameters:
-    el_core.session.class: EL\ELCoreBundle\Services\Session
+    el_core.session.class: EL\ELCoreBundle\Services\SessionService
+    el_core.base_controller.class: EL\ELCoreBundle\Services\ELCoreController
 
 services:
     el_core.session:
         class: %el_core.session.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+        arguments: [@session, @doctrine.orm.entity_manager]

@@ -3,7 +3,6 @@
 namespace EL\ELCoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
@@ -18,10 +17,9 @@ class FrontController extends Controller
      */
     public function indexAction($_locale)
     {
-        $session = $this->get('session');
-        $session->start();
         return $this->render('ELCoreBundle:Front:index.'.$_locale.'.html.twig', array(
             'slideshow' => true,
+            'player'    => $this->player,
         ));
     }
     

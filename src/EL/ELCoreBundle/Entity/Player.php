@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Player
 {
+    
+    const PSEUDO_UNAVAILABLE = -1;
+    const ALREADY_LOGGED = -2;
+    
+    
     /**
      * @var integer
      *
@@ -190,6 +195,12 @@ class Player
         return $this->bot;
     }
     
+    public static function hashPassword($plainPassword)
+    {
+        $temp_salt = '2457éèé(ezgg25 %^^';
+        
+        return md5($temp_salt.$plainPassword.$temp_salt);
+    }
     
     public static function generateGuest($lang = 'en')
     {

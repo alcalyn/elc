@@ -6,6 +6,7 @@ Contacts: Contacts
 'Create a %gametitle% game': 'Créer une partie : %gametitle%'
 'Create a customized game': 'Créer une partie personalisée'
 'Create a game': 'Créer une partie'
+'Create account': 'Créer un compte'
 FAQ: FAQ
 'Filter by': 'Filtrer par'
 'Game name': 'Nom du jeu'
@@ -14,11 +15,13 @@ FAQ: FAQ
 Games: Jeux
 Go: Go
 Home: Accueil
+'Incorrect login': 'Authentification incorrecte'
 'Join a game among this list :': 'Rejoindre une partie dans cette liste :'
 
 'Let the computer to find me a suitable game to play':
     '': 'Laisser l''ordinateur me trouver une partie de mon niveau'
 
+'Log in': 'Se connecter'
 'Log out': Déconnexion
 'My account': 'Mon compte'
 'My favorites': 'Mes favoris'
@@ -26,8 +29,24 @@ Home: Accueil
 Name: Nom
 'Opponents note': 'Note des adversaires'
 'Party options': 'Options de la partie'
+Password: 'Mot de passe'
+'Password cannot be empty': 'Le mot de passe est vide'
+'Password repeat is not the same': 'Le mot de passe et la répétition ne sont pas identique'
 'Play now': 'Jouer maintenant'
 'Private (only on invitation)': 'Privée (seulement sur invitation)'
+Pseudo: Pseudo
+'Pseudo %pseudo% is already taken': 'Le pseudo %pseudo% est déjà pris'
+'Pseudo cannot be empty': 'Le pseudo est vide'
 Ranking: Classement
+'Remember me on this computer': 'Se souvenir de moi sur cet ordinateur'
+'Repeat password': 'Répétition du mot de pase'
 Search: Rechercher
+'Sign up': 'Créer un compte'
+
+'Unable to create account':
+    ' Unknown error': 'Impossible de créer un nouveau compte. Erreur inconnue'
+
+'You are already logged':
+    ' Log out first': 'Vous êtes déjà connécté. Déconnectez vous afin de créer un nouveau compte'
+
 players: joueurs

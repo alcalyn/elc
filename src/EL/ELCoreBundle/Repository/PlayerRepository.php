@@ -3,6 +3,7 @@
 namespace EL\ELCoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use EL\ELCoreBundle\Entity\Player;
 
 /**
  * PlayerRepository
@@ -12,4 +13,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class PlayerRepository extends EntityRepository
 {
+    public function pseudoCount($pseudo)
+    {
+        return $this->_em->createQuery('
+            select count(p.id)
+            from ELCoreBundle:Player p
+            where p.pseudo = :pseudo
+            and p.invited = 0
+        ')->setParameters(array(
+            'pseudo' => $pseudo,
+        ))->getSingleScalarResult();
+    }
+    
+    public function loginQuery($pseudo, $password)
+    {
+        return $this->_em
+                ->getRepository('ELCoreBundle:Player')
+                ->findBy(array(
+                    'pseudo'        => $pseudo,
+                    'passwordHash'  => Player::hashPassword($password),
+                    'invited'       => 0,
+                ));
+    }
 }

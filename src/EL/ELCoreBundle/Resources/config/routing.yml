@@ -5,3 +5,7 @@ elcore_front_controller:
 elcore_games_controller:
     resource: "@ELCoreBundle/Controller/GamesController.php"
     type:     annotation
+
+elcore_user_controller:
+    resource: "@ELCoreBundle/Controller/UserController.php"
+    type:     annotation

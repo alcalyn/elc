@@ -19,7 +19,6 @@ class FrontController extends Controller
     {
         return $this->render('ELCoreBundle:Front:index.'.$_locale.'.html.twig', array(
             'slideshow' => true,
-            'player'    => $this->player,
         ));
     }
     

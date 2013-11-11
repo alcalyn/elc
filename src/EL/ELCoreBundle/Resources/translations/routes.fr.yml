@@ -5,16 +5,25 @@ elcore_about: /a-propos
 elcore_faq: /faq
 
 # Desc: /games/{slug}/creation
-elcore_game_creation: '/games/{slug}/creation'
+elcore_game_creation: '/jeux/{slug}/creation'
 
 # Desc: /games/{slug}
 elcore_game_home: '/jeux/{slug}'
 
 # Desc: /games/{slug}/preparation
-elcore_game_preparation: '/games/{slug}/preparation'
+elcore_game_preparation: '/jeux/{slug}/preparation'
 
 # Desc: /games
 elcore_games_list: /jeux
 
 # Desc: /
 elcore_home: /
+
+# Desc: /player/login
+elcore_user_login: /joueur/connexion
+
+# Desc: /player/logout
+elcore_user_logout: /joueur/deconnexion
+
+# Desc: /player/signup
+elcore_user_signup: /joueur/creer-un-compte

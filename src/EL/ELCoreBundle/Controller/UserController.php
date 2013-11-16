@@ -12,6 +12,7 @@ use EL\ElCoreBundle\Form\Type\LoginType;
 use Symfony\Component\Form\FormError;
 use EL\ELCoreBundle\Form\Entity\Signup;
 use EL\ElCoreBundle\Form\Type\SignupType;
+use EL\ELCoreBundle\Services\SessionService;
 
 class UserController extends Controller
 {
@@ -67,24 +68,55 @@ class UserController extends Controller
     {
         $signup = new Signup();
         $signup_form = $this->createForm(new SignupType(), $signup);
+        $translator = $this->get('translator');
+        $session = $this->get('el_core.session');
         
         $signup_form->handleRequest($this->getRequest());
         
         if ($signup_form->isValid()) {
             if ($signup->isValid()) {
-                $session = $this->get('el_core.session');
                 $success = $session->signup($signup->getPseudo(), $signup->getPassword());
                 
-                if ($success != 0) {
-                    $signup_form->addError(new FormError('Signup error'));
-                } else {
-                    $session->login($signup->getPseudo(), $signup->getPassword());
-                    return $this->redirect($this->generateUrl('elcore_home'));
+                switch ($success) {
+                    case SessionService::PSEUDO_UNAVAILABLE:
+                        $signup_form
+                            ->get('pseudo')
+                            ->addError(new FormError(
+                                $translator->trans('Pseudo %pseudo% is already taken', array(
+                                    '%pseudo%'  => $signup->getPseudo(),
+                                ))));
+                        break;
+                    
+                    case SessionService::ALREADY_LOGGED:
+                        $signup_form
+                            ->addError(new FormError(
+                                $translator->trans('You are already logged. Log out first')));
+                        break;
+                    
+                    case 0:
+                        $session->login($signup->getPseudo(), $signup->getPassword());
+                        return $this->redirect($this->generateUrl('elcore_home'));
+                        
+                    default:
+                        $signup_form
+                            ->addError(new FormError(
+                                $translator->trans('Unable to create account. Unknown error')));
+                        break;
                 }
             } else {
                 $signup_form
                         ->get('password_repeat')
-                        ->addError(new FormError('Password repeat is not the same'));
+                        ->addError(new FormError(
+                            $translator->trans('Password repeat is not the same')));
+                
+                if ($session->pseudoExists($signup->getPseudo())) {
+                    $signup_form
+                            ->get('pseudo')
+                            ->addError(new FormError(
+                                $translator->trans('Pseudo %pseudo% is already taken', array(
+                                    '%pseudo%'  => $signup->getPseudo(),
+                                ))));
+                }
             }
         }
         

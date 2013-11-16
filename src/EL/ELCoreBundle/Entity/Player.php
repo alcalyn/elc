@@ -12,11 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Player
 {
-    
-    const PSEUDO_UNAVAILABLE = -1;
-    const ALREADY_LOGGED = -2;
-    
-    
     /**
      * @var integer
      *

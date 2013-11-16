@@ -6,6 +6,9 @@ use EL\ELCoreBundle\Entity\Player;
 
 class SessionService
 {
+    const PSEUDO_UNAVAILABLE = -1;
+    const ALREADY_LOGGED = -2;
+    
     
     private $session;
     private $em;
@@ -61,11 +64,11 @@ class SessionService
     public function signup($pseudo, $password)
     {
         if ($this->isLogged()) {
-            return Player::ALREADY_LOGGED;
+            return self::ALREADY_LOGGED;
         }
         
         if ($this->pseudoExists($pseudo)) {
-            return Player::PSEUDO_UNAVAILABLE;
+            return self::PSEUDO_UNAVAILABLE;
         }
         
         $player = $this->getPlayer();

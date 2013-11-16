@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\ELCoreBundle\Entity;
+namespace EL\ELCoreBundle\Form\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

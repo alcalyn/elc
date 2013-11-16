@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\ElCoreBundle\Form;
+namespace EL\ElCoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,7 +29,7 @@ class LoginType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\ELCoreBundle\Entity\Login',
+            'data_class' => 'EL\ELCoreBundle\Form\Entity\Login',
         ));
     }
 

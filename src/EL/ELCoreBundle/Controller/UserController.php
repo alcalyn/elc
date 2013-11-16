@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\ELCoreBundle\Entity\Player;
-use EL\ELCoreBundle\Entity\Login;
-use EL\ElCoreBundle\Form\LoginType;
+use EL\ELCoreBundle\Form\Entity\Login;
+use EL\ElCoreBundle\Form\Type\LoginType;
 use Symfony\Component\Form\FormError;
 
 class UserController extends Controller

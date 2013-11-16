@@ -204,4 +204,44 @@ class Game extends AbstractLangEntity
     }
     
     
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->langs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add langs
+     *
+     * @param \EL\ELCoreBundle\Entity\GameLang $langs
+     * @return Game
+     */
+    public function addLang(\EL\ELCoreBundle\Entity\GameLang $langs)
+    {
+        $this->langs[] = $langs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove langs
+     *
+     * @param \EL\ELCoreBundle\Entity\GameLang $langs
+     */
+    public function removeLang(\EL\ELCoreBundle\Entity\GameLang $langs)
+    {
+        $this->langs->removeElement($langs);
+    }
+
+    /**
+     * Get langs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLangs()
+    {
+        return $this->langs;
+    }
 }

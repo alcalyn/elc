@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Player_Chat
  *
  * @ORM\Table(name="el_core_player_chat")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\Player_ChatRepository")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PlayerChatRepository")
  */
-class Player_Chat
+class PlayerChat
 {
     /**
      * @var integer

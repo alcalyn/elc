@@ -26,10 +26,10 @@ class SessionService
         $this->session->start();
         
         if ($this->session->has('player')) {
-            return $this->session->get('player');
+            return $this->getPlayer();
         } else {
             $guest = Player::generateGuest('en');
-            $this->session->set('player', $guest);
+            $this->setPlayer($guest);
             $this->savePlayer();
             return $guest;
         }
@@ -93,7 +93,7 @@ class SessionService
     
     public function isLogged()
     {
-        return !$this->session->get('player')->getInvited();
+        return !$this->getPlayer()->getInvited();
     }
     
     public function getPlayer()
@@ -109,8 +109,11 @@ class SessionService
     
     public function savePlayer()
     {
-        $this->em->persist($this->session->get('player'));
+        $player = $this->getPlayer();
+        $newplayer = $this->em->merge($player);
+        $this->setPlayer($newplayer);
         $this->em->flush();
+        return $this;
     }
     
 }

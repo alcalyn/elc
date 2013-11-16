@@ -10,6 +10,8 @@ use EL\ELCoreBundle\Entity\Player;
 use EL\ELCoreBundle\Form\Entity\Login;
 use EL\ElCoreBundle\Form\Type\LoginType;
 use Symfony\Component\Form\FormError;
+use EL\ELCoreBundle\Form\Entity\Signup;
+use EL\ElCoreBundle\Form\Type\SignupType;
 
 class UserController extends Controller
 {
@@ -30,8 +32,6 @@ class UserController extends Controller
      */
     public function loginAction()
     {
-        $session = $this->get('el_core.session');
-        
         $login = new Login();
         $login_form = $this->createForm(new LoginType(), $login);
         
@@ -42,6 +42,7 @@ class UserController extends Controller
             $password       = $login->getPassword();
             $remember_me    = $login->getRememberMe();
             
+            $session = $this->get('el_core.session');
             $success = $session->login($pseudo, $password);
             
             if ($success != 0) {
@@ -64,60 +65,31 @@ class UserController extends Controller
      */
     public function signupAction()
     {
-        $request = $this->get('request')->request;
-        $session = $this->get('el_core.session');
-        $errors = array();
+        $signup = new Signup();
+        $signup_form = $this->createForm(new SignupType(), $signup);
         
-        if ($this->get('request')->isMethod('post')) {
-            $pseudo = $request->get('player_pseudo');
-            $password = $request->get('player_password');
-            $password_repeat = $request->get('player_password_repeat');
-            
-            if (empty($pseudo)) {
-                $errors []= $this->get('translator')->trans('Pseudo cannot be empty');
-            }
-            
-            if (empty($password)) {
-                $errors []= $this->get('translator')->trans('Password cannot be empty');
-            }
-            
-            if ($password !== $password_repeat) {
-                $errors []= $this->get('translator')->trans('Password repeat is not the same');
-            }
-            
-            if (count($errors) == 0) {
-                $result = $session->signup($pseudo, $password);
+        $signup_form->handleRequest($this->getRequest());
+        
+        if ($signup_form->isValid()) {
+            if ($signup->isValid()) {
+                $session = $this->get('el_core.session');
+                $success = $session->signup($signup->getPseudo(), $signup->getPassword());
                 
-                switch ($result) {
-                    case Player::ALREADY_LOGGED:
-                        $errors []= $this->get('translator')->trans('You are already logged. Log out first');
-                        break;
-                    
-                    case Player::PSEUDO_UNAVAILABLE:
-                        $errors []= $this->get('translator')->trans('Pseudo %pseudo% is already taken', array('pseudo' => $pseudo));
-                        break;
-                    
-                    case 0:
-                        return $this->redirect($this->generateUrl('elcore_home'));
-                        break;
-                    
-                    default:
-                        $errors []= $this->get('translator')->trans('Unable to create account. Unknown error');
-                        break;
+                if ($success != 0) {
+                    $signup_form->addError(new FormError('Signup error'));
+                } else {
+                    $session->login($signup->getPseudo(), $signup->getPassword());
+                    return $this->redirect($this->generateUrl('elcore_home'));
                 }
-            } else if(!empty($pseudo)) {
-                if ($session->pseudoExists($pseudo)) {
-                    $errors []= $this->get('translator')->trans('Pseudo %pseudo% is already taken', array('pseudo' => $pseudo));
-                }
-            }
-            
-            if (count($errors) == 0) {
-                $session->login($pseudo, $password);
+            } else {
+                $signup_form
+                        ->get('password_repeat')
+                        ->addError(new FormError('Password repeat is not the same'));
             }
         }
         
         return $this->render('ELCoreBundle:User:sign-up.html.twig', array(
-            'errors' => $errors,
+            'signup_form'   => $signup_form->createView(),
         ));
     }
     

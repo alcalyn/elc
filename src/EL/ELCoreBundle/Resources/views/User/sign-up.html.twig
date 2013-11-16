@@ -4,28 +4,5 @@
 
 {% block body %}
 <h2>{{ 'Create account'|trans }}</h2>
-{% for error in errors %}
-    {{error}}<br />
-{% endfor %}
-<form method="post" role="form">
-    <div class="form-group">
-        <label>
-            {{ 'Pseudo'|trans }}
-            <input type="text" name="player_pseudo" class="form-control" placeholder="{{ 'Pseudo'|trans }}" />
-        </label>
-    </div>
-    <div class="form-group">
-        <label>
-            {{ 'Password'|trans }}
-            <input type="password" name="player_password" class="form-control" placeholder="{{ 'Password'|trans }}" />
-        </label>
-    </div>
-    <div class="form-group">
-        <label>
-            {{ 'Repeat password'|trans }}
-            <input type="password" name="player_password_repeat" class="form-control" placeholder="{{ 'Password'|trans }}" />
-        </label>
-    </div>
-    <button type="submit" class="btn btn-default">{{ 'Sign up'|trans }}</button>
-</form>
+{{ form(signup_form) }}
 {% endblock %}

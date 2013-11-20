@@ -36,7 +36,7 @@ class UserController extends Controller
     {
         // Si le visiteur est déjà identifié, on le redirige vers l'accueil
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('sdzblog_accueil'));
+            return $this->redirect($this->generateUrl('elcore_home'));
         }
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -51,34 +51,6 @@ class UserController extends Controller
             // Valeur du précédent nom d'utilisateur entré par l'internaute
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,
-        ));
-        
-        
-        $login = new Login();
-        $login_form = $this->createForm(new LoginType(), $login, array(
-            'action' => $this->generateUrl('elcore_user_login_check'),
-            'method' => 'POST',
-        ));
-        
-        $login_form->handleRequest($this->getRequest());
-        
-        if ($login_form->isValid()) {
-            $pseudo         = $login->getPseudo();
-            $password       = $login->getPassword();
-            $remember_me    = $login->getRememberMe();
-            
-            $session = $this->get('el_core.session');
-            $success = $session->login($pseudo, $password);
-            
-            if ($success != 0) {
-                $login_form->addError(new FormError('Login error'));
-            } else {
-                return $this->redirect($this->generateUrl('elcore_home'));
-            }
-        }
-        
-        return $this->render('ELCoreBundle:User:log-in.html.twig', array(
-            'login_form'    => $login_form->createView(),
         ));
     }
     

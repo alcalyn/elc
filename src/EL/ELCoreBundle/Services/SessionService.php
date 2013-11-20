@@ -25,13 +25,10 @@ class SessionService
     {
         $this->session->start();
         
-        if ($this->session->has('player')) {
-            return $this->getPlayer();
-        } else {
+        if (!$this->session->has('player')) {
             $guest = Player::generateGuest('en');
             $this->setPlayer($guest);
             $this->savePlayer();
-            return $guest;
         }
     }
     

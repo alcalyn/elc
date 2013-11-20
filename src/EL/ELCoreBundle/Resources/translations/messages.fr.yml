@@ -1,52 +1,70 @@
-About: 'A propos'
-'Allow observers': 'Autoriser les observateurs'
-Community: Communauté
-Contact: Contact
-Contacts: Contacts
-'Create a %gametitle% game': 'Créer une partie : %gametitle%'
-'Create a customized game': 'Créer une partie personalisée'
-'Create a game': 'Créer une partie'
-'Create account': 'Créer un compte'
-FAQ: FAQ
-'Filter by': 'Filtrer par'
-'Game name': 'Nom du jeu'
-'Game options': 'Options du jeu'
-'Game title': 'Titre de la partie'
-Games: Jeux
-Go: Go
-Home: Accueil
-'Incorrect login': 'Authentification incorrecte'
-'Join a game among this list :': 'Rejoindre une partie dans cette liste :'
-
-'Let the computer to find me a suitable game to play':
-    '': 'Laisser l''ordinateur me trouver une partie de mon niveau'
-
-'Log in': 'Se connecter'
-'Log out': Déconnexion
-'My account': 'Mon compte'
-'My favorites': 'Mes favoris'
-'My page': 'Ma page'
-Name: Nom
-'Opponents note': 'Note des adversaires'
-'Party options': 'Options de la partie'
-Password: 'Mot de passe'
-'Password cannot be empty': 'Le mot de passe est vide'
-'Password repeat is not the same': 'Le mot de passe et la répétition ne sont pas identique'
-'Play now': 'Jouer maintenant'
-'Private (only on invitation)': 'Privée (seulement sur invitation)'
-Pseudo: Pseudo
-'Pseudo %pseudo% is already taken': 'Le pseudo %pseudo% est déjà pris'
-'Pseudo cannot be empty': 'Le pseudo est vide'
-Ranking: Classement
 'Remember me on this computer': 'Se souvenir de moi sur cet ordinateur'
-'Repeat password': 'Répétition du mot de pase'
-Search: Rechercher
-'Sign up': 'Créer un compte'
 
-'Unable to create account':
-    ' Unknown error': 'Impossible de créer un nouveau compte. Erreur inconnue'
+_:
+    players: joueurs
 
-'You are already logged':
-    ' Log out first': 'Vous êtes déjà connécté. Déconnectez vous afin de créer un nouveau compte'
+about: 'a propos'
 
-players: joueurs
+allow:
+    observers: 'Autoriser les observateurs'
+
+community: Communauté
+contact: Contact
+contacts: Contacts
+
+create:
+    account: 'Créer un compte'
+
+    customized:
+        game: 'Créer une partie personnalisée'
+
+    game: 'Créer une partie'
+    game.%gametitle%: 'Créer une partie : %gametitle%'
+
+faq: FAQ
+
+filter:
+    by: 'Filtrer par'
+
+game:
+    name: 'Nom du jeu'
+    options: 'Options du jeu'
+    title: 'Titre du jeu'
+
+games: Jeux
+go: Go
+home: Accueil
+
+join:
+    party:
+        amongthislist: 'Rejoindre une partie de cette liste'
+
+let:
+    cpufindgametoplay: 'Laisser l''ordinateur me trouver une partie de mon niveau'
+
+login: 'Se connecter'
+logout: Deconnexion
+
+my:
+    account: 'Mon compte'
+    favorites: 'Mes favoris'
+    page: 'Ma page'
+
+name: Nom
+
+opponents:
+    note: 'Note des adversaires'
+
+party:
+    options: 'Options de la partie'
+
+play:
+    now: 'Jouer maintenant'
+
+private:
+    only:
+        invitation: 'Privée (seulement sur invitation)'
+
+ranking: Classement
+search: Rechercher
+signup: 'Créer un compte'

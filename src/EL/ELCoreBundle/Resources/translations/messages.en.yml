@@ -1,0 +1,70 @@
+'Remember me on this computer': 'Remember me on this computer'
+
+_:
+    players: players
+
+about: about
+
+allow:
+    observers: 'Allow observers'
+
+community: Community
+contact: Contact
+contacts: Contacts
+
+create:
+    account: 'Create account'
+
+    customized:
+        game: 'Create a customized game'
+
+    game: 'Create a game'
+    game.%gametitle%: 'Create a %gametitle% game'
+
+faq: FAQ
+
+filter:
+    by: 'Filter by'
+
+game:
+    name: 'Game name'
+    options: 'Game options'
+    title: 'Game title'
+
+games: Games
+go: Go
+home: Home
+
+join:
+    party:
+        amongthislist: 'Join a game among this list'
+
+let:
+    cpufindgametoplay: 'Let computer to find me a suitable game to play'
+
+login: 'Log in'
+logout: 'Log out'
+
+my:
+    account: 'My account'
+    favorites: 'My favorites'
+    page: 'My page'
+
+name: Name
+
+opponents:
+    note: 'Opponents note'
+
+party:
+    options: 'Party options'
+
+play:
+    now: 'Play now'
+
+private:
+    only:
+        invitation: 'Private (only on invitation)'
+
+ranking: Ranking
+search: Search
+signup: 'Sign up'

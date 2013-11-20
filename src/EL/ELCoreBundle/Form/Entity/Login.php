@@ -15,8 +15,8 @@ class Login {
      * @Assert\Length(
      *      min = "2",
      *      max = "31",
-     *      minMessage = "Votre pseudo doit faire au moins {{ limit }} caractères",
-     *      maxMessage = "Votre pseudo ne peut pas être plus long que {{ limit }} caractères"
+     *      minMessage = "pseudo.min.{{limit}}",
+     *      maxMessage = "pseudo.max.{{limit}}"
      * )
      */
     private $pseudo;

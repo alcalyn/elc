@@ -38,19 +38,19 @@
 							<div class="row">
 							  <div class="col-lg-6">
 								<div class="input-group">
-								  <input type="text" class="form-control" placeholder="{{ 'Search'|trans }}">
+								  <input type="text" class="form-control" placeholder="{{ 'search'|trans }}">
 								  <span class="input-group-btn">
-									<button class="btn btn-default" type="button">{{ 'Go'|trans }}</button>
+									<button class="btn btn-default" type="button">{{ 'go'|trans }}</button>
 								  </span>
 								</div>
 							  </div>
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-						  <li><a href="{{ path('elcore_games_list') }}">{{ 'Games'|trans }}</a></li>
-						  <li><a href="#">{{ 'Community'|trans }}</a></li>
-						  <li><a href="{{ path('elcore_about') }}">{{ 'About'|trans }}</a></li>
-						  <li><a href="{{ path('elcore_faq') }}">{{ 'FAQ'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+						  <li><a href="#">{{ 'community'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_about') }}">{{ 'about'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_faq') }}">{{ 'faq'|trans }}</a></li>
 						</ul>
 					  </div>
 					</nav>
@@ -61,8 +61,8 @@
 						<div id="breadcrumb-container" class="row">
 							<div class="col-md-12">
 								<ol class="breadcrumb">
-									<li><a href="#">{{ 'Home'|trans }}</a></li>
-									<li><a href="#">{{ 'Games'|trans }}</a></li>
+									<li><a href="#">{{ 'home'|trans }}</a></li>
+									<li><a href="#">{{ 'games'|trans }}</a></li>
 									<li class="active">Echecs</li>
 								</ol>
 							</div>
@@ -245,7 +245,7 @@
 						</ul>
 						<div class="row">
 							<div class="col-md-6">
-								<h3>{% trans %}About{% endtrans %}</h3>
+								<h3>{{ 'about'|trans }}</h3>
 								<p>
 									Hanc regionem praestitutis celebritati diebus invadere parans dux ante edictus
 									per solitudines Aboraeque amnis herbidas ripas, suorum indicio proditus,
@@ -254,7 +254,7 @@
 								</p>
 							</div>
 							<div class="col-md-6">
-								<h3>{% trans %}Contact{% endtrans %}</h3>
+								<h3>{{ 'contact'|trans }}</h3>
 								<p>
 									Hanc regionem praestitutis celebritati diebus invadere parans dux ante edictus
 									per solitudines Aboraeque amnis herbidas ripas, suorum indicio proditus,<br />
@@ -265,7 +265,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<p class="text-center">© SiteName 2013-2014 - <a href="#">{% trans %}Contacts{% endtrans %}</a></p>
+								<p class="text-center">© SiteName 2013-2014 - <a href="#">{{ 'contacts'|trans }}</a></p>
 							</div>
 						</div>
 					</footer>

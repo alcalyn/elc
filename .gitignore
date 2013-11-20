@@ -9,7 +9,14 @@ web/bundles/*
 app/config/parameters.ini
 app/config/parameters.yml
 
-#ohters
+# Others
 composer.lock
-/nbproject/*
 *~
+
+# Netbeans
+/nbproject/*
+
+# Eclipse
+.buildpath
+.project
+.settings/

@@ -9,3 +9,9 @@ elcore_games_controller:
 elcore_user_controller:
     resource: "@ELCoreBundle/Controller/UserController.php"
     type:     annotation
+
+login_check:
+    pattern: /login_check
+
+logout:
+    pattern: /logout

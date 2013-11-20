@@ -3,6 +3,7 @@
 namespace EL\ELCoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Player
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="el_core_player")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PlayerRepository")
  */
-class Player
+class Player implements UserInterface
 {
     /**
      * @var integer
@@ -190,13 +191,6 @@ class Player
         return $this->bot;
     }
     
-    public static function hashPassword($plainPassword)
-    {
-        $temp_salt = '2457éèé(ezgg25 %^^';
-        
-        return md5($temp_salt.$plainPassword.$temp_salt);
-    }
-    
     public static function generateGuest($lang = 'en')
     {
         $guest = new Player();
@@ -210,5 +204,38 @@ class Player
     public static function generateGuestName($lang = 'en')
     {
         return 'Guest '.rand(10000, 99999);
+    }
+    
+    
+    /*
+     * Implementation of UserInterface
+     */
+    
+    public function getUsername()
+    {
+        return $this->pseudo;
+    }
+    
+    public function getPassword() {
+        return $this->passwordHash;
+    }
+    
+    public function getSalt() {
+        return '2457éèé(ezgg25 %^^';
+    }
+    
+    public function getRoles() {
+        $roles = array();
+        
+        if ($this->getInvited()) {
+            $roles []= 'ROLE_GUEST';
+        } else {
+            $roles []= 'ROLE_PLAYER';
+        }
+        
+        return $roles;
+    }
+    
+    public function eraseCredentials() {
     }
 }

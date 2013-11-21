@@ -1,32 +1,32 @@
 {% extends "ELCoreBundle::layout.html.twig" %}
 
-{% block title %}{{ parent() }} - {% trans %}Games{% endtrans %}{% endblock %}
+{% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
 
 {% block body %}
 <div class="jeux-preparation">
-    <h1>{{ 'Create a %gametitle% game'|trans({'%gametitle%': game.title}) }}</h1>
+    <h1>{{ 'create.game.%gametitle%'|trans({'%gametitle%': game.title}) }}</h1>
     <form method="post" action="#" role="form">
-        <h3>{{ 'Party options'|trans }}</h3>
+        <h3>{{ 'party.options'|trans }}</h3>
         <div class="form-group">
             <label>
-                {{ 'Game title'|trans }}
+                {{ 'game.title'|trans }}
                 <input type="text" name="party_name" class="form-control" placeholder="{{ random_title }}" />
             </label>
         </div>
         <div class="checkbox">
             <label>
                 <input type="checkbox" name="party_observers" checked="checked" />
-                {{ 'Allow observers'|trans }}
+                {{ 'allow.observers'|trans }}
             </label>
         </div>
         <div class="checkbox">
             <label>
                 <input type="checkbox" name="party_private" />
-                {{ 'Private (only on invitation)'|trans }}
+                {{ 'private.only.invitation'|trans }}
             </label>
         </div>
         
-        <h3>{{ 'Game options'|trans }}</h3>
+        <h3>{{ 'game.options'|trans }}</h3>
         
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

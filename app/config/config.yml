@@ -15,7 +15,7 @@ framework:
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
-    default_locale:  "%locale%"
+    default_locale:  "keys"
     trusted_proxies: ~
     session:         ~
     fragments:       ~
@@ -59,8 +59,8 @@ doctrine:
 
 # Jms i18n Configuration
 jms_i18n_routing:
-    default_locale: en
-    locales: [en, fr]
+    default_locale: keys
+    locales: [keys, en, fr]
     strategy: prefix
 
 # Swiftmailer Configuration

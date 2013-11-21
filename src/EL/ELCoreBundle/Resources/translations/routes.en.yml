@@ -1,0 +1,29 @@
+# Desc: /about
+elcore_about: /about
+
+# Desc: /faq
+elcore_faq: /faq
+
+# Desc: /games/{slug}/creation
+elcore_game_creation: '/games/{slug}/creation'
+
+# Desc: /games/{slug}
+elcore_game_home: '/games/{slug}'
+
+# Desc: /games/{slug}/preparation
+elcore_game_preparation: '/games/{slug}/preparation'
+
+# Desc: /games
+elcore_games_list: /games
+
+# Desc: /
+elcore_home: /
+
+# Desc: /player/login
+elcore_user_login: /player/login
+
+# Desc: /player/logout
+elcore_user_logout: /player/logout
+
+# Desc: /player/signup
+elcore_user_signup: /player/signup

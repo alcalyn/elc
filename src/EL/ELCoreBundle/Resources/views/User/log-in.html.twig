@@ -1,8 +1,8 @@
 {% extends "ELCoreBundle::layout.html.twig" %}
 
-{% block title %}{{ parent() }} - {% trans %}Games{% endtrans %}{% endblock %}
+{% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
 
 {% block body %}
-<h2>{{ 'Log in'|trans }}</h2>
+<h2>{{ 'login'|trans }}</h2>
 {{ form(login_form) }}
 {% endblock %}

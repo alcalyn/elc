@@ -1,6 +1,6 @@
 {% extends "ELCoreBundle::layout.html.twig" %}
 
-{% block title %}{{ parent() }} - {% trans %}Games{% endtrans %}{% endblock %}
+{% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
 
 {% block body %}
 <div class="jeux-filtre">
@@ -8,24 +8,24 @@
 		<div class="row">
 			<div class="col-md-5">
 				<div class="input-group">
-					<input type="text" class="form-control input-sm" placeholder="{{ 'Game name'|trans }}">
+					<input type="text" class="form-control input-sm" placeholder="{{ 'game.name'|trans }}">
 					<span class="input-group-btn">
-						<button type="button" class="btn btn-default input-sm">{{ 'Search'|trans }}</button>
+						<button type="button" class="btn btn-default input-sm">{{ 'search'|trans }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<select class="form-control input-sm">
-					<option selected="selected">{{ 'Filter by'|trans }}</option>
-					<option>{{ 'Name'|trans }}</option>
-					<option>{{ 'Opponents note'|trans }}</option>
-					<option>{{ 'My favorites'|trans }}</option>
+					<option selected="selected">{{ 'filter.by'|trans }}</option>
+					<option>{{ 'name'|trans }}</option>
+					<option>{{ 'opponents.note'|trans }}</option>
+					<option>{{ 'my.favorites'|trans }}</option>
 				</select>
 			</div>
 			<div class="col-md-3">
 				<div class="input-group">
 					<input type="text" class="form-control input-sm" placeholder="2 - 4">
-					<span class="input-group-addon input-sm">{{ 'players'|trans }}</span>
+					<span class="input-group-addon input-sm">{{ '_.players'|trans }}</span>
 				</div>
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 		<a href="{{ path('elcore_game_home', {'slug': game.slug}) }}" class="block">
 			<div class="jeu-item">
 				<h3>{{ game.title }} <span>1678 Élo</span></h3>
-				<small class="nb-player"><span>{{ game.nbplayer }}</span> {{ 'players'|trans }}</small>
+				<small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
 				<div class="game-desc">
 					<p>
                         {{ game.shortdesc }}

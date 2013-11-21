@@ -60,7 +60,6 @@ implements
     
     public function encodePassword($raw, $salt) {
         $hash = md5($salt.$raw.$salt);
-        var_dump($hash);
         return $hash;
     }
     

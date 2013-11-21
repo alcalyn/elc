@@ -14,12 +14,15 @@ class SessionService
     
     private $security_context;
     private $em;
+    private $elcore_security;
     
     
-    public function __construct($security_context, $em)
+    public function __construct($security_context, $em, $elcore_security)
     {
         $this->security_context = $security_context;
         $this->em = $em;
+        $this->elcore_security = $elcore_security;
+        
         $this->start();
     }
     
@@ -28,15 +31,7 @@ class SessionService
         if (is_null($this->getPlayer())) {
             $guest = self::generateGuest();
             $this->setPlayer($guest);
-        }
-    }
-    
-    public function logout()
-    {
-        if ($this->getPlayer()->getInvited()) {
-            
-        } else {
-            
+            $this->savePlayer();
         }
     }
     
@@ -51,9 +46,14 @@ class SessionService
         }
         
         $player = $this->getPlayer();
+        
+        $password_hash = $this
+                ->elcore_security
+                ->encodePassword($password, $player->getSalt());
+        
         $player
                 ->setPseudo($pseudo)
-                ->setPasswordHash($this->encodePassword($password, $player->getSalt()))
+                ->setPasswordHash($password_hash)
                 ->setInvited(false);
         
         $this->savePlayer();

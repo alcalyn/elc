@@ -4,9 +4,9 @@ parameters:
     el_core.base_controller.class: EL\ELCoreBundle\Services\ELCoreController
 
 services:
-    el_core.session:
-        class: %el_core.session.class%
-        arguments: [@security.context, @doctrine.orm.entity_manager]
     el_core.security:
         class: %el_core.security.class%
         arguments: [@doctrine.orm.entity_manager]
+    el_core.session:
+        class: %el_core.session.class%
+        arguments: [@security.context, @doctrine.orm.entity_manager, @el_core.security]

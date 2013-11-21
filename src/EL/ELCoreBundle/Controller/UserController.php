@@ -92,7 +92,6 @@ class UserController extends Controller
                         break;
                     
                     case 0:
-                        $session->login($signup->getPseudo(), $signup->getPassword());
                         return $this->redirect($this->generateUrl('elcore_home'));
                         
                     default:

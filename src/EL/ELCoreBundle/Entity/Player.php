@@ -57,7 +57,7 @@ class Player
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_create", type="date")
+     * @ORM\Column(name="date_create", type="datetime")
      */
     private $dateCreate;
 

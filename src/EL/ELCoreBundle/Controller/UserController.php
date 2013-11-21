@@ -34,10 +34,10 @@ class UserController extends Controller
      */
     public function loginAction()
     {
-        // Si le visiteur est déjà identifié, on le redirige vers l'accueil
-        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->get('security.context')->isGranted('ROLE_PLAYER')) {
             return $this->redirect($this->generateUrl('elcore_home'));
         }
+        
         $request = $this->getRequest();
         $session = $request->getSession();
         // On vérifie s'il y a des erreurs d'une précédente soumission du formulaire
@@ -64,6 +64,10 @@ class UserController extends Controller
      */
     public function signupAction()
     {
+        if ($this->get('security.context')->isGranted('ROLE_PLAYER')) {
+            return $this->redirect($this->generateUrl('elcore_home'));
+        }
+        
         $signup = new Signup();
         $signup_form = $this->createForm(new SignupType(), $signup);
         $translator = $this->get('translator');

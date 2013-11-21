@@ -70,13 +70,31 @@ class IllDoItLaterService
 	 * Add a task to do later
 	 * 
 	 * @param Closure $callback
+	 * @param string $key (optional) unique key to identify the callback.
+	 * 						if you want to override a task you added earlier,
+	 * 						use the same key.
 	 */
-	public function addCall(\Closure $callback)
+	public function addCall(\Closure $callback, $key = null)
 	{
 		if ($this->enabled) {
-			$this->callbacks []= $callback;
+			if (is_null($key)) {
+				$key = uniqid();
+			}
+			$this->callbacks[$key] = $callback;
 		} else {
 			$callback;
+		}
+	}
+	
+	/**
+	 * Remove a callback from its key.
+	 * 
+	 * @param string $key
+	 */
+	public function removeCall($key)
+	{
+		if (isset($this->callbacks[$key])) {
+			unset($this->callbacks[$key]);
 		}
 	}
 	

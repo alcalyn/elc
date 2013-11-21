@@ -3,6 +3,8 @@
 namespace EL\ELCoreBundle\Services;
 
 use EL\ELCoreBundle\Entity\Player;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 
 class SessionService
 {
@@ -10,40 +12,22 @@ class SessionService
     const ALREADY_LOGGED = -2;
     
     
-    private $session;
+    private $security_context;
     private $em;
     
     
-    public function __construct($session, $em)
+    public function __construct($security_context, $em)
     {
-        $this->session = $session;
+        $this->security_context = $security_context;
         $this->em = $em;
         $this->start();
     }
     
     public function start()
     {
-        $this->session->start();
-        
-        if (!$this->session->has('player')) {
-            $guest = Player::generateGuest('en');
+        if (is_null($this->getPlayer())) {
+            $guest = self::generateGuest();
             $this->setPlayer($guest);
-            $this->savePlayer();
-        }
-    }
-    
-    public function login($pseudo, $password)
-    {
-        $results = $this->em
-                ->getRepository('ELCoreBundle:Player')
-                ->loginQuery($pseudo, $password);
-        
-        if (count($results) == 1) {
-            $this->setPlayer($results[0]);
-            return 0;
-        } else {
-            // login error
-            return -1;
         }
     }
     
@@ -52,9 +36,7 @@ class SessionService
         if ($this->getPlayer()->getInvited()) {
             
         } else {
-            $this->session->invalidate();
-            $this->session->start();
-            return $this;
+            
         }
     }
     
@@ -71,7 +53,7 @@ class SessionService
         $player = $this->getPlayer();
         $player
                 ->setPseudo($pseudo)
-                ->setPasswordHash(Player::hashPassword($password))
+                ->setPasswordHash($this->encodePassword($password, $player->getSalt()))
                 ->setInvited(false);
         
         $this->savePlayer();
@@ -95,12 +77,19 @@ class SessionService
     
     public function getPlayer()
     {
-        return $this->session->get('player');
+        $user = $this->security_context->getToken()->getUser();
+        return ($user instanceof Player) ? $user : null ;
     }
     
     public function setPlayer($player)
     {
-        $this->session->set('player', $player);
+        $token = new UsernamePasswordToken(
+                $player,
+                $player->getPassword(),
+                'main',
+                $player->getRoles()
+        );
+        $this->security_context->setToken($token);
         return $this;
     }
     
@@ -108,9 +97,24 @@ class SessionService
     {
         $player = $this->getPlayer();
         $newplayer = $this->em->merge($player);
-        $this->setPlayer($newplayer);
+        //$this->setPlayer($newplayer);
         $this->em->flush();
         return $this;
     }
+    
+    
+    public static function generateGuest($lang = 'en') {
+        $guest = new Player();
+        
+        return $guest
+                ->setPseudo(self::generateGuestName($lang))
+                ->setInvited(true);
+    }
+    
+    public static function generateGuestName($lang = 'en')
+    {
+        return 'Guest '.rand(10000, 99999);
+    }
+    
     
 }

@@ -191,20 +191,7 @@ class Player implements UserInterface
         return $this->bot;
     }
     
-    public static function generateGuest($lang = 'en')
-    {
-        $guest = new Player();
-        
-        return $guest
-                ->setPseudo(self::generateGuestName($lang))
-                ->setInvited(true);
-    }
     
-    
-    public static function generateGuestName($lang = 'en')
-    {
-        return 'Guest '.rand(10000, 99999);
-    }
     
     
     /*

@@ -122,19 +122,4 @@ class UserController extends Controller
             'signup_form'   => $signup_form->createView(),
         ));
     }
-    
-    /**
-     * @Route(
-     *      "/player/logout",
-     *      name = "elcore_user_logout"
-     * )
-     */
-    public function logoutAction()
-    {
-        $session = $this->get('el_core.session');
-        
-        $session->logout();
-        
-        return $this->redirect($this->generateUrl('elcore_home'));
-    }
 }

@@ -1,6 +1,7 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        EL\ELCoreBundle\Entity\Player:
+            id: el_core.security
 
     role_hierarchy:
         ROLE_GUEST:  ROLE_USER
@@ -8,7 +9,7 @@ security:
 
     providers:
         main:
-            entity: { class: EL\ELCoreBundle\Entity\Player, property: pseudo }
+            id: el_core.security
         in_memory:
             memory:
                 users:
@@ -26,7 +27,7 @@ security:
         main:
             pattern:    ^/
             anonymous: true
-            provider: in_memory
+            provider: main
             form_login:
                 login_path: elcore_user_login
                 check_path: login_check

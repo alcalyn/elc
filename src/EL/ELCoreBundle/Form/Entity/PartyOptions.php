@@ -32,4 +32,45 @@ class PartyOptions {
 	private $private;
 	
 	
+    
+    public function __construct()
+    {
+    }
+    
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function getAllowObservers()
+    {
+        return $this->allow_observers;
+    }
+
+    public function getPrivate()
+    {
+        return $this->private;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function setAllowObservers($allow_observers)
+    {
+        $this->allow_observers = $allow_observers;
+        return $this;
+    }
+
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+        return $this;
+    }
+
+
+    
+    
 }

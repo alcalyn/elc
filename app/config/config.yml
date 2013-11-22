@@ -25,6 +25,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form:
+        resources:
+            - 'ELCoreBundle:Form:fields.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -59,8 +62,8 @@ doctrine:
 
 # Jms i18n Configuration
 jms_i18n_routing:
-    default_locale: en
-    locales: [en, fr]
+    default_locale: keys
+    locales: [keys, en, fr]
     strategy: prefix
 
 # Swiftmailer Configuration

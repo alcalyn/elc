@@ -66,7 +66,7 @@ class GamesController extends Controller
                 ->findByLang($_locale, $slug);
         
         $party_options = new PartyOptions();
-        $party_options_form = $this->createForm(new PartyOptionsType(), $party_options);
+        $party_options_form = $this->createForm(new PartyOptionsType($this->get('el_core.party')), $party_options);
         
         $party_options_form->handleRequest($this->getRequest());
         
@@ -74,7 +74,7 @@ class GamesController extends Controller
             
         }
         
-        return $this->render('ELCoreBundle:Games:preparation.html.twig', array(
+        return $this->render('ELCoreBundle:Games:creation.html.twig', array(
             'game'             => $game,
             'party_options'    => $party_options_form->createView(),
         ));

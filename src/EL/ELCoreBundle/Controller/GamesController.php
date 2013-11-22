@@ -5,6 +5,8 @@ namespace EL\ELCoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use EL\ELCoreBundle\Form\Entity\PartyOptions;
+use EL\ElCoreBundle\Form\Type\PartyOptionsType;
 
 class GamesController extends Controller
 {
@@ -63,11 +65,18 @@ class GamesController extends Controller
                 ->getRepository('ELCoreBundle:Game')
                 ->findByLang($_locale, $slug);
         
-        $randomTitle = $game->title().' '.rand(10000, 99999);
+        $party_options = new PartyOptions();
+        $party_options_form = $this->createForm(new PartyOptionsType(), $party_options);
         
-        return $this->render('ELCoreBundle:Games:creation.html.twig', array(
-            'game'          => $game,
-            'random_title'  => $randomTitle,
+        $party_options_form->handleRequest($this->getRequest());
+        
+        if ($party_options_form->isValid()) {
+            
+        }
+        
+        return $this->render('ELCoreBundle:Games:preparation.html.twig', array(
+            'game'             => $game,
+            'party_options'    => $party_options_form->createView(),
         ));
     }
     

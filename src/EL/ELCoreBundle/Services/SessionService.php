@@ -3,75 +3,57 @@
 namespace EL\ELCoreBundle\Services;
 
 use EL\ELCoreBundle\Entity\Player;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 
 class SessionService
 {
+    const PSEUDO_UNAVAILABLE = -1;
+    const ALREADY_LOGGED = -2;
     
-    private $session;
+    
+    private $security_context;
     private $em;
+    private $elcore_security;
     
     
-    public function __construct($session, $em)
+    public function __construct($security_context, $em, $elcore_security)
     {
-        $this->session = $session;
+        $this->security_context = $security_context;
         $this->em = $em;
+        $this->elcore_security = $elcore_security;
+        
         $this->start();
     }
     
     public function start()
     {
-        $this->session->start();
-        
-        if ($this->session->has('player')) {
-            return $this->session->get('player');
-        } else {
-            $guest = Player::generateGuest('en');
-            $this->session->set('player', $guest);
+        if (is_null($this->getPlayer())) {
+            $guest = self::generateGuest();
+            $this->setPlayer($guest);
             $this->savePlayer();
-            return $guest;
-        }
-    }
-    
-    public function login($pseudo, $password)
-    {
-        $results = $this->em
-                ->getRepository('ELCoreBundle:Player')
-                ->loginQuery($pseudo, $password);
-        
-        if (count($results) == 1) {
-            $this->setPlayer($results[0]);
-            return 0;
-        } else {
-            // login error
-            return -1;
-        }
-    }
-    
-    public function logout()
-    {
-        if ($this->getPlayer()->getInvited()) {
-            
-        } else {
-            $this->session->invalidate();
-            $this->session->start();
-            return $this;
         }
     }
     
     public function signup($pseudo, $password)
     {
         if ($this->isLogged()) {
-            return Player::ALREADY_LOGGED;
+            return self::ALREADY_LOGGED;
         }
         
         if ($this->pseudoExists($pseudo)) {
-            return Player::PSEUDO_UNAVAILABLE;
+            return self::PSEUDO_UNAVAILABLE;
         }
         
         $player = $this->getPlayer();
+        
+        $password_hash = $this
+                ->elcore_security
+                ->encodePassword($password, $player->getSalt());
+        
         $player
                 ->setPseudo($pseudo)
-                ->setPasswordHash(Player::hashPassword($password))
+                ->setPasswordHash($password_hash)
                 ->setInvited(false);
         
         $this->savePlayer();
@@ -90,24 +72,49 @@ class SessionService
     
     public function isLogged()
     {
-        return !$this->session->get('player')->getInvited();
+        return !$this->getPlayer()->getInvited();
     }
     
     public function getPlayer()
     {
-        return $this->session->get('player');
+        $user = $this->security_context->getToken()->getUser();
+        return ($user instanceof Player) ? $user : null ;
     }
     
     public function setPlayer($player)
     {
-        $this->session->set('player', $player);
+        $token = new UsernamePasswordToken(
+                $player,
+                $player->getPassword(),
+                'main',
+                $player->getRoles()
+        );
+        $this->security_context->setToken($token);
         return $this;
     }
     
     public function savePlayer()
     {
-        $this->em->persist($this->session->get('player'));
+        $player = $this->getPlayer();
+        $newplayer = $this->em->merge($player);
+        //$this->setPlayer($newplayer);
         $this->em->flush();
+        return $this;
     }
+    
+    
+    public static function generateGuest($lang = 'en') {
+        $guest = new Player();
+        
+        return $guest
+                ->setPseudo(self::generateGuestName($lang))
+                ->setInvited(true);
+    }
+    
+    public static function generateGuestName($lang = 'en')
+    {
+        return 'Guest '.rand(10000, 99999);
+    }
+    
     
 }

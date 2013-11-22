@@ -1,12 +1,16 @@
 parameters:
     el_core.session.class: EL\ELCoreBundle\Services\SessionService
     el_core.illdoitlater.class: EL\ELCoreBundle\Services\IllDoItLaterService
+    el_core.security.class: EL\ELCoreBundle\Services\SecurityService
     el_core.base_controller.class: EL\ELCoreBundle\Services\ELCoreController
 
 services:
+    el_core.security:
+        class: %el_core.security.class%
+        arguments: [@doctrine.orm.entity_manager]
     el_core.session:
         class: %el_core.session.class%
-        arguments: [@session, @doctrine.orm.entity_manager]
+        arguments: [@security.context, @doctrine.orm.entity_manager, @el_core.security]
     el_core.illdoitlater:
         class: %el_core.illdoitlater.class%
         arguments: []

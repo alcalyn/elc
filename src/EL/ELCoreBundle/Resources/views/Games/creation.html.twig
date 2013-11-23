@@ -5,30 +5,6 @@
 {% block body %}
 <div class="jeux-preparation">
     <h1>{{ 'create.game.%gametitle%'|trans({'%gametitle%': game.title}) }}</h1>
-    <form method="post" action="#" role="form">
-        <h3>{{ 'party.options'|trans }}</h3>
-        <div class="form-group">
-            <label>
-                {{ 'game.title'|trans }}
-                <input type="text" name="party_name" class="form-control" placeholder="{{ random_title }}" />
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" name="party_observers" checked="checked" />
-                {{ 'allow.observers'|trans }}
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" name="party_private" />
-                {{ 'private.only.invitation'|trans }}
-            </label>
-        </div>
-        
-        <h3>{{ 'game.options'|trans }}</h3>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    {{ form(party_options) }}
 </div>
 {% endblock %}

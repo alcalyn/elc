@@ -3,6 +3,7 @@ parameters:
     el_core.illdoitlater.class: EL\ELCoreBundle\Services\IllDoItLaterService
     el_core.security.class: EL\ELCoreBundle\Services\SecurityService
     el_core.base_controller.class: EL\ELCoreBundle\Services\ELCoreController
+    el_core.party.class: EL\ELCoreBundle\Services\PartyService
 
 services:
     el_core.security:
@@ -16,3 +17,5 @@ services:
         arguments: []
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
+    el_core.party:
+        class: %el_core.party.class%

@@ -22,8 +22,11 @@ elcore_home: /
 # Desc: /player/login
 elcore_user_login: /joueur/connexion
 
-# Desc: /player/logout
-elcore_user_logout: /joueur/deconnexion
-
 # Desc: /player/signup
 elcore_user_signup: /joueur/creer-un-compte
+
+# Desc: /login_check
+login_check: /login_check
+
+# Desc: /logout
+logout: /logout

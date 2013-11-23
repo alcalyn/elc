@@ -1,9 +1,11 @@
-'Remember me on this computer': 'Remember me on this computer'
+'%pseudo%':
+    already:
+        taken: 'Pseudo %pseudo% is already taken'
 
 _:
     players: players
 
-about: about
+about: About
 
 allow:
     observers: 'Allow observers'
@@ -58,6 +60,9 @@ opponents:
 party:
     options: 'Party options'
 
+password: Password
+password.repeat.isnotthesmae: 'Password and repeat are not the same'
+
 play:
     now: 'Play now'
 
@@ -65,6 +70,20 @@ private:
     only:
         invitation: 'Private (only on invitation)'
 
+pseudo: Pseudo
 ranking: Ranking
+
+rememberme:
+    onthiscomputer: 'Remember me on this computer'
+
 search: Search
 signup: 'Sign up'
+
+unableto:
+    create:
+        account: 'Unable to create account'
+
+you:
+    are:
+        already:
+            logged: 'You are already logged. Log out first'

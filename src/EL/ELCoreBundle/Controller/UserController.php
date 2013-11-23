@@ -84,7 +84,7 @@ class UserController extends Controller
                         $signup_form
                             ->get('pseudo')
                             ->addError(new FormError(
-                                $translator->trans('Pseudo %pseudo% is already taken', array(
+                                $translator->trans('%pseudo%.already.taken', array(
                                     '%pseudo%'  => $signup->getPseudo(),
                                 ))));
                         break;
@@ -92,7 +92,7 @@ class UserController extends Controller
                     case SessionService::ALREADY_LOGGED:
                         $signup_form
                             ->addError(new FormError(
-                                $translator->trans('You are already logged. Log out first')));
+                                $translator->trans('you.are.already.logged')));
                         break;
                     
                     case 0:
@@ -101,20 +101,20 @@ class UserController extends Controller
                     default:
                         $signup_form
                             ->addError(new FormError(
-                                $translator->trans('Unable to create account. Unknown error')));
+                                $translator->trans('unableto.create.account')));
                         break;
                 }
             } else {
                 $signup_form
                         ->get('password_repeat')
                         ->addError(new FormError(
-                            $translator->trans('Password repeat is not the same')));
+                            $translator->trans('password.repeat.isnotthesmae')));
                 
                 if ($session->pseudoExists($signup->getPseudo())) {
                     $signup_form
                             ->get('pseudo')
                             ->addError(new FormError(
-                                $translator->trans('Pseudo %pseudo% is already taken', array(
+                                $translator->trans('%pseudo%.already.taken', array(
                                     '%pseudo%'  => $signup->getPseudo(),
                                 ))));
                 }

@@ -1,4 +1,6 @@
-'Remember me on this computer': 'Se souvenir de moi sur cet ordinateur'
+'%pseudo%':
+    already:
+        taken: 'Le pseudo %pseudo% à déjà été pris'
 
 _:
     players: joueurs
@@ -43,7 +45,7 @@ let:
     cpufindgametoplay: 'Laisser l''ordinateur me trouver une partie de mon niveau'
 
 login: 'Se connecter'
-logout: Deconnexion
+logout: 'Déconnexion'
 
 my:
     account: 'Mon compte'
@@ -58,6 +60,9 @@ opponents:
 party:
     options: 'Options de la partie'
 
+password: 'Mot de passe'
+password.repeat.isnotthesmae: 'Le mot de passe et la répétition doivent être identiques'
+
 play:
     now: 'Jouer maintenant'
 
@@ -65,6 +70,20 @@ private:
     only:
         invitation: 'Privée (seulement sur invitation)'
 
+pseudo: 'Pseudo'
 ranking: Classement
+
+rememberme:
+    onthiscomputer: 'Se souvenir de moi sur cet ordinateur'
+
 search: Rechercher
 signup: 'Créer un compte'
+
+unableto:
+    create:
+        account: 'Impossible de créer un compte. Erreur inconnue'
+
+you:
+    are:
+        already:
+            logged: 'Vous êtes déjà connécté. Déconnectez vous d''abord'

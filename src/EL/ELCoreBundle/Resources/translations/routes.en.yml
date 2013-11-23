@@ -22,8 +22,11 @@ elcore_home: /
 # Desc: /player/login
 elcore_user_login: /player/login
 
-# Desc: /player/logout
-elcore_user_logout: /player/logout
-
 # Desc: /player/signup
 elcore_user_signup: /player/signup
+
+# Desc: /login_check
+login_check: /login_check
+
+# Desc: /logout
+logout: /logout

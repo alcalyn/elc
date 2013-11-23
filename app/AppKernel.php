@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new EL\ELCoreBundle\ELCoreBundle(),
             new EL\ELTicTacToeBundle\ELTicTacToeBundle(),
-            new EL\ELAbstractGameBundle\ELAbstractGameBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

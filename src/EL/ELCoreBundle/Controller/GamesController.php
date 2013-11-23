@@ -7,8 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\ELCoreBundle\Form\Entity\PartyOptions;
 use EL\ElCoreBundle\Form\Type\PartyOptionsType;
-use EL\ELAbstractGameBundle\Form\Entity\SpecialPartyOptions;
-use EL\ElAbstractGameBundle\Form\Type\SpecialPartyOptionsType;
 
 class GamesController extends Controller
 {

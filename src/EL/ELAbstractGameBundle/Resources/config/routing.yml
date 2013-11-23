@@ -1,3 +1,0 @@
-el_abstract_game_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: ELAbstractGameBundle:Default:index }

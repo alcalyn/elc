@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use EL\ELCoreBundle\Services\PartyService;
-use EL\ElAbstractGameBundle\Form\Type\SpecialPartyOptionsType;
 
 
 class PartyOptionsType extends AbstractType
@@ -38,7 +37,7 @@ class PartyOptionsType extends AbstractType
                     'label'     => 'private.only.invitation',
                     'required'  => false,
                 ))
-                ->add('special_party_options', new SpecialPartyOptionsType())
+                ->add('special_party_options', 'special_party_options_type')
                 ->add('create.game', 'submit');
     }
     

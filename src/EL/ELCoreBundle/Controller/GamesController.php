@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\ELCoreBundle\Form\Entity\PartyOptions;
 use EL\ElCoreBundle\Form\Type\PartyOptionsType;
+use EL\ELAbstractGameBundle\Form\Entity\SpecialPartyOptions;
+use EL\ElAbstractGameBundle\Form\Type\SpecialPartyOptionsType;
 
 class GamesController extends Controller
 {
@@ -19,17 +21,17 @@ class GamesController extends Controller
     public function listAction($_locale)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $games = $em
                 ->getRepository('ELCoreBundle:Game')
                 ->findAllByLang($_locale);
-        
+
         return $this->render('ELCoreBundle:Games:list.html.twig', array(
             'games' => $games,
         ));
     }
-    
-    
+
+
     /**
      * @Route(
      *      "/games/{slug}",
@@ -65,8 +67,16 @@ class GamesController extends Controller
                 ->getRepository('ELCoreBundle:Game')
                 ->findByLang($_locale, $slug);
         
+        
+        $party_service = $this->get('el_core.party');
+        
         $party_options = new PartyOptions();
-        $party_options_form = $this->createForm(new PartyOptionsType($this->get('el_core.party')), $party_options);
+        $special_party_options = new SpecialPartyOptions();
+        
+        $party_options_form = $this->createForm(
+                new PartyOptionsType($party_service, new SpecialPartyOptionsType($party_service)),
+                $party_options
+        );
         
         $party_options_form->handleRequest($this->getRequest());
         

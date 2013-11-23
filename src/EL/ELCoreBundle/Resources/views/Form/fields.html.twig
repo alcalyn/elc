@@ -40,3 +40,16 @@
     <input type="{{ type }}" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {% endspaceless %}
 {% endblock form_widget_simple %}
+
+
+{% block button_widget %}
+{% spaceless %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    {% set attr = attr|merge({'class':'btn btn-default'}) %}
+    <div class="col-sm-offset-4 col-sm-8">
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+    </div>
+{% endspaceless %}
+{% endblock button_widget %}

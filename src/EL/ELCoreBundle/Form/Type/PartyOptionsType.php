@@ -12,11 +12,13 @@ class PartyOptionsType extends AbstractType
 {
     
     private $party_service;
+    private $special_form;
     
     
-    public function __construct(PartyService $party_service)
+    public function __construct(PartyService $party_service, AbstractType $special_form)
     {
         $this->party_service = $party_service;
+        $this->special_form = $special_form;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -36,13 +38,14 @@ class PartyOptionsType extends AbstractType
                 ->add('private', 'checkbox', array(
                     'label'     => 'private.only.invitation',
                     'required'  => false,
-                ));
+                ))
+                ->add('create.game', 'submit');
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            //'data_class' => 'EL\ELCoreBundle\Form\Entity\Login',
+            'data_class' => 'EL\ELCoreBundle\Form\Entity\PartyOptions',
         ));
     }
 

@@ -21,9 +21,7 @@ class LoginType extends AbstractType
                     'label'     => 'Remember me on this computer',
                     'required'  => false,
                 ))
-                ->add('login', 'submit', array(
-                    'attr'  => array('class' => 'btn btn-default'),
-                ));
+                ->add('login', 'submit');
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

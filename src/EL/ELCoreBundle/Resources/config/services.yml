@@ -11,7 +11,7 @@ services:
         arguments: [@doctrine.orm.entity_manager]
     el_core.session:
         class: %el_core.session.class%
-        arguments: [@security.context, @doctrine.orm.entity_manager, @el_core.security]
+        arguments: [@security.context, @doctrine.orm.entity_manager, @el_core.security, @el_core.illdoitlater]
     el_core.illdoitlater:
         class: %el_core.illdoitlater.class%
         arguments: []

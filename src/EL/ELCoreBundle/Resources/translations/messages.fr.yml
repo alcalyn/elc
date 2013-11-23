@@ -30,8 +30,6 @@ filter:
 
 game:
     name: 'Nom du jeu'
-    options: 'Options du jeu'
-    title: 'Titre du jeu'
 
 games: Jeux
 go: Go
@@ -45,7 +43,6 @@ let:
     cpufindgametoplay: 'Laisser l''ordinateur me trouver une partie de mon niveau'
 
 login: 'Se connecter'
-logout: 'Déconnexion'
 
 my:
     account: 'Mon compte'
@@ -58,7 +55,7 @@ opponents:
     note: 'Note des adversaires'
 
 party:
-    options: 'Options de la partie'
+    title: 'Titre de la partie'
 
 password: 'Mot de passe'
 password.repeat.isnotthesmae: 'Le mot de passe et la répétition doivent être identiques'
@@ -70,7 +67,7 @@ private:
     only:
         invitation: 'Privée (seulement sur invitation)'
 
-pseudo: 'Pseudo'
+pseudo: Pseudo
 ranking: Classement
 
 rememberme:

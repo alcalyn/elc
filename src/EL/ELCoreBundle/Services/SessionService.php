@@ -15,13 +15,15 @@ class SessionService
     private $security_context;
     private $em;
     private $elcore_security;
+    private $illdothislater;
     
     
-    public function __construct($security_context, $em, $elcore_security)
+    public function __construct($security_context, $em, $elcore_security, $illdothislater)
     {
         $this->security_context = $security_context;
         $this->em = $em;
         $this->elcore_security = $elcore_security;
+        $this->illdothislater = $illdothislater;
         
         $this->start();
     }
@@ -95,10 +97,12 @@ class SessionService
     
     public function savePlayer()
     {
-        $player = $this->getPlayer();
-        $newplayer = $this->em->merge($player);
-        //$this->setPlayer($newplayer);
-        $this->em->flush();
+        $session = $this;
+        $this->illdothislater->addCall(function() use($session) {
+            $player = $session->getPlayer();
+            $newplayer = $session->em->merge($player);
+            $session->em->flush();
+        }, 'session-service-save-player');
         return $this;
     }
     

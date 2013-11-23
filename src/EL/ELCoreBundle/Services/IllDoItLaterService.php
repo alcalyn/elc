@@ -13,10 +13,17 @@ namespace EL\ELCoreBundle\Services;
  */
 class IllDoItLaterService
 {
+    /**
+     * Enabled by default
+     */
+    const ENABLED = true;
+    
+    
+    
 	/**
 	 * @var boolean
 	 */
-	private $enabled;
+	private $enabled = false;
 	
 	/**
 	 * Closures to call
@@ -29,7 +36,12 @@ class IllDoItLaterService
 	public function __construct()
 	{
 		$this->clearAll();
-		$this->enable();
+        
+        if (self::ENABLED) {
+            $this->enable();
+        } else {
+            $this->disable();
+        }
 	}
 	
 	/**
@@ -76,13 +88,13 @@ class IllDoItLaterService
 	 */
 	public function addCall(\Closure $callback, $key = null)
 	{
-		if ($this->enabled) {
+		if ($this->isEnabled()) {
 			if (is_null($key)) {
 				$key = uniqid();
 			}
 			$this->callbacks[$key] = $callback;
 		} else {
-			$callback;
+			$callback();
 		}
 	}
 	
@@ -115,7 +127,7 @@ class IllDoItLaterService
 			$callback();
 		}
 		
-		$this->callbacks = array();
+		$this->clearAll();
 	}
 	
 	

@@ -30,8 +30,6 @@ filter:
 
 game:
     name: 'Game name'
-    options: 'Game options'
-    title: 'Game title'
 
 games: Games
 go: Go
@@ -45,7 +43,6 @@ let:
     cpufindgametoplay: 'Let computer to find me a suitable game to play'
 
 login: 'Log in'
-logout: 'Log out'
 
 my:
     account: 'My account'
@@ -58,7 +55,7 @@ opponents:
     note: 'Opponents note'
 
 party:
-    options: 'Party options'
+    title: 'Party Title'
 
 password: Password
 password.repeat.isnotthesmae: 'Password and repeat are not the same'

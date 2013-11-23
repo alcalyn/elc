@@ -23,12 +23,12 @@ class SpecialPartyOptionsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            //'data_class' => 'EL\ELCoreBundle\Form\Entity\Login',
+            'data_class' => 'EL\ELAbstractGameBundle\Form\Entity\SpecialPartyOptions',
         ));
     }
 
     public function getName()
     {
-        return 'party_options';
+        return 'special_party_options';
     }
 }

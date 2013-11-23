@@ -3,6 +3,7 @@
 namespace EL\ELCoreBundle\Form\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use EL\ELAbstractGameBundle\Form\Entity\SpecialPartyOptions;
 
 /**
  *
@@ -30,6 +31,14 @@ class PartyOptions {
 	 * @var boolean
 	 */
 	private $private;
+    
+    
+    /**
+     * Special party options
+     * 
+     * @var SpecialPartyOptions
+     */
+    private $special_party_options;
 	
 	
     
@@ -71,6 +80,17 @@ class PartyOptions {
     }
 
 
-    
+    public function getSpecialPartyOptions()
+    {
+        return $this->special_party_options;
+    }
+
+    public function setSpecialPartyOptions(SpecialPartyOptions $special_party_options)
+    {
+        $this->special_party_options = $special_party_options;
+        return $this;
+    }
+
+
     
 }

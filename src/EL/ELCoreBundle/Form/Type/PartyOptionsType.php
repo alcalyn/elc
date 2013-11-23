@@ -6,19 +6,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use EL\ELCoreBundle\Services\PartyService;
+use EL\ElAbstractGameBundle\Form\Type\SpecialPartyOptionsType;
 
 
 class PartyOptionsType extends AbstractType
 {
     
     private $party_service;
-    private $special_form;
     
     
-    public function __construct(PartyService $party_service, AbstractType $special_form)
+    public function __construct(PartyService $party_service)
     {
         $this->party_service = $party_service;
-        $this->special_form = $special_form;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -39,6 +38,7 @@ class PartyOptionsType extends AbstractType
                     'label'     => 'private.only.invitation',
                     'required'  => false,
                 ))
+                ->add('special_party_options', new SpecialPartyOptionsType())
                 ->add('create.game', 'submit');
     }
     
@@ -46,6 +46,7 @@ class PartyOptionsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'EL\ELCoreBundle\Form\Entity\PartyOptions',
+            'cascade_validation' => true,
         ));
     }
 

@@ -14,16 +14,12 @@ namespace EL\ELCoreBundle\Services;
 class IllDoItLaterService
 {
     /**
-     * Enabled by default
+     * Enabled by default.
+     * 
+     * Attention, some debugs may be uncatched if true
      */
-    const ENABLED = true;
+    const ENABLED = false;
     
-    
-    
-	/**
-	 * @var boolean
-	 */
-	private $enabled = false;
 	
 	/**
 	 * Closures to call
@@ -36,12 +32,6 @@ class IllDoItLaterService
 	public function __construct()
 	{
 		$this->clearAll();
-        
-        if (self::ENABLED) {
-            $this->enable();
-        } else {
-            $this->disable();
-        }
 	}
 	
 	/**
@@ -52,30 +42,7 @@ class IllDoItLaterService
 	 */
 	public function isEnabled()
 	{
-		return $this->enabled;
-	}
-	
-	/**
-	 * Enable the service.
-	 * Note that it is enabled by default.
-	 */
-	public function enable()
-	{
-		if (!$this->isEnabled()) {
-			$this->enabled = true;
-		}
-	}
-	
-	/**
-	 * Disable the service.
-	 * Callbacks will be called before disabling.
-	 */
-	public function disable()
-	{
-		if ($this->isEnabled()) {
-			$this->callAll();
-			$this->enabled = false;
-		}
+		return self::ENABLED;
 	}
 	
 	/**
@@ -97,6 +64,7 @@ class IllDoItLaterService
 			$callback();
 		}
 	}
+    
 	
 	/**
 	 * Remove a callback from its key.

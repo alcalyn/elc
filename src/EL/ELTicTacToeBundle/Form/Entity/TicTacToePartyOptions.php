@@ -9,61 +9,33 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class TicTacToePartyOptions {
     
-	
 	/**
-	 * @var string
-	 */
-	private $option_1;
+     * @var integer
+     * 
+     * First player to play :
+     * 0: random (default)
+     * 1: first player
+     * 2: second player
+     */
+	private $first_player;
+	
     
-	/**
-	 * @var string
-	 */
-	private $option_tictactoe;
-	
-	/**
-	 * @var boolean
-	 */
-	private $option_2;
-	
-	
-	public function __construct()
-	{
-	}
-	
-	
-	public function getOption1()
-	{
-		return $this->option_1;
-	}
-	
-	public function getOptionTicTacToe()
-	{
-		return $this->option_tictactoe;
-	}
-	
-	public function getOption2()
-	{
-		return $this->option_2;
-	}
-	
-	
-	public function setOption1($option1)
-	{
-		$this->option_1 = $option1;
-		return $this;
-	}
-	
-	public function setOptionTicTacToe($option_tictactoe)
-	{
-		$this->option_tictactoe = $option_tictactoe;
-		return $this;
-	}
-	
-	public function setOption2($option2)
-	{
-		$this->option_2 = $option2;
-		return $this;
-	}
-	
-	
+    public function __construct()
+    {
+        $this->setFirstPlayer(0);
+    }
+    
+    
+    public function getFirstPlayer()
+    {
+        return $this->first_player;
+    }
+
+    public function setFirstPlayer($first_player)
+    {
+        $this->first_player = $first_player;
+        return $this;
+    }
+
+
 }

@@ -15,4 +15,10 @@ interface ELGameInterface
      */
     public function getOptionsType();
     
+    /**
+     * Return an object to hydrate by options form.
+     * Can have default values
+     */
+    public function getOptions();
+    
 }

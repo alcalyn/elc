@@ -21,4 +21,8 @@ class DefaultController extends Controller implements ELGameInterface
     {
         return new TicTacToePartyOptionsType();
     }
+    
+    public function getOptions() {
+        return new TicTacToePartyOptions();
+    }
 }

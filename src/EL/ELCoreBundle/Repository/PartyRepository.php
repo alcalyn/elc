@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class PartyRepository extends EntityRepository
 {
+    public function findByLang($locale, $slug)
+    {
+        $query = $this->_em->createQuery('
+            select p, g, gl
+            from ELCoreBundle:Party p
+            join p.game g
+            join p.host h
+            join g.langs gl
+            join gl.lang l
+            where  l.locale = :locale
+            and p.slug = :slug
+        ')->setParameters(array(
+            'locale'    => $locale,
+            'slug'      => $slug,
+        ));
+        
+        return $query->getSingleResult();
+    }
 }

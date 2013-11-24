@@ -11,15 +11,13 @@ class TicTacToePartyOptionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('option_1', 'text', array(
-                    'label' => 'Option 1',
-                ))
-                ->add('option_tictactoe', 'text', array(
-                    'label' => 'Option Tic Tac Toe',
-                ))
-                ->add('option_2', 'checkbox', array(
-                    'label'     => 'Option 2',
-                    'required'  => false,
+                ->add('first_player', 'choice', array(
+                    'label'     => 'first.player',
+                    'choices'   => array(
+                        0 => 'random',
+                        1 => 'player.1',
+                        2 => 'player.2',
+                    ),
                 ));
     }
     

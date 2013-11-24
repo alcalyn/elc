@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Party
 {
+    
+    const PREPARATION   = 1;
+    const ACTIVE        = 2;
+    const ENDED         = 3;
+    
+    
     /**
      * @var integer
      *
@@ -22,12 +28,16 @@ class Party
     private $id;
     
     /**
+     * @var Game
+     * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Game")
      * @ORM\JoinColumn(nullable=false)
      */
     private $game;
     
     /**
+     * @var Player
+     * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Player")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -39,6 +49,13 @@ class Party
      * @ORM\Column(name="title", type="string", length=63)
      */
     private $title;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=63)
+     */
+    private $slug;
 
     /**
      * @var boolean
@@ -53,7 +70,15 @@ class Party
      * @ORM\Column(name="state", type="smallint")
      */
     private $state;
-
+    
+    
+    public function __construct()
+    {
+        $this
+                ->setOpen(true)
+                ->setState(self::PREPARATION);
+    }
+    
 
     /**
      * Get id
@@ -178,5 +203,28 @@ class Party
     public function getHost()
     {
         return $this->host;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Party
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

@@ -10,11 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class PartyOptionsType extends AbstractType
 {
     
-    private $game_service;
+    private $special_party_options;
     
-    public function __construct($game_service)
+    public function __construct($special_party_options)
     {
-        $this->game_service = $game_service;
+        $this->special_party_options = $special_party_options;
     }
     
     
@@ -32,7 +32,7 @@ class PartyOptionsType extends AbstractType
                     'label'     => 'private.only.invitation',
                     'required'  => false,
                 ))
-                ->add('special_party_options', $this->game_service->getOptionsType())
+                ->add('special_party_options', $this->special_party_options)
                 ->add('create.game', 'submit');
     }
     

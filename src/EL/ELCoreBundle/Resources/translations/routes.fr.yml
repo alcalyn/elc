@@ -10,8 +10,8 @@ elcore_game_creation: '/jeux/{slug}/creation'
 # Desc: /games/{slug}
 elcore_game_home: '/jeux/{slug}'
 
-# Desc: /games/{slug}/preparation
-elcore_game_preparation: '/jeux/{slug}/preparation'
+# Desc: /games/{slug_game}/{slug_party}/preparation
+elcore_game_preparation: '/jeux/{slug_game}/{slug_party}/preparation'
 
 # Desc: /games
 elcore_games_list: /jeux

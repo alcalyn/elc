@@ -15,15 +15,15 @@ class SessionService
     private $security_context;
     private $em;
     private $elcore_security;
-    private $illdothislater;
+    private $illflushitlater;
     
     
-    public function __construct($security_context, $em, $elcore_security, $illdothislater)
+    public function __construct($security_context, $em, $elcore_security, $illflushitlater)
     {
         $this->security_context = $security_context;
         $this->em = $em;
         $this->elcore_security = $elcore_security;
-        $this->illdothislater = $illdothislater;
+        $this->illflushitlater = $illflushitlater;
         
         $this->start();
     }
@@ -97,17 +97,13 @@ class SessionService
     
     public function savePlayer()
     {
-        $session = $this;
-        $this->illdothislater->addCall(function() use($session) {
-            $player = $session->getPlayer();
-            $newplayer = $session->em->merge($player);
-            $session->em->flush();
-        }, 'session-service-save-player');
+        $this->illflushitlater->merge($this->getPlayer());
+        $this->illflushitlater->flush();
         return $this;
     }
     
     
-    public static function generateGuest($lang = 'en') {
+    public function generateGuest($lang = 'en') {
         $guest = new Player();
         
         return $guest
@@ -115,7 +111,7 @@ class SessionService
                 ->setInvited(true);
     }
     
-    public static function generateGuestName($lang = 'en')
+    public function generateGuestName($lang = 'en')
     {
         return 'Guest '.rand(10000, 99999);
     }

@@ -2,6 +2,9 @@
     already:
         taken: 'Le pseudo %pseudo% à déjà été pris'
 
+'Log out': 'Log out'
+'Remember me on this computer': 'Remember me on this computer'
+
 _:
     players: joueurs
 
@@ -27,6 +30,9 @@ faq: FAQ
 
 filter:
     by: 'Filtrer par'
+
+first:
+    player: first.player
 
 game:
     name: 'Nom du jeu'
@@ -63,11 +69,16 @@ password.repeat.isnotthesmae: 'Le mot de passe et la répétition doivent être 
 play:
     now: 'Jouer maintenant'
 
+player:
+    1: player.1
+    2: player.2
+
 private:
     only:
         invitation: 'Privée (seulement sur invitation)'
 
 pseudo: Pseudo
+random: random
 ranking: Classement
 
 rememberme:

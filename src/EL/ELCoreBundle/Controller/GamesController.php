@@ -68,9 +68,17 @@ class GamesController extends Controller
         
         $party_service = $this->get('el_core.party');
         
-        $party_options = new PartyOptions();
+        $core_game_service = $this
+                ->get('el_core.game')
+                ->setGame($game);
         
-        $party_options_form = $this->createForm(new PartyOptionsType($party_service), $party_options);
+        $game_service = $this
+                ->get($core_game_service->getGameServiceName());
+        
+        $party_options = new PartyOptions();
+        $party_options->setTitle($party_service->generateRandomTitle());
+        
+        $party_options_form = $this->createForm(new PartyOptionsType($game_service), $party_options);
         
         $party_options_form->handleRequest($this->getRequest());
         

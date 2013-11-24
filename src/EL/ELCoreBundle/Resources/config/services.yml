@@ -4,6 +4,7 @@ parameters:
     el_core.security.class: EL\ELCoreBundle\Services\SecurityService
     el_core.base_controller.class: EL\ELCoreBundle\Services\ELCoreController
     el_core.party.class: EL\ELCoreBundle\Services\PartyService
+    el_core.game.class: EL\ELCoreBundle\Services\CoreGameService
 
 services:
     el_core.security:
@@ -19,3 +20,5 @@ services:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
     el_core.party:
         class: %el_core.party.class%
+    el_core.game:
+        class: %el_core.game.class%

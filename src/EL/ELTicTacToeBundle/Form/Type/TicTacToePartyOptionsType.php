@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class SpecialPartyOptionsType extends AbstractType
+class TicTacToePartyOptionsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,12 +26,12 @@ class SpecialPartyOptionsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\ELTicTacToeBundle\Form\Entity\SpecialPartyOptions',
+            'data_class' => 'EL\ELTicTacToeBundle\Form\Entity\TicTacToePartyOptions',
         ));
     }
 
     public function getName()
     {
-        return 'special_party_options_type';
+        return 'tictactoe_options_type';
     }
 }

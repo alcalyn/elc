@@ -3,7 +3,7 @@
 namespace EL\ELCoreBundle\Form\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use EL\ELAbstractGameBundle\Form\Entity\SpecialPartyOptions;
+use EL\ELCoreBundle\Form\Entity\SpecialPartyOptions;
 
 /**
  *
@@ -44,6 +44,8 @@ class PartyOptions {
     
     public function __construct()
     {
+        $this->allow_observers = true;
+        $this->private = false;
     }
     
     public function getTitle()
@@ -85,7 +87,7 @@ class PartyOptions {
         return $this->special_party_options;
     }
 
-    public function setSpecialPartyOptions(SpecialPartyOptions $special_party_options)
+    public function setSpecialPartyOptions($special_party_options)
     {
         $this->special_party_options = $special_party_options;
         return $this;

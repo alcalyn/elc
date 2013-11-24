@@ -2,7 +2,5 @@ parameters:
 #    el_tic_tac_toe.example.class: EL\ELTicTacToeBundle\Example
 
 services:
-   special_party_options_type:
-      class: EL\ELTicTacToeBundle\Form\Type\SpecialPartyOptionsType
-      tags:
-         -  { name: form.type }
+    el_games.tictactoe:
+        class: EL\ELTicTacToeBundle\Controller\DefaultController

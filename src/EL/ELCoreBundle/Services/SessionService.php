@@ -102,7 +102,6 @@ class SessionService
         return $this;
     }
     
-    
     public function generateGuest($lang = 'en') {
         $guest = new Player();
         

@@ -4,20 +4,35 @@ elcore_about: /about
 # Desc: /faq
 elcore_faq: /faq
 
-# Desc: /games/{slug}/creation
-elcore_game_creation: '/games/{slug}/creation'
-
 # Desc: /games/{slug}
 elcore_game_home: '/games/{slug}'
 
-# Desc: /games/{slug_game}/{slug_party}/preparation
-elcore_game_preparation: '/games/{slug_game}/{slug_party}/preparation'
+# Desc: /games/{slug}/ranking
+elcore_game_ranking: '/games/{slug}/ranking'
+
+# Desc: /games/{slug}/rules
+elcore_game_rules: '/games/{slug}/rules'
 
 # Desc: /games
 elcore_games_list: /games
 
 # Desc: /
 elcore_home: /
+
+# Desc: /games/{slug_game}/{slug_party}
+elcore_party: '/games/{slug_game}/{slug_party}'
+
+# Desc: /games/{slug}/creation
+elcore_party_creation: '/games/{slug}/creation'
+
+# Desc: /games/{slug_game}/{slug_party}/results
+elcore_party_ended: '/games/{slug_game}/{slug_party}/results'
+
+# Desc: /games/{slug_game}/{slug_party}/join
+elcore_party_join: '/games/{slug_game}/{slug_party}/join'
+
+# Desc: /games/{slug_game}/{slug_party}/preparation
+elcore_party_preparation: '/games/{slug_game}/{slug_party}/preparation'
 
 # Desc: /player/login
 elcore_user_login: /player/login

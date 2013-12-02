@@ -4,20 +4,35 @@ elcore_about: /a-propos
 # Desc: /faq
 elcore_faq: /faq
 
-# Desc: /games/{slug}/creation
-elcore_game_creation: '/jeux/{slug}/creation'
-
 # Desc: /games/{slug}
 elcore_game_home: '/jeux/{slug}'
 
-# Desc: /games/{slug_game}/{slug_party}/preparation
-elcore_game_preparation: '/jeux/{slug_game}/{slug_party}/preparation'
+# Desc: /games/{slug}/ranking
+elcore_game_ranking: '/jeux/{slug}/classement'
+
+# Desc: /games/{slug}/rules
+elcore_game_rules: '/jeux/{slug}/regles'
 
 # Desc: /games
 elcore_games_list: /jeux
 
 # Desc: /
 elcore_home: /
+
+# Desc: /games/{slug_game}/{slug_party}
+elcore_party: '/jeux/{slug_game}/{slug_party}'
+
+# Desc: /games/{slug}/creation
+elcore_party_creation: '/jeux/{slug}/creer-une-partie'
+
+# Desc: /games/{slug_game}/{slug_party}/results
+elcore_party_ended: '/jeux/{slug_game}/{slug_party}/resultats'
+
+# Desc: /games/{slug_game}/{slug_party}/join
+elcore_party_join: '/jeux/{slug_game}/{slug_party}/rejoindre'
+
+# Desc: /games/{slug_game}/{slug_party}/preparation
+elcore_party_preparation: '/jeux/{slug_game}/{slug_party}/preparation'
 
 # Desc: /player/login
 elcore_user_login: /joueur/connexion

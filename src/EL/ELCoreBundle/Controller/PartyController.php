@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\ELCoreBundle\Form\Entity\PartyOptions;
 use EL\ElCoreBundle\Form\Type\PartyOptionsType;
 use EL\ELCoreBundle\Services\PartyService;
+use EL\ELCoreBundle\Entity\Party;
+use EL\ELCoreBundle\Entity\Game;
+
 
 class PartyController extends Controller
 {
@@ -69,7 +72,6 @@ class PartyController extends Controller
     }
     
     
-    
     /**
      * @Route(
      *      "/games/{slug_game}/{slug_party}/preparation",
@@ -102,4 +104,69 @@ class PartyController extends Controller
         ));
     }
     
+    
+    /**
+     * Redirect on /preparation or /XXX if not active
+     * 
+     * @Route(
+     *      "/games/{slug_game}/{slug_party}",
+     *      name = "elcore_party"
+     * )
+     */
+    public function activeAction($_locale, $slug_game, $slug_party)
+    {
+        $party_service = $this
+                ->get('el_core.party')
+                ->setPartyBySlug($slug_party, $_locale);
+        
+        $party = $party_service->getParty();
+        
+        if ($party->getState() === Party::PREPARATION) {
+            return $this->redirect($this->generateUrl('elcore_party_preparation', array(
+                '_locale'       => $_locale,
+                'slug_game'     => $slug_game,
+                'slug_party'    =>$slug_party,
+            )));
+        }
+        
+        if ($party->getState() === Party::ENDED) {
+            return $this->redirect($this->generateUrl('elcore_party_ended', array(
+                '_locale'       => $_locale,
+                'slug_game'     => $slug_game,
+                'slug_party'    =>$slug_party,
+            )));
+        }
+        
+        $game_service = $this
+                ->get($party_service->getGameServiceName());
+        
+        return $this->render('ELCoreBundle:Party:creation.html.twig', array(
+            'game'          => $party_service->getGame(),
+            'party'         => $party,
+        ));
+    }
+    
+    
+    /**
+     * @Route(
+     *      "/games/{slug_game}/{slug_party}/results",
+     *      name = "elcore_party_ended"
+     * )
+     */
+    public function endedAction($_locale, $slug_game, $slug_party)
+    {
+        $party_service = $this
+                ->get('el_core.party')
+                ->setPartyBySlug($slug_party, $_locale);
+        
+        $party = $party_service->getParty();
+        
+        $game_service = $this
+                ->get($party_service->getGameServiceName());
+        
+        return $this->render('ELCoreBundle:Party:creation.html.twig', array(
+            'game'          => $party_service->getGame(),
+            'party'         => $party,
+        ));
+    }
 }

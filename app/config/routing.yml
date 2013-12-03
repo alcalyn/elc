@@ -1,3 +1,7 @@
+phax:
+    resource: "@PhaxBundle/Resources/config/routing.yml"
+    prefix:   /
+
 el_core:
     resource: "@ELCoreBundle/Resources/config/routing.yml"
     prefix:   /

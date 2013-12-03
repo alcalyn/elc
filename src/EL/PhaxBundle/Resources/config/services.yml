@@ -1,0 +1,7 @@
+parameters:
+    phax.class: EL\PhaxBundle\Services\PhaxService
+
+services:
+    phax.example:
+        class: %phax.class%
+#        arguments: [@request]

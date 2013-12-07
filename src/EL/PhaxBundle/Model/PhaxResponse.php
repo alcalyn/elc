@@ -3,24 +3,12 @@
 namespace EL\PhaxBundle\Model;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use EL\PhaxBundle\Model\PhaxReaction;
 
 
 class PhaxResponse extends JsonResponse
 {
-    public function __construct($data = null)
-    {
-        parent::__construct(self::createMetadata() + $data);
+    public function __construct(PhaxReaction $phax_reaction) {
+        parent::__construct($phax_reaction->getJsonData());
     }
-    
-    private static function createMetadata()
-    {
-        return array(
-            'phax_metadata' => array(
-                'has_error'             => false,
-                'errors'                => array(),
-                'trigger_js_reaction'   => true,
-            ),
-        );
-    }
-    
 }

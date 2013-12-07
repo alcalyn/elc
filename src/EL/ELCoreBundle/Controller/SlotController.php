@@ -74,11 +74,11 @@ class SlotController extends Controller
     
     public function testAction()
     {
-        // do something
+        $reaction = $this->get('phax')->reaction();
         
-        return $this->get('phax')->response(array(
-            'test'  => 'ok',
-        ));
+        $reaction->test = 'ju';
+        
+        return $reaction;
     }
     
 }

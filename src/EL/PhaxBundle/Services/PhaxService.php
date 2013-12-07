@@ -2,23 +2,29 @@
 
 namespace EL\PhaxBundle\Services;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use EL\PhaxBundle\Model\PhaxResponse;
+use EL\PhaxBundle\Model\PhaxReaction;
 
 
 class PhaxService
 {
     
-    public function response(array $parameters = array())
+    public function reaction(array $parameters = array())
     {
-        return new PhaxResponse($parameters);
+        return new PhaxReaction($parameters);
     }
     
-    public function render(Controller $controller, $view, array $parameters = array())
+    public function error($msg)
     {
-        return $controller->render($view, $parameters);
+        $reaction = new PhaxReaction();
+        $reaction->addError($msg);
+        return $reaction;
     }
     
-    
+    public function void()
+    {
+        $reaction = new PhaxReaction();
+        $reaction->disableJsReaction();
+        return $reaction;
+    }
     
 }

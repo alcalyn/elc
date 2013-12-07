@@ -25,23 +25,14 @@ var phax = {
         console.log(controller, action, r);
 		
 		if(r) {
-			try {
-				r = JSON.parse(r);
-				
-				if(r.phax_metadata.has_error) {
-					phaxError.reactionError(controller, action, r.phax_metadata.errors);
-					return;
-				}
-			} catch(e) {
-				phaxError.reactionFatalError(controller, action, r);
-				return;
-			}
-		} else {
-			r = null;
+            if(r.phax_metadata.has_error) {
+                phaxError.reactionError(controller, action, r.phax_metadata.errors);
+                return;
+            }
 		}
 		
 		
-		if(r.phax_metadata.js_reaction) {
+		if(r.phax_metadata.trigger_js_reaction) {
 			if(phax.controller_loaded(controller)) {
 				phaxCore.callModuleAction(controller, action, r);
 			} else {
@@ -80,4 +71,39 @@ var phaxCore = {
 		}
 	}
 };
+
+var phaxError = {
+
+	reactionError: function(controller, action, errors) {
+		console.log('Phax reaction error in '+controller+'::'+action);
+		console.log(errors);
+		alert(errors[0]);
+	},
+	
+	reactionFatalError: function(controller, action, r) {
+		console.log('Phax reaction error (JSON parse error) in '+controller+'::'+action+', r = '+r);
+	},
+	
+	reactionUndefined: function(controller, action) {
+		console.log('Phax reaction undefined : '+controller+'::'+action);
+	},
+	
+	jsFileNotFound: function(controller, status) {
+		console.log('Phax error : file "controllers/'+controller+'/'+controller+'.js" not found'+(status ? ' (code = '+status+')' : ''));
+	},
+	
+	jsFileHasError: function(controller) {
+		console.log('Phax Javascript error : file "controllers/'+controller+'/'+controller+'.js" contains javascript errors');
+	},
+	
+	bindFunctionForTagUndefined: function(tagName) {
+		console.log('phax bind function for tag "'+tagName+'" undefined');
+	},
+	
+	controllerNotFound: function(controller_name) {
+		console.log('phax Error : controller not found : "'+controller_name+'"');
+	}
+	
+};
+
 

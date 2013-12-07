@@ -70,4 +70,15 @@ class SlotController extends Controller
             'slug_party'    => $slug_party,
         )));
     }
+    
+    
+    public function testAction()
+    {
+        // do something
+        
+        return $this->get('phax')->response(array(
+            'test'  => 'ok',
+        ));
+    }
+    
 }

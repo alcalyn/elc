@@ -4,12 +4,15 @@ namespace EL\PhaxBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use EL\PhaxBundle\Model\PhaxResponse;
+use EL\PhaxBundle\Model\PhaxException;
 
 class PhaxController extends Controller
 {
-    public function phaxAction($_locale)
+    public function phaxAction()
     {
         $request = $this->get('request');
+        $_locale = $request->getLocale();
         
         $params = null;
         
@@ -21,23 +24,30 @@ class PhaxController extends Controller
         
         $params['_locale'] = $_locale;
         
-        $controller = $params['phax_controller'];
-        $action     = $params['phax_action'];
+        $controller_name = $params['phax_controller'];
+        $action_name     = $params['phax_action'];
         
         
-        $sf_controller = implode(':', array(
-            'ELCoreBundle',
-            $controller,
-            $action,
-        ));
+        $service_name = 'phax.'.$controller_name;
         
-        return new JsonResponse(array(
-            'ok'        => 'ouais',
-            'locale'    => $_locale,
-            'method'    => $request->getMethod(),
-            'params'    => $params,
-            'sf_ctrl'   => $sf_controller,
-            'result'    => $this->forward($sf_controller, $params),
-        ));
+        if (!$this->has($service_name)) {
+            throw new PhaxException(
+                    'The controller '.$controller_name.' does not exists.'.
+                    'It must be declared as service named '.$service_name
+            );
+        }
+        
+        $phax_response = $this
+                ->get('phax.'.$controller_name)
+                ->{$action_name.'Action'}();
+        
+        if (!($phax_response instanceof PhaxResponse)) {
+            throw new PhaxException(
+                    'The controller '.$controller_name.'::'.$action_name.' must return an instance of EL\PhaxBundle\Model\PhaxResponse, '.
+                    get_class($phax_response).' returned'
+            );
+        }
+        
+        return $phax_response;
     }
 }

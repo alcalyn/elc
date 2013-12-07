@@ -6,6 +6,7 @@ parameters:
     el_core.base_controller.class: EL\ELCoreBundle\Services\ELCoreController
     el_core.party.class: EL\ELCoreBundle\Services\PartyService
     el_core.game.class: EL\ELCoreBundle\Services\GameService
+    el_core.controller.slot.class: EL\ELCoreBundle\Controller\SlotController
 
 services:
     el_core.security:
@@ -27,3 +28,7 @@ services:
     el_core.party:
         class: %el_core.party.class%
         arguments: [@doctrine.orm.entity_manager, @el_core.illflushitlater, @el_core.session]
+    phax.slot:
+        class: %el_core.controller.slot.class%
+        calls:
+            - [setContainer, ["@service_container"]]

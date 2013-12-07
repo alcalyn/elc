@@ -1,11 +1,18 @@
 parameters:
     phax.class: EL\PhaxBundle\Services\PhaxService
     phax.controller.help: EL\PhaxBundle\Controller\HelpController
+    phax.command.action: EL\PhaxBundle\Command\ActionCommand
 
 services:
     phax:
         class: %phax.class%
     phax.help:
         class: %phax.controller.help%
+        calls:
+            - [setContainer, ["@service_container"]]
+    phax.command.phax_action:
+        class: %phax.command.action%
+        tags:
+            -  { name: console.command }
         calls:
             - [setContainer, ["@service_container"]]

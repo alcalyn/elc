@@ -12,10 +12,10 @@ class PhaxReaction
      *
      * @var array
      *      Contains Phax information :
-     *          has_error           : if an error occured
-     *          errors              : array containings strings error
-     *          trigger_js_reaction : if client should trigger reaction in js
-     *                                  with the same name (controller.action())
+     *          has_error               : if an error occured
+     *          errors                  : array containings strings error
+     *          trigger_js_reaction     : if client should trigger reaction in js with the same name (controller.action())
+     *          message                 : meta message, used for command line mode
      * 
      */
     private $metadata;
@@ -43,6 +43,7 @@ class PhaxReaction
             'has_error'             => false,
             'errors'                => array(),
             'trigger_js_reaction'   => true,
+            'message'               => null,
         );
     }
     
@@ -67,6 +68,22 @@ class PhaxReaction
         return array(
             'phax_metadata' => $this->metadata,
         ) + $this->data;
+    }
+    
+    public function setMetaMessage($msg)
+    {
+        $this->metadata['message'] = $msg;
+        return $this;
+    }
+    
+    public function getMetaMessage()
+    {
+        return $this->metadata['message'];
+    }
+    
+    public function hasMetaMessage()
+    {
+        return !is_null($this->metadata['message']);
     }
     
     public function addError($msg)

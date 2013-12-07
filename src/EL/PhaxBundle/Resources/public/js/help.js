@@ -8,12 +8,17 @@ var help = {
     
     defaultAction: function(r)
     {
-        console.log(r.help_message);
+        console.log(r.phax_metadata.message);
     },
     
     testAction: function(r)
     {
         console.log(r);
+    },
+    
+    pingAction: function(r)
+    {
+        console.log(r.phax_metadata.message);
     }
     
 };

@@ -22,7 +22,10 @@ class PhaxController extends Controller
             $params = $request->query->all();
         }
         
-        $params['phax_metadata']['_locale'] = $_locale;
+        $params['phax_metadata'] += array(
+            '_locale'       => $_locale,
+            'mode_cli'      => false,
+        );
         
         $controller_name    = $params['phax_metadata']['controller'];
         $action_name        = $params['phax_metadata']['action'];
@@ -36,7 +39,7 @@ class PhaxController extends Controller
         }
         
         $phax_reaction = $this
-                ->get('phax.'.$controller_name)
+                ->get($service_name)
                 ->{$action_name.'Action'}($params);
         
         if (!($phax_reaction instanceof PhaxReaction)) {

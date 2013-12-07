@@ -27,4 +27,11 @@ class PhaxService
         return $reaction;
     }
     
+    public function metaMessage($message)
+    {
+        $reaction = new PhaxReaction();
+        $reaction->setMetaMessage($message);
+        return $reaction;
+    }
+    
 }

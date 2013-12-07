@@ -8,9 +8,9 @@ class HelpController extends Controller
 {
     public function defaultAction()
     {
-        return $this->get('phax')->reaction(array(
-            'help_message' => 'Phax help message',
-        ));
+        return $this->get('phax')->metaMessage(
+            'Phax help message'
+        );
     }
     
     public function testAction($params = array())
@@ -19,5 +19,12 @@ class HelpController extends Controller
             'phax_action_metadata' => $params['phax_metadata'],
             $params,
         ));
+    }
+    
+    public function pingAction()
+    {
+        return $this->get('phax')->metaMessage(
+            'pong ('.date('D j M Y G:i:s').')'
+        );
     }
 }

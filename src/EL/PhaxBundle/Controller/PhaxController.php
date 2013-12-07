@@ -22,10 +22,10 @@ class PhaxController extends Controller
             $params = $request->query->all();
         }
         
-        $params['_locale'] = $_locale;
+        $params['phax_metadata']['_locale'] = $_locale;
         
-        $controller_name    = $params['phax_controller'];
-        $action_name        = $params['phax_action'];
+        $controller_name    = $params['phax_metadata']['controller'];
+        $action_name        = $params['phax_metadata']['action'];
         $service_name       = 'phax.'.$controller_name;
         
         if (!$this->has($service_name)) {
@@ -37,7 +37,7 @@ class PhaxController extends Controller
         
         $phax_reaction = $this
                 ->get('phax.'.$controller_name)
-                ->{$action_name.'Action'}();
+                ->{$action_name.'Action'}($params);
         
         if (!($phax_reaction instanceof PhaxReaction)) {
             throw new PhaxException(

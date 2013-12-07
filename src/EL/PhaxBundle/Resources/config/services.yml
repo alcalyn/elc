@@ -1,7 +1,11 @@
 parameters:
     phax.class: EL\PhaxBundle\Services\PhaxService
+    phax.controller.help: EL\PhaxBundle\Controller\HelpController
 
 services:
     phax:
         class: %phax.class%
-#        arguments: [@request]
+    phax.help:
+        class: %phax.controller.help%
+        calls:
+            - [setContainer, ["@service_container"]]

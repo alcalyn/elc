@@ -8,8 +8,10 @@ var phax = {
     {
         data = params ? params : {} ;
         
-        data.phax_controller = controller;
-        data.phax_action = action ? action : 'default' ;
+        data['phax_metadata'] = {
+            controller: controller,
+            action: action ? action : 'default'
+        };
         
         jQuery.post(
             phaxConfig.www_script,
@@ -17,25 +19,23 @@ var phax = {
             function(r) {
                 phax.reaction(controller, action, r);
             }
-        );
+        )
+        .fail(function(r) {
+            phaxError.reactionFatalError(controller, action, r.responseText);
+        });
     },
     
     reaction: function(controller, action, r)
     {
         action = action ? action : 'default' ;
         
-        if (!(r && typeof(r) == 'object')) {
-            phaxError.reactionFatalError(controller, action, r);
-            return;
-        }
-        
-        if(r.phax_metadata.has_error) {
+        if (r.phax_metadata.has_error) {
             phaxError.reactionError(controller, action, r.phax_metadata.errors);
             return;
         }
         
-        if(r.phax_metadata.trigger_js_reaction) {
-            if(!phax.controller_loaded(controller)) {
+        if (r.phax_metadata.trigger_js_reaction) {
+            if (!phax.controller_loaded(controller)) {
                 phax.load_controller(controller);
             }
             
@@ -50,10 +50,12 @@ var phax = {
     
     load_controller: function(controller)
     {
-        if(!phax.controller_loaded(controller)) {
+        if (!phax.controller_loaded(controller)) {
             if (window[controller]) {
                 phax.controllers[controller] = window[controller];
                 phaxCore.hasFunction(controller, 'init') && phaxCore.call(controller, 'init');
+            } else {
+                phaxError.controllerNotFound(controller);
             }
         }
     }
@@ -78,7 +80,7 @@ var phaxCore = {
     {
         var fonction = action ? action+'Action' : 'defaultAction';
         
-        if(phaxCore.hasFunction(controller, fonction)) {
+        if (phaxCore.hasFunction(controller, fonction)) {
             return phaxCore.call(controller, fonction, r);
         } else {
             phaxError.reactionUndefined(controller, fonction);

@@ -16,7 +16,7 @@ var slot = {
     
     testAction: function(r)
     {
-        console.log('test Action : ', r);
+        console.log(r.help_message);
     }
     
 }

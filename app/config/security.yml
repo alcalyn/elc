@@ -34,8 +34,9 @@ security:
                 username_parameter: player_pseudo
                 password_parameter: player_password
             logout:
-                path:   logout
+                path:   /player/logout
                 target: /
+                invalidate_session: true
 
     access_control:
         #- { path: ^/en/games, roles: ROLE_PLAYER }

@@ -17,6 +17,7 @@ class PartyService extends GameService
     const ENDED_PARTY   = 1;
     const NO_FREE_SLOT  = 2;
     const ALREADY_JOIN  = 3;
+    const STARTED_PARTY = 4;
     
     
     /**
@@ -139,6 +140,18 @@ class PartyService extends GameService
     
     
     /**
+     * Check if player can join the party.
+     * If join is true, the player join the party if he can.
+     * 
+     * if player cant join :
+     *      return PartyService::ENDED_PARTY    if party has ended
+     *      return PartyService::NO_FREE_SLOT   if party is full
+     *      return PartyService::ALREADY_JOIN   if player joined this party yet
+     *      return PartyService::STARTED_PARTY  if party has started and is not room
+     * 
+     * else return PartyService::ENDED_PARTY (0) if he can join,
+     *      or has joined if $join is true
+     * 
      * @param \EL\ELCoreBundle\Entity\Player $player
      * @param boolean $join
      * @return integer 0: ok, or error
@@ -171,15 +184,23 @@ class PartyService extends GameService
                     }
                 }
             }
+        } else {
+            return self::STARTED_PARTY;
         }
         
         if ($alreadyJoin) {
             return self::ALREADY_JOIN;
-        } else if ($freeSlot) {
-            $this->affectPlayerToSlot($player, $freeSlot);
-        } else {
+        }
+        
+        if (!$freeSlot) {
             return self::NO_FREE_SLOT;
         }
+        
+        if ($join) {
+            $this->affectPlayerToSlot($player, $freeSlot);
+        }
+        
+        return self::OK;
     }
     
     

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="el_core_player")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PlayerRepository")
  */
-class Player implements UserInterface
+class Player implements UserInterface, \JsonSerializable
 {
     /**
      * @var integer
@@ -189,6 +189,15 @@ class Player implements UserInterface
     public function getBot()
     {
         return $this->bot;
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'id'            => $this->getId(),
+            'pseudo'        => $this->getPseudo(),
+            'invited'       => $this->getInvited(),
+            'bot'           => $this->getBot(),
+        );
     }
     
     

@@ -101,6 +101,9 @@ class PartyController extends Controller
             'slots'         => $party->getSlots(),
             'in_party'      => $canJoin === PartyService::ALREADY_JOIN,
             'can_join'      => $canJoin === PartyService::OK,
+            'js_context'    => array(
+                'slug_party' => $slug_party,
+            ),
         ));
     }
     

@@ -9,7 +9,7 @@ use EL\PhaxBundle\Model\PhaxException;
  * PhaxReaction, returned by phax controllers.
  * Contains parameters, errors and other metadata of reaction.
  */
-class PhaxReaction
+class PhaxReaction implements \JsonSerializable
 {
     
     /**
@@ -67,8 +67,7 @@ class PhaxReaction
         return isset($this->data[$name]);
     }
     
-    public function getJsonData()
-    {
+    public function jsonSerialize() {
         return array(
             'phax_metadata' => $this->metadata,
         ) + $this->data;

@@ -11,7 +11,7 @@ use EL\ELCoreBundle\Entity\Slot;
  * @ORM\Table(name="el_core_party")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PartyRepository")
  */
-class Party
+class Party implements \JsonSerializable
 {
     
     const PREPARATION   = 1;
@@ -302,5 +302,14 @@ class Party
     public function getRoom()
     {
         return $this->room;
+    }
+    
+    
+    public function jsonSerialize() {
+        return array(
+            'host'      => $this->getHost(),
+            'title'     => $this->getTitle(),
+            'state'     => $this->getState(),
+        );
     }
 }

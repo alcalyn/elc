@@ -55,9 +55,16 @@ class SlotController extends Controller
                 );
                 break;
             
+            case PartyService::STARTED_PARTY:
+                $session->getFlashBag()->add(
+                        'danger',
+                        'This party has already started, and is not in room mode'
+                );
+                break;
+            
             default:
                 $session->getFlashBag()->add(
-                        'error',
+                        'danger',
                         'You cannot join the party, unknown error : #'.$result
                 );
                 break;
@@ -72,13 +79,31 @@ class SlotController extends Controller
     }
     
     
-    public function testAction()
+    public function refreshAction($params)
     {
-        $reaction = $this->get('phax')->reaction();
+        $session_service    = $this->get('el_core.session');
+        $party_service      = $this->get('el_core.party');
+        $player             = $session_service->getPlayer();
+        $session            = $this->get('session');
         
-        $reaction->test = 'ju';
+        $slug_party = $params['slug_party'];
+        $_locale    = $params['phax_metadata']['_locale'];
         
-        return $reaction;
+        $party = $party_service
+                ->setPartyBySlug($slug_party, $_locale)
+                ->getParty()
+        ;
+        
+        $slots = array();
+        
+        foreach ($party->getSlots() as $slot) {
+            $slots []= $slot;
+        }
+        
+        return $this->get('phax')->reaction(array(
+            'party'     => $party,
+            'slots'     => $slots,
+        ));
     }
     
 }

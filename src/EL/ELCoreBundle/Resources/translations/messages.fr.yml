@@ -13,6 +13,12 @@ about: 'a propos'
 allow:
     observers: 'Autoriser les observateurs'
 
+ban: Exclure
+close: Fermer
+
+closed:
+    slot: 'Slot fermé'
+
 community: Communauté
 contact: Contact
 contacts: Contacts
@@ -26,6 +32,11 @@ create:
     game: 'Créer une partie'
     game.%gametitle%: 'Créer une partie : %gametitle%'
 
+delete:
+    slot: 'Supprimer le slot'
+
+draws: Nulles
+elo: Élo
 faq: FAQ
 
 filter:
@@ -41,6 +52,10 @@ games: Jeux
 go: Go
 home: Accueil
 
+invite:
+    cpu: 'Inviter un ordinateur'
+    player: 'Inviter un joueur'
+
 join:
     party:
         amongthislist: 'Rejoindre une partie de cette liste'
@@ -49,6 +64,7 @@ let:
     cpufindgametoplay: 'Laisser l''ordinateur me trouver une partie de mon niveau'
 
 login: 'Se connecter'
+losses: Pertes
 
 my:
     account: 'Mon compte'
@@ -56,9 +72,13 @@ my:
     page: 'Ma page'
 
 name: Nom
+open: Ouvrir
+open.slot: 'Slot libre'
 
 opponents:
     note: 'Note des adversaires'
+
+parties: Parties
 
 party:
     title: 'Titre de la partie'
@@ -69,9 +89,9 @@ password.repeat.isnotthesmae: 'Le mot de passe et la répétition doivent être 
 play:
     now: 'Jouer maintenant'
 
-player:
-    1: player.1
-    2: player.2
+player: Joueur
+player.1: player.1
+player.2: player.2
 
 private:
     only:
@@ -84,12 +104,15 @@ ranking: Classement
 rememberme:
     onthiscomputer: 'Se souvenir de moi sur cet ordinateur'
 
+rules: Règles
 search: Rechercher
 signup: 'Créer un compte'
 
 unableto:
     create:
         account: 'Impossible de créer un compte. Erreur inconnue'
+
+wins: Victoires
 
 you:
     are:

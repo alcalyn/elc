@@ -6,6 +6,14 @@ elcore_games_controller:
     resource: "@ELCoreBundle/Controller/GamesController.php"
     type:     annotation
 
+elcore_party_controller:
+    resource: "@ELCoreBundle/Controller/PartyController.php"
+    type:     annotation
+
+elcore_slot_controller:
+    resource: "@ELCoreBundle/Controller/SlotController.php"
+    type:     annotation
+
 elcore_user_controller:
     resource: "@ELCoreBundle/Controller/UserController.php"
     type:     annotation

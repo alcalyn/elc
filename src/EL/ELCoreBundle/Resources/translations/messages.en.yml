@@ -13,6 +13,12 @@ about: About
 allow:
     observers: 'Allow observers'
 
+ban: Ban
+close: Close
+
+closed:
+    slot: 'Closed slot'
+
 community: Community
 contact: Contact
 contacts: Contacts
@@ -26,6 +32,11 @@ create:
     game: 'Create a game'
     game.%gametitle%: 'Create a %gametitle% game'
 
+delete:
+    slot: 'Delete slot'
+
+draws: Draws
+elo: Elo
 faq: FAQ
 
 filter:
@@ -41,6 +52,10 @@ games: Games
 go: Go
 home: Home
 
+invite:
+    cpu: 'Invite computer'
+    player: 'Invite player'
+
 join:
     party:
         amongthislist: 'Join a game among this list'
@@ -49,6 +64,7 @@ let:
     cpufindgametoplay: 'Let computer to find me a suitable game to play'
 
 login: 'Log in'
+losses: Losses
 
 my:
     account: 'My account'
@@ -56,9 +72,13 @@ my:
     page: 'My page'
 
 name: Name
+open: Open
+open.slot: 'Open slot'
 
 opponents:
     note: 'Opponents note'
+
+parties: Games
 
 party:
     title: 'Party Title'
@@ -69,9 +89,9 @@ password.repeat.isnotthesmae: 'Password and repeat are not the same'
 play:
     now: 'Play now'
 
-player:
-    1: player.1
-    2: player.2
+player: Player
+player.1: player.1
+player.2: player.2
 
 private:
     only:
@@ -84,12 +104,15 @@ ranking: Ranking
 rememberme:
     onthiscomputer: 'Remember me on this computer'
 
+rules: Rules
 search: Search
 signup: 'Sign up'
 
 unableto:
     create:
         account: 'Unable to create account'
+
+wins: Wins
 
 you:
     are:

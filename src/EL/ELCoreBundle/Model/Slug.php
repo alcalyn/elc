@@ -1,13 +1,11 @@
 <?php
 
-namespace EL\ELCoreBundle\Services;
+namespace EL\ELCoreBundle\Model;
 
 
-class SlugService
+class Slug
 {
-    
-    
-    public function slug($s, $prefix = '', $sufix = '')
+    public static function slug($s, $prefix = '', $sufix = '')
     {
         $r = $s;
         
@@ -19,7 +17,4 @@ class SlugService
         
         return $prefix.$r.$sufix;
     }
-    
-    
-    
 }

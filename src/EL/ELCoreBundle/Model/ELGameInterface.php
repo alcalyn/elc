@@ -2,6 +2,7 @@
 
 namespace EL\ELCoreBundle\Model;
 
+use EL\ELCoreBundle\Entity\Party as CoreParty;
 
 
 interface ELGameInterface
@@ -20,5 +21,24 @@ interface ELGameInterface
      * Can have default values
      */
     public function getOptions();
+    
+    /**
+     * Called then optionsType form has been posted.
+     * Use this callback to save party options in database
+     * and return true, if options are valid
+     * 
+     * Return false to refuse options
+     * 
+     * @return boolean
+     */
+    public function saveOptions(CoreParty $core_party, $options, $em);
+    
+    /**
+     * Return a default slots configuration
+     * and some parameters
+     * 
+     * @return array
+     */
+    public function getSlotsConfiguration($options);
     
 }

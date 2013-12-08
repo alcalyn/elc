@@ -22,6 +22,8 @@ class Game extends AbstractLangEntity
     private $id;
     
     /**
+     * @var EL\ELCoreBundle\Category
+     * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Category", inversedBy="games")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -56,11 +58,34 @@ class Game extends AbstractLangEntity
 
     /**
      * @var boolean
+     * 
+     * Mode room : players can join
+     * even if party is already started and running
+     * (e.g Poker...)
+     *
+     * @ORM\Column(name="room", type="boolean")
+     */
+    private $room;
+    
+    /**
+     * @var boolean
      *
      * @ORM\Column(name="visible", type="boolean")
      */
     private $visible;
-
+    
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->langs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this
+                ->setRoom(false)
+                ->setVisible(true);
+    }
+    
 
     /**
      * Get id
@@ -203,15 +228,6 @@ class Game extends AbstractLangEntity
         }
     }
     
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->langs = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
     /**
      * Add langs
      *
@@ -243,5 +259,28 @@ class Game extends AbstractLangEntity
     public function getLangs()
     {
         return $this->langs;
+    }
+
+    /**
+     * Set room
+     *
+     * @param boolean $room
+     * @return Game
+     */
+    public function setRoom($room)
+    {
+        $this->room = $room;
+    
+        return $this;
+    }
+
+    /**
+     * Get room
+     *
+     * @return boolean 
+     */
+    public function getRoom()
+    {
+        return $this->room;
     }
 }

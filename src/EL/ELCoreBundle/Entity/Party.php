@@ -3,6 +3,7 @@
 namespace EL\ELCoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EL\ELCoreBundle\Entity\Slot;
 
 /**
  * Party
@@ -42,6 +43,12 @@ class Party
      * @ORM\JoinColumn(nullable=true)
      */
     private $host;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="EL\ELCoreBundle\Entity\Slot", mappedBy="party")
+     */
+    private $slots;
 
     /**
      * @var string
@@ -71,12 +78,25 @@ class Party
      */
     private $state;
     
+    /**
+     * @var boolean
+     * 
+     * If the game is room mode,
+     * set this parameter to false
+     * to disable room mode on this party
+     *
+     * @ORM\Column(name="room", type="boolean")
+     */
+    private $room;
+    
+    
     
     public function __construct()
     {
         $this
                 ->setOpen(true)
-                ->setState(self::PREPARATION);
+                ->setState(self::PREPARATION)
+                ->setRoom(true);
     }
     
 
@@ -226,5 +246,61 @@ class Party
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add slots
+     *
+     * @param \EL\ELCoreBundle\Entity\Slot $slots
+     * @return Party
+     */
+    public function addSlot(Slot $slots)
+    {
+        $this->slots[] = $slots;
+    
+        return $this;
+    }
+
+    /**
+     * Remove slots
+     *
+     * @param \EL\ELCoreBundle\Entity\Slot $slots
+     */
+    public function removeSlot(Slot $slots)
+    {
+        $this->slots->removeElement($slots);
+    }
+
+    /**
+     * Get slots
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSlots()
+    {
+        return $this->slots;
+    }
+
+    /**
+     * Set room
+     *
+     * @param boolean $room
+     * @return Party
+     */
+    public function setRoom($room)
+    {
+        $this->room = $room;
+    
+        return $this;
+    }
+
+    /**
+     * Get room
+     *
+     * @return boolean 
+     */
+    public function getRoom()
+    {
+        return $this->room;
     }
 }

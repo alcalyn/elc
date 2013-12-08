@@ -1,8 +1,7 @@
-{% extends "ELCoreBundle::layout.html.twig" %}
-
-{% block title %}{{ parent() }} - {{ game.title }}{% endblock %}
+{% extends "ELCoreBundle:Games:games.layout.html.twig" %}
 
 {% block body %}
+{{ parent() }}
 <div class="row-game row">
 	<div class="col-md-4">
 		<img src="http://www.centresocial-lorette.fr/wp-content/uploads/2010/09/17954-Tatice-EchecsJeux.png" alt="echecs" />
@@ -34,7 +33,7 @@
 	</div>
 	<div class="col-md-4">
 		<p>{{ 'create.customized.game'|trans }}</p>
-		<p><a href="{{ path('elcore_game_creation', {'slug': game.slug}) }}" class="btn btn-primary btn-lg">{{ 'create.game'|trans }}</a></p>
+		<p><a href="{{ path('elcore_party_creation', {'slug': game.slug}) }}" class="btn btn-primary btn-lg">{{ 'create.game'|trans }}</a></p>
 	</div>
 </div>
 <div class="row-rank row">
@@ -43,7 +42,13 @@
 			<div class="panel-heading"><h3>{{ 'ranking'|trans }}</h3></div>
 			<table class="ranking table table-striped">
 				<thead><tr>
-					<th>#</th><th>Joueur</th><th>Nb de partie</th><th>Victoires</th><th>Défaites</th><th>Nulles</th><th>Elo</th>
+					<th>#</th>
+                    <th>{{ 'player'|trans }}</th>
+                    <th>{{ 'parties'|trans }}</th>
+                    <th>{{ 'wins'|trans }}</th>
+                    <th>{{ 'losses'|trans }}</th>
+                    <th>{{ 'draws'|trans }}</th>
+                    <th>{{ 'elo'|trans }}</th>
 				</tr></thead>
 				<tbody>
 					<tr class="rank-gold"><td>1</td><td><a href="#">rogerDuGhetto</a></td><td>125</td><td>120</td><td>4</td><td>1</td><td>2139</td></tr>

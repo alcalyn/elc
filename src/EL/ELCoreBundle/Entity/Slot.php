@@ -28,7 +28,7 @@ class Slot
     private $player;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party", inversedBy="slots")
      * @ORM\JoinColumn(nullable=false)
      */
     private $party;
@@ -178,5 +178,17 @@ class Slot
     public function getParty()
     {
         return $this->party;
+    }
+    
+    /**
+     * True if a player can join using this slot
+     * 
+     * @return boolean
+     */
+    public function isFree()
+    {
+        return
+                $this->getOpen() &&
+                is_null($this->getPlayer());
     }
 }

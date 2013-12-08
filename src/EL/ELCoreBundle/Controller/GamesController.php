@@ -5,11 +5,11 @@ namespace EL\ELCoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use EL\ELCoreBundle\Form\Entity\PartyOptions;
-use EL\ElCoreBundle\Form\Type\PartyOptionsType;
 
 class GamesController extends Controller
 {
+    
+    
     /**
      * @Route(
      *      "/games",
@@ -38,11 +38,11 @@ class GamesController extends Controller
      */
     public function homeAction($_locale, $slug)
     {
-        $em = $this->getDoctrine()->getManager();
+        $game_service= $this->get('el_core.game');
         
-        $game = $em
-                ->getRepository('ELCoreBundle:Game')
-                ->findByLang($_locale, $slug);
+        $game = $game_service
+                ->setGameBySlug($slug, $_locale)
+                ->getGame();
         
         return $this->render('ELCoreBundle:Games:home.html.twig', array(
             'game' => $game,
@@ -50,79 +50,43 @@ class GamesController extends Controller
     }
     
     
-    
     /**
      * @Route(
-     *      "/games/{slug}/creation",
-     *      name = "elcore_game_creation"
+     *      "/games/{slug}/ranking",
+     *      name = "elcore_game_ranking"
      * )
      */
-    public function createAction($_locale, $slug)
+    public function rankingAction($_locale, $slug)
     {
-        $em = $this->getDoctrine()->getManager();
+        $game_service= $this->get('el_core.game');
         
-        $game = $em
-                ->getRepository('ELCoreBundle:Game')
-                ->findByLang($_locale, $slug);
+        $game = $game_service
+                ->setGameBySlug($slug, $_locale)
+                ->getGame();
         
-        
-        $party_service = $this
-                ->get('el_core.party')
-                ->setGame($game);
-        
-        $core_game_service = $this
-                ->get('el_core.game')
-                ->setGame($game);
-        
-        $game_service = $this
-                ->get($core_game_service->getGameServiceName());
-        
-        $party_options = new PartyOptions();
-        $party_options
-                ->setTitle($party_service->generateRandomTitle())
-                ->setSpecialPartyOptions($game_service->getOptions());
-        
-        $party_options_form = $this->createForm(new PartyOptionsType($game_service->getOptionsType()), $party_options);
-        
-        $party_options_form->handleRequest($this->getRequest());
-        
-        if ($party_options_form->isValid()) {
-            $party = $party_service->createParty($party_options->getTitle(), !$party_options->getPrivate());
-            
-            return $this->redirect($this->generateUrl('elcore_game_preparation', array(
-                '_locale'       => $_locale,
-                'slug_game'     => $slug,
-                'slug_party'    => $party->getSlug(),
-            )));
-        }
-        
-        return $this->render('ELCoreBundle:Games:creation.html.twig', array(
-            'game'             => $game,
-            'party_options'    => $party_options_form->createView(),
+        return $this->render('ELCoreBundle:Games:ranking.html.twig', array(
+            'game' => $game,
         ));
     }
     
     
-    
     /**
      * @Route(
-     *      "/games/{slug_game}/{slug_party}/preparation",
-     *      name = "elcore_game_preparation"
+     *      "/games/{slug}/rules",
+     *      name = "elcore_game_rules"
      * )
      */
-    public function prepareAction($_locale, $slug_game, $slug_party)
+    public function rulesAction($_locale, $slug)
     {
-        $em = $this->getDoctrine()->getManager();
+        $game_service= $this->get('el_core.game');
         
-        $party = $em
-                ->getRepository('ELCoreBundle:Party')
-                ->findByLang($_locale, $slug_party);
+        $game = $game_service
+                ->setGameBySlug($slug, $_locale)
+                ->getGame();
         
-        return $this->render('ELCoreBundle:Games:preparation.html.twig', array(
-            'party'     => $party,
-            'game'      => $party->getGame(),
+        return $this->render('ELCoreBundle:Games:rank.html.twig', array(
+            'game' => $game,
         ));
     }
-    
 
 }

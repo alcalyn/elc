@@ -43,7 +43,7 @@ elcore_user_signup: /player/signup
 # Desc: /login_check
 login_check: /login_check
 
-# Desc: /player/logout
+# Desc: /logout/
 logout: /player/logout
 
 # Desc: /phax

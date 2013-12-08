@@ -43,7 +43,7 @@ elcore_user_signup: /joueur/creer-un-compte
 # Desc: /login_check
 login_check: /login_check
 
-# Desc: /player/logout
+# Desc: /logout/
 logout: /joueur/deconnexion
 
 # Desc: /phax

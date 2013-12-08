@@ -65,6 +65,11 @@ class UserController extends Controller
     public function signupAction()
     {
         if ($this->get('security.context')->isGranted('ROLE_PLAYER')) {
+            $flashbag = $this->get('session')->getFlashBag();
+            $flashbag->add(
+                    'danger',
+                    'You are already logged. Logout first to signup'
+            );
             return $this->redirect($this->generateUrl('elcore_home'));
         }
         

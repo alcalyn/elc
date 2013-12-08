@@ -20,7 +20,7 @@ class SlotController extends Controller
         $session_service    = $this->get('el_core.session');
         $party_service      = $this->get('el_core.party');
         $player             = $session_service->getPlayer();
-        $session            = $this->get('session');
+        $flashbag           = $this->get('session')->getFlashBag();
         
         $party_service->setPartyBySlug($slug_party, $_locale);
         
@@ -28,42 +28,42 @@ class SlotController extends Controller
         
         switch ($result) {
             case PartyService::OK:
-                $session->getFlashBag()->add(
+                $flashbag->add(
                         'info',
                         'You have joined the party'
                 );
                 break;
             
             case PartyService::ENDED_PARTY:
-                $session->getFlashBag()->add(
+                $flashbag->add(
                         'danger',
                         'Error, this party has ended'
                 );
                 break;
             
             case PartyService::NO_FREE_SLOT:
-                $session->getFlashBag()->add(
+                $flashbag->add(
                         'danger',
                         'You cannot join the party, there is no free slot'
                 );
                 break;
             
             case PartyService::ALREADY_JOIN:
-                $session->getFlashBag()->add(
+                $flashbag->add(
                         'warning',
                         'You have already join this party'
                 );
                 break;
             
             case PartyService::STARTED_PARTY:
-                $session->getFlashBag()->add(
+                $flashbag->add(
                         'danger',
                         'This party has already started, and is not in room mode'
                 );
                 break;
             
             default:
-                $session->getFlashBag()->add(
+                $flashbag->add(
                         'danger',
                         'You cannot join the party, unknown error : #'.$result
                 );

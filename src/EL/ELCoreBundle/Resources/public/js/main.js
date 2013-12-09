@@ -5,6 +5,13 @@ $(function() {
     }
     
     phaxConfig = jQuery('#phax-config').data();
+    
+    var $load_controllers = jQuery('#phax-load-controllers');
+    if ($load_controllers.size() > 0) {
+        jQuery.each($load_controllers.data(), function(index, controller) {
+            phax.load_controller(controller);
+        });
+    }
 });
 
 var js_context = {};
@@ -26,28 +33,45 @@ var slot = {
     refreshAction: function(r)
     {
         for(var i=0;i<r.slots.length;i++) {
-            slot.updateSlot(i, r.slots[i], r.slots[i].player, r.party.host);
+            slot.update(
+                    i,
+                    r.slots[i],
+                    r.slots[i].player,
+                    r.party.host.id === r.slots[i].player.id
+            );
         }
     },
     
-    updateSlot: function(index, slot, player, host)
+    update: function(index, _slot, player, is_host)
     {
         var $slot = $('.slots .slot').eq(index);
         
+        $slot.removeClass('joueur host slot-open slot-closed ordi');
+        
         if (player) {
-            $slot.removeClass('slot-closed slot-open');
-            $slot.addClass('joueur');
-            if (player.id === host.id) {
-                $slot.addClass('host');
+            var badge = '';
+            if (player.badge) {
+                badge = ' <span class="badge">'+player.badge+'</span>';
             }
-            $slot.find('.player-pseudo').html(player.pseudo+' <span class="badge">X élo</span>');
+            $slot.find('.player-pseudo').html(player.pseudo+badge);
+            if (player.bot) {
+                $slot.addClass('ordi');
+            } else {
+                $slot.addClass('joueur');
+                
+                if (is_host) {
+                    $slot.addClass('host');
+                }
+            }
         } else {
-            $slot.removeClass('joueur host');
-            $slot.addClass('slot-'+(slot.open ? 'open' : 'closed'));
-            $slot.find('.player-pseudo').html(slot.open ? 'Slot open' : 'Slot closed');
+            var is_open = _slot && _slot.open;
+            $slot.addClass('slot-'+(is_open ? 'open' : 'closed'));
+            $slot.find('.player-pseudo').html(is_open ? 'Slot open' : 'Slot closed');
         }
         
     }
+    
+    
     
 };
 

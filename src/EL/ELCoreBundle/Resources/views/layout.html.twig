@@ -290,10 +290,19 @@
         <div id="phax-config"
              data-www_script="{{ path('phax_script') }}"
         ></div>
+        
         {% if js_context is defined %}
         <div id="js-context"
              {% for key, value in js_context %}
                 data-{{ key }}="{{ value }}"
+             {% endfor %}
+        ></div>
+        {% endif %}
+        
+        {% if phax_load_controllers is defined %}
+        <div id="phax-load-controllers"
+             {% for key, controller in phax_load_controllers %}
+                data-{{ key }}="{{ controller }}"
              {% endfor %}
         ></div>
         {% endif %}

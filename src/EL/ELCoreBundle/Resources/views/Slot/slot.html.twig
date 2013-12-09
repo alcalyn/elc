@@ -1,54 +1,28 @@
 {% if slot.open %}
-    {% if slot.player is null %}
-        <div class="btn-group slot slot-open">
-            <button type="button" class="btn btn-default player-pseudo">{{ 'open.slot'|trans }}</button>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
+    {% if slot.player is not null %}
+        <div class="
+             btn-group
+             slot
+             {% if slot.player.bot %}ordi{% else %}joueur{% endif %}
+             {% if slot.player.id == party.host.id %}host{% endif %}
+        ">
+            <button type="button" class="btn btn-default player-pseudo">
+                {{ slot.player.pseudo }}
+                {% if slot.player.badge is defined %}
+                    <span class="badge">{{ slot.player.badge }}</span>
+                {% endif %}
             </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">{{ 'open'|trans }}</a></li>
-                <li><a href="#">{{ 'close'|trans }}</a></li>
-                <li><a href="#">{{ 'delete.slot'|trans }}</a></li>
-                <li class="divider"></li>
-                <li><a href="#">{{ 'ban'|trans }}</a></li>
-                <li class="divider"></li>
-                <li><a href="#">{{ 'invite.player'|trans }}</a></li>
-                <li><a href="#">{{ 'invite.cpu'|trans }}</a></li>
-            </ul>
+            {% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
         </div>
     {% else %}
-        <div class="btn-group slot joueur {% if slot.player.id == party.host.id %}host{% endif %}">
-            <button type="button" class="btn btn-default player-pseudo">{{ slot.player.pseudo }} <span class="badge">X élo</span></button>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">{{ 'open'|trans }}</a></li>
-                <li><a href="#">{{ 'close'|trans }}</a></li>
-                <li><a href="#">{{ 'delete.slot'|trans }}</a></li>
-                <li class="divider"></li>
-                <li><a href="#">{{ 'ban'|trans }}</a></li>
-                <li class="divider"></li>
-                <li><a href="#">{{ 'invite.player'|trans }}</a></li>
-                <li><a href="#">{{ 'invite.cpu'|trans }}</a></li>
-            </ul>
+        <div class="btn-group slot slot-open">
+            <button type="button" class="btn btn-default player-pseudo">{{ 'open.slot'|trans }}</button>
+            {% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
         </div>
     {% endif %}
 {% else %}
     <div class="btn-group slot slot-closed">
         <button type="button" class="btn btn-default player-pseudo">{{ 'closed.slot'|trans }}</button>
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="#">{{ 'open'|trans }}</a></li>
-            <li><a href="#">{{ 'close'|trans }}</a></li>
-            <li><a href="#">{{ 'delete.slot'|trans }}</a></li>
-            <li class="divider"></li>
-            <li><a href="#">{{ 'ban'|trans }}</a></li>
-            <li class="divider"></li>
-            <li><a href="#">{{ 'invite.player'|trans }}</a></li>
-            <li><a href="#">{{ 'invite.cpu'|trans }}</a></li>
-        </ul>
+        {% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
     </div>
 {% endif %}

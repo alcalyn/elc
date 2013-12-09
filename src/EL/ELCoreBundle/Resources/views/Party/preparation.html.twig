@@ -34,15 +34,27 @@
 </div>
 <hr />
 <div class="row">
-	<div class="col-md-4">
-		<button type="button" class="btn btn-warning">Annuler</button>
-	</div>
-	<div class="col-md-4">
-		<button type="button" class="btn btn-primary">Lancer la partie</button>
-	</div>
-	<div class="col-md-4">
-		<button type="button" class="btn btn-success">Prêt</button>
-	</div>
+    {% if in_party %}
+        <div class="col-md-4">
+            <button type="button" class="btn btn-warning">{{ 'cancel'|trans }}</button>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-primary">{{ 'run.party'|trans }}</button>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-success">{{ 'ready'|trans }}</button>
+        </div>
+    {% else %}
+        {% if can_join %}
+            <div class="col-md-4 col-md-offset-4">
+                <button type="button" class="btn btn-success">{{ 'join.party'|trans }}</button>
+            </div>
+        {% else %}
+            <div class="col-md-4 col-md-offset-4">
+                <p>{{ 'full.party'|trans }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
 </div>
 <hr />
 <div class="row">

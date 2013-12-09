@@ -104,6 +104,9 @@ class PartyController extends Controller
             'js_context'    => array(
                 'slug_party' => $slug_party,
             ),
+            'phax_load_controllers'    => array(
+                'slot',
+            ),
         ));
     }
     

@@ -37,7 +37,7 @@ var slot = {
                     i,
                     r.slots[i],
                     r.slots[i].player,
-                    r.party.host.id === r.slots[i].player.id
+                    r.party.host && r.slots[i].player && r.party.host.id === r.slots[i].player.id
             );
         }
     },
@@ -69,6 +69,24 @@ var slot = {
             $slot.find('.player-pseudo').html(is_open ? 'Slot open' : 'Slot closed');
         }
         
+        $slotmenus = $slot.find('ul.dropdown-menu');
+        
+        var menus = {
+            open:           !player && !_slot.open,
+            close:          !player && _slot.open,
+            remove:         !player,
+            ban:            player,
+            inviteplayer:   !player,
+            invitecpu:      !player,
+        };
+        
+        $.each(menus, function(key, value) {
+        	if (value) {
+        		$slotmenus.find('li.slotmenu-'+key).removeClass('disabled')
+        	} else {
+        		$slotmenus.find('li.slotmenu-'+key).addClass('disabled');
+        	}
+        });
     }
     
     

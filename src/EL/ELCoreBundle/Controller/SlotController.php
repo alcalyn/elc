@@ -97,11 +97,11 @@ class SlotController extends Controller
         $slots = array();
         
         foreach ($party->getSlots() as $slot) {
-            $slots []= $slot;
+            $slots []= $slot->jsonSerialize();
         }
         
         return $this->get('phax')->reaction(array(
-            'party'     => $party,
+            'party'     => $party->jsonSerialize(),
             'slots'     => $slots,
         ));
     }

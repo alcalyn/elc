@@ -9,7 +9,7 @@ use EL\PhaxBundle\Model\PhaxException;
  * PhaxReaction, returned by phax controllers.
  * Contains parameters, errors and other metadata of reaction.
  */
-class PhaxReaction implements \JsonSerializable
+class PhaxReaction
 {
     
     /**

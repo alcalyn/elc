@@ -219,6 +219,22 @@ class PartyService extends GameService
     }
     
     
+    public function openSlot($index, $open = true)
+    {
+    	$this->needParty();
+    	
+    	$slot = $this
+    			->getParty()
+    			->getSlot($index)
+    	;
+    	
+    	if ($slot->getOpen() !== $open) {
+    		$slot->setOpen($open);
+    		$this->illflushitlater->flush();
+    	}
+    }
+    
+    
     public function generateRandomTitle()
     {
         $this->needGame();

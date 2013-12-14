@@ -25,6 +25,24 @@ var slot = {
     init: function()
     {
         console.log('init slot controller');
+
+        $.each($('.slots ul.dropdown-menu'), function(index, ul) {
+    		$(ul).find('li.slotmenu-open a').click(function() {
+    			if ($(this).parent('li').hasClass('disabled')) {
+    				return false;
+    			}
+    			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: true}));
+    			return false;
+    		});
+    		$(ul).find('li.slotmenu-close a').click(function() {
+    			if ($(this).parent('li').hasClass('disabled')) {
+    				return false;
+    			}
+    			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: false}));
+    			return false;
+    		});
+        });
+        
         setInterval(function() {
             phax.action('slot', 'refresh', js_context);
         }, 2000);
@@ -87,6 +105,13 @@ var slot = {
         		$slotmenus.find('li.slotmenu-'+key).addClass('disabled');
         	}
         });
+    },
+    
+    
+    openAction: function(r)
+    {
+    	console.log('open reaction : ', r);
+    	slot.refreshAction(r);
     }
     
     

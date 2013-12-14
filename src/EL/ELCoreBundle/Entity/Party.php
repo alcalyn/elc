@@ -280,6 +280,17 @@ class Party
     {
         return $this->slots;
     }
+    
+    /**
+     * Get slot at index $index
+     * 
+     * @param integer $index
+     * @return \EL\ELCoreBundle\Entity\Slot
+     */
+    public function getSlot($index)
+    {
+        return $this->slots[$index];
+    }
 
     /**
      * Set room

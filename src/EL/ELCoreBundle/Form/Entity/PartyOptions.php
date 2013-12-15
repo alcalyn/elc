@@ -19,18 +19,26 @@ class PartyOptions {
 	private $title;
 	
 	/**
-	 * Allow others players to access this party
-	 * 
-	 * @var boolean
-	 */
-	private $allow_observers;
-	
-	/**
 	 * Private party, you cant join unless invitation
 	 * 
 	 * @var boolean
 	 */
 	private $private;
+	
+	/**
+	 * Disallow others players to observe this party when playing
+	 * 
+	 * @var boolean
+	 */
+	private $disallow_observers;
+	
+	/**
+	 * Disable chat for this party
+	 * 
+	 * @var boolean
+	 */
+	private $disallow_chat;
+	
     
     
     /**
@@ -44,8 +52,11 @@ class PartyOptions {
     
     public function __construct()
     {
-        $this->allow_observers = true;
-        $this->private = false;
+        $this
+        		->setPrivate(false)
+        		->setDisallowObservers(false)
+        		->setDisallowChat(false)
+        ;
     }
     
     public function getTitle()
@@ -53,26 +64,15 @@ class PartyOptions {
         return $this->title;
     }
 
-    public function getAllowObservers()
-    {
-        return $this->allow_observers;
-    }
-
-    public function getPrivate()
-    {
-        return $this->private;
-    }
-
     public function setTitle($title)
     {
         $this->title = $title;
         return $this;
     }
-
-    public function setAllowObservers($allow_observers)
+    
+    public function getPrivate()
     {
-        $this->allow_observers = $allow_observers;
-        return $this;
+        return $this->private;
     }
 
     public function setPrivate($private)
@@ -80,7 +80,28 @@ class PartyOptions {
         $this->private = $private;
         return $this;
     }
+    
+    public function getDisallowObservers()
+    {
+    	return $this->disallow_observers;
+    }
 
+    public function setDisallowObservers($disallow_observers)
+    {
+        $this->disallow_observers = $disallow_observers;
+        return $this;
+    }
+
+	public function getDisallowChat()
+	{
+		return $this->disallow_chat;
+	}
+	
+	public function setDisallowChat($disallow_chat)
+	{
+		$this->disallow_chat = $disallow_chat;
+		return $this;
+	}
 
     public function getSpecialPartyOptions()
     {

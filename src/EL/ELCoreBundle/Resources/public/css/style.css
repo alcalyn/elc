@@ -323,11 +323,26 @@ footer > * {
 .slots .slot {
 	margin-bottom: 12px;
 }
-.slots .slot button:not(.dropdown-toggle) {
+.slots .slot button.player-pseudo {
 	width: 300px;
 	cursor: move;
 	text-align: left;
 	font-size: 14px;
+}
+.slots .slot button.col-1  { width: 28px;  }
+.slots .slot button.col-2  { width: 56px;  }
+.slots .slot button.col-3  { width: 84px;  }
+.slots .slot button.col-4  { width: 112px; }
+.slots .slot button.col-5  { width: 140px; }
+.slots .slot button.col-6  { width: 168px; }
+.slots .slot button.col-7  { width: 196px; }
+.slots .slot button.col-8  { width: 224px; }
+.slots .slot button.col-9  { width: 252px; }
+.slots .slot button.col-10 { width: 290px; }
+.slots .slot button.col-11 { width: 312px; }
+.slots .slot button.col-12 { width: 340px; }
+.slots .slot button.slot-join {
+	width: 100px;
 }
 .slots .slot button {
 	height: 32px;
@@ -337,6 +352,9 @@ footer > * {
 .slots .slot.joueur button {
 	background-color: #D0E0F2;
 	border-color: #96C1F2;
+}
+.slots .slot.me button {
+	font-weight: bold;
 }
 .slots .slot.host button {
 	background-color: #96C1F2;

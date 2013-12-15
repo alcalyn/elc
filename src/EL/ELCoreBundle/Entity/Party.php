@@ -89,6 +89,24 @@ class Party
      */
     private $room;
     
+    /**
+     * @var boolean
+     * 
+     * If the chat is enabled for this party
+     * 
+     * @ORM\Column(name="allow_chat", type="boolean")
+     */
+    private $allow_chat;
+    
+    /**
+     * @var boolean
+     * 
+     * If this party allows observers
+     * 
+     * @ORM\Column(name="allow_observers", type="boolean")
+     */
+    private $allow_observers;
+    
     
     
     public function __construct()
@@ -96,7 +114,10 @@ class Party
         $this
                 ->setOpen(true)
                 ->setState(self::PREPARATION)
-                ->setRoom(true);
+                ->setRoom(true)
+                ->setAllowChat(true)
+                ->setAllowObservers(true)
+        ;
     }
     
 
@@ -322,5 +343,52 @@ class Party
             'title'     => $this->getTitle(),
             'state'     => $this->getState(),
         );
+    }
+
+
+    /**
+     * Set allow_chat
+     *
+     * @param boolean $allowChat
+     * @return Party
+     */
+    public function setAllowChat($allowChat)
+    {
+        $this->allow_chat = $allowChat;
+    
+        return $this;
+    }
+
+    /**
+     * Get allow_chat
+     *
+     * @return boolean 
+     */
+    public function getAllowChat()
+    {
+        return $this->allow_chat;
+    }
+
+    /**
+     * Set allow_observers
+     *
+     * @param boolean $allowObservers
+     * @return Party
+     */
+    public function setAllowObservers($allowObservers)
+    {
+        $this->allow_observers = $allowObservers;
+    
+        return $this;
+    }
+
+    /**
+     * Get allow_observers
+     *
+     * @return boolean 
+     */
+    public function getAllowObservers()
+    {
+        return $this->allow_observers;
     }
 }

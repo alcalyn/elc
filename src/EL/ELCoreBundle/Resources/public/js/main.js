@@ -26,22 +26,7 @@ var slot = {
     {
         console.log('init slot controller');
 
-        $.each($('.slots ul.dropdown-menu'), function(index, ul) {
-    		$(ul).find('li.slotmenu-open a').click(function() {
-    			if ($(this).parent('li').hasClass('disabled')) {
-    				return false;
-    			}
-    			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: true}));
-    			return false;
-    		});
-    		$(ul).find('li.slotmenu-close a').click(function() {
-    			if ($(this).parent('li').hasClass('disabled')) {
-    				return false;
-    			}
-    			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: false}));
-    			return false;
-    		});
-        });
+        js_context.is_host && $.each($('.slots ul.dropdown-menu'), slot.bindSlotMenu);
         
         setInterval(function() {
             phax.action('slot', 'refresh', js_context);
@@ -108,9 +93,30 @@ var slot = {
     },
     
     
+    bindSlotMenu: function(index, ul)
+    {
+    	$(ul).find('li.slotmenu-open a').click(function() {
+			if ($(this).parent('li').hasClass('disabled')) {
+				return false;
+			}
+			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: true}));
+			slot.update(index, {open: true});
+			return false;
+		});
+    	
+		$(ul).find('li.slotmenu-close a').click(function() {
+			if ($(this).parent('li').hasClass('disabled')) {
+				return false;
+			}
+			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: false}));
+			slot.update(index, {open: false});
+			return false;
+		});
+    },
+    
+    
     openAction: function(r)
     {
-    	console.log('open reaction : ', r);
     	slot.refreshAction(r);
     }
     

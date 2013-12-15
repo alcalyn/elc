@@ -7,6 +7,7 @@ use EL\ELCoreBundle\Services\GameService;
 use EL\ELCoreBundle\Entity\Slot;
 use EL\ELCoreBundle\Model\Slug;
 use EL\ELCoreBundle\Entity\Player;
+use EL\ELCoreBundle\Form\Entity\PartyOptions;
 use EL\ELCoreBundle\Model\ELCoreException;
 
 
@@ -82,28 +83,37 @@ class PartyService extends GameService
     }
     
     /**
-     * @param string $title
-     * @param type boolean
-     * @return \EL\ELCoreBundle\Entity\Party
+     * @param PartyOptions $partyOption
+     * @return Party
      */
-    public function createParty($title, $open = true)
+    public function createParty($partyOption)
     {
         $party = new Party();
+        $slug = Slug::slug($partyOption->getTitle());
         $party
                 ->setGame($this->getGame())
                 ->setHost($this->session->getPlayer())
-                ->setTitle($title)
-                ->setSlug(Slug::slug($title))
-                ->setOpen($open)
-                ->setState(Party::PREPARATION);
+                ->setTitle($partyOption->getTitle())
+                ->setSlug($slug)
+                ->setOpen(!$partyOption->getPrivate())
+                ->setAllowChat(!$partyOption->getDisallowChat())
+                ->setAllowObservers(!$partyOption->getDisallowObservers())
+                ->setState(Party::PREPARATION)
+        ;
         
-        $this->em->persist($party);
-        $this->em->flush();
+        $count_slug = $this->em
+        		->getRepository('ELCoreBundle:Party')
+        		->countSlug($slug)
+        ;
         
-        $party
-                ->setSlug($party->getSlug().'-'.$party->getId());
+        if (intval($count_slug) > 0) {
+        	$this->em->persist($party);
+        	$this->em->flush();
+        	$party->setSlug($slug.'-'.$party->getId());
+        } else {
+	        $this->illflushitlater->persist($party);
+        }
         
-        $this->illflushitlater->persist($party);
         $this->illflushitlater->flush();
         
         return $party;
@@ -211,7 +221,7 @@ class PartyService extends GameService
      * @param \EL\ELCoreBundle\Entity\Player $player
      * @param \EL\ELCoreBundle\Entity\Slot $slot
      */
-    private function affectPlayerToSlot(Player $player, Slot $slot)
+    public function affectPlayerToSlot(Player $player, Slot $slot)
     {
         $slot->setPlayer($player);
         $this->em->persist($slot);

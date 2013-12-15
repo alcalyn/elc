@@ -10,6 +10,11 @@ use EL\ELCoreBundle\Services\PartyService;
 class SlotController extends Controller
 {
     /**
+     * This controller is important
+     * (not a duplicate of ajaxJoinAction())
+     * because it is used for its url
+     * (when sent to a friend or typed id browser)
+     * 
      * @Route(
      *      "/games/{slug_game}/{slug_party}/join",
      *      name = "elcore_party_join"
@@ -114,6 +119,33 @@ class SlotController extends Controller
 	        	->setPartyBySlug($slug_party, $_locale)
 	        	->openSlot($slot_index, $slot_open)
         ;
+        
+        return $this->refreshAction($params);
+    }
+    
+    
+    public function ajaxJoinAction($params)
+    {
+        $slug_party = $params['slug_party'];
+        $_locale    = $params['phax_metadata']['_locale'];
+        $slot_index	= $params['slot_index'];
+        
+        $party_service = $this
+	        	->get('el_core.party')
+	        	->setPartyBySlug($slug_party, $_locale)
+	    ;
+	    
+	    $party = $party_service
+	        	->getParty()
+        ;
+        
+        $slot = $party
+        		->getSlot($slot_index)
+        ;
+        
+        if ($slot->isFree()) {
+        	$party_service->affectPlayerToSlot($this->getUser(), $slot);
+        }
         
         return $this->refreshAction($params);
     }

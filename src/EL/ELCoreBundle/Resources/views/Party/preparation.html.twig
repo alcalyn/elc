@@ -25,9 +25,23 @@
 				<h4 class="panel-title">Options de la partie</h4>
 			</div>
 			<div class="panel-body">
-				<p>Chat activé</p>
-				<p>Observateurs autorisés</p>
-				<p>Partie publique</p>
+				<p>
+					{% if not party.allowChat %}
+						{{ 'chat.enabled'|trans }}
+					{% endif %}
+				</p>
+				<p>
+					{% if not party.allowObservers %}
+						{{ 'observers.allowed'|trans }}
+					{% endif %}
+				</p>
+				<p>
+					{% if party.open %}
+						{{ 'public.party'|trans }}
+					{% else %}
+						{{ 'private.party'|trans }}
+					{% endif %}
+				</p>
 			</div>
 		</div>
 	</div>
@@ -35,15 +49,21 @@
 <hr />
 <div class="row">
     {% if in_party %}
-        <div class="col-md-4">
-            <button type="button" class="btn btn-warning">{{ 'cancel'|trans }}</button>
-        </div>
-        <div class="col-md-4">
-            <button type="button" class="btn btn-primary">{{ 'run.party'|trans }}</button>
-        </div>
-        <div class="col-md-4">
-            <button type="button" class="btn btn-success">{{ 'ready'|trans }}</button>
-        </div>
+    	{% if is_host %}
+	        <div class="col-md-4">
+	            <button type="button" class="btn btn-warning">{{ 'cancel'|trans }}</button>
+	        </div>
+	        <div class="col-md-4">
+	            <button type="button" class="btn btn-primary">{{ 'run.party'|trans }}</button>
+	        </div>
+	    {% else %}
+	        <div class="col-md-4">
+	            <button type="button" class="btn btn-warning">{{ 'leave'|trans }}</button>
+	        </div>
+	        <div class="col-md-4">
+	            <button type="button" class="btn btn-success">{{ 'ready'|trans }}</button>
+	        </div>
+	    {% endif %}
     {% else %}
         {% if can_join %}
             <div class="col-md-4 col-md-offset-4">
@@ -51,7 +71,7 @@
             </div>
         {% else %}
             <div class="col-md-4 col-md-offset-4">
-                <p>{{ 'full.party'|trans }}</p>
+                <p>{{ 'cannot.join.party.full'|trans }}</p>
             </div>
         {% endif %}
     {% endif %}

@@ -1,36 +1,94 @@
-{% if slot.player is not null %}
-    <div class="
-         btn-group
-         slot
-         {% if slot.player.bot %}ordi{% else %}joueur{% endif %}
-         {% if slot.player.id == party.host.id %}host{% endif %}
-         {% if slot.player.id == player.id %}me{% endif %}
-    ">
-        <button type="button" class="btn btn-default player-pseudo {% if is_host %}col-11{% else %}col-12{% endif %}">
-           	{{ slot.player.pseudo }}
-           	
-            {% if slot.player.badge is defined %}
-                <span class="badge">{{ slot.player.badge }}</span>
-            {% endif %}
-        </button>
-        {% if is_host %}
-        	{% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
+{% if is_host %}
+    {% if slot.player is not null %}
+        {% if slot.player.id == player.id %}
+            {# host player me #}
+            <div class="btn-group slot joueur host">
+                <button type="button" class="btn btn-default player-pseudo btn-slot-12">
+                    {{ slot.player.pseudo }}
+                    
+                    {% if slot.player.badge is defined %}
+                        <span class="badge">{{ slot.player.badge }}</span>
+                    {% endif %}
+                </button>
+            </div>
+        {% else %}
+            {# host player not me #}
+            <div class="btn-group slot joueur">
+                <button type="button" class="btn btn-default player-pseudo btn-slot-11">
+                    {{ slot.player.pseudo }}
+                    
+                    {% if slot.player.badge is defined %}
+                        <span class="badge">{{ slot.player.badge }}</span>
+                    {% endif %}
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                {% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
+            </div>
         {% endif %}
-    </div>
+    {% else %}
+        {% if slot.open %}
+            {# host open #}
+            <div class="btn-group slot slot-open">
+                <button type="button" class="btn btn-default player-pseudo btn-slot-6">
+                    {{ 'open.slot'|trans }}
+                </button>
+                <button class="btn btn-default slot-join btn-slot-5" type="button">
+                    {{ 'join'|trans }}
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                {% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
+            </div>
+        {% else %}
+            {# host closed #}
+            <div class="btn-group slot slot-closed">
+                <button type="button" class="btn btn-default player-pseudo btn-slot-11">
+                    {{ 'closed.slot'|trans }}
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                {% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
+            </div>
+        {% endif %}
+    {% endif %}
 {% else %}
-    {% if slot.open %}
-        <div class="btn-group slot slot-open">
-            <button type="button" class="btn btn-default player-pseudo small">{{ 'open.slot'|trans }}</button>
-            {% if is_host %}
-            	{% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
-            {% endif %}
+    {% if slot.player is not null %}
+        {# player #}
+        <div class="btn-group slot joueur {% if slot.player.id == party.host.id %}host{% endif %}">
+            <button type="button" class="btn btn-default player-pseudo btn-slot-12">
+                {{ slot.player.pseudo }}
+
+                {% if slot.player.badge is defined %}
+                    <span class="badge">{{ slot.player.badge }}</span>
+                {% endif %}
+            </button>
         </div>
     {% else %}
-	    <div class="btn-group slot slot-closed">
-	        <button type="button" class="btn btn-default player-pseudo small">{{ 'closed.slot'|trans }}</button>
-	        {% if is_host %}
-            	{% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
-            {% endif %}
-	    </div>
+        {% if slot.open %}
+            {# open #}
+            <div class="btn-group slot slot-open">
+                <button type="button" class="btn btn-default player-pseudo btn-slot-7">
+                    {{ 'open.slot'|trans }}
+                </button>
+                <button class="btn btn-default slot-join btn-slot-5" type="button">
+                    {% if in_party %}
+                        {{ 'change.slot'|trans }}
+                    {% else %}
+                        {{ 'join'|trans }}
+                    {% endif %}
+                </button>
+            </div>
+        {% else %}
+            {# closed #}
+            <div class="btn-group slot slot-closed">
+                <button type="button" class="btn btn-default player-pseudo btn-slot-12">
+                    {{ 'closed.slot'|trans }}
+                </button>
+            </div>
+        {% endif %}
     {% endif %}
 {% endif %}

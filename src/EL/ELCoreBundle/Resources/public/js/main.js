@@ -26,7 +26,14 @@ var slot = {
     {
         console.log('init slot controller');
 
-        js_context.is_host && $.each($('.slots ul.dropdown-menu'), slot.bindSlotMenu);
+        if (js_context.is_host) {
+            $.each($('.slots .slot'), function(index, _slot) {
+                var ul = $(_slot).find('ul.dropdown-menu');
+                if ($(ul).size() > 0) {
+                    slot.bindSlotMenu(index, ul);
+                }
+            });
+        }
         
         setInterval(function() {
             phax.action('slot', 'refresh', js_context);

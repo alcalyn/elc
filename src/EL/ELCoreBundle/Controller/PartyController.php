@@ -106,6 +106,7 @@ class PartyController extends Controller
             'js_context'    => array(
                 'slug_party'	=> $slug_party,
         		'is_host'		=> $is_host,
+        		'player_id'		=> $player->getId(),
             ),
             'phax_load_controllers'    => array(
                 'slot',

@@ -214,6 +214,58 @@ class PartyService extends GameService
     }
     
     
+    public function explainJoinResult($result)
+    {
+    	$message = null;
+    	
+    	switch ($result) {
+            case self::OK:
+                $result = array(
+                    'type'		=> 'info',
+                    'message'	=> 'You have joined the party'
+                );
+                break;
+            
+            case self::ENDED_PARTY:
+                $result = array(
+                    'type'		=> 'danger',
+                    'message'	=> 'Error, this party has ended'
+                );
+                break;
+            
+            case self::NO_FREE_SLOT:
+                $result = array(
+                    'type'		=> 'danger',
+                    'message'	=> 'You cannot join the party, there is no free slot'
+                );
+                break;
+            
+            case self::ALREADY_JOIN:
+                $result = array(
+                    'type'		=> 'warning',
+                    'message'	=> 'You have already join this party'
+                );
+                break;
+            
+            case self::STARTED_PARTY:
+                $result = array(
+                    'type'		=> 'danger',
+                    'message'	=> 'This party has already started, and is not in room mode'
+                );
+                break;
+            
+            default:
+                $result = array(
+                    'type'		=> 'danger',
+                    'message'	=> 'You cannot join the party, unknown error : #'.$result
+                );
+                break;
+        }
+        
+        return $result;
+    }
+    
+    
     
     /**
      * A player join a party on a free slot
@@ -226,6 +278,53 @@ class PartyService extends GameService
         $slot->setPlayer($player);
         $this->em->persist($slot);
         $this->em->flush();
+    }
+    
+    
+    /**
+     * Ban a player on this party
+     * 
+     * @param \EL\ELCoreBundle\Entity\Player $player
+     */
+    public function ban($player_id)
+    {
+    	if (!$this->isHost()) {
+    		return false;
+    	}
+    	
+    	$this->quitParty($player_id);
+    	
+    	return true;
+    }
+    
+    
+    /**
+     * Quit party by removing user from its slot.
+     * 
+     * @param Player $player, or nothing for current user
+     * @return boolean
+     * 			true if user has quit,
+     * 			false if user was not in this party
+     */
+    public function quitParty($player_id = null)
+    {
+    	if (is_null($player_id)) {
+    		$player_id = $this->session->getPlayer()->getId();
+    	}
+    	
+    	$slot = $this->em
+    		->getRepository('ELCoreBundle:Slot')
+    		->findOneBy(array(
+    			'player_id'	=> $player_id,
+    			'party_id'	=> $this->getParty()->getId(),
+    		));
+    	
+    	if ($slot) {
+    		$slot->setPlayer();
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
     
@@ -242,6 +341,15 @@ class PartyService extends GameService
     		$slot->setOpen($open);
     		$this->illflushitlater->flush();
     	}
+    }
+    
+    public function isHost(Player $player = null)
+    {
+    	if (is_null($player)) {
+    		$player = $this->session->getPlayer()->getId();
+    	}
+    	
+    	return $this->getParty()->getHost()->getId() === $player->getId();
     }
     
     

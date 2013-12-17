@@ -26,20 +26,20 @@
 			</div>
 			<div class="panel-body">
 				<p>
-					{% if not party.allowChat %}
-						{{ 'chat.enabled'|trans }}
-					{% endif %}
-				</p>
-				<p>
-					{% if not party.allowObservers %}
-						{{ 'observers.allowed'|trans }}
-					{% endif %}
-				</p>
-				<p>
 					{% if party.open %}
 						{{ 'public.party'|trans }}
 					{% else %}
 						{{ 'private.party'|trans }}
+					{% endif %}
+				</p>
+				<p>
+					{% if not party.allowChat %}
+						{{ 'chat.disabled'|trans }}
+					{% endif %}
+				</p>
+				<p>
+					{% if not party.allowObservers %}
+						{{ 'observers.disallowed'|trans }}
 					{% endif %}
 				</p>
 			</div>

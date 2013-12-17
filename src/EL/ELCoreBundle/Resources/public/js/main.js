@@ -29,7 +29,7 @@ var slot = {
         if (js_context.is_host) {
             $.each($('.slots .slot'), function(index, _slot) {
                 if ($(_slot).find('ul.dropdown-menu').size() > 0) {
-                    slot.bindSlotMenu(index);
+                    slot.bindSlotMenu(index, _slot, {id: js_context.player_id});
                 }
             });
         }
@@ -126,7 +126,7 @@ var slot = {
     },
     
     
-    bindSlotMenu: function(index)
+    bindSlotMenu: function(index, _slot, player)
     {
     	$ul = $('.slots .slot').eq(index).find('ul.dropdown-menu');
     	
@@ -153,6 +153,36 @@ var slot = {
 			$(this).hide();
 			return false;
 		});
+		
+		$ul.find('li.slotmenu-ban a').click(function() {
+			if ($(this).parent('li').hasClass('disabled')) {
+				return false;
+			}
+			phax.action('slot', 'ban', $.extend(js_context, {player_id: player.id}));
+			slot.update(index, {open: true});
+			$(this).hide();
+			return false;
+		});
+    },
+    
+    
+    bindJoinButton: function(index)
+    {
+    	$joinButton = $('.slots .slot').eq(index).find('.slot-join');
+    	
+    	if ($joinButton.size() > 0) {
+    		$joinButton.click(function() {
+    			phax.action('slot', 'ajaxJoin', $.extend(js_context, {slot_index: index}));
+    			slot.update(index, {open:true}, {pseudo:'me'}, js_context.is_host);
+    		});
+    	}
+    },
+    
+    
+    ajaxJoinAction: function(r)
+    {
+    	console.log(r.join_result);
+    	slot.refreshAction(r);
     },
     
     
@@ -176,7 +206,8 @@ var slotTemplates = {
 		$('.slots .slot').eq(index).after($slot);
 		$('.slots .slot').eq(index).remove();
 		
-		slot.bindSlotMenu(index);
+		slot.bindSlotMenu(index, _slot, player);
+		slot.bindJoinButton(index);
 	},
 	
 	get: function(_slot, player, is_host)
@@ -248,7 +279,7 @@ var slotTemplates = {
 	                open.slot\
 	            </button>\
 	            <button class="btn btn-default slot-join btn-slot-5" type="button">\
-	                join\
+        			'+(js_context.in_party ? 'change.slot' : 'join')+'\
 	            </button>\
 	            <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">\
 	                <span class="caret"></span>\
@@ -316,7 +347,6 @@ var slotTemplates = {
 	getMenu: function(_slot, player)
 	{
 		var menus = slot.activeMenus(_slot, player);
-		console.log(menus);
 		
 		return '\
 			<ul class="dropdown-menu" role="menu">\

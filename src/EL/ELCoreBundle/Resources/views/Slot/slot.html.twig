@@ -35,7 +35,11 @@
                     {{ 'open.slot'|trans }}
                 </button>
                 <button class="btn btn-default slot-join btn-slot-5" type="button">
-                    {{ 'join'|trans }}
+                    {% if in_party %}
+                        {{ 'change.slot'|trans }}
+                    {% else %}
+                        {{ 'join'|trans }}
+                    {% endif %}
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">
                     <span class="caret"></span>

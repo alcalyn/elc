@@ -150,23 +150,24 @@ class PartyService extends GameService
     
     
     /**
-     * Check if player can join the party.
+     * Check if player can join the party at slot $slot_index, or an other.
      * If join is true, the player join the party if he can.
+     * If player has already join party, he just change slot.
      * 
      * if player cant join :
      *      return PartyService::ENDED_PARTY    if party has ended
      *      return PartyService::NO_FREE_SLOT   if party is full
-     *      return PartyService::ALREADY_JOIN   if player joined this party yet
      *      return PartyService::STARTED_PARTY  if party has started and is not room
      * 
      * else return PartyService::ENDED_PARTY (0) if he can join,
      *      or has joined if $join is true
      * 
      * @param \EL\ELCoreBundle\Entity\Player $player
+     * @param integer $slot_index preference. If defined and free, join this slot. Else join first free slot.
      * @param boolean $join
      * @return integer 0: ok, or error
      */
-    public function canJoin(Player $player, $join = false)
+    public function canJoin(Player $player, $slot_index = -1, $join = false)
     {
         $this->needParty();
         
@@ -179,7 +180,8 @@ class PartyService extends GameService
         }
         
         $freeSlot       = null;
-        $alreadyJoin    = false;
+        $alreadyJoin    = null;
+        $slots			= array();
         
         if ($state === Party::PREPARATION || $room) {
             $slots = $party->getSlots();
@@ -189,25 +191,46 @@ class PartyService extends GameService
                     $freeSlot = $slot;
                 } else {
                     if ($slot->getPlayer() == $player) {
-                        $alreadyJoin = true;
-                        break;
+                        $alreadyJoin = $slot;
                     }
+                }
+                
+                if (!is_null($freeSlot) && !is_null($alreadyJoin)) {
+                	break;
                 }
             }
         } else {
             return self::STARTED_PARTY;
         }
         
-        if ($alreadyJoin) {
-            return self::ALREADY_JOIN;
-        }
-        
         if (!$freeSlot) {
             return self::NO_FREE_SLOT;
         }
         
-        if ($join) {
-            $this->affectPlayerToSlot($player, $freeSlot);
+        if ($join || !is_null($alreadyJoin)) {
+	        $changeSlot = false;
+	        
+        	if (($slot_index >= 0) && ($slot_index < count($slots))) {
+        		$slot = $slots[$slot_index];
+        		if ($slot->isFree()) {
+        			$freeSlot = $slot;
+        			$changeSlot = true;
+        		}
+        	}
+        	
+        	if (!is_null($alreadyJoin)) {
+        		if ($changeSlot) {
+	        		$alreadyJoin->setPlayer(null);
+	        		$freeSlot->setPlayer($player);
+	        		$this->illflushitlater->persist($alreadyJoin);
+	        		$this->illflushitlater->persist($freeSlot);
+	        		$this->illflushitlater->flush();
+        		}
+        	} else {
+	            $freeSlot->setPlayer($player);
+	        	$this->illflushitlater->persist($freeSlot);
+	        	$this->illflushitlater->flush();
+        	}
         }
         
         return self::OK;
@@ -284,7 +307,7 @@ class PartyService extends GameService
     /**
      * Ban a player on this party
      * 
-     * @param \EL\ELCoreBundle\Entity\Player $player
+     * @param integer $player_id to ban of this party
      */
     public function ban($player_id)
     {
@@ -301,7 +324,7 @@ class PartyService extends GameService
     /**
      * Quit party by removing user from its slot.
      * 
-     * @param Player $player, or nothing for current user
+     * @param integer $player_id, or nothing for current user
      * @return boolean
      * 			true if user has quit,
      * 			false if user was not in this party
@@ -314,13 +337,13 @@ class PartyService extends GameService
     	
     	$slot = $this->em
     		->getRepository('ELCoreBundle:Slot')
-    		->findOneBy(array(
-    			'player_id'	=> $player_id,
-    			'party_id'	=> $this->getParty()->getId(),
-    		));
+    		->findOneByPlayerAndParty($player_id, $this->getParty()->getId())
+    	;
     	
     	if ($slot) {
-    		$slot->setPlayer();
+    		$slot->setPlayer(null);
+    		$this->illflushitlater->persist($slot);
+    		$this->illflushitlater->flush($slot);
     		return true;
     	} else {
     		return false;
@@ -345,8 +368,12 @@ class PartyService extends GameService
     
     public function isHost(Player $player = null)
     {
+    	if (!$this->getParty()->hasHost()) {
+    		return false;
+    	}
+    	
     	if (is_null($player)) {
-    		$player = $this->session->getPlayer()->getId();
+    		$player = $this->session->getPlayer();
     	}
     	
     	return $this->getParty()->getHost()->getId() === $player->getId();

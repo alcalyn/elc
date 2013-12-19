@@ -2,7 +2,7 @@
     {% if slot.player is not null %}
         {% if slot.player.id == player.id %}
             {# host player me #}
-            <div class="btn-group slot joueur host">
+            <div class="btn-group slot joueur host" data-player_id="{{ slot.player.id }}">
                 <button type="button" class="btn btn-default player-pseudo btn-slot-12">
                     {{ slot.player.pseudo }}
                     
@@ -13,7 +13,7 @@
             </div>
         {% else %}
             {# host player not me #}
-            <div class="btn-group slot joueur">
+            <div class="btn-group slot joueur" data-player_id="{{ slot.player.id }}">
                 <button type="button" class="btn btn-default player-pseudo btn-slot-11">
                     {{ slot.player.pseudo }}
                     
@@ -62,7 +62,7 @@
 {% else %}
     {% if slot.player is not null %}
         {# player #}
-        <div class="btn-group slot joueur {% if slot.player.id == party.host.id %}host{% endif %}">
+        <div class="btn-group slot joueur {% if slot.player.id == party.host.id %}host{% endif %}" data-player_id="{{ slot.player.id }}">
             <button type="button" class="btn btn-default player-pseudo btn-slot-12">
                 {{ slot.player.pseudo }}
 

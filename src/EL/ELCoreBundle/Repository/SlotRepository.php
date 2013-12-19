@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class SlotRepository extends EntityRepository
 {
+	public function findOneByPlayerAndParty($player_id, $party_id)
+	{
+		$query = $this->_em->createQuery('
+			select s
+			from ELCoreBundle:Slot s
+			join s.player player
+			join s.party party
+			where player.id = :player_id
+			and party.id = :party_id
+		')->setParameters(array(
+            'player_id'	=> $player_id,
+            'party_id'	=> $party_id,
+        ));
+		
+        return $query->getSingleResult();
+	}
 }

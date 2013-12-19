@@ -245,6 +245,16 @@ class Party
     {
         return $this->host;
     }
+    
+    /**
+     * Has Host
+     * 
+     * @return boolean if party has host
+     */
+    public function hasHost()
+    {
+    	return !is_null($this->getHost());
+    }
 
     /**
      * Set slug

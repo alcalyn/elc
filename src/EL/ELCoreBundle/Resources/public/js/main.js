@@ -29,14 +29,15 @@ var slot = {
         if (js_context.is_host) {
             $.each($('.slots .slot'), function(index, _slot) {
                 if ($(_slot).find('ul.dropdown-menu').size() > 0) {
-                    slot.bindSlotMenu(index, _slot, {id: js_context.player_id});
+                    slot.bindSlotMenu(index, _slot, {id: $(_slot).val('player_id')});
+            		slot.bindJoinButton(index);
                 }
             });
         }
         
         setInterval(function() {
             phax.action('slot', 'refresh', js_context);
-        }, 3000);
+        }, 5000);
     },
     
     refreshAction: function(r)
@@ -55,11 +56,45 @@ var slot = {
     
     hasChanged: function(index, r)
     {
-    	// TODO
+    	var $slot = $('.slots .slot').eq(index);
+    	var _slot = r.slots[index];
+    	
+    	console.log(r);
+    	console.log($slot, 'vs', _slot);
+    	
+    	// host is no longer me, or i am now host
+    	if (!js_context.is_host === (r.party.host.id === js_context.player_id)) {
+    		console.log('host is no longer me, or i am now host');
+    		return true;
+    	}
+    	
+    	// slot has been open or closed
+    	if ($slot.hasClass('slot-closed') === _slot.open) {
+    		console.log('slot has been open or closed');
+    		return true;
+    	}
+    	
+    	if (_slot.open) {
+    		// player has join or leave
+    		if (!_slot.player === ($slot.hasClass('joueur') || $slot.hasClass('ordi'))) {
+    			console.log('player has join or leave')
+    			return true;
+    		}
+    		
+    		if (_slot.player) {
+    			// player has relaced cpu, or cpu has replaced player
+    			if (_slot.player.bot !== $slot.hasClass('ordi')) {
+    				console.log('player has relaced cpu, or cpu has replaced player');
+    				return true;
+    			}
+    		}
+    	}
+    	
+    	
     	/**
-    	 * return true if slot need to be updated
+    	 * return false if other cases
     	 */
-    	return true;
+    	return false;
     },
     
     update: function(index, _slot, player, is_host)
@@ -158,6 +193,7 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
+			console.log('ban '+player.id);
 			phax.action('slot', 'ban', $.extend(js_context, {player_id: player.id}));
 			slot.update(index, {open: true});
 			$(this).hide();
@@ -187,6 +223,12 @@ var slot = {
     
     
     openAction: function(r)
+    {
+    	slot.refreshAction(r);
+    },
+    
+    
+    banAction: function(r)
     {
     	slot.refreshAction(r);
     }
@@ -244,7 +286,7 @@ var slotTemplates = {
 	getHostPlayerMe: function(_slot, player, is_host)
 	{
 		return '\
-			<div class="btn-group slot joueur host">\
+			<div class="btn-group slot joueur host" data-player_id="'+player.id+'">\
 		        <button type="button" class="btn btn-default player-pseudo btn-slot-12">\
 		            '+player.pseudo+'\
 		            \
@@ -257,7 +299,7 @@ var slotTemplates = {
 	getHostPlayer: function(_slot, player, is_host)
 	{
 		return '\
-			<div class="btn-group slot joueur">\
+			<div class="btn-group slot joueur" data-player_id="'+player.id+'">\
 		        <button type="button" class="btn btn-default player-pseudo btn-slot-11">\
 		            '+player.pseudo+'\
 		            \
@@ -307,7 +349,7 @@ var slotTemplates = {
 	getPlayer: function(_slot, player, is_host)
 	{
 		return '\
-	        <div class="btn-group slot joueur '+on(is_host, 'host')+'">\
+	        <div class="btn-group slot joueur '+on(is_host, 'host')+'" data-player_id="'+player.id+'">\
 	            <button type="button" class="btn btn-default player-pseudo btn-slot-12">\
         			'+player.pseudo+'\
 					\

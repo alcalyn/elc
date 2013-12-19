@@ -27,7 +27,7 @@ class SlotController extends Controller
         $flashbag           = $this->get('session')->getFlashBag();
         
         $party_service->setPartyBySlug($slug_party, $_locale);
-        $result = $party_service->canJoin($player, true);
+        $result = $party_service->canJoin($player, -1, true);
         $message = $party_service->explainJoinResult($result);
         $flashbag->add($message['type'], $message['message']);
         
@@ -84,14 +84,14 @@ class SlotController extends Controller
     {
         $slug_party = $params['slug_party'];
         $_locale    = $params['phax_metadata']['_locale'];
-        $slot_index	= $params['slot_index'];
+        $slot_index	= isset($params['slot_index']) ? intval($params['slot_index']) : -1 ;
         
         $party_service = $this
 	        	->get('el_core.party')
 	        	->setPartyBySlug($slug_party, $_locale)
 	    ;
         
-        $result = $party_service->canJoin($this->getUser(), true);
+        $result = $party_service->canJoin($this->getUser(), $slot_index, true);
         
         $message = $party_service->explainJoinResult($result);
         

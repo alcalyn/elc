@@ -25,6 +25,9 @@ var slot = {
     init: function()
     {
         console.log('init slot controller');
+
+        js_context.is_host && $.each($('.slots ul.dropdown-menu'), slot.bindSlotMenu);
+        
         setInterval(function() {
             phax.action('slot', 'refresh', js_context);
         }, 2000);
@@ -37,7 +40,7 @@ var slot = {
                     i,
                     r.slots[i],
                     r.slots[i].player,
-                    r.party.host.id === r.slots[i].player.id
+                    r.party.host && r.slots[i].player && r.party.host.id === r.slots[i].player.id
             );
         }
     },
@@ -69,6 +72,52 @@ var slot = {
             $slot.find('.player-pseudo').html(is_open ? 'Slot open' : 'Slot closed');
         }
         
+        $slotmenus = $slot.find('ul.dropdown-menu');
+        
+        var menus = {
+            open:           !player && !_slot.open,
+            close:          !player && _slot.open,
+            remove:         !player,
+            ban:            player,
+            inviteplayer:   !player,
+            invitecpu:      !player,
+        };
+        
+        $.each(menus, function(key, value) {
+        	if (value) {
+        		$slotmenus.find('li.slotmenu-'+key).removeClass('disabled')
+        	} else {
+        		$slotmenus.find('li.slotmenu-'+key).addClass('disabled');
+        	}
+        });
+    },
+    
+    
+    bindSlotMenu: function(index, ul)
+    {
+    	$(ul).find('li.slotmenu-open a').click(function() {
+			if ($(this).parent('li').hasClass('disabled')) {
+				return false;
+			}
+			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: true}));
+			slot.update(index, {open: true});
+			return false;
+		});
+    	
+		$(ul).find('li.slotmenu-close a').click(function() {
+			if ($(this).parent('li').hasClass('disabled')) {
+				return false;
+			}
+			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: false}));
+			slot.update(index, {open: false});
+			return false;
+		});
+    },
+    
+    
+    openAction: function(r)
+    {
+    	slot.refreshAction(r);
     }
     
     

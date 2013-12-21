@@ -24,12 +24,16 @@ class PartyOptionsType extends AbstractType
                 ->add('title', 'text', array(
                     'label'     => 'party.title',
                 ))
-                ->add('allow_observers', 'checkbox', array(
-                    'label'     => 'allow.observers',
-                    'required'  => false,
-                ))
                 ->add('private', 'checkbox', array(
                     'label'     => 'private.only.invitation',
+                    'required'  => false,
+                ))
+                ->add('disallow_observers', 'checkbox', array(
+                    'label'     => 'disallow.observers',
+                    'required'  => false,
+                ))
+                ->add('disallow_chat', 'checkbox', array(
+                    'label'     => 'disallow.chat',
                     'required'  => false,
                 ))
                 ->add('special_party_options', $this->special_party_options)

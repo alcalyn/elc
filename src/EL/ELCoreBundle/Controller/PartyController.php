@@ -42,7 +42,7 @@ class PartyController extends Controller
         
         if ($party_options_form->isValid()) {
             $party = $party_service
-                    ->createParty($party_options->getTitle(), !$party_options->getPrivate());
+                    ->createParty($party_options);
             $party_service
                     ->setParty($party);
             
@@ -80,8 +80,6 @@ class PartyController extends Controller
      */
     public function prepareAction($_locale, $slug_game, $slug_party)
     {
-        $session_service = $this->get('el_core.session');
-        
         $party_service = $this
                 ->get('el_core.party')
                 ->setPartyBySlug($slug_party, $_locale);
@@ -89,20 +87,25 @@ class PartyController extends Controller
         $game_service = $this
                 ->get($party_service->getGameServiceName());
         
-        $player = $session_service->getPlayer();
+        $player = $this->getUser();
         $party  = $party_service->getParty();
         
         $canJoin = $party_service
                 ->canJoin($player);
         
+        $is_host = $player->getId() === $party->getHost()->getId();
+        
         return $this->render('ELCoreBundle:Party:preparation.html.twig', array(
+        	'player'		=> $player,
             'party'         => $party,
             'game'          => $party->getGame(),
             'slots'         => $party->getSlots(),
             'in_party'      => $canJoin === PartyService::ALREADY_JOIN,
             'can_join'      => $canJoin === PartyService::OK,
+            'is_host'		=> $is_host,
             'js_context'    => array(
-                'slug_party' => $slug_party,
+                'slug_party'	=> $slug_party,
+        		'is_host'		=> $is_host,
             ),
             'phax_load_controllers'    => array(
                 'slot',

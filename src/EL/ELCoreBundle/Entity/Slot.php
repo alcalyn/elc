@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="el_core_slot")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\SlotRepository")
  */
-class Slot implements \JsonSerializable
+class Slot
 {
     /**
      * @var integer
@@ -195,7 +195,7 @@ class Slot implements \JsonSerializable
     
     public function jsonSerialize() {
         return array(
-            'player'    => $this->getPlayer(),
+            'player'    => is_null($this->getPlayer()) ? null : $this->getPlayer()->jsonSerialize(),
             'position'  => $this->getPosition(),
             'open'      => $this->getOpen(),
         );

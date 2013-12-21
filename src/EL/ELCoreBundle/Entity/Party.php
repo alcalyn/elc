@@ -11,7 +11,7 @@ use EL\ELCoreBundle\Entity\Slot;
  * @ORM\Table(name="el_core_party")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PartyRepository")
  */
-class Party implements \JsonSerializable
+class Party
 {
     
     const PREPARATION   = 1;
@@ -89,6 +89,24 @@ class Party implements \JsonSerializable
      */
     private $room;
     
+    /**
+     * @var boolean
+     * 
+     * If the chat is enabled for this party
+     * 
+     * @ORM\Column(name="allow_chat", type="boolean")
+     */
+    private $allow_chat;
+    
+    /**
+     * @var boolean
+     * 
+     * If this party allows observers
+     * 
+     * @ORM\Column(name="allow_observers", type="boolean")
+     */
+    private $allow_observers;
+    
     
     
     public function __construct()
@@ -96,7 +114,10 @@ class Party implements \JsonSerializable
         $this
                 ->setOpen(true)
                 ->setState(self::PREPARATION)
-                ->setRoom(true);
+                ->setRoom(true)
+                ->setAllowChat(true)
+                ->setAllowObservers(true)
+        ;
     }
     
 
@@ -280,6 +301,17 @@ class Party implements \JsonSerializable
     {
         return $this->slots;
     }
+    
+    /**
+     * Get slot at index $index
+     * 
+     * @param integer $index
+     * @return \EL\ELCoreBundle\Entity\Slot
+     */
+    public function getSlot($index)
+    {
+        return $this->slots[$index];
+    }
 
     /**
      * Set room
@@ -307,9 +339,56 @@ class Party implements \JsonSerializable
     
     public function jsonSerialize() {
         return array(
-            'host'      => $this->getHost(),
+            'host'      => $this->getHost()->jsonSerialize(),
             'title'     => $this->getTitle(),
             'state'     => $this->getState(),
         );
+    }
+
+
+    /**
+     * Set allow_chat
+     *
+     * @param boolean $allowChat
+     * @return Party
+     */
+    public function setAllowChat($allowChat)
+    {
+        $this->allow_chat = $allowChat;
+    
+        return $this;
+    }
+
+    /**
+     * Get allow_chat
+     *
+     * @return boolean 
+     */
+    public function getAllowChat()
+    {
+        return $this->allow_chat;
+    }
+
+    /**
+     * Set allow_observers
+     *
+     * @param boolean $allowObservers
+     * @return Party
+     */
+    public function setAllowObservers($allowObservers)
+    {
+        $this->allow_observers = $allowObservers;
+    
+        return $this;
+    }
+
+    /**
+     * Get allow_observers
+     *
+     * @return boolean 
+     */
+    public function getAllowObservers()
+    {
+        return $this->allow_observers;
     }
 }

@@ -282,15 +282,9 @@
 				</div>
 			</div>
 		</div>
-        <script src="{{ asset('bundles/elcore/js/jquery-2.0.3.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('bundles/elcore/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('bundles/elcore/js/main.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('bundles/phax/js/phax.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('bundles/phax/js/help.js') }}" type="text/javascript"></script>
         <div id="phax-config"
              data-www_script="{{ path('phax_script') }}"
         ></div>
-        
         {% if js_context is defined %}
         <div id="js-context"
              {% for key, value in js_context %}
@@ -298,7 +292,6 @@
              {% endfor %}
         ></div>
         {% endif %}
-        
         {% if phax_load_controllers is defined %}
         <div id="phax-load-controllers"
              {% for key, controller in phax_load_controllers %}
@@ -306,5 +299,10 @@
              {% endfor %}
         ></div>
         {% endif %}
+        <script src="{{ asset('bundles/elcore/js/jquery-2.0.3.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/elcore/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/phax/js/phax.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/phax/js/help.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/elcore/js/main.js') }}" type="text/javascript"></script>
 	</body>
 </html>

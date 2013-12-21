@@ -12,6 +12,6 @@ use EL\PhaxBundle\Model\PhaxReaction;
 class PhaxResponse extends JsonResponse
 {
     public function __construct(PhaxReaction $phax_reaction) {
-        parent::__construct($phax_reaction);
+        parent::__construct($phax_reaction->jsonSerialize());
     }
 }

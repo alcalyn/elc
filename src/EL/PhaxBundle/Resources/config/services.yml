@@ -11,6 +11,8 @@ services:
         class: %phax_core.class%
         calls:
             - [setContainer, ["@service_container"]]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
     phax.help:
         class: %phax.controller.help%
         calls:

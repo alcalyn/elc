@@ -84,9 +84,6 @@ class PartyController extends Controller
                 ->get('el_core.party')
                 ->setPartyBySlug($slug_party, $_locale);
         
-        $game_service = $this
-                ->get($party_service->getGameServiceName());
-        
         $player = $this->getUser();
         $party  = $party_service->getParty();
         

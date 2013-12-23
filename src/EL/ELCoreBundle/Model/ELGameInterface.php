@@ -19,6 +19,8 @@ interface ELGameInterface
     /**
      * Return an object to hydrate by options form.
      * Can have default values
+     * 
+     * @return stdClass
      */
     public function getOptions();
     

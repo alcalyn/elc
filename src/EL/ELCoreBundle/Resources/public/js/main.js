@@ -1,22 +1,38 @@
+
+var jsContext			= {}
+var phaxConfig			= {};
+var phaxLoadControllers	= {};
+var translations		= {};
+
+var jsVars = {
+	
+	load: function(id)
+	{
+		return $('#elcore_js_vars #'+id).data();
+	}
+	
+}
+
 $(function() {
-    var $context = jQuery('#js-context');
-    if ($context.size() > 0) {
-        js_context = $context.data();
-    }
+    jsContext			= jsVars.load('js-context');
+    phaxConfig			= jsVars.load('phax-config');
+    phaxLoadControllers	= jsVars.load('phax-load-controllers');
+    translations		= jsVars.load('translations');
     
-    phaxConfig = jQuery('#phax-config').data();
-    
-    var $load_controllers = jQuery('#phax-load-controllers');
-    if ($load_controllers.size() > 0) {
-        jQuery.each($load_controllers.data(), function(index, controller) {
-            phax.load_controller(controller);
-        });
-    }
+    // Load phax controllers
+    jQuery.each(phaxLoadControllers, function(index, controller) {
+    	phax.load_controller(controller);
+    });
 });
 
-var js_context = {};
-var phaxConfig = null;
 
+function t(s) {
+	if (translations[s]) {
+		return translations[s];
+	} else {
+		return s;
+	}
+}
 
 
 
@@ -25,8 +41,13 @@ var slot = {
     init: function()
     {
         console.log('init slot controller');
-
-        if (js_context.is_host) {
+        
+        if ($('.slots .slot').size() === 0) {
+        	console.log('init slot phax controller when not in preparation page...');
+        	return false;
+        }
+        
+        if (jsContext.is_host) {
             $.each($('.slots .slot'), function(index, _slot) {
                 if ($(_slot).find('ul.dropdown-menu').size() > 0) {
                     slot.bindSlotMenu(index, _slot, {id: $(_slot).val('player_id')});
@@ -36,8 +57,10 @@ var slot = {
         }
         
         setInterval(function() {
-            phax.action('slot', 'refresh', js_context);
+            phax.action('slot', 'refresh', jsContext);
         }, 5000);
+        
+        return true;
     },
     
     refreshAction: function(r)
@@ -59,11 +82,8 @@ var slot = {
     	var $slot = $('.slots .slot').eq(index);
     	var _slot = r.slots[index];
     	
-    	console.log(r);
-    	console.log($slot, 'vs', _slot);
-    	
     	// host is no longer me, or i am now host
-    	if (!js_context.is_host === (r.party.host.id === js_context.player_id)) {
+    	if (!jsContext.is_host === (r.party.host.id === jsContext.player.id)) {
     		console.log('host is no longer me, or i am now host');
     		return true;
     	}
@@ -87,6 +107,9 @@ var slot = {
     				console.log('player has relaced cpu, or cpu has replaced player');
     				return true;
     			}
+    			
+    			// player has become host, or has lost host position
+    			
     		}
     	}
     	
@@ -173,7 +196,7 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: true}));
+			phax.action('slot', 'open', $.extend(jsContext, {slot_index: index, slot_open: true}));
 			slot.update(index, {open: true});
 			$(this).hide();
 			return false;
@@ -183,7 +206,7 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			phax.action('slot', 'open', $.extend(js_context, {slot_index: index, slot_open: false}));
+			phax.action('slot', 'open', $.extend(jsContext, {slot_index: index, slot_open: false}));
 			slot.update(index, {open: false});
 			$(this).hide();
 			return false;
@@ -193,8 +216,7 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			console.log('ban '+player.id);
-			phax.action('slot', 'ban', $.extend(js_context, {player_id: player.id}));
+			phax.action('slot', 'ban', $.extend(jsContext, {player_id: player.id}));
 			slot.update(index, {open: true});
 			$(this).hide();
 			return false;
@@ -208,16 +230,36 @@ var slot = {
     	
     	if ($joinButton.size() > 0) {
     		$joinButton.click(function() {
-    			phax.action('slot', 'ajaxJoin', $.extend(js_context, {slot_index: index}));
-    			slot.update(index, {open:true}, {pseudo:'me'}, js_context.is_host);
+    			phax.action('slot', 'ajaxJoin', $.extend(jsContext, {slot_index: index}));
+    			var current_index = slot.getIndexWhere(function($slot) {
+    				return parseInt($slot.data('player_id')) === jsContext.player.id;
+    			});
+    			
+    			if (current_index >= 0) {
+    				slot.update(current_index, {open:true});
+    			}
+    			slot.update(index, {open:true}, jsContext.player, jsContext.is_host);
     		});
     	}
     },
     
     
+    getIndexWhere: function(callback)
+    {
+    	var found = -1;
+    	jQuery.each($('.slots .slot'), function(index, _slot) {
+    		if (callback($(_slot))) {
+    			found = index;
+    			return false;
+    		}
+    	});
+    	
+    	return found;
+    },
+    
+    
     ajaxJoinAction: function(r)
     {
-    	console.log(r.join_result);
     	slot.refreshAction(r);
     },
     
@@ -254,9 +296,9 @@ var slotTemplates = {
 	
 	get: function(_slot, player, is_host)
 	{
-		var is_me = player && (player.id === js_context.player_id);
+		var is_me = player && (player.id === jsContext.player.id);
 		
-		if (parseInt(js_context.is_host) === 1) {
+		if (parseInt(jsContext.is_host) === 1) {
 			if (player) {
 				if (is_me) {
 					return slotTemplates.getHostPlayerMe(_slot, player, is_host);
@@ -318,10 +360,10 @@ var slotTemplates = {
 		return '\
 	        <div class="btn-group slot slot-open">\
 	            <button type="button" class="btn btn-default player-pseudo btn-slot-6">\
-	                open.slot\
+	                '+t('slot.open')+'\
 	            </button>\
 	            <button class="btn btn-default slot-join btn-slot-5" type="button">\
-        			'+(js_context.in_party ? 'change.slot' : 'join')+'\
+        			'+(jsContext.in_party ? 'change.slot' : 'join')+'\
 	            </button>\
 	            <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">\
 	                <span class="caret"></span>\
@@ -336,7 +378,7 @@ var slotTemplates = {
 		return '\
 	        <div class="btn-group slot slot-closed">\
 	            <button type="button" class="btn btn-default player-pseudo btn-slot-11">\
-	                closed.slot\
+					'+t('slot.closed')+'\
 	            </button>\
 	            <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">\
 	                <span class="caret"></span>\
@@ -364,10 +406,10 @@ var slotTemplates = {
 		return '\
 	        <div class="btn-group slot slot-open">\
 	            <button type="button" class="btn btn-default player-pseudo btn-slot-7">\
-	                open.slot\
+					'+t('slot.open')+'\
 	            </button>\
 	            <button class="btn btn-default slot-join btn-slot-5" type="button">\
-	                '+(js_context.in_party ? 'change.slot' : 'join')+'\
+	                '+(jsContext.in_party ? 'change.slot' : 'join')+'\
 	            </button>\
 	        </div>\
 		';
@@ -378,7 +420,7 @@ var slotTemplates = {
 		return '\
 	        <div class="btn-group slot slot-closed">\
 	            <button type="button" class="btn btn-default player-pseudo btn-slot-12">\
-	                closed.slot\
+					'+t('slot.closed')+'\
 	            </button>\
 	        </div>\
 		';
@@ -393,26 +435,26 @@ var slotTemplates = {
 		return '\
 			<ul class="dropdown-menu" role="menu">\
 			    <li class="slotmenu-open '+on(!menus.open, 'disabled')+'">\
-			        <a href="#">open</a>\
+			        <a href="#">'+t('open')+'</a>\
 			    </li>\
 			    <li class="slotmenu-close '+on(!menus.close, 'disabled')+'">\
-			        <a href="#">close</a>\
+			        <a href="#">'+t('close')+'</a>\
 			    </li>\
 			    <li class="slotmenu-remove '+on(!menus.remove, 'disabled')+'">\
-			        <a href="#">delete.slot</a>\
+			        <a href="#">'+t('delete.slot')+'</a>\
 			    </li>\
 			    <li class="divider">\
 			    </li>\
 			    <li class="slotmenu-ban '+on(!menus.ban, 'disabled')+'">\
-			        <a href="#">ban</a>\
+			        <a href="#">'+t('ban')+'</a>\
 			    </li>\
 			    <li class="divider">\
 			    </li>\
 			    <li class="slotmenu-inviteplayer '+on(!menus.inviteplayer, 'disabled')+'">\
-			        <a href="#">invite.player</a>\
+			        <a href="#">'+t('invite.player')+'</a>\
 			    </li>\
 			    <li class="slotmenu-invitecpu '+on(!menus.invitecpu, 'disabled')+'">\
-			        <a href="#">invite.cpu</a>\
+			        <a href="#">'+t('invite.cpu')+'</a>\
 			    </li>\
 			</ul>\
 		';

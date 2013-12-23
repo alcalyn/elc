@@ -282,23 +282,20 @@
 				</div>
 			</div>
 		</div>
-        <div id="phax-config"
-             data-www_script="{{ path('phax_script') }}"
-        ></div>
-        {% if js_context is defined %}
-        <div id="js-context"
-             {% for key, value in js_context %}
-                data-{{ key }}="{{ value }}"
-             {% endfor %}
-        ></div>
-        {% endif %}
-        {% if phax_load_controllers is defined %}
-        <div id="phax-load-controllers"
-             {% for key, controller in phax_load_controllers %}
-                data-{{ key }}="{{ controller }}"
-             {% endfor %}
-        ></div>
-        {% endif %}
+		<div id="elcore_js_vars">
+	        {% for type, values in js_vars.all %}
+	        	<div id="{{ type }}"
+	        		{% for key, value in values %}
+	        			{% if value is iterable %}
+	        				data-{{ key }}='{{ value|json_encode()|raw }}'
+	        			{% else %}
+	        				data-{{ key }}="{{ value|raw }}"
+	        			{% endif %}
+	        		{% endfor %}
+	        	></div>
+	        {% endfor %}
+        </div>
+        
         <script src="{{ asset('bundles/elcore/js/jquery-2.0.3.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('bundles/elcore/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('bundles/phax/js/phax.js') }}" type="text/javascript"></script>

@@ -7,38 +7,27 @@
 	'invitecpu':	not slot.player
 } %}
 
-{% if not slot.player and not slot.open %}
-	<button class="btn btn-default slot-join col-4" type="button" {% if slot.player or in_party %}style="display:none"{% endif %}>
-		{{ 'join'|trans }}
-	</button>
-{% endif %}
-
-{% if is_host %}
-	<button type="button" class="btn btn-default dropdown-toggle col-1" data-toggle="dropdown">
-	    <span class="caret"></span>
-	</button>
-	<ul class="dropdown-menu" role="menu">
-	    <li class="slotmenu-open {% if not menus.open %}disabled{% endif %}">
-	    	<a href="#">{{ 'open'|trans }}</a>
-	    </li>
-	    <li class="slotmenu-close {% if not menus.close %}disabled{% endif %}">
-	    	<a href="#">{{ 'close'|trans }}</a>
-	    </li>
-	    <li class="slotmenu-remove {% if not menus.remove %}disabled{% endif %}">
-	    	<a href="#">{{ 'delete.slot'|trans }}</a>
-	    </li>
-	    <li class="divider">
-	    </li>
-	    <li class="slotmenu-ban {% if not menus.ban %}disabled{% endif %}">
-	    	<a href="#">{{ 'ban'|trans }}</a>
-	    </li>
-	    <li class="divider">
-	    </li>
-	    <li class="slotmenu-inviteplayer {% if not menus.inviteplayer %}disabled{% endif %}">
-	    	<a href="#">{{ 'invite.player'|trans }}</a>
-	    </li>
-	    <li class="slotmenu-invitecpu {% if not menus.invitecpu %}disabled{% endif %}">
-	    	<a href="#">{{ 'invite.cpu'|trans }}</a>
-	    </li>
-	</ul>
-{% endif %}
+<ul class="dropdown-menu" role="menu">
+    <li class="slotmenu-open {% if not menus.open %}disabled{% endif %}">
+        <a href="#">{{ 'open'|trans }}</a>
+    </li>
+    <li class="slotmenu-close {% if not menus.close %}disabled{% endif %}">
+        <a href="#">{{ 'close'|trans }}</a>
+    </li>
+    <li class="slotmenu-remove {% if not menus.remove %}disabled{% endif %}">
+        <a href="#">{{ 'delete.slot'|trans }}</a>
+    </li>
+    <li class="divider">
+    </li>
+    <li class="slotmenu-ban {% if not menus.ban %}disabled{% endif %}">
+        <a href="#">{{ 'ban'|trans }}</a>
+    </li>
+    <li class="divider">
+    </li>
+    <li class="slotmenu-inviteplayer {% if not menus.inviteplayer %}disabled{% endif %}">
+        <a href="#">{{ 'invite.player'|trans }}</a>
+    </li>
+    <li class="slotmenu-invitecpu {% if not menus.invitecpu %}disabled{% endif %}">
+        <a href="#">{{ 'invite.cpu'|trans }}</a>
+    </li>
+</ul>

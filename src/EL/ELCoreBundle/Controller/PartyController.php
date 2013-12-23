@@ -84,9 +84,6 @@ class PartyController extends Controller
                 ->get('el_core.party')
                 ->setPartyBySlug($slug_party, $_locale);
         
-        $game_service = $this
-                ->get($party_service->getGameServiceName());
-        
         $player = $this->getUser();
         $party  = $party_service->getParty();
         
@@ -94,22 +91,26 @@ class PartyController extends Controller
                 ->canJoin($player);
         
         $is_host = $player->getId() === $party->getHost()->getId();
+        $in_party = $canJoin === PartyService::ALREADY_JOIN;
+        
+        $this->get('el_core.js_vars')
+        		->initPhaxController('slot')
+        		->addContext('is_host', $is_host)
+        		->addContext('slug_party', $slug_party)
+        		->addContext('in_party', $in_party)
+        		->useTrans('slot.open')
+        		->useTrans('slot.closed')
+        		->useTrans('create.account')
+        ;
         
         return $this->render('ELCoreBundle:Party:preparation.html.twig', array(
         	'player'		=> $player,
             'party'         => $party,
             'game'          => $party->getGame(),
             'slots'         => $party->getSlots(),
-            'in_party'      => $canJoin === PartyService::ALREADY_JOIN,
+            'in_party'      => $in_party,
             'can_join'      => $canJoin === PartyService::OK,
             'is_host'		=> $is_host,
-            'js_context'    => array(
-                'slug_party'	=> $slug_party,
-        		'is_host'		=> $is_host,
-            ),
-            'phax_load_controllers'    => array(
-                'slot',
-            ),
         ));
     }
     

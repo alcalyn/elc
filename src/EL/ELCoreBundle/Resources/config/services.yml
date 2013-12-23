@@ -1,12 +1,13 @@
 parameters:
-    el_core.session.class: EL\ELCoreBundle\Services\SessionService
-    el_core.illdoitlater.class: EL\ELCoreBundle\Services\IllDoItLaterService
-    el_core.illflushitlater.class: EL\ELCoreBundle\Services\IllFlushItLaterService
-    el_core.security.class: EL\ELCoreBundle\Services\SecurityService
-    el_core.base_controller.class: EL\ELCoreBundle\Services\ELCoreController
-    el_core.party.class: EL\ELCoreBundle\Services\PartyService
-    el_core.game.class: EL\ELCoreBundle\Services\GameService
-    el_core.controller.slot.class: EL\ELCoreBundle\Controller\SlotController
+    el_core.session.class:              EL\ELCoreBundle\Services\SessionService
+    el_core.illdoitlater.class:         EL\ELCoreBundle\Services\IllDoItLaterService
+    el_core.illflushitlater.class:      EL\ELCoreBundle\Services\IllFlushItLaterService
+    el_core.js_vars.class:              EL\ELCoreBundle\Services\JsVarsService
+    el_core.security.class:             EL\ELCoreBundle\Services\SecurityService
+    el_core.base_controller.class:      EL\ELCoreBundle\Services\ELCoreController
+    el_core.party.class:                EL\ELCoreBundle\Services\PartyService
+    el_core.game.class:                 EL\ELCoreBundle\Services\GameService
+    el_core.controller.slot.class:      EL\ELCoreBundle\Controller\SlotController
 
 services:
     el_core.security:
@@ -22,6 +23,9 @@ services:
     el_core.illflushitlater:
         class: %el_core.illflushitlater.class%
         arguments: [@doctrine.orm.entity_manager, @el_core.illdoitlater]
+    el_core.js_vars:
+        class: %el_core.js_vars.class%
+        arguments: [@router, @el_core.session, @translator]
     el_core.game:
         class: %el_core.game.class%
         arguments: [@doctrine.orm.entity_manager]

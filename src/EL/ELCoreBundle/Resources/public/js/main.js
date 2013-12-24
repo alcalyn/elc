@@ -47,6 +47,8 @@ var slot = {
         	return false;
         }
         
+        slot.enableDragAndDrop();
+        
         if (jsContext.is_host) {
             $.each($('.slots .slot'), function(index, _slot) {
                 if ($(_slot).find('ul.dropdown-menu').size() > 0) {
@@ -244,6 +246,21 @@ var slot = {
     },
     
     
+    enableDragAndDrop: function(index)
+    {
+		$('.slots').sortable({
+	        revert: 200,
+			handle: '.player-pseudo',
+			cancel: false,
+			opacity: 0.75,
+			update: function() {
+				console.log('slots update');
+			}
+		});
+		$('.slots, .slot').disableSelection();
+    },
+    
+    
     getIndexWhere: function(callback)
     {
     	var found = -1;
@@ -292,6 +309,7 @@ var slotTemplates = {
 		
 		slot.bindSlotMenu(index, _slot, player);
 		slot.bindJoinButton(index);
+		slot.enableDragAndDrop(index);
 	},
 	
 	get: function(_slot, player, is_host)

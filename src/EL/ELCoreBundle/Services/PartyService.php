@@ -157,6 +157,7 @@ class PartyService extends GameService
      * if player cant join :
      *      return PartyService::ENDED_PARTY    if party has ended
      *      return PartyService::NO_FREE_SLOT   if party is full
+     *      return PartyService::ALREADY_JOIN   if current player is already in party
      *      return PartyService::STARTED_PARTY  if party has started and is not room
      * 
      * else return PartyService::ENDED_PARTY (0) if he can join,
@@ -204,7 +205,9 @@ class PartyService extends GameService
         }
         
         if (!$freeSlot) {
-            return self::NO_FREE_SLOT;
+        	return is_null($alreadyJoin) ?
+            	self::NO_FREE_SLOT :
+            	self::ALREADY_JOIN ;
         }
         
         if ($join || !is_null($alreadyJoin)) {
@@ -233,7 +236,9 @@ class PartyService extends GameService
         	}
         }
         
-        return self::OK;
+        return is_null($alreadyJoin) ?
+        	self::OK :
+        	self::ALREADY_JOIN ;
     }
     
     

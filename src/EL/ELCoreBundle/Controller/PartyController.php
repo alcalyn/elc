@@ -114,7 +114,6 @@ class PartyController extends Controller
         ));
     }
     
-    
     /**
      * Redirect on /preparation or /XXX if not active
      * 

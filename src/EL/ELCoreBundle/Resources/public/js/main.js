@@ -249,12 +249,23 @@ var slot = {
     enableDragAndDrop: function(index)
     {
 		$('.slots').sortable({
-	        revert: 200,
-			handle: '.player-pseudo',
-			cancel: false,
-			opacity: 0.75,
+	        revert:		200,
+			handle:		'.player-pseudo',
+			cancel:		false,
+			opacity:	0.75,
+			zIndex:		1001,
+			start: function() {
+				jQuery.each($('.slots .slot'), function(index, _slot) {
+		    		$(_slot).data('order', index);
+		    	});
+			},
 			update: function() {
-				console.log('slots update');
+				var new_order = [];
+				jQuery.each($('.slots .slot'), function(index, _slot) {
+		    		var order = $(_slot).data('order');
+		    		new_order.push(order);
+		    	});
+				phax.action('slot', 'reorder', $.extend(jsContext, {new_order: new_order}));
 			}
 		});
 		$('.slots, .slot').disableSelection();
@@ -290,9 +301,13 @@ var slot = {
     banAction: function(r)
     {
     	slot.refreshAction(r);
+    },
+    
+    
+    reorderAction: function(r)
+    {
+    	slot.refreshAction(r);
     }
-    
-    
     
 };
 

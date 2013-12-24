@@ -371,6 +371,33 @@ class PartyService extends GameService
     	}
     }
     
+    /**
+     * Change slots order
+     * 
+     * @param array $indexes containing new indexes, as :
+     * 				0, 2, 1		=> switch second and third slot
+     * 				2, 0, 1, 3	=> set the third slot at first position
+     */
+    public function reorderSlots(array $indexes)
+    {
+    	$this->needParty();
+    	
+    	$slots = $this->getParty()->getSlots();
+    	
+    	$i = 0;
+    	foreach ($slots as $slot) {
+    		$new_position = intval($indexes[$i++]) + 1;
+    		$old_position = intval($slot->getPosition());
+    		
+    		if ($new_position !== $old_position) {
+    			$slot->setPosition($new_position);
+    			$this->illflushitlater->persist($slot);
+    		}
+    	}
+    	
+    	$this->illflushitlater->flush();
+    }
+    
     public function isHost(Player $player = null)
     {
     	if (!$this->getParty()->hasHost()) {

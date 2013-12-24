@@ -53,7 +53,7 @@ class SlotController extends Controller
         $slots = array();
         
         foreach ($party->getSlots() as $slot) {
-            $slots []= $slot->jsonSerialize();
+            $slots[$slot->getPosition() - 1] = $slot->jsonSerialize();
         }
         
         return $this->get('phax')->reaction(array(
@@ -113,6 +113,23 @@ class SlotController extends Controller
 	    $ok = $party_service->ban($player_id);
 	    
 	    return $this->refreshAction($params);
+    }
+    
+    
+    public function reorderAction($params)
+    {
+    	$slug_party = $params['slug_party'];
+        $_locale    = $params['phax_metadata']['_locale'];
+        $indexes	= $params['new_order'];
+        
+        $party_service = $this
+	        	->get('el_core.party')
+	        	->setPartyBySlug($slug_party, $_locale)
+	    ;
+	    
+	    $party_service->reorderSlots($indexes);
+	    
+    	return $this->refreshAction($params);
     }
     
 }

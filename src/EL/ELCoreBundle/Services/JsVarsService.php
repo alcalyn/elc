@@ -108,7 +108,7 @@ class JsVarsService
 	
 	public function useTrans($s)
 	{
-		$this->set(self::TYPE_TRANSLATION, $s, $this->translator->trans($s));
+		$this->set(self::TYPE_TRANSLATION, $s, $this->translator->trans(/** @Ignore */ $s));
 		return $this;
 	}
 	

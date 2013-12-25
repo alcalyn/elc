@@ -9,16 +9,21 @@ _:
     players: players
 
 about: About
-
-allow:
-    observers: 'Allow observers'
-
 ban: Ban
+cancel: Cancel
+
+cannot:
+    join:
+        party:
+            full: 'Cannot join, party is full'
+
+change:
+    slot: 'Change slot'
+
+chat:
+    disabled: 'Chat disabled'
+
 close: Close
-
-closed:
-    slot: 'Closed slot'
-
 community: Community
 contact: Contact
 contacts: Contacts
@@ -35,6 +40,10 @@ create:
 delete:
     slot: 'Delete slot'
 
+disallow:
+    chat: 'Disallow chat'
+    observers: 'Disallow observers'
+
 draws: Draws
 elo: Elo
 faq: FAQ
@@ -43,7 +52,7 @@ filter:
     by: 'Filter by'
 
 first:
-    player: first.player
+    player: 'First player'
 
 game:
     name: 'Game name'
@@ -56,9 +65,10 @@ invite:
     cpu: 'Invite computer'
     player: 'Invite player'
 
-join:
-    party:
-        amongthislist: 'Join a game among this list'
+join: Join
+join.party: 'Join this party'
+join.party.amongthislist: 'Join a game among this list'
+leave: Leave
 
 let:
     cpufindgametoplay: 'Let computer to find me a suitable game to play'
@@ -72,8 +82,11 @@ my:
     page: 'My page'
 
 name: Name
+
+observers:
+    disallowed: 'Observers disallowed'
+
 open: Open
-open.slot: 'Open slot'
 
 opponents:
     note: 'Opponents note'
@@ -90,23 +103,38 @@ play:
     now: 'Play now'
 
 player: Player
-player.1: player.1
-player.2: player.2
+player.1: 'Player 1'
+player.2: 'Player 2'
 
 private:
     only:
         invitation: 'Private (only on invitation)'
 
+    party: 'Private party'
+
 pseudo: Pseudo
-random: random
+
+public:
+    party: 'Public party'
+
+random: Random
 ranking: Ranking
+ready: Ready
 
 rememberme:
     onthiscomputer: 'Remember me on this computer'
 
 rules: Rules
+
+run:
+    party: 'Run party'
+
 search: Search
 signup: 'Sign up'
+
+slot:
+    closed: 'Slot closed'
+    open: 'Slot open'
 
 unableto:
     create:

@@ -98,9 +98,16 @@ class PartyController extends Controller
         		->addContext('is_host', $is_host)
         		->addContext('slug_party', $slug_party)
         		->addContext('in_party', $in_party)
+        		->useTrans('open')
+        		->useTrans('close')
         		->useTrans('slot.open')
         		->useTrans('slot.closed')
+        		->useTrans('delete.slot')
+        		->useTrans('change.slot')
+        		->useTrans('ban')
         		->useTrans('create.account')
+        		->useTrans('invite.player')
+        		->useTrans('invite.cpu')
         ;
         
         return $this->render('ELCoreBundle:Party:preparation.html.twig', array(

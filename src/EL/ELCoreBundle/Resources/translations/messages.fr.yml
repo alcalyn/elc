@@ -8,17 +8,22 @@
 _:
     players: joueurs
 
-about: 'a propos'
-
-allow:
-    observers: 'Autoriser les observateurs'
-
+about: 'À propos'
 ban: Exclure
+cancel: Annuler
+
+cannot:
+    join:
+        party:
+            full: 'Il n''y a plus de place'
+
+change:
+    slot: 'Changer de slot'
+
+chat:
+    disabled: 'Chat désactivé'
+
 close: Fermer
-
-closed:
-    slot: 'Slot fermé'
-
 community: Communauté
 contact: Contact
 contacts: Contacts
@@ -35,6 +40,10 @@ create:
 delete:
     slot: 'Supprimer le slot'
 
+disallow:
+    chat: 'Désactiver le chat'
+    observers: 'Désactiver les observateurs'
+
 draws: Nulles
 elo: Élo
 faq: FAQ
@@ -43,7 +52,7 @@ filter:
     by: 'Filtrer par'
 
 first:
-    player: first.player
+    player: 'Premier joueur'
 
 game:
     name: 'Nom du jeu'
@@ -56,9 +65,10 @@ invite:
     cpu: 'Inviter un ordinateur'
     player: 'Inviter un joueur'
 
-join:
-    party:
-        amongthislist: 'Rejoindre une partie de cette liste'
+join: Rejoindre
+join.party: 'Rejoindre la partie'
+join.party.amongthislist: 'Rejoindre une partie de cette liste'
+leave: Partir
 
 let:
     cpufindgametoplay: 'Laisser l''ordinateur me trouver une partie de mon niveau'
@@ -72,8 +82,11 @@ my:
     page: 'Ma page'
 
 name: Nom
+
+observers:
+    disallowed: 'Visiteurs désactivés'
+
 open: Ouvrir
-open.slot: 'Slot libre'
 
 opponents:
     note: 'Note des adversaires'
@@ -90,23 +103,38 @@ play:
     now: 'Jouer maintenant'
 
 player: Joueur
-player.1: player.1
-player.2: player.2
+player.1: 'Joueur 1'
+player.2: 'Joueur 2'
 
 private:
     only:
         invitation: 'Privée (seulement sur invitation)'
 
+    party: 'Partie privée'
+
 pseudo: Pseudo
-random: random
+
+public:
+    party: 'Partie publique'
+
+random: Aléatoire
 ranking: Classement
+ready: Prêt
 
 rememberme:
     onthiscomputer: 'Se souvenir de moi sur cet ordinateur'
 
 rules: Règles
+
+run:
+    party: 'Lancer la partie'
+
 search: Rechercher
 signup: 'Créer un compte'
+
+slot:
+    closed: 'Slot fermé'
+    open: 'Slot ouvert'
 
 unableto:
     create:

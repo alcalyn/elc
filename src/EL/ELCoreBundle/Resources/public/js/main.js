@@ -198,7 +198,7 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			phax.action('slot', 'open', $.extend(jsContext, {slot_index: index, slot_open: true}));
+			phax.action('slot', 'open', $.extend({}, jsContext, {slot_index: index, slot_open: true}));
 			slot.update(index, {open: true});
 			$(this).hide();
 			return false;
@@ -208,7 +208,7 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			phax.action('slot', 'open', $.extend(jsContext, {slot_index: index, slot_open: false}));
+			phax.action('slot', 'open', $.extend({}, jsContext, {slot_index: index, slot_open: false}));
 			slot.update(index, {open: false});
 			$(this).hide();
 			return false;
@@ -218,7 +218,7 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			phax.action('slot', 'ban', $.extend(jsContext, {player_id: player.id}));
+			phax.action('slot', 'ban', $.extend({}, jsContext, {player_id: player.id}));
 			slot.update(index, {open: true});
 			$(this).hide();
 			return false;
@@ -232,7 +232,7 @@ var slot = {
     	
     	if ($joinButton.size() > 0) {
     		$joinButton.click(function() {
-    			phax.action('slot', 'ajaxJoin', $.extend(jsContext, {slot_index: index}));
+    			phax.action('slot', 'ajaxJoin', $.extend({}, jsContext, {slot_index: index}));
     			var current_index = slot.getIndexWhere(function($slot) {
     				return parseInt($slot.data('player_id')) === jsContext.player.id;
     			});
@@ -265,7 +265,7 @@ var slot = {
 		    		var order = $(_slot).data('order');
 		    		new_order.push(order);
 		    	});
-				phax.action('slot', 'reorder', $.extend(jsContext, {new_order: new_order}));
+				phax.action('slot', 'reorder', $.extend({}, jsContext, {new_order: new_order}));
 			}
 		});
 		$('.slots, .slot').disableSelection();
@@ -396,7 +396,7 @@ var slotTemplates = {
 	                '+t('slot.open')+'\
 	            </button>\
 	            <button class="btn btn-default slot-join btn-slot-5" type="button">\
-        			'+(jsContext.in_party ? 'change.slot' : 'join')+'\
+        			'+(jsContext.in_party ? t('change.slot') : t('join'))+'\
 	            </button>\
 	            <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">\
 	                <span class="caret"></span>\
@@ -442,7 +442,7 @@ var slotTemplates = {
 					'+t('slot.open')+'\
 	            </button>\
 	            <button class="btn btn-default slot-join btn-slot-5" type="button">\
-	                '+(jsContext.in_party ? 'change.slot' : 'join')+'\
+	                '+(jsContext.in_party ? t('change.slot') : t('join'))+'\
 	            </button>\
 	        </div>\
 		';

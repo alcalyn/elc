@@ -120,6 +120,13 @@ class PhaxAction
     {
         return $this->action;
     }
+    
+    public function get($variable, $default = null)
+    {
+    	return $this->__isset($variable) ?
+    		$this->__get($variable) :
+    		$default ;
+    }
 
     public function jsonSerialize() {
         $array = $this->data;

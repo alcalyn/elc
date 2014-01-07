@@ -2,6 +2,7 @@ parameters:
     phax.class: EL\PhaxBundle\Services\PhaxService
     phax_core.class: EL\PhaxBundle\Services\PhaxCoreService
     phax.controller.help: EL\PhaxBundle\Controller\HelpController
+    phax.controller.surf: EL\PhaxBundle\Controller\SurfController
     phax.command.action: EL\PhaxBundle\Command\ActionCommand
 
 services:
@@ -11,10 +12,14 @@ services:
         class: %phax_core.class%
         calls:
             - [setContainer, ["@service_container"]]
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
     phax.help:
         class: %phax.controller.help%
+        calls:
+            - [setContainer, ["@service_container"]]
+    phax.surf:
+        class: %phax.controller.surf%
         calls:
             - [setContainer, ["@service_container"]]
     phax.command.phax_action:

@@ -3,6 +3,7 @@
 namespace EL\PhaxBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use EL\PhaxBundle\Model\PhaxException;
 use EL\PhaxBundle\Model\PhaxAction;

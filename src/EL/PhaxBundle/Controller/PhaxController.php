@@ -4,6 +4,7 @@ namespace EL\PhaxBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\PhaxBundle\Model\PhaxResponse;
+use EL\PhaxBundle\Model\PhaxAction;
 
 
 
@@ -23,18 +24,20 @@ class PhaxController extends Controller
         
         $params = $request->request->all();
         
-        $params['phax_metadata'] += array(
-            '_locale'       => $request->getLocale(),
-            'mode_cli'      => false,
-        );
+        $controller = $params['phax_metadata']['controller'];
+        $action     = $params['phax_metadata']['action'];
         
-        $controller_name    = $params['phax_metadata']['controller'];
-        $action_name        = $params['phax_metadata']['action'];
+        $phax_action = new PhaxAction($controller, $action, $params);
+        $phax_action
+                ->setRequest($request)
+                ->setIsCli(false)
+        ;
         
         $phax_reaction = $this
                 ->get('phax_core')
-                ->action($controller_name, $action_name, $params);
-        
+                ->action($phax_action)
+        ;
+
         return new PhaxResponse($phax_reaction);
     }
 }

@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use EL\PhaxBundle\Model\PhaxAction;
 
 
 /**
@@ -29,31 +30,31 @@ class ActionCommand extends ContainerAwareCommand
             ->setName('phax:action')
             ->setDescription('Execute Phax action using command line')
             ->addArgument('controller', InputArgument::OPTIONAL, 'Controller name', 'help')
-            ->addArgument('action', InputArgument::OPTIONAL, 'Action name', 'default')
+            ->addArgument('action',     InputArgument::OPTIONAL, 'Action name',     'default')
             ->addOption('parameters', 'p', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Parameters to send to the controller')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $controller_name    = $input->getArgument('controller');
-        $action_name        = $input->getArgument('action');
-        $params             = array();
+        $controller = $input->getArgument('controller');
+        $action     = $input->getArgument('action');
+        $params     = array();
         
         foreach ($input->getOption('parameters') as $value) {
             $tokens = explode(':', $value);
             
-            if (count($tokens) === 1) {
+            if (1 === count($tokens)) {
                 $key = $tokens[0];
                 
-                if (strlen($key) === 0) {
+                if (0 === strlen($key)) {
                     continue;
                 }
                 
                 $params[$key] = true;
             }
             
-            if (count($tokens) === 2) {
+            if (2 === count($tokens)) {
                 $key    = $tokens[0];
                 $value  = $tokens[1];
                 
@@ -65,20 +66,21 @@ class ActionCommand extends ContainerAwareCommand
             }
         }
         
-        $params['phax_metadata'] = array(
-            'mode_cli'      => true,
-        );
+        $phax_action = new PhaxAction($controller, $action, $params);
+        $phax_action
+                ->setIsCli(true)
+        ;
         
         $phax_reaction = $this
                 ->getContainer()
                 ->get('phax_core')
-                ->action($controller_name, $action_name, $params)
+                ->action($phax_action)
         ;
-        
+
         if ($phax_reaction->hasMetaMessage()) {
             $output->writeln($phax_reaction->getMetaMessage());
         } else {
-            $output->writeln(json_encode($phax_reaction->getJsonData()));
+            $output->writeln(json_encode($phax_reaction->jsonSerialize()));
         }
     }
 }

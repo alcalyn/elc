@@ -1,2 +1,4 @@
-{% block body %}
-{% endblock %}
+{
+    "title":"{% block title %}Electron Libre{% endblock %}",
+    "body":{{ block('body')|json_encode|raw }}
+}

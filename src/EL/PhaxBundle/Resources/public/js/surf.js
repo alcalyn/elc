@@ -1,5 +1,4 @@
 
-var lastr = null;
 
 var surf = {
 	
@@ -11,7 +10,6 @@ var surf = {
 	loadTemplateAction: function(r)
 	{
 		console.log('ok ', r);
-		lastr = r;
 	}
 	
 };

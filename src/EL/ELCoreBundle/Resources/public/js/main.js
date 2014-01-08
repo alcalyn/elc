@@ -34,6 +34,10 @@ function t(s) {
 	}
 }
 
+function beginWith(string, pattern) {
+	return string.substring(0, pattern.length) === pattern;
+}
+
 
 
 var slot = {

@@ -18,7 +18,7 @@ class FrontController extends Controller
     public function indexAction($_locale)
     {
         return $this->render('ELCoreBundle:Front:index.'.$_locale.'.html.twig', array(
-            'slideshow' => true,
+            //'slideshow' => true,
         ));
     }
     

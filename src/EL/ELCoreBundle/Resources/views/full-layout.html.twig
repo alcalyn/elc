@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+	<head>
+		<title>{% block title %}Electron Libre{% endblock %}</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/elcore/bootstrap/css/bootstrap.min.css') }}" media="screen" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/elcore/css/style.css') }}" />
+        
+		<!--[if IE 6]>
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/elcore/css/iecss.css') }}" />
+		<![endif]-->
+	</head>
+	<body>
+		<div id="body-container">
+			<div id="body">
+				<header>
+                    <a href="{{ path('elcore_home') }}">
+                        <div id="top-illustration" style="cursor:pointer">
+                            <h1>Electron Libre</h1>
+                        </div>
+                    </a>
+                    {{ render(controller('ELCoreBundle:User:index')) }}
+				</header>
+				<div id="main-page-container">
+					<nav class="navbar navbar-default" role="navigation">
+					  <div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+						  <span class="sr-only">Toggle navigation</span>
+						  <span class="icon-bar"></span>
+						  <span class="icon-bar"></span>
+						  <span class="icon-bar"></span>
+						</button>
+					  </div>
+					  <div class="collapse navbar-collapse navbar-ex1-collapse">
+						<form action="#" class="navbar-form navbar-right" role="search">
+							<div class="row">
+							  <div class="col-lg-6">
+								<div class="input-group">
+								  <input type="text" class="form-control" placeholder="{{ 'search'|trans }}">
+								  <span class="input-group-btn">
+									<button class="btn btn-default" type="button">{{ 'go'|trans }}</button>
+								  </span>
+								</div>
+							  </div>
+							</div>
+						</form>
+						<ul class="nav navbar-nav navbar-right">
+						  <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+						  <li><a href="#">{{ 'community'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_about') }}">{{ 'about'|trans }}</a></li>
+						  <li><a href="{{ path('elcore_faq') }}">{{ 'faq'|trans }}</a></li>
+						</ul>
+					  </div>
+					</nav>
+					<div id="main-content-container">
+                        {% if slideshow|default(false) %}
+                            {{ render(controller('ELCoreBundle:Slideshow:index')) }}
+                        {% endif %}
+						<div id="breadcrumb-container" class="row">
+							<div class="col-md-12">
+								<ol class="breadcrumb">
+									<li><a href="#">{{ 'home'|trans }}</a></li>
+									<li><a href="#">{{ 'games'|trans }}</a></li>
+									<li class="active">Echecs</li>
+								</ol>
+							</div>
+						</div>
+						<div id="main-content" class="row">
+							<div class="col-md-9">
+								<div id="content" class="inner">
+                                    <div id="errors">
+                                        {% for type, flashMessages in app.session.flashbag.all() %}
+                                            {% for flashMessage in flashMessages %}
+                                                <div class="alert alert-{{ type }} alert-dismissable">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                                    {{ flashMessage }}
+                                                </div>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                    <div id="block-body">
+										{% block body %}
+	                                    {% endblock %}
+                                    </div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div id="sidebar">
+									<div class="widget my-games">
+									  <div class="widget-head">
+										<h3 class="widget-title"><span class="glyphicon glyphicon-tower"></span> Mes parties en cours</h3>
+									  </div>
+									  <div class="widget-body">
+										<form action="#" class="form-inline">
+											<select name="filter-game" class="form-control smaller">
+												<option value="-1">Tout les jeux</option>
+												<option value="1">Echecs</option>
+												<option value="2">Dames Chinoises</option>
+											</select>
+											<label><input type="checkbox" name="my-tour" /> A mon tour</label>
+										</form>
+										<div class="list-group-container scrollin">
+											<div class="list-group">
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">Echecs</h4>
+												<p class="list-group-item-text">avec robert60</p>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">Echecs</h4>
+												<p class="list-group-item-text">avec robert60</p>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">Echecs</h4>
+												<p class="list-group-item-text">avec robert60</p>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">Echecs</h4>
+												<p class="list-group-item-text">avec robert60</p>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">Echecs</h4>
+												<p class="list-group-item-text">avec robert60</p>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">Echecs</h4>
+												<p class="list-group-item-text">avec robert60</p>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">Echecs</h4>
+												<p class="list-group-item-text">avec robert60</p>
+											  </a>
+											</div>
+										</div>
+									  </div>
+									</div>
+									<hr />
+									<div class="widget my-buddies">
+									  <div class="widget-head">
+										<h3 class="widget-title"><span class="glyphicon glyphicon-user"></span> Mes adversaires</h3>
+									  </div>
+									  <div class="widget-body">
+										<form action="#" class="form-inline">
+											<label><input type="checkbox" name="my-tour" /> En ligne seulement</label>
+										</form>
+										<div class="list-group-container scrollin">
+											<div class="list-group">
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">fabien</h4>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">fabien</h4>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">fabien</h4>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">fabien</h4>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">fabien</h4>
+											  </a>
+											  <a href="#" class="list-group-item">
+												<h4 class="list-group-item-heading">fabien</h4>
+											  </a>
+											</div>
+										</div>
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<footer class="inner">
+						<div class="row">
+							<div class="col-md-12">
+								<h3>Jeux par catégories</h3>
+							</div>
+						</div>
+						<ul class="row">
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+							<li class="col-md-3">
+								<h4><a href="#">Stratégie</a></h4>
+								<ul>
+									<li><a href="#">Échecs</a></li>
+									<li><a href="#">Risk</a></li>
+									<li><a href="#">Dames</a></li>
+									<li><a href="#">Plus de jeux...</a></li>
+								</ul>
+							</li>
+						</ul>
+						<div class="row">
+							<div class="col-md-6">
+								<h3>{{ 'about'|trans }}</h3>
+								<p>
+									Hanc regionem praestitutis celebritati diebus invadere parans dux ante edictus
+									per solitudines Aboraeque amnis herbidas ripas, suorum indicio proditus,
+									qui admissi flagitii metu exagitati ad praesidia descivere Romana.
+									absque ullo egressus effectu deinde tabescebat immobilis <a href="#">Lire plus...</a>
+								</p>
+							</div>
+							<div class="col-md-6">
+								<h3>{{ 'contact'|trans }}</h3>
+								<p>
+									Hanc regionem praestitutis celebritati diebus invadere parans dux ante edictus
+									per solitudines Aboraeque amnis herbidas ripas, suorum indicio proditus,<br />
+									<a href="#">contact@sitename.com</a><br />
+									<a href="#">pub@sitename.com</a>
+								</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<p class="text-center">© Electron Libre 2013-2014 - <a href="#">{{ 'contacts'|trans }}</a></p>
+							</div>
+						</div>
+					</footer>
+				</div>
+			</div>
+		</div>
+		<div id="elcore_js_vars">
+	        {% for type, values in js_vars.all %}
+	        	<div id="{{ type }}"
+	        		{% for key, value in values %}
+	        			{% if value is iterable %}
+	        				data-{{ key }}='{{ value|json_encode()|raw }}'
+	        			{% else %}
+	        				data-{{ key }}="{{ value|raw }}"
+	        			{% endif %}
+	        		{% endfor %}
+	        	></div>
+	        {% endfor %}
+        </div>
+        
+        {% javascripts
+		    '@ELCoreBundle/Resources/public/js/*'
+		    '@ELCoreBundle/Resources/public/bootstrap/js/bootstrap.min.js'
+		    '@PhaxBundle/Resources/public/js/*' %}
+		        <script src="{{ asset_url }}" type="text/javascript"></script>
+		{% endjavascripts %}
+	</body>
+</html>

@@ -46,24 +46,24 @@ class JsVarsService
 		$this->session_service	= $session_service;
 		$this->translator		= $translator;
 		
-		$this->vars				= $this->initVars();
+		$this->vars = array(
+			self::TYPE_PHAX_CONFIG				=> array(),
+			self::TYPE_PHAX_LOAD_CONTROLLERS	=> array(),
+			self::TYPE_JS_CONTEXT				=> array(),
+			self::TYPE_TRANSLATION				=> array(),
+		);
+		
+		$this->initVars();
 	}
 	
 	
 	private function initVars()
 	{
-		return array(
-			self::TYPE_PHAX_CONFIG => array(
-				'www_script'	=> $this->router->generate('phax_script'),
-			),
-			self::TYPE_PHAX_LOAD_CONTROLLERS => array(
-			),
-			self::TYPE_JS_CONTEXT => array(
-				'player'	=> $this->session_service->getPlayer()->jsonSerialize(),
-			),
-			self::TYPE_TRANSLATION => array(
-			)
-		);
+		$this->set(self::TYPE_PHAX_CONFIG, 'www_script', $this->router->generate('phax_script', array()));
+		$this->set(self::TYPE_PHAX_CONFIG, 'www_root', $this->router->generate('elcore_home', array()));
+		//$this->initPhaxController('surf');
+		$this->addContext('player', $this->session_service->getPlayer()->jsonSerialize());
+		$this->addContext('locale', $this->translator->getLocale());
 	}
 	
 	

@@ -3,12 +3,20 @@
 namespace EL\PhaxBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use EL\PhaxBundle\Model\PhaxAction;
 
 class HelpController extends Controller
 {
-    public function defaultAction($params = array())
+    
+    /**
+     * Return a help page in console.log() or console format
+     * 
+     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @return \EL\PhaxBundle\Model\PhaxReaction
+     */
+    public function defaultAction(PhaxAction $phax_action)
     {
-        $is_cli = $params['phax_metadata']['mode_cli'];
+        $is_cli = $phax_action->isCli();
         
         $page_template = $is_cli ?
                 'PhaxBundle:Help:help_page.cli.twig' :
@@ -24,13 +32,29 @@ class HelpController extends Controller
         return $this->get('phax')->metaMessage($page_content);
     }
     
-    public function testAction($params = array())
+    
+    /**
+     * Return all parameters sent in phax action
+     * 
+     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @return \EL\PhaxBundle\Model\PhaxReaction
+     */
+    public function testAction(PhaxAction $phax_action)
     {
-        $params['phax_action_metadata'] = $params['phax_metadata'];
+        $a = 1 / (2 - 2);
+        $data = $phax_action->jsonSerialize();
+        $data['phax_action_metadata'] = $data['phax_metadata'];
         
-        return $this->get('phax')->reaction($params);
+        return $this->get('phax')->reaction($data);
     }
     
+    
+    /**
+     * Return a pong with datetime
+     * 
+     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @return \EL\PhaxBundle\Model\PhaxReaction
+     */
     public function pingAction()
     {
         return $this->get('phax')->metaMessage(

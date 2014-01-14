@@ -20,8 +20,7 @@
         "sensio/framework-extra-bundle": "2.3.*",
         "sensio/generator-bundle": "2.3.*",
         "jms/i18n-routing-bundle": "dev-master",
-        "incenteev/composer-parameter-handler": "~2.0",
-        "sonata-project/block-bundle": "2.2.*@dev"
+        "incenteev/composer-parameter-handler": "~2.0"
     },
     "scripts": {
         "post-install-cmd": [

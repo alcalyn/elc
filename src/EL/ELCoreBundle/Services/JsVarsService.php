@@ -52,8 +52,6 @@ class JsVarsService
 			self::TYPE_JS_CONTEXT				=> array(),
 			self::TYPE_TRANSLATION				=> array(),
 		);
-		
-		$this->initVars();
 	}
 	
 	
@@ -88,6 +86,13 @@ class JsVarsService
 	
 	public function getAll()
 	{
+		$this->initVars();
+		return $this->get();
+	}
+	
+	public function getExport()
+	{
+		$this->initVars();
 		return $this->get();
 	}
 	

@@ -285,7 +285,7 @@
 			</div>
 		</div>
 		<div id="elcore_js_vars">
-	        {% for type, values in js_vars.all %}
+	        {% for type, values in js_vars.export %}
 	        	<div id="{{ type }}"
 	        		{% for key, value in values %}
 	        			{% if value is iterable %}

@@ -14,9 +14,29 @@ use EL\ELCoreBundle\Entity\Slot;
 class Party
 {
     
+	/**
+	 * Party created, waiting for player, order slot
+	 * @var integer
+	 */
     const PREPARATION   = 1;
-    const ACTIVE        = 2;
-    const ENDED         = 3;
+    
+    /**
+     * Host has started, party began in n seconds
+     * @var integer
+     */
+    const STARTING      = 2;
+    
+    /**
+     * Party is currently running, players are playing
+     * @var integer
+     */
+    const ACTIVE        = 3;
+    
+    /**
+     * Party has ended, we can only see scores
+     * @var integer
+     */
+    const ENDED         = 4;
     
     
     /**
@@ -65,18 +85,18 @@ class Party
     private $slug;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="open", type="boolean")
-     */
-    private $open;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="state", type="smallint")
      */
     private $state;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="open", type="boolean")
+     */
+    private $open;
     
     /**
      * @var boolean
@@ -106,6 +126,27 @@ class Party
      * @ORM\Column(name="allow_observers", type="boolean")
      */
     private $allow_observers;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_create", type="datetime")
+     */
+    private $date_create;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_started", type="datetime", nullable=true)
+     */
+    private $date_started;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_ended", type="datetime", nullable=true)
+     */
+    private $date_ended;
     
     
     
@@ -400,5 +441,74 @@ class Party
     public function getAllowObservers()
     {
         return $this->allow_observers;
+    }
+
+    /**
+     * Set date_create
+     *
+     * @param \DateTime $dateCreate
+     * @return Party
+     */
+    public function setDateCreate($dateCreate)
+    {
+        $this->date_create = $dateCreate;
+    
+        return $this;
+    }
+
+    /**
+     * Get date_create
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreate()
+    {
+        return $this->date_create;
+    }
+
+    /**
+     * Set date_started
+     *
+     * @param \DateTime $dateStarted
+     * @return Party
+     */
+    public function setDateStarted($dateStarted)
+    {
+        $this->date_started = $dateStarted;
+    
+        return $this;
+    }
+
+    /**
+     * Get date_started
+     *
+     * @return \DateTime 
+     */
+    public function getDateStarted()
+    {
+        return $this->date_started;
+    }
+
+    /**
+     * Set date_ended
+     *
+     * @param \DateTime $dateEnded
+     * @return Party
+     */
+    public function setDateEnded($dateEnded)
+    {
+        $this->date_ended = $dateEnded;
+    
+        return $this;
+    }
+
+    /**
+     * Get date_ended
+     *
+     * @return \DateTime 
+     */
+    public function getDateEnded()
+    {
+        return $this->date_ended;
     }
 }

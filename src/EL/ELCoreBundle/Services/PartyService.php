@@ -19,6 +19,16 @@ class PartyService extends GameService
     const NO_FREE_SLOT  = 2;
     const ALREADY_JOIN  = 3;
     const STARTED_PARTY = 4;
+    const NOT_OK        = 10;
+    
+    /**
+     * Number of seconds after host clicked Start,
+     * and before game really starting
+     * (To avoid start abuse)
+     * 
+     * @var integer in seconds
+     */
+    const DELAY_BEFORE_START = 5;
     
     
     /**
@@ -55,6 +65,7 @@ class PartyService extends GameService
     {
         $this->party = $party;
         $this->setGame($party->getGame());
+        $this->checkDelay();
         return $this;
     }
     
@@ -99,6 +110,7 @@ class PartyService extends GameService
                 ->setAllowChat(!$partyOption->getDisallowChat())
                 ->setAllowObservers(!$partyOption->getDisallowObservers())
                 ->setState(Party::PREPARATION)
+                ->setDateCreate(new \DateTime())
         ;
         
         $count_slug = $this->em
@@ -239,6 +251,12 @@ class PartyService extends GameService
         return is_null($alreadyJoin) ?
         	self::OK :
         	self::ALREADY_JOIN ;
+    }
+    
+    
+    public function join(Player $player, $slot_index = -1)
+    {
+    	return $this->canJoin($player, $slot_index, true);
     }
     
     
@@ -409,6 +427,71 @@ class PartyService extends GameService
     	}
     	
     	return $this->getParty()->getHost()->getId() === $player->getId();
+    }
+    
+    
+    /**
+     * Return true if party is ready to start
+     * 
+     * @param boolean $start, if true, start the party if ready
+     * @return integer
+     */
+    public function canStart($start = false)
+    {
+    	$party = $this->getParty();
+    	
+    	if ($party->getState() === Party::PREPARATION) {
+    		if ($start) {
+    			$party
+    				->setState(Party::STARTING)
+    				->setDateStarted(new \DateTime())
+    			;
+    			
+	    		$this->illflushitlater->persist($party);
+	    		$this->illflushitlater->flush();
+    		}
+    		
+	    	return self::OK;
+    	} else {
+    		return self::NOT_OK;
+    	}
+    }
+    
+    
+    /**
+     * Start the party if ready, else return error code
+     * 
+     * @return integer
+     */
+    public function start()
+    {
+    	return $this->canStart(true);
+    }
+    
+    
+    /**
+     * Check if delay before start has ran out,
+     * then start party really
+     */
+    public function checkDelay()
+    {
+    	$party = $this->getParty();
+    	
+    	if ($this->getParty()->getState() === Party::STARTING) {
+    		$start_date = clone $party->getDateStarted();
+    		$start_date->add(new \DateInterval('PT'.self::DELAY_BEFORE_START.'S'));
+    		$now = new \DateTime();
+    		
+    		if ($start_date < $now) {
+    			$party
+    				->setState(Party::ACTIVE)
+    				->setDateStarted($start_date)
+    			;
+    			
+    			$this->illflushitlater->persist($party);
+    			$this->illflushitlater->flush();
+    		}
+    	}
     }
     
     

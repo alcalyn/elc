@@ -82,6 +82,14 @@ class PhaxAction
     {
         return $this->request;
     }
+    
+    /**
+     * @return string
+     */
+    public function getLocale()
+    {
+    	return $this->getRequest()->getLocale();
+    }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request

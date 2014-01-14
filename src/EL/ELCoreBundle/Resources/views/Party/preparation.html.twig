@@ -47,33 +47,35 @@
 </div>
 <hr />
 <div class="row">
-    {% if in_party %}
-    	{% if is_host %}
-	        <div class="col-md-4">
-	            <button type="button" class="btn btn-warning">{{ 'cancel'|trans }}</button>
-	        </div>
-	        <div class="col-md-4">
-	            <button type="button" class="btn btn-primary">{{ 'run.party'|trans }}</button>
-	        </div>
+	<form action="{{ path('elcore_party_preparation_action', { 'slug_game': game.slug, 'slug_party': party.slug }) }}" method="post">
+	    {% if in_party %}
+	    	{% if is_host %}
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="cancel" class="btn btn-warning">{{ 'cancel'|trans }}</button>
+		        </div>
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="run" class="btn btn-primary">{{ 'run.party'|trans }}</button>
+		        </div>
+		    {% else %}
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="leave" class="btn btn-warning">{{ 'leave'|trans }}</button>
+		        </div>
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="ready" class="btn btn-success">{{ 'ready'|trans }}</button>
+		        </div>
+		    {% endif %}
 	    {% else %}
-	        <div class="col-md-4">
-	            <button type="button" class="btn btn-warning">{{ 'leave'|trans }}</button>
-	        </div>
-	        <div class="col-md-4">
-	            <button type="button" class="btn btn-success">{{ 'ready'|trans }}</button>
-	        </div>
+	        {% if can_join %}
+	            <div class="col-md-4 col-md-offset-4">
+	                <button type="submit" name="action" value="join" class="btn btn-success">{{ 'join.party'|trans }}</button>
+	            </div>
+	        {% else %}
+	            <div class="col-md-4 col-md-offset-4">
+	                <p>{{ 'cannot.join.party.full'|trans }}</p>
+	            </div>
+	        {% endif %}
 	    {% endif %}
-    {% else %}
-        {% if can_join %}
-            <div class="col-md-4 col-md-offset-4">
-                <button type="button" class="btn btn-success">{{ 'join.party'|trans }}</button>
-            </div>
-        {% else %}
-            <div class="col-md-4 col-md-offset-4">
-                <p>{{ 'cannot.join.party.full'|trans }}</p>
-            </div>
-        {% endif %}
-    {% endif %}
+    </form>
 </div>
 <hr />
 <div class="row">

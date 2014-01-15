@@ -4,6 +4,8 @@ namespace EL\ELCoreBundle\Services;
 
 use EL\ELCoreBundle\Entity\Player;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 
 class SessionService
@@ -16,14 +18,18 @@ class SessionService
     private $em;
     private $elcore_security;
     private $illflushitlater;
+    private $request;
+    private $event_dispatcher;
     
     
-    public function __construct($security_context, $em, $elcore_security, $illflushitlater)
+    public function __construct($security_context, $em, $elcore_security, $illflushitlater, $request, $event_dispatcher)
     {
         $this->security_context = $security_context;
         $this->em = $em;
         $this->elcore_security = $elcore_security;
         $this->illflushitlater = $illflushitlater;
+        $this->request = $request;
+        $this->event_dispatcher = $event_dispatcher;
         
         $this->start();
     }
@@ -32,7 +38,7 @@ class SessionService
     {
         if (is_null($this->getPlayer())) {
             $guest = self::generateGuest();
-            $this->setPlayer($guest);
+            $this->logPlayer($guest);
             $this->savePlayer();
         }
     }
@@ -79,22 +85,10 @@ class SessionService
     
     public function getPlayer()
     {
-        if (null === $token = $this->security_context->getToken()) {
-            return null;
-        }
-
-        if (!is_object($user = $token->getUser())) {
-            return null;
-        }
-        
-        if (!($user instanceof Player)) {
-        	return null;
-        }
-
-        return $user;
+        return $this->security_context->getToken()->getUser();
     }
     
-    public function setPlayer($player)
+    public function logPlayer($player)
     {
         $token = new UsernamePasswordToken(
                 $player,
@@ -102,7 +96,12 @@ class SessionService
                 'main',
                 $player->getRoles()
         );
+        
         $this->security_context->setToken($token);
+        
+        $event = new InteractiveLoginEvent($this->request, $token);
+        $this->event_dispatcher->dispatch('security.interactive_login', $event);
+        
         return $this;
     }
     
@@ -113,15 +112,17 @@ class SessionService
         return $this;
     }
     
-    public function generateGuest($lang = 'en') {
+    public static function generateGuest($lang = 'en')
+    {
         $guest = new Player();
         
         return $guest
                 ->setPseudo(self::generateGuestName($lang))
-                ->setInvited(true);
+                ->setInvited(true)
+        ;
     }
     
-    public function generateGuestName($lang = 'en')
+    public static function generateGuestName($lang = 'en')
     {
         return 'Guest '.rand(10000, 99999);
     }

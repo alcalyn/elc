@@ -4,3 +4,5 @@ parameters:
 services:
     el_games.tictactoe:
         class: EL\ELTicTacToeBundle\Controller\DefaultController
+        calls:
+            - [setContainer, ["@service_container"]]

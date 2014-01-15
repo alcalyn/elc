@@ -30,7 +30,7 @@ class JsVarsService
 	/**
 	 * @var SessionService
 	 */
-	private $session_service;
+	private $security_context;
 	
 	/**
 	 * @var Translator
@@ -40,10 +40,10 @@ class JsVarsService
 	
 	
 	
-	public function __construct(Router $router, SessionService $session_service, Translator $translator)
+	public function __construct(Router $router, $security_context, Translator $translator)
 	{
 		$this->router			= $router;
-		$this->session_service	= $session_service;
+		$this->security_context	= $security_context;
 		$this->translator		= $translator;
 		
 		$this->vars = array(
@@ -60,7 +60,7 @@ class JsVarsService
 		$this->set(self::TYPE_PHAX_CONFIG, 'www_script', $this->router->generate('phax_script', array()));
 		$this->set(self::TYPE_PHAX_CONFIG, 'www_root', $this->router->generate('elcore_home', array()));
 		//$this->initPhaxController('surf');
-		$this->addContext('player', $this->session_service->getPlayer()->jsonSerialize());
+		$this->addContext('player', $this->security_context->getToken()->getUser()->jsonSerialize());
 		$this->addContext('locale', $this->translator->getLocale());
 	}
 	

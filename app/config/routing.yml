@@ -1,3 +1,7 @@
+el_abstract_game:
+    resource: "@ELAbstractGameBundle/Resources/config/routing.yml"
+    prefix:   /
+
 phax:
     resource: "@PhaxBundle/Resources/config/routing.yml"
     prefix:   /

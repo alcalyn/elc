@@ -37,9 +37,9 @@ class PartyService extends GameService
     private $illflushitlater;
     
     /**
-     * @var SessionService
+     * Security context
      */
-    private $session;
+    private $security_context;
     
     /**
      * @var Party
@@ -48,12 +48,12 @@ class PartyService extends GameService
     
     
     
-    public function __construct($em, $illflushitlater, $session)
+    public function __construct($em, $illflushitlater, $security_context)
     {
         parent::__construct($em);
         
         $this->illflushitlater  = $illflushitlater;
-        $this->session          = $session;
+        $this->security_context          = $security_context;
     }
     
     
@@ -103,7 +103,7 @@ class PartyService extends GameService
         $slug = Slug::slug($partyOption->getTitle());
         $party
                 ->setGame($this->getGame())
-                ->setHost($this->session->getPlayer())
+                ->setHost($this->security_context->getToken()->getUser())
                 ->setTitle($partyOption->getTitle())
                 ->setSlug($slug)
                 ->setOpen(!$partyOption->getPrivate())
@@ -151,7 +151,7 @@ class PartyService extends GameService
                     ->setOpen($isOpen);
             
             if ($isHost) {
-                $slot->setPlayer($this->session->getPlayer());
+                $slot->setPlayer($this->security_context->getToken()->getUser());
             }
             
             $this->em->persist($slot);
@@ -355,7 +355,7 @@ class PartyService extends GameService
     public function quitParty($player_id = null)
     {
     	if (is_null($player_id)) {
-    		$player_id = $this->session->getPlayer()->getId();
+    		$player_id = $this->security_context->getToken()->getUser()->getId();
     	}
     	
     	$slot = $this->em
@@ -423,7 +423,7 @@ class PartyService extends GameService
     	}
     	
     	if (is_null($player)) {
-    		$player = $this->session->getPlayer();
+    		$player = $this->security_context->getToken()->getUser();
     	}
     	
     	return $this->getParty()->getHost()->getId() === $player->getId();

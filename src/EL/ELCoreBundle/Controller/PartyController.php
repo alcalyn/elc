@@ -212,10 +212,13 @@ class PartyController extends Controller
             )));
         }
         
-        return $this->render('ELCoreBundle:Party:active.html.twig', array(
-            'game'          => $party_service->getGame(),
-            'party'         => $party,
-        ));
+        $game_service = $this
+                ->get($party_service->getGameServiceName())
+        ;
+        
+        return $game_service
+        		->activeAction($_locale, $party_service)
+        ;
     }
     
     

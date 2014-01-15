@@ -3,14 +3,14 @@
 namespace EL\ELTicTacToeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use EL\ELCoreBundle\Model\ELGameInterface;
+use EL\ELAbstractGameBundle\Model\ELGameAdapter;
 use EL\ELTicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
 use EL\ELTicTacToeBundle\Form\Entity\TicTacToePartyOptions;
 use EL\ELTicTacToeBundle\Entity\Party;
 use EL\ELCoreBundle\Entity\Party as CoreParty;
 
 
-class DefaultController extends Controller implements ELGameInterface
+class DefaultController extends ELGameAdapter
 {
     public function gameOptionsAction()
     {

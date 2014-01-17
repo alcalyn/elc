@@ -283,4 +283,17 @@ class Game extends AbstractLangEntity
     {
         return $this->room;
     }
+    
+    
+    public function jsonSerialize()
+    {
+    	return array(
+    		'id'			=> $this->getId(),
+    		'name'			=> $this->getName(),
+    		'nb_player_min'	=> $this->getNbplayerMin(),
+    		'nb_player_max'	=> $this->getNbplayerMax(),
+    		'room'			=> $this->getRoom(),
+    	);
+    }
+    
 }

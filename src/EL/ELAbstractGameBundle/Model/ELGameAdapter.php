@@ -30,7 +30,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function saveOptions(CoreParty $core_party, $options, $em)
+    public function saveOptions(CoreParty $core_party, $options)
     {
     	return true;
     }
@@ -75,7 +75,18 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function activeAction($_locale, $party_service) {
+    public function loadParty($_locale, $slug_party)
+    {
+    	$partyAdapter = new stdClass();
+    	$party->core_party = new CoreParty();
+    	return $partyAdapter;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function activeAction($_locale, $party_service)
+    {
     	return $this->render('ELAbstractGameBundle:Adapter:active.html.twig', array(
     		'game'		=> $party_service->getGame(),
     		'party'		=> $party_service->getParty(),

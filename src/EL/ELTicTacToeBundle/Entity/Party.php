@@ -31,10 +31,39 @@ class Party
 
     /**
      * @var integer
+     * 
+     * 0: random ; 1: first player ; 2: second player
      *
      * @ORM\Column(name="first_player", type="smallint")
      */
     private $firstPlayer;
+    
+    /**
+     * @var string
+     * 
+     * Represent the tic tac toe grid
+     * -OX
+     * Example: -O--XO-XX
+     *
+     * @ORM\Column(name="grid", type="string", length=9, nullable=true, options={"default" = "---------"})
+     */
+    private $grid;
+    
+    /**
+     * @var integer
+     * 
+     * Current player 1 or 2
+     *
+     * @ORM\Column(name="current_player", type="smallint", nullable=true)
+     */
+    private $current_player;
+    
+    
+    
+    public function __construct()
+    {
+    	$this->setGrid('---------');
+    }
 
 
     /**
@@ -92,4 +121,63 @@ class Party
     {
         return $this->party;
     }
+
+    /**
+     * Set grid
+     *
+     * @param string $grid
+     * @return Party
+     */
+    public function setGrid($grid)
+    {
+        $this->grid = $grid;
+    
+        return $this;
+    }
+
+    /**
+     * Get grid
+     *
+     * @return string 
+     */
+    public function getGrid()
+    {
+        return $this->grid;
+    }
+
+    /**
+     * Set current_player
+     *
+     * @param integer $currentPlayer
+     * @return Party
+     */
+    public function setCurrentPlayer($currentPlayer)
+    {
+        $this->current_player = $currentPlayer;
+    
+        return $this;
+    }
+
+    /**
+     * Get current_player
+     *
+     * @return integer 
+     */
+    public function getCurrentPlayer()
+    {
+        return $this->current_player;
+    }
+    
+    
+    public function jsonSerialize()
+    {
+    	return array(
+    		'id'				=> $this->getId(),
+    		'first_player'		=> $this->getFirstPlayer(),
+    		'current_player'	=> $this->getCurrentPlayer(),
+    		'grid'				=> $this->getGrid(),
+    	);
+    }
+    
+    
 }

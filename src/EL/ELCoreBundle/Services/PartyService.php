@@ -28,7 +28,7 @@ class PartyService extends GameService
      * 
      * @var integer in seconds
      */
-    const DELAY_BEFORE_START = 5;
+    const DELAY_BEFORE_START = -1;
     
     
     /**
@@ -52,8 +52,8 @@ class PartyService extends GameService
     {
         parent::__construct($em);
         
-        $this->illflushitlater  = $illflushitlater;
-        $this->security_context          = $security_context;
+        $this->illflushitlater		= $illflushitlater;
+        $this->security_context		= $security_context;
     }
     
     
@@ -65,7 +65,7 @@ class PartyService extends GameService
     {
         $this->party = $party;
         $this->setGame($party->getGame());
-        $this->checkDelay();
+        $this->checkDelayBeforeStart();
         return $this;
     }
     
@@ -447,6 +447,10 @@ class PartyService extends GameService
     				->setDateStarted(new \DateTime())
     			;
     			
+    			if (self::DELAY_BEFORE_START <= 0) {
+    				$party->setState(Party::ACTIVE);
+    			}
+    			
 	    		$this->illflushitlater->persist($party);
 	    		$this->illflushitlater->flush();
     		}
@@ -473,7 +477,7 @@ class PartyService extends GameService
      * Check if delay before start has ran out,
      * then start party really
      */
-    public function checkDelay()
+    public function checkDelayBeforeStart()
     {
     	$party = $this->getParty();
     	

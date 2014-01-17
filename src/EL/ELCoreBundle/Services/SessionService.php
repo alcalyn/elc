@@ -85,7 +85,13 @@ class SessionService
     
     public function getPlayer()
     {
-        return $this->security_context->getToken()->getUser();
+    	$user = $this->security_context->getToken()->getUser();
+    	
+    	if ($user instanceof Player) {
+    		return $user;
+    	} else {
+	        return null;
+    	}
     }
     
     public function logPlayer($player)

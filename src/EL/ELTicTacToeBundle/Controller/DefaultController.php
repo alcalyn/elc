@@ -29,13 +29,23 @@ class DefaultController extends ELGameAdapter
         return new TicTacToePartyOptions();
     }
     
-    public function saveOptions(CoreParty $core_party, $options, $em)
+    public function saveOptions(CoreParty $core_party, $options)
     {
+    	$em = $this->getDoctrine()->getManager();
+    	
         $party = new Party();
+        
+        $current_player = $options->getFirstPlayer();
+        
+        if ($current_player == 0) {
+        	$current_player = rand(1, 2);
+        }
         
         $party
                 ->setParty($core_party)
-                ->setFirstPlayer($options->getFirstPlayer());
+                ->setFirstPlayer($options->getFirstPlayer())
+                ->setCurrentPlayer($current_player)
+        ;
         
         $em->persist($party);
         $em->flush();
@@ -67,6 +77,36 @@ class DefaultController extends ELGameAdapter
                 ),
             ),
         );
+    }
+    
+	public function loadParty($_locale, $slug_party)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$party = $em
+    			->getRepository('ELTicTacToeBundle:Party')
+    			->findOneBySlugParty($slug_party);
+    	
+    	return $party;
+    }
+    
+	public function activeAction($_locale, $party_service)
+	{
+		$em = $this->getDoctrine()->getManager();
+		
+		$game		= $party_service->getGame();
+		$core_party	= $party_service->getParty();
+
+        $party = $em
+                ->getRepository('ELTicTacToeBundle:Party')
+                ->findOneByCoreParty($core_party)
+        ;
+		
+    	return $this->render('ELTicTacToeBundle:Default:active.html.twig', array(
+    		'game'			=> $game,
+    		'core_party'	=> $core_party,
+    		'party'			=> $party,
+    	));
     }
     
 }

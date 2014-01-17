@@ -386,15 +386,6 @@ class Party
     {
         return $this->room;
     }
-    
-    
-    public function jsonSerialize() {
-        return array(
-            'host'      => $this->getHost()->jsonSerialize(),
-            'title'     => $this->getTitle(),
-            'state'     => $this->getState(),
-        );
-    }
 
 
     /**
@@ -511,4 +502,31 @@ class Party
     {
         return $this->date_ended;
     }
+    
+    
+    public function jsonSerialize()
+    {
+    	$slots = array();
+    	
+    	foreach ($this->getSlots() as $slot) {
+    		$slots[$slot->getPosition()] = $slot->jsonSerialize();
+    	}
+    	
+    	return array(
+    		'id'				=> $this->getId(),
+    		'allow_chat'		=> $this->getAllowChat(),
+    		'allow_observers'	=> $this->getAllowObservers(),
+            'title'				=> $this->getTitle(),
+            'state'				=> $this->getState(),
+    		'open'				=> $this->getOpen(),
+    		'room'				=> $this->getRoom(),
+    		'host'				=> $this->getHost()->jsonSerialize(),
+    		'game'				=> $this->getGame()->jsonSerialize(),
+    		'slots'				=> $slots,
+    		'date_create'		=> $this->getDateCreate(),
+    		'date_started'		=> $this->getDateStarted(),
+    		'date_ended'		=> $this->getDateEnded(),
+    	);
+    }
+    
 }

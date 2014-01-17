@@ -33,7 +33,7 @@ interface ELGameInterface
      * 
      * @return boolean
      */
-    public function saveOptions(CoreParty $core_party, $options, $em);
+    public function saveOptions(CoreParty $core_party, $options);
     
     /**
      * Return a default slots configuration
@@ -42,6 +42,13 @@ interface ELGameInterface
      * @return array
      */
     public function getSlotsConfiguration($options);
+    
+    /**
+     * Load extended party class
+     * 
+     * @return stdClass
+     */
+    public function loadParty($_locale, $slug_party);
     
     /**
      * Controller of active party screen

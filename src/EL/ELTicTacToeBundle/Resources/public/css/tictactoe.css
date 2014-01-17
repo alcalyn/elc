@@ -1,0 +1,39 @@
+
+
+#grid {
+	width: 420px;
+	margin: 24px auto 0 auto;
+}
+
+.grid-item {
+	display: block;
+	float: left;
+	width: 140px;
+	height: 140px;
+}
+.grid-item:hover {
+}
+
+.grid-odd {
+	background-color: #EEE;
+}
+.grid-odd.grid-value_-:hover {
+	background-color: #CCC;
+}
+.grid-even {
+	background-color: #DDD;
+}
+.grid-even.grid-value_-:hover {
+	background-color: #BBB;
+}
+
+.grid-value_- {
+	cursor: pointer;
+}
+.grid-value_X {
+	background-color: lightCoral;
+}
+.grid-value_O {
+	background-color: lightBlue;
+}
+

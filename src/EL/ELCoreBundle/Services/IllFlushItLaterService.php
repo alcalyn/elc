@@ -42,6 +42,8 @@ class IllFlushItLaterService
         } else {
             $this->em->persist($entity);
         }
+        
+        return $this;
     }
     
     
@@ -52,6 +54,8 @@ class IllFlushItLaterService
         } else {
             $this->em->merge($entity);
         }
+        
+        return $this;
     }
     
     public function flush()
@@ -59,6 +63,8 @@ class IllFlushItLaterService
         if (!$this->illdoitlater->isEnabled()) {
             $this->em->flush();
         }
+        
+        return $this;
     }
     
     
@@ -66,6 +72,7 @@ class IllFlushItLaterService
     {
         $this->persist_entities = array();
         $this->merge_entities   = array();
+        return $this;
     }
     
     
@@ -76,6 +83,8 @@ class IllFlushItLaterService
         $this->illdoitlater->addCall(function () use($self) {
             $self->flushNow();
         }, 'illflushitlater-flush');
+        
+        return $this;
     }
     
     
@@ -93,6 +102,8 @@ class IllFlushItLaterService
             $this->em->flush();
             $this->clear();
         }
+        
+        return $this;
     }
     
     

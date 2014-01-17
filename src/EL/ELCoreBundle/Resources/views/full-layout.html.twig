@@ -11,6 +11,9 @@
 		<!--[if IE 6]>
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/elcore/css/iecss.css') }}" />
 		<![endif]-->
+		
+        {% block htmlhead %}
+        {% endblock %}
 	</head>
 	<body>
 		<div id="body-container">
@@ -304,5 +307,10 @@
 		    '@PhaxBundle/Resources/public/js/*' %}
 		        <script src="{{ asset_url }}" type="text/javascript"></script>
 		{% endjavascripts %}
+		
+		<div id="html-end">
+			{% block htmlend %}
+	        {% endblock %}
+		</div>
 	</body>
 </html>

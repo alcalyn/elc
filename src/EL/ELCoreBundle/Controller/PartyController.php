@@ -54,7 +54,7 @@ class PartyController extends Controller
                     ->getDoctrine()
                     ->getManager();
             
-            if ($game_service->saveOptions($party, $special_party_options, $em)) {
+            if ($game_service->saveOptions($party, $special_party_options)) {
                 $party_service
                         ->createSlots($game_service->getSlotsConfiguration($special_party_options));
                 
@@ -192,7 +192,8 @@ class PartyController extends Controller
     {
         $party_service = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $_locale);
+                ->setPartyBySlug($slug_party, $_locale)
+        ;
         
         $party = $party_service->getParty();
         
@@ -212,13 +213,16 @@ class PartyController extends Controller
             )));
         }
         
-        $game_service = $this
-                ->get($party_service->getGameServiceName())
+        $game_service = $this->get($party_service->getGameServiceName());
+        $party_extended = $game_service->loadParty($_locale, $slug_party);
+        $jsVars = $this->get('el_core.js_vars');
+        
+        $jsVars
+        	->addContext('core_party', $party->jsonSerialize())
+        	->addContext('extended_party', $game_service->loadParty($_locale, $slug_party)->jsonSerialize())
         ;
         
-        return $game_service
-        		->activeAction($_locale, $party_service)
-        ;
+        return $game_service->activeAction($_locale, $party_service);
     }
     
     

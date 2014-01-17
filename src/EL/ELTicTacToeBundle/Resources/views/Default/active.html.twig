@@ -1,0 +1,23 @@
+{% extends "ELCoreBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Active{% endblock %}
+
+{% block htmlhead %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/eltictactoe/css/tictactoe.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="jeux-actif">
+    <div id="grid">
+    	{% for line in 0..2 %}
+    		{% for col in 0..2 %}
+		    	<div id="grid-{{ line }}-{{ col }}" class="grid-item grid-{{ cycle(['odd', 'even'], (line+col)) }} grid-value_{{ party.grid[line*3+col : 1] }}"></div>
+    		{% endfor %}
+    	{% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block htmlend %}
+    <script src="{{ asset('bundles/eltictactoe/js/tictactoe.js') }}" type="text/javascript"></script>
+{% endblock %}

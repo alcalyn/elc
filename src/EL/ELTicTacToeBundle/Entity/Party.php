@@ -180,4 +180,17 @@ class Party
     }
     
     
+    public function createClone($clone_core_party)
+    {
+    	$clone = new self();
+    	
+    	$clone->party			= $clone_core_party;
+    	$clone->firstPlayer		= $this->firstPlayer;
+    	$clone->current_player	= $this->firstPlayer == 0 ? rand(1, 2) : $this->firstPlayer ;
+    	$clone->grid			= '---------';
+    	
+    	return $clone;
+    }
+    
+    
 }

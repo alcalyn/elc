@@ -36,6 +36,13 @@ interface ELGameInterface
     public function saveOptions(CoreParty $core_party, $options);
     
     /**
+     * Retreive options from core party
+     * 
+     * @return boolean
+     */
+    public function loadOptions(CoreParty $core_party);
+    
+    /**
      * Return a default slots configuration
      * and some parameters
      * 
@@ -56,6 +63,24 @@ interface ELGameInterface
      * @return Symfony\Component\HttpFoundation\Response
      */
     public function activeAction($_locale, $party_service);
+    
+    /**
+     * Controller of ended party screen (scores)
+     * 
+     * @return Symfony\Component\HttpFoundation\Response
+     */
+    public function endedAction($_locale, $party_service);
+    
+    /**
+     * Return a clone of extended party.
+     * Used when someone remake a party.
+     * 
+     * @param $_locale
+     * @param $slug_party to clone
+     * @param $clone_core_party just cloned
+     * @return void nothing interesting
+     */
+    public function createClone($slug_party, $clone_core_party);
     
     
 }

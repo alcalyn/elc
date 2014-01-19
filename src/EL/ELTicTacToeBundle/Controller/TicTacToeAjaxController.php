@@ -43,6 +43,10 @@ class TicTacToeAjaxController extends Controller
     	$player	= $this->getUser();
     	$slot	= $party->getParty()->getSlot($party->getCurrentPlayer() - 1);
     	
+    	if (is_null($party->getCurrentPlayer())) {
+    		return $phax->error('error, current player is null');
+    	}
+    	
     	if (is_null($slot)) {
     		return $phax->error('no slot at position '.$party->getCurrentPlayer());
     	}
@@ -77,13 +81,28 @@ class TicTacToeAjaxController extends Controller
     	$winner = self::_winner($grid);
     	
     	if ($winner !== '-') {
-    		// TODO victory
+    		$score = $party
+	    			->getParty()
+	    			->getSlot($winner === 'X' ? 0 : 1)
+	    			->addScore()
+	    			->getScore()
+    		;
+    		
+    		if ($score == 2) {
+    			$this
+    				->get('el_core.party')
+    				->setParty($party->getParty())
+    				->end()
+    			;
+    		} else {
+    			$party->setGrid('---------');
+    		}
+    	} else {
+	    	$party
+	    		->setCurrentPlayer(3 - $party->getCurrentPlayer())
+	    		->setGrid($grid)
+	    	;
     	}
-    	
-    	$party
-    		->setCurrentPlayer(3 - $party->getCurrentPlayer())
-    		->setGrid($grid)
-    	;
     	
     	$this->get('el_core.illflushitlater')
     		->persist($party)

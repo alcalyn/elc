@@ -53,6 +53,22 @@ class DefaultController extends ELGameAdapter
         return true;
     }
     
+    public function loadOptions(CoreParty $core_party)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$party = $em
+    			->getRepository('ELTicTacToeBundle:Party')
+    			->findOneBySlugParty($core_party->getSlug())
+    	;
+    	
+    	$options = new TicTacToePartyOptions();
+    	
+    	$options->setFirstPlayer($party->getFirstPlayer());
+    	
+    	return $options;
+    }
+    
     public function getSlotsConfiguration($options)
     {
         return array(
@@ -107,6 +123,21 @@ class DefaultController extends ELGameAdapter
     		'core_party'	=> $core_party,
     		'party'			=> $party,
     	));
+    }
+    
+	public function createClone($slug_party, $clone_core_party)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$extended_party = $em
+                ->getRepository('ELTicTacToeBundle:Party')
+                ->findOneBySlugParty($slug_party)
+        ;
+        
+        $clone_extended_party = $extended_party->createClone($clone_core_party);
+        
+        $em->persist($clone_extended_party);
+        $em->flush();
     }
     
 }

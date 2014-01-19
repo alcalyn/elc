@@ -38,6 +38,14 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
+    public function loadOptions(CoreParty $core_party)
+    {
+    	return new AdapterOptions();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
     public function getSlotsConfiguration($options)
     {
     	return array(
@@ -77,9 +85,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function loadParty($_locale, $slug_party)
     {
-    	$partyAdapter = new stdClass();
-    	$party->core_party = new CoreParty();
-    	return $partyAdapter;
+    	return new stdClass();
     }
     
     /**
@@ -91,6 +97,25 @@ class ELGameAdapter extends Controller implements ELGameInterface
     		'game'		=> $party_service->getGame(),
     		'party'		=> $party_service->getParty(),
     	));
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function endedAction($_locale, $party_service)
+    {
+    	return $this->render('ELAbstractGameBundle:Adapter:ended.html.twig', array(
+    		'game'		=> $party_service->getGame(),
+    		'party'		=> $party_service->getParty(),
+    	));
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function createClone($slug_party, $core_party_clone)
+    {
+    	return new stdClass();
     }
     
     

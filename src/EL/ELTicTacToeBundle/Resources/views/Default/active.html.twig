@@ -14,6 +14,29 @@
 		    	<div id="grid-{{ line }}-{{ col }}" class="grid-item grid-{{ cycle(['odd', 'even'], (line+col)) }} grid-value_{{ party.grid[line*3+col : 1] }}"></div>
     		{% endfor %}
     	{% endfor %}
+    	<div style="clear:both"></div>
+    </div>
+    <div id="players">
+    	<div class="player player-1">
+    		<h3>
+    			{% if core_party.slots[0].player %}
+    				{{ core_party.slots[0].player.pseudo }}
+    			{% else %}
+    				---
+    			{% endif %}
+    		</h3>
+    		<p>{{ core_party.slots[0].score }} {{ 'wins'|trans }}</p>
+    	</div>
+    	<div class="player player-2">
+    		<h3>
+    			{% if core_party.slots[1].player %}
+    				{{ core_party.slots[1].player.pseudo }}
+    			{% else %}
+    				---
+    			{% endif %}
+    		</h3>
+    		<p>{{ core_party.slots[1].score }} {{ 'wins'|trans }}</p>
+    	</div>
     </div>
 </div>
 {% endblock %}

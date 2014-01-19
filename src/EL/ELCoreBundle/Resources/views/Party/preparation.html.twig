@@ -5,7 +5,9 @@
 {% block body %}
 <h2>{{ game.title }}</h2>
 <p class="partie-title">{{ party.title }}</p>
-<p class="host">Hôte : {{ party.host.pseudo }}</h2>
+{% if party.host %}
+	<p class="host">Hôte : {{ party.host.pseudo }}</h2>
+{% endif %}
 <hr />
 <div class="row">
 	<div class="col-md-6">

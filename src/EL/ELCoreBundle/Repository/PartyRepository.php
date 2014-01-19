@@ -17,12 +17,12 @@ class PartyRepository extends EntityRepository
         $query = $this->_em->createQuery('
             select p, g, gl, s
             from ELCoreBundle:Party p
-            join p.slots s
-            join p.game g
-            join p.host h
-            join g.langs gl
-            join gl.lang l
-            where  l.locale = :locale
+            left join p.slots s
+            left join p.game g
+            left join p.host h
+            left join g.langs gl
+            left join gl.lang l
+            where l.locale = :locale
             and p.slug = :slug
             order by s.position
         ')->setParameters(array(

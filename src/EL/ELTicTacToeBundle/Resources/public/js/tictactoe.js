@@ -145,11 +145,13 @@ var tictactoe = {
 	tick: function(line, col)
 	{
 		var data = {
-				extended_party_id: jsContext.extended_party.id,
-				coords: {
-					line: line,
-					col: col
-				}
+			locale: jsContext.locale,
+			party_slug: jsContext.core_party.slug,
+			extended_party_id: jsContext.extended_party.id,
+			coords: {
+				line: line,
+				col: col
+			}
 		};
 		
 		phax.action('tictactoe', 'tick', data);

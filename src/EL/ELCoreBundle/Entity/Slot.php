@@ -28,7 +28,7 @@ class Slot
     private $player;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party", inversedBy="slots")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party", inversedBy="slots", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $party;
@@ -53,6 +53,12 @@ class Slot
      * @ORM\Column(name="score", type="float")
      */
     private $score;
+    
+    
+    public function __construct()
+    {
+    	$this->score = 0;
+    }
 
 
     /**
@@ -132,6 +138,18 @@ class Slot
     public function getScore()
     {
         return $this->score;
+    }
+    
+    /**
+     * Add $n to score
+     * 
+     * @param mixed $n, default = 1
+     * @return Slot
+     */
+    public function addScore($n = 1)
+    {
+    	$this->score += $n;
+    	return $this;
     }
 
     /**

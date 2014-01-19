@@ -128,6 +128,15 @@ class Party
     private $allow_observers;
     
     /**
+     * Contains party which is the clone of this
+     * created by the player who has remade an older party
+     * 
+     * @ORM\OneToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $remake;
+    
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_create", type="datetime")
@@ -502,6 +511,29 @@ class Party
     {
         return $this->date_ended;
     }
+
+    /**
+     * Set remake
+     *
+     * @param \EL\ELCoreBundle\Entity\Party $remake
+     * @return Party
+     */
+    public function setRemake(\EL\ELCoreBundle\Entity\Party $remake = null)
+    {
+        $this->remake = $remake;
+    
+        return $this;
+    }
+
+    /**
+     * Get remake
+     *
+     * @return \EL\ELCoreBundle\Entity\Party 
+     */
+    public function getRemake()
+    {
+        return $this->remake;
+    }
     
     
     public function jsonSerialize()
@@ -514,13 +546,14 @@ class Party
     	
     	return array(
     		'id'				=> $this->getId(),
+    		'slug'				=> $this->getSlug(),
     		'allow_chat'		=> $this->getAllowChat(),
     		'allow_observers'	=> $this->getAllowObservers(),
             'title'				=> $this->getTitle(),
             'state'				=> $this->getState(),
     		'open'				=> $this->getOpen(),
     		'room'				=> $this->getRoom(),
-    		'host'				=> $this->getHost()->jsonSerialize(),
+    		'host'				=> is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
     		'game'				=> $this->getGame()->jsonSerialize(),
     		'slots'				=> $slots,
     		'date_create'		=> $this->getDateCreate(),
@@ -528,5 +561,23 @@ class Party
     		'date_ended'		=> $this->getDateEnded(),
     	);
     }
+    
+    
+    public function createClone()
+    {
+    	$clone = new self();
+    	
+    	$clone->game			= $this->game;
+    	$clone->title			= $this->title;
+    	$clone->open			= $this->open;
+    	$clone->room			= $this->room;
+    	$clone->allow_chat		= $this->allow_chat;
+    	$clone->allow_observers	= $this->allow_observers;
+    	$clone->state			= self::PREPARATION;
+    	$clone->date_create		= new \DateTime();
+    	
+    	return $clone;
+    }
+    
     
 }

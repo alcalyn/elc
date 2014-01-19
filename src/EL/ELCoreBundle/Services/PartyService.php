@@ -65,9 +65,14 @@ class PartyService extends GameService
     {
         $this->party = $party;
         $this->setGame($party->getGame());
-        $this->checkDelayBeforeStart();
+        
+        if ($party->getState() === Party::STARTING) {
+        	$this->checkDelayBeforeStart();
+        }
+        
         return $this;
     }
+    
     
     /**
      * @param string $slug
@@ -100,12 +105,10 @@ class PartyService extends GameService
     public function createParty($partyOption)
     {
         $party = new Party();
-        $slug = Slug::slug($partyOption->getTitle());
         $party
                 ->setGame($this->getGame())
                 ->setHost($this->security_context->getToken()->getUser())
                 ->setTitle($partyOption->getTitle())
-                ->setSlug($slug)
                 ->setOpen(!$partyOption->getPrivate())
                 ->setAllowChat(!$partyOption->getDisallowChat())
                 ->setAllowObservers(!$partyOption->getDisallowObservers())
@@ -113,28 +116,39 @@ class PartyService extends GameService
                 ->setDateCreate(new \DateTime())
         ;
         
-        $count_slug = $this->em
-        		->getRepository('ELCoreBundle:Party')
-        		->countSlug($slug)
-        ;
+        $this->addSlug($party);
         
-        if (intval($count_slug) > 0) {
-        	$this->em->persist($party);
-        	$this->em->flush();
-        	$party->setSlug($slug.'-'.$party->getId());
-        } else {
-	        $this->illflushitlater->persist($party);
-        }
-        
+        $this->illflushitlater->persist($party);
         $this->illflushitlater->flush();
         
         return $party;
     }
     
     
-    public function createSlots(array $slots_configuration)
+    private function addSlug($party)
     {
-        $this->needParty();
+    	$slug = Slug::slug($party->getTitle());
+    	$party->setSlug($slug);
+    	
+    	$count_slug = $this->em
+        		->getRepository('ELCoreBundle:Party')
+        		->countSlug($slug)
+        ;
+        
+    	if (intval($count_slug) > 0) {
+        	$this->em->persist($party);
+        	$this->em->flush();
+        	$party->setSlug($slug.'-'.$party->getId());
+        }
+    }
+    
+    
+    public function createSlots(array $slots_configuration, Party $party = null)
+    {
+    	if (is_null($party)) {
+        	$this->needParty();
+        	$party = $this->getParty();
+    	}
         
         $position = 1;
         
@@ -145,10 +159,11 @@ class PartyService extends GameService
             
             $slot = new Slot();
             $slot
-                    ->setParty($this->getParty())
+                    ->setParty($party)
                     ->setPosition($position++)
                     ->setScore($score)
-                    ->setOpen($isOpen);
+                    ->setOpen($isOpen)
+            ;
             
             if ($isHost) {
                 $slot->setPlayer($this->security_context->getToken()->getUser());
@@ -180,11 +195,11 @@ class PartyService extends GameService
      * @param boolean $join
      * @return integer 0: ok, or error
      */
-    public function canJoin(Player $player, $slot_index = -1, $join = false)
+    public function canJoin(Player $player, $slot_index = -1, $join = false, $party = null)
     {
         $this->needParty();
         
-        $party  = $this->getParty();
+        $party  = is_null($party) ? $this->getParty() : $party ;
         $state  = $party->getState();
         $room   = $party->getRoom();
         
@@ -254,9 +269,9 @@ class PartyService extends GameService
     }
     
     
-    public function join(Player $player, $slot_index = -1)
+    public function join(Player $player, $slot_index = -1, $party = null)
     {
-    	return $this->canJoin($player, $slot_index, true);
+    	return $this->canJoin($player, $slot_index, true, $party);
     }
     
     
@@ -496,6 +511,63 @@ class PartyService extends GameService
     			$this->illflushitlater->flush();
     		}
     	}
+    }
+    
+    
+    /**
+     * End the party if currently active
+     */
+    public function end()
+    {
+    	$party = $this->getParty();
+    	
+    	if ($party->getState() === Party::ACTIVE) {
+	    	$party
+	    		->setState(Party::ENDED)
+	    		->setDateEnded(new \DateTime())
+	    	;
+	    	
+	    	return self::OK;
+    	} else {
+    		return self::NOT_OK;
+    	}
+    }
+    
+    
+    /**
+     * Remake the current party by creating core party
+     * and call extended party createClone with new core party as argument
+     * 
+     * @param ELGameInterface $extended_party_service
+     * @return Party
+     */
+    public function remake($extended_party_service)
+    {
+    	$player	= $this->security_context->getToken()->getUser();
+    	$party	= $this->getParty();
+    	
+    	if (!is_null($remake = $party->getRemake())) {
+    		$this->join($player, -1, $remake);
+    		return $remake;
+    	}
+    	
+    	$clone_core_party = $party->createClone();
+    	$party->setRemake($clone_core_party);
+    	$clone_core_party->setHost($player);
+    	
+    	$this->addSlug($clone_core_party);
+    	
+    	$options = $extended_party_service->loadOptions($this->getParty());
+    	$slots_configuration = $extended_party_service->getSlotsConfiguration($options);
+    	$this->createSlots($slots_configuration, $clone_core_party);
+    	
+    	$this->illflushitlater->persist($clone_core_party);
+    	$this->illflushitlater->persist($party);
+    	$this->illflushitlater->flush();
+    	
+    	$extended_party_service->createClone($party->getSlug(), $clone_core_party);
+    	
+    	return $clone_core_party;
     }
     
     

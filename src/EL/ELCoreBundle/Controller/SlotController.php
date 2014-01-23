@@ -11,34 +11,6 @@ use EL\PhaxBundle\Model\PhaxResponse;
 
 class SlotController extends Controller
 {
-    /**
-     * This controller is important
-     * (not a duplicate of ajaxJoinAction())
-     * because it is used for its url
-     * (when sent to a friend or typed id browser)
-     * 
-     * @Route(
-     *      "/games/{slug_game}/{slug_party}/join",
-     *      name = "elcore_party_join"
-     * )
-     */
-    public function joinAction($_locale, $slug_game, $slug_party)
-    {
-        $party_service      = $this->get('el_core.party');
-        $player             = $this->getUser();
-        $flashbag           = $this->get('session')->getFlashBag();
-        
-        $party_service->setPartyBySlug($slug_party, $_locale);
-        $result = $party_service->canJoin($player, -1, true);
-        $message = $party_service->explainJoinResult($result);
-        $flashbag->add($message['type'], $message['message']);
-        
-        return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-            '_locale'       => $_locale,
-            'slug_game'     => $slug_game,
-            'slug_party'    => $slug_party,
-        )));
-    }
     
     
     public function refreshAction(PhaxAction $phax_action)

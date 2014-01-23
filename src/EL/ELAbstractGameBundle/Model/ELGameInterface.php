@@ -58,6 +58,14 @@ interface ELGameInterface
     public function loadParty($_locale, $slug_party);
     
     /**
+     * Can define customs rules to start party.
+     * Return an ELUserException if cannot start, true otherwise
+     * 
+     * @return mixed true or ELUserException
+     */
+    public function canStart($party_service);
+    
+    /**
      * Controller of active party screen
      * 
      * @return Symfony\Component\HttpFoundation\Response

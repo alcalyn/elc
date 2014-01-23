@@ -176,6 +176,16 @@ class Slot
     }
 
     /**
+     * Has player
+     *
+     * @return boolean
+     */
+    public function hasPlayer()
+    {
+        return !is_null($this->player);
+    }
+
+    /**
      * Set party
      *
      * @param \EL\ELCoreBundle\Entity\Party $party

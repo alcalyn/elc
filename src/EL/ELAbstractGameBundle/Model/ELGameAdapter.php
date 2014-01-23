@@ -4,6 +4,7 @@ namespace EL\ELAbstractGameBundle\Model;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\ELCoreBundle\Entity\Party as CoreParty;
+use EL\ELCoreBundle\Model\ELUserException;
 use EL\ELAbstractGameBundle\Form\Entity\AdapterOptions;
 use EL\ELAbstractGameBundle\Form\Type\AdapterOptionsType;
 
@@ -86,6 +87,26 @@ class ELGameAdapter extends Controller implements ELGameInterface
     public function loadParty($_locale, $slug_party)
     {
     	return new stdClass();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function canStart($party_service)
+    {
+    	$nb_player_min	= $party_service->getGame()->getNbplayerMin();
+    	$nb_player_max	= $party_service->getGame()->getNbplayerMax();
+    	$nb_player		= $party_service->getNbPlayer();
+    	
+    	if ($nb_player < $nb_player_min) {
+    		throw new ELUserException('cannot.start.notenoughplayer', ELUserException::TYPE_WARNING);
+    	}
+    	
+    	if ($nb_player > $nb_player_max) {
+    		throw new ELUserException('cannot.start.toomanyplayer', ELUserException::TYPE_WARNING);
+    	}
+    	
+    	return true;
     }
     
     /**

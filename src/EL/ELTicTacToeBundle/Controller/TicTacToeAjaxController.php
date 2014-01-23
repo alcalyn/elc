@@ -80,28 +80,30 @@ class TicTacToeAjaxController extends Controller
     	
     	$winner = self::_winner($grid);
     	
-    	if ($winner !== '-') {
-    		$score = $party
-	    			->getParty()
-	    			->getSlot($winner === 'X' ? 0 : 1)
-	    			->addScore()
-	    			->getScore()
-    		;
-    		
-    		if ($score == 2) {
-    			$this
-    				->get('el_core.party')
-    				->setParty($party->getParty())
-    				->end()
-    			;
-    		} else {
-    			$party->setGrid('---------');
-    		}
-    	} else {
-	    	$party
+    	if (is_null($winner)) {
+    		$party
 	    		->setCurrentPlayer(3 - $party->getCurrentPlayer())
 	    		->setGrid($grid)
 	    	;
+    	} else {
+    		if ($winner !== '-') {
+	    		$score = $party
+		    			->getParty()
+		    			->getSlot($winner === 'X' ? 0 : 1)
+		    			->addScore()
+		    			->getScore()
+	    		;
+	    		
+	    		if ($score >= 2) {
+	    			$this
+	    				->get('el_core.party')
+	    				->setParty($party->getParty())
+	    				->end()
+	    			;
+	    		}
+    		}
+    		
+    		$party->setGrid('---------');
     	}
     	
     	$this->get('el_core.illflushitlater')
@@ -116,6 +118,16 @@ class TicTacToeAjaxController extends Controller
     }
     
     
+    /**
+     * Check if we have winner or draw party
+     * 
+     * @param string $grid
+     * @return mixed
+     * 			'X'		=> X won
+     * 			'O'		=> O won
+     * 			'-'		=> draw
+     * 			null	=> party not finished
+     */
     private static function _winner($grid)
     {
     	if (self::_brochette($grid, 0, 1, 2)) return $grid[0];
@@ -129,12 +141,17 @@ class TicTacToeAjaxController extends Controller
     	if (self::_brochette($grid, 0, 4, 8)) return $grid[0];
     	if (self::_brochette($grid, 2, 4, 6)) return $grid[2];
     	
-    	return '-';
+    	if (strpos($grid, '-') === false) {
+    		return '-';
+    	} else {
+	    	return null;
+    	}
     }
     
     private static function _brochette($grid, $a, $b, $c)
     {
     	return
+    		$grid[$a] !== '-' &&
     		$grid[$a] === $grid[$b] &&
     		$grid[$a] === $grid[$c] ;
     }

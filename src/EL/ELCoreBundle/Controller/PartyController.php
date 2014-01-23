@@ -145,7 +145,7 @@ class PartyController extends Controller
         	$e->addFlashMessage($this->get('session'));
         }
         
-        return $this->_redirect($_locale, $slug_game, $slug_party, $party);
+        return $this->_redirect($_locale, $slug_game, $slug_party, $party_service->getParty());
     }
     
     
@@ -256,25 +256,13 @@ class PartyController extends Controller
         
         $party = $party_service->getParty();
         
-        if (in_array($party->getState(), array(Party::PREPARATION, Party::STARTING))) {
-            return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                '_locale'       => $_locale,
-                'slug_game'     => $slug_game,
-                'slug_party'    => $slug_party,
-            )));
+        if ($party->getState() !== Party::ACTIVE) {
+            return $this->_redirect($_locale, $slug_game, $slug_party, $party);
         }
         
-        if ($party->getState() === Party::ENDED) {
-            return $this->redirect($this->generateUrl('elcore_party_ended', array(
-                '_locale'       => $_locale,
-                'slug_game'     => $slug_game,
-                'slug_party'    => $slug_party,
-            )));
-        }
-        
-        $extended_game = $this->get($party_service->getGameServiceName());
-        $party_extended = $extended_game->loadParty($_locale, $slug_party);
-        $jsVars = $this->get('el_core.js_vars');
+        $extended_game	= $this->get($party_service->getGameServiceName());
+        $party_extended	= $extended_game->loadParty($_locale, $slug_party);
+        $jsVars			= $this->get('el_core.js_vars');
         
         $jsVars
         	->addContext('core_party', $party->jsonSerialize())
@@ -295,7 +283,14 @@ class PartyController extends Controller
     {
         $party_service = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $_locale);
+                ->setPartyBySlug($slug_party, $_locale)
+        ;
+        
+        $party = $party_service->getParty();
+        
+    	if ($party->getState() !== Party::ENDED) {
+            return $this->_redirect($_locale, $slug_game, $slug_party, $party);
+        }
         
         $extended_game = $this->get($party_service->getGameServiceName());
         

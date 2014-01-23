@@ -2,6 +2,12 @@
 
 var tictactoe = {
 	
+	case_size:		140,
+	color_X:		'lightCoral',
+	color_O:		'lightBlue',
+	color_bg_odd:	'#EEE',
+	color_bg_even:	'#DDD',
+	
 	current_player: 1,
 	
 	thread: undefined,
@@ -55,12 +61,20 @@ var tictactoe = {
 			return false;
 		}
 		
-		tictactoe.getCase(line, col)
+		var $case = tictactoe.getCase(line, col);
+		
+		if ($case.hasClass('grid-value_'+value)) {
+			return true;
+		}
+		
+		$case
 			.removeClass('grid-value_-')
 			.removeClass('grid-value_X')
 			.removeClass('grid-value_O')
 			.addClass('grid-value_'+value)
 		;
+		
+		tictactoe.animate($case);
 		
 		return true;
 	},
@@ -107,6 +121,20 @@ var tictactoe = {
 		}
 		
 		return grid;
+	},
+	
+	animate: function($case)
+	{
+		var border_size		= tictactoe.case_size / 2;
+		var border_color	= $case.hasClass('grid-odd') ? tictactoe.color_bg_odd : tictactoe.color_bg_even ;
+		
+		$case.css({
+			border: border_size+'px solid '+border_color,
+		});
+		
+		$case.animate({
+			borderWidth: '0px',
+		}, 180);
 	},
 	
 	changeCurrentPlayer: function()

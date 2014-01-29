@@ -34,6 +34,9 @@ elcore_party_join: '/jeux/{slug_game}/{slug_party}/rejoindre'
 # Desc: /games/{slug_game}/{slug_party}/preparation
 elcore_party_preparation: '/jeux/{slug_game}/{slug_party}/preparation'
 
+# Desc: /games/{slug_game}/{slug_party}/preparation/action
+elcore_party_preparation_action: '/jeux/{slug_game}/{slug_party}/preparation/action'
+
 # Desc: /player/login
 elcore_user_login: /joueur/connexion
 

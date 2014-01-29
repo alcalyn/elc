@@ -30,6 +30,7 @@ twig:
             - 'ELCoreBundle:Form:fields.html.twig'
     globals:
         js_vars: "@el_core.js_vars"
+        widgets: "@el_core.widgets"
 
 # Assetic Configuration
 assetic:

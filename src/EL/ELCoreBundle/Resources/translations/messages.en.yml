@@ -9,6 +9,10 @@ _:
     players: players
 
 about: About
+
+all:
+    games: 'All games'
+
 ban: Ban
 cancel: Cancel
 
@@ -16,6 +20,9 @@ cannot:
     join:
         party:
             full: 'Cannot join, party is full'
+
+    start:
+        youarenothost: 'Cannot start, you are not the host of this game'
 
 change:
     slot: 'Change slot'
@@ -78,8 +85,13 @@ losses: Losses
 
 my:
     account: 'My account'
+
+    current:
+        parties: 'My current games'
+
     favorites: 'My favorites'
     page: 'My page'
+    turn: 'My turn to play'
 
 name: Name
 
@@ -120,6 +132,7 @@ public:
 random: Random
 ranking: Ranking
 ready: Ready
+remake: Remake
 
 rememberme:
     onthiscomputer: 'Remember me on this computer'
@@ -129,6 +142,8 @@ rules: Rules
 run:
     party: 'Run party'
 
+score: Score
+scores: Scores
 search: Search
 signup: 'Sign up'
 

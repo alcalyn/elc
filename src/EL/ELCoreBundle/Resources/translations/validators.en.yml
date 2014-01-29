@@ -1,6 +1,3 @@
-'Votre pseudo doit faire au moins {{ limit }} caractères': 'Votre pseudo doit faire au moins {{ limit }} caractères'
-'Votre pseudo ne peut pas être plus long que {{ limit }} caractères': 'Votre pseudo ne peut pas être plus long que {{ limit }} caractères'
-
 pseudo:
     max:
         '{{limit}}': 'Your pseudo must be less than {{limit}} characters'

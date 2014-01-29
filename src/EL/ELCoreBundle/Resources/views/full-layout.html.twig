@@ -93,6 +93,9 @@
 							</div>
 							<div class="col-md-3">
 								<div id="sidebar">
+                                    {% for widget in widgets.all %}
+                                        {{ render(controller(widget.controller, widget.parameters)) }}
+                                    {% endfor %}
 									<div class="widget my-games">
 									  <div class="widget-head">
 										<h3 class="widget-title"><span class="glyphicon glyphicon-tower"></span> Mes parties en cours</h3>

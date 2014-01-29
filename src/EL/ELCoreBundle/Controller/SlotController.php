@@ -60,14 +60,11 @@ class SlotController extends Controller
         $_locale    = $phax_action->getLocale();
         $slot_index	= isset($phax_action->slot_index) ? intval($phax_action->slot_index) : -1 ;
         
-        $party_service = $this
+        $this
 	        	->get('el_core.party')
 	        	->setPartyBySlug($slug_party, $_locale)
+                ->canJoin(null, $slot_index)
 	    ;
-        
-        $result = $party_service->canJoin($this->getUser(), $slot_index, true);
-        
-        $message = $party_service->explainJoinResult($result);
         
         return $this->refreshAction($phax_action);
     }

@@ -8,10 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\ELCoreBundle\Entity\Player;
 use EL\ELCoreBundle\Form\Entity\Login;
-use EL\ElCoreBundle\Form\Type\LoginType;
+use EL\ELCoreBundle\Form\Type\LoginType;
 use Symfony\Component\Form\FormError;
 use EL\ELCoreBundle\Form\Entity\Signup;
-use EL\ElCoreBundle\Form\Type\SignupType;
+use EL\ELCoreBundle\Form\Type\SignupType;
 use EL\ELCoreBundle\Services\SessionService;
 use Symfony\Component\Security\Core\SecurityContext;
 

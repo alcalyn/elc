@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\ElCoreBundle\Form\Type;
+namespace EL\ELCoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -11,7 +11,7 @@ use EL\ELCoreBundle\Entity\Party;
 use EL\ELCoreBundle\Entity\Game;
 use EL\ELCoreBundle\Services\PartyService;
 use EL\ELCoreBundle\Form\Entity\PartyOptions;
-use EL\ElCoreBundle\Form\Type\PartyOptionsType;
+use EL\ELCoreBundle\Form\Type\PartyOptionsType;
 
 
 class PartyController extends Controller
@@ -98,6 +98,7 @@ class PartyController extends Controller
         
         $this->get('el_core.js_vars')
         		->initPhaxController('slot')
+        		->addContext('core_party', $party->jsonSerialize())
         		->addContext('is_host', $is_host)
         		->addContext('slug_party', $slug_party)
         		->addContext('in_party', $in_party)
@@ -115,7 +116,7 @@ class PartyController extends Controller
         
         return $this->render('ELCoreBundle:Party:preparation.html.twig', array(
         	'player'		=> $player,
-            'party'         => $party,
+            'core_party'    => $party,
             'game'          => $party->getGame(),
             'slots'         => $party->getSlots(),
             'in_party'      => $in_party,
@@ -265,6 +266,7 @@ class PartyController extends Controller
         $jsVars			= $this->get('el_core.js_vars');
         
         $jsVars
+            ->initPhaxController('party')
         	->addContext('core_party', $party->jsonSerialize())
         	->addContext('extended_party', $extended_game->loadParty($_locale, $slug_party)->jsonSerialize())
         ;

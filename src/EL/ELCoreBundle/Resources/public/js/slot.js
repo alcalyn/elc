@@ -24,13 +24,17 @@ var slot = {
         
         setInterval(function() {
             phax.action('slot', 'refresh', jsContext);
-        }, 5000);
+        }, 3000);
         
         return true;
     },
     
     refreshAction: function(r)
     {
+        if (party.checkState(r.party.state)) {
+            return;
+        }
+        
         for(var i=0;i<r.slots.length;i++) {
             if (slot.hasChanged(i, r)) {
             	slot.update(

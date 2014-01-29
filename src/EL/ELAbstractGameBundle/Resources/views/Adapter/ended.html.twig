@@ -14,7 +14,7 @@
     		</tr>
     	</thead>
     	<tbody>
-			{% for slot in party.slots %}
+			{% for slot in core_party.slots %}
 	    		<tr>
 	    			<td>{{ slot.position }}</td>
 		    		<td>
@@ -29,7 +29,7 @@
 			{% endfor %}
     	</tbody>
 	</table>
-	<form action="{{ path('elcore_party_preparation_action', { 'slug_game': game.slug, 'slug_party': party.slug }) }}" method="post">
+	<form action="{{ path('elcore_party_preparation_action', { 'slug_game': game.slug, 'slug_party': core_party.slug }) }}" method="post">
 		<button type="submit" name="action" value="remake" class="btn btn-primary">{{ 'remake'|trans }}</button>
 	</form>
 </div>

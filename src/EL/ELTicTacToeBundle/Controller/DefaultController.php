@@ -119,9 +119,9 @@ class DefaultController extends ELGameAdapter
         ;
 		
     	return $this->render('ELTicTacToeBundle:Default:active.html.twig', array(
-    		'game'			=> $game,
-    		'core_party'	=> $core_party,
-    		'party'			=> $party,
+    		'game'              => $game,
+    		'party'             => $core_party,
+    		'extended_party'    => $party,
     	));
     }
     

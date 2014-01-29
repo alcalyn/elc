@@ -4,9 +4,9 @@
 
 {% block body %}
 <h2>{{ game.title }}</h2>
-<p class="partie-title">{{ party.title }}</p>
-{% if party.host %}
-	<p class="host">Hôte : {{ party.host.pseudo }}</h2>
+<p class="partie-title">{{ core_party.title }}</p>
+{% if core_party.host %}
+	<p class="host">Hôte : {{ core_party.host.pseudo }}</h2>
 {% endif %}
 <hr />
 <div class="row">
@@ -27,19 +27,19 @@
 			</div>
 			<div class="panel-body">
 				<p>
-					{% if party.open %}
+					{% if core_party.open %}
 						{{ 'public.party'|trans }}
 					{% else %}
 						{{ 'private.party'|trans }}
 					{% endif %}
 				</p>
 				<p>
-					{% if not party.allowChat %}
+					{% if not core_party.allowChat %}
 						{{ 'chat.disabled'|trans }}
 					{% endif %}
 				</p>
 				<p>
-					{% if not party.allowObservers %}
+					{% if not core_party.allowObservers %}
 						{{ 'observers.disallowed'|trans }}
 					{% endif %}
 				</p>
@@ -49,7 +49,7 @@
 </div>
 <hr />
 <div class="row">
-	<form action="{{ path('elcore_party_preparation_action', { 'slug_game': game.slug, 'slug_party': party.slug }) }}" method="post">
+	<form action="{{ path('elcore_party_preparation_action', { 'slug_game': game.slug, 'slug_party': core_party.slug }) }}" method="post">
 	    {% if in_party %}
 	    	{% if is_host %}
 		        <div class="col-md-4">

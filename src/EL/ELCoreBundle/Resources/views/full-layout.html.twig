@@ -95,55 +95,8 @@
 								<div id="sidebar">
                                     {% for widget in widgets.all %}
                                         {{ render(controller(widget.controller, widget.parameters)) }}
+                                        <hr />
                                     {% endfor %}
-									<div class="widget my-games">
-									  <div class="widget-head">
-										<h3 class="widget-title"><span class="glyphicon glyphicon-tower"></span> Mes parties en cours</h3>
-									  </div>
-									  <div class="widget-body">
-										<form action="#" class="form-inline">
-											<select name="filter-game" class="form-control smaller">
-												<option value="-1">Tout les jeux</option>
-												<option value="1">Echecs</option>
-												<option value="2">Dames Chinoises</option>
-											</select>
-											<label><input type="checkbox" name="my-tour" /> A mon tour</label>
-										</form>
-										<div class="list-group-container scrollin">
-											<div class="list-group">
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">Echecs</h4>
-												<p class="list-group-item-text">avec robert60</p>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">Echecs</h4>
-												<p class="list-group-item-text">avec robert60</p>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">Echecs</h4>
-												<p class="list-group-item-text">avec robert60</p>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">Echecs</h4>
-												<p class="list-group-item-text">avec robert60</p>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">Echecs</h4>
-												<p class="list-group-item-text">avec robert60</p>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">Echecs</h4>
-												<p class="list-group-item-text">avec robert60</p>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">Echecs</h4>
-												<p class="list-group-item-text">avec robert60</p>
-											  </a>
-											</div>
-										</div>
-									  </div>
-									</div>
-									<hr />
 									<div class="widget my-buddies">
 									  <div class="widget-head">
 										<h3 class="widget-title"><span class="glyphicon glyphicon-user"></span> Mes adversaires</h3>

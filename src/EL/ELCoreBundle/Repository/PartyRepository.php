@@ -42,16 +42,18 @@ class PartyRepository extends EntityRepository
      */
     public function findCurrentPartiesForPlayer($locale, Player $player)
     {
-        $query = $this->_em->createQuery('
+        return $this->_em->createQuery('
             select p, g, gl, s, pl
             from ELCoreBundle:Party p
+            left join p.slots _s
+            left join _s.player _pl
+            left join p.slots s
+            left join s.player pl
             left join p.game g
             left join g.langs gl
             left join gl.lang l
-            left join p.slots s
-            left join s.player pl
             where l.locale = :locale
-            and pl.id = :player_id
+            and _pl.id = :player_id
             and p.state in (
                 :state_preparation,
                 :state_starting,
@@ -64,9 +66,7 @@ class PartyRepository extends EntityRepository
             'state_preparation' => Party::PREPARATION,
             'state_starting'    => Party::STARTING,
             'state_active'      => Party::ACTIVE,
-        ));
-        
-        return $query->getResult();
+        ))->getResult();
     }
     
     public function countSlug($slug)

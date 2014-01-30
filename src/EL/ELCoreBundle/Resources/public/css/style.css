@@ -251,6 +251,9 @@ nav.navbar form input {
 
 .my-games {
 }
+.my-games .my-turn {
+    background-color: #F8EFC0;
+}
 .my-games select {
 	margin-bottom: 8px;
 }

@@ -3,8 +3,8 @@
         <h3 class="widget-title"><span class="glyphicon glyphicon-tower"></span> {{ 'my.current.parties'|trans }}</h3>
     </div>
     <div class="widget-body">
-        {% if parties|length == 0 %}
-            {{ 'no.current.parties' }}
+        {% if current_parties|length == 0 %}
+            {{ 'no.current.parties'|trans }}
         {% else %}
             <form action="#" class="form-inline">
                 <select name="filter-game" class="form-control smaller">
@@ -17,10 +17,10 @@
             </form>
             <div class="list-group-container scrollin">
                 <div class="list-group">
-                    {% for party in parties %}
-                        <a href="{{ path('elcore_party', {slug_game: party.game.slug, slug_party: party.slug}) }}" class="list-group-item">
-                            <h4 class="list-group-item-heading">{{ party.game.title }}</h4>
-                            <p class="list-group-item-text">extended message</p>
+                    {% for current_party in current_parties %}
+                        <a class="list-group-item{% if current_party.my_turn %} my-turn{% endif %}" href="{{ path('elcore_party', {slug_game: current_party.game.slug, slug_party: current_party.party.slug}) }}">
+                            <h4 class="list-group-item-heading">{{ current_party.game.title }}</h4>
+                            <p class="list-group-item-text">{{ current_party.description }}</p>
                         </a>
                     {% endfor %}
                 </div>

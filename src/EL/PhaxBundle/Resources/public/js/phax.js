@@ -78,7 +78,7 @@ var phaxCore = {
     
     callControllerAction: function(controller, action, r)
     {
-        var fonction = action ? action+'Action' : 'defaultAction';
+        var fonction = action ? action+'Reaction' : 'defaultReaction';
         
         if (phaxCore.hasFunction(controller, fonction)) {
             return phaxCore.call(controller, fonction, r);

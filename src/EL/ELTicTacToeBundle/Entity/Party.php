@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="el_games_tictactoe_party")
  * @ORM\Entity(repositoryClass="EL\ELTicTacToeBundle\Repository\PartyRepository")
  */
-class Party
+class Party implements \JsonSerializable
 {
     /**
      * @var integer

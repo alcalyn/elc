@@ -31,11 +31,12 @@ class PhaxCoreService extends ContainerAware
             );
         }
         
-        $phax_reaction = $this
+        $phax_controller = $this
                 ->container
                 ->get($service_name)
-                ->{$phax_action->getAction().'Action'}($phax_action)
         ;
+        
+        $phax_reaction = $this->callAction($phax_controller, $phax_action);
         
         if (!($phax_reaction instanceof PhaxReaction)) {
             throw new PhaxException(
@@ -46,6 +47,42 @@ class PhaxCoreService extends ContainerAware
         }
         
         return $phax_reaction;
+    }
+    
+    
+    /**
+     * Call action by passing arguments to method parameters with the same name.
+     * Or pass PhaxAction if myAction(PhaxAction $arg) is used.
+     * 
+     * @param mixed $phax_controller instance of a phax controller
+     * @param PhaxAction $phax_action instance of PhaxAction
+     * @return PhaxReaction
+     * @throws PhaxException if method parameters name does not correspond to $phax_action arguments
+     */
+    private function callAction($phax_controller, $phax_action)
+    {
+        $method_name    = $phax_action->getAction().'Action';
+        $method         = new \ReflectionMethod($phax_controller, $method_name);
+        $arguments      = array();
+        
+        foreach ($method->getParameters() as $parameter) {
+            $parameter_class = $parameter->getClass();
+            
+            if ($parameter_class && $parameter_class->getName() === 'EL\PhaxBundle\Model\PhaxAction') {
+                $arguments []= $phax_action;
+            } elseif (isset($phax_action->{$parameter->getName()})) {
+                $arguments []= $phax_action->{$parameter->getName()};
+            } else {
+                throw new PhaxException(
+                    'Action '.$method_name.' of your Phax controller '.get_class($phax_controller)
+                    . ' has a parameter '.$parameter->getName().' which do not correspond to any query parameter.'
+                    . ' To pass entire PhaxAction instance, use "myAction(PhaxAction $arg_name)"'
+                    . ' in your method declaration.'
+                );
+            }
+        }
+        
+        return call_user_func_array(array($phax_controller, $method_name), $arguments);
     }
     
     

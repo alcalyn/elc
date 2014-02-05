@@ -77,6 +77,8 @@ class GameService
     
     /**
      * Return extended game service
+     * 
+     * @return \EL\ELAbstractGameBundle\Model\ELGameInterface
      */
     public function getExtendedGame()
     {
@@ -88,11 +90,14 @@ class GameService
     /**
      * @return string
      */
-    public function getGameServiceName()
+    public function getGameServiceName(Game $game = null)
     {
-    	$this->needGame();
-    	
-        return 'el_games.'.$this->game->getName();
+        if (is_null($game)) {
+            $this->needGame();
+            return 'el_games.'.$this->game->getName();
+        } else {
+            return 'el_games.'.$game->getName();
+        }
     }
     
     

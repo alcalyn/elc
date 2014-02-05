@@ -171,7 +171,6 @@ class PartyController extends Controller
         $flashbag	= $session->getFlashBag();
         $request	= $this->get('request');
         $action		= $request->request->get('action');
-        $error		= null;
         
         switch ($action) {
         	case 'run':
@@ -262,13 +261,12 @@ class PartyController extends Controller
         }
         
         $extended_game	= $this->get($party_service->getGameServiceName());
-        $party_extended	= $extended_game->loadParty($_locale, $slug_party);
         $jsVars			= $this->get('el_core.js_vars');
         
         $jsVars
             ->initPhaxController('party')
         	->addContext('core_party', $party->jsonSerialize())
-        	->addContext('extended_party', $extended_game->loadParty($_locale, $slug_party)->jsonSerialize())
+        	->addContext('extended_party', $extended_game->loadParty($slug_party)->jsonSerialize())
         ;
         
         return $extended_game->activeAction($_locale, $party_service);

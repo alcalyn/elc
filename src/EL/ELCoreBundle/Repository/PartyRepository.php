@@ -3,6 +3,8 @@
 namespace EL\ELCoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use EL\ELCoreBundle\Entity\Party;
+use EL\ELCoreBundle\Entity\Player;
 
 /**
  * PartyRepository
@@ -31,6 +33,40 @@ class PartyRepository extends EntityRepository
         ));
         
         return $query->getSingleResult();
+    }
+    
+    /**
+     * @param type $locale
+     * @param type $player
+     * @return type
+     */
+    public function findCurrentPartiesForPlayer($locale, Player $player)
+    {
+        return $this->_em->createQuery('
+            select p, g, gl, s, pl
+            from ELCoreBundle:Party p
+            left join p.slots _s
+            left join _s.player _pl
+            left join p.slots s
+            left join s.player pl
+            left join p.game g
+            left join g.langs gl
+            left join gl.lang l
+            where l.locale = :locale
+            and _pl.id = :player_id
+            and p.state in (
+                :state_preparation,
+                :state_starting,
+                :state_active
+            )
+            order by s.position
+        ')->setParameters(array(
+            'locale'            => $locale,
+            'player_id'         => $player->getId(),
+            'state_preparation' => Party::PREPARATION,
+            'state_starting'    => Party::STARTING,
+            'state_active'      => Party::ACTIVE,
+        ))->getResult();
     }
     
     public function countSlug($slug)

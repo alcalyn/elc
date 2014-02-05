@@ -251,6 +251,12 @@ nav.navbar form input {
 
 .my-games {
 }
+.my-games .my-turn {
+    background-color: #F8EFC0;
+}
+.my-games .hide-if-not-my-turn:not(.my-turn) {
+    display: none;
+}
 .my-games select {
 	margin-bottom: 8px;
 }
@@ -385,8 +391,8 @@ footer > * {
 
 /*----------------tools----------------*/
 .scrollin {
-	height: 200px;
-	overflow-y: scroll;
+	max-height: 200px;
+	overflow-y: auto;
 }
 img.avatar {
 	border-radius: 4px;

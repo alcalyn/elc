@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="el_core_player")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PlayerRepository")
  */
-class Player implements UserInterface
+class Player implements UserInterface, \JsonSerializable
 {
     /**
      * @var integer

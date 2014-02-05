@@ -8,11 +8,11 @@ var party = {
     ENDED:          4,
     
     
-    init: function()
+    init: function ()
     {
         console.log('init party');
         
-        setInterval(function() {
+        setInterval(function () {
             var data = {
                 locale:     jsContext.locale,
                 slug_party: jsContext.core_party.slug
@@ -22,7 +22,7 @@ var party = {
         }, 3000);
     },
     
-    refreshAction: function(r)
+    refreshReaction: function (r)
     {
         party.checkState(r.core_party.state);
     },
@@ -36,7 +36,7 @@ var party = {
      * @param {type} party
      * @returns {boolean} true if party state is sync with current page
      */
-    checkState: function(state)
+    checkState: function (state)
     {
         if (!(parseInt(state) > 0)) {
             console.warn('err state = '+state);
@@ -56,7 +56,7 @@ var party = {
         }
     },
     
-    refresh: function()
+    refresh: function ()
     {
         //console.log('reload !');
         window.location.reload();

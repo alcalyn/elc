@@ -9,6 +9,10 @@ _:
     players: joueurs
 
 about: 'À propos'
+
+all:
+    games: 'Tous les jeux'
+
 ban: Exclure
 cancel: Annuler
 
@@ -16,6 +20,9 @@ cannot:
     join:
         party:
             full: 'Il n''y a plus de place'
+
+    start:
+        youarenothost: 'Vous ne pouvez pas lancer la partie, vous n''êtes pas l''hôte'
 
 change:
     slot: 'Changer de slot'
@@ -78,10 +85,19 @@ losses: Pertes
 
 my:
     account: 'Mon compte'
+
+    current:
+        parties: 'Mes parties en cours'
+
     favorites: 'Mes favoris'
     page: 'Ma page'
+    turn: 'À moi de jouer'
 
 name: Nom
+
+no:
+    current:
+        parties: 'Vous n''avez pas de parties en cours'
 
 observers:
     disallowed: 'Visiteurs désactivés'
@@ -120,6 +136,7 @@ public:
 random: Aléatoire
 ranking: Classement
 ready: Prêt
+remake: Recommencer
 
 rememberme:
     onthiscomputer: 'Se souvenir de moi sur cet ordinateur'
@@ -129,6 +146,8 @@ rules: Règles
 run:
     party: 'Lancer la partie'
 
+score: Score
+scores: Scores
 search: Rechercher
 signup: 'Créer un compte'
 

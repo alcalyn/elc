@@ -4,6 +4,7 @@ namespace EL\ELTicTacToeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\ELAbstractGameBundle\Model\ELGameAdapter;
+use EL\ELCoreBundle\Services\PartyService;
 use EL\ELTicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
 use EL\ELTicTacToeBundle\Form\Entity\TicTacToePartyOptions;
 use EL\ELTicTacToeBundle\Entity\Party;
@@ -95,7 +96,7 @@ class DefaultController extends ELGameAdapter
         );
     }
     
-	public function loadParty($_locale, $slug_party)
+	public function loadParty($slug_party)
     {
     	$em = $this->getDoctrine()->getManager();
     	
@@ -106,7 +107,7 @@ class DefaultController extends ELGameAdapter
     	return $party;
     }
     
-	public function activeAction($_locale, $party_service)
+	public function activeAction($_locale, PartyService $party_service)
 	{
 		$em = $this->getDoctrine()->getManager();
 		
@@ -125,7 +126,22 @@ class DefaultController extends ELGameAdapter
     	));
     }
     
-	public function createClone($slug_party, $clone_core_party)
+    public function isMyTurn(PartyService $party_service)
+    {
+        if ($party_service->getParty()->getState() !== CoreParty::ACTIVE) {
+            return false;
+        }
+        
+        $coreParty      = $party_service->getParty();
+        $ticTacToeParty = $this->loadParty($coreParty->getSlug());
+        $turn           = $ticTacToeParty->getCurrentPlayer();
+        $partyPlayer    = $coreParty->getSlot($turn - 1)->getPlayer()->getId();
+        $loggedPlayer   = $this->getUser()->getId();
+        
+        return $partyPlayer === $loggedPlayer;
+    }
+    
+	public function createClone($slug_party, CoreParty $clone_core_party)
     {
     	$em = $this->getDoctrine()->getManager();
     	

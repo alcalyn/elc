@@ -10,6 +10,7 @@ parameters:
     el_core.widget.class:               EL\ELCoreBundle\Services\WidgetService
     el_core.controller.party.class:     EL\ELCoreBundle\Controller\PartyAjaxController
     el_core.controller.slot.class:      EL\ELCoreBundle\Controller\SlotController
+    el_core.controller.widget.class:    EL\ELCoreBundle\Controller\WidgetController
 
 services:
     el_core.security:
@@ -43,5 +44,9 @@ services:
             - [setContainer, ["@service_container"]]
     phax.slot:
         class: %el_core.controller.slot.class%
+        calls:
+            - [setContainer, ["@service_container"]]
+    phax.widget:
+        class: %el_core.controller.widget.class%
         calls:
             - [setContainer, ["@service_container"]]

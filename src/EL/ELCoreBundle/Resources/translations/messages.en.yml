@@ -95,6 +95,10 @@ my:
 
 name: Name
 
+no:
+    current:
+        parties: 'You have no current games'
+
 observers:
     disallowed: 'Observers disallowed'
 

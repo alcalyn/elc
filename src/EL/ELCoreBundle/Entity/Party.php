@@ -11,7 +11,7 @@ use EL\ELCoreBundle\Entity\Slot;
  * @ORM\Table(name="el_core_party")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PartyRepository")
  */
-class Party
+class Party implements \JsonSerializable
 {
     
 	/**

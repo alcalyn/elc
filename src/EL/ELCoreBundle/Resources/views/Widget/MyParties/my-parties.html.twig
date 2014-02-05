@@ -13,15 +13,12 @@
                             <option value="{{ game_id }}">{{ game_title }}</option>
                         {% endfor %}
                 </select>
-                <label><input type="checkbox" name="my-tour" /> {{ 'my.turn'|trans }}</label>
+                <label><input type="checkbox" name="my-turn" /> {{ 'my.turn'|trans }}</label>
             </form>
             <div class="list-group-container scrollin">
                 <div class="list-group">
                     {% for current_party in current_parties %}
-                        <a class="list-group-item{% if current_party.my_turn %} my-turn{% endif %}" href="{{ path('elcore_party', {slug_game: current_party.game.slug, slug_party: current_party.party.slug}) }}">
-                            <h4 class="list-group-item-heading">{{ current_party.game.title }}</h4>
-                            <p class="list-group-item-text">{{ current_party.description }}</p>
-                        </a>
+                        {% include 'ELCoreBundle:Widget/MyParties:my-parties-list-item.html.twig' %}
                     {% endfor %}
                 </div>
             </div>

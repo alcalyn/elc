@@ -2,6 +2,8 @@
 
 namespace EL\PhaxBundle\Services;
 
+use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpFoundation\Response;
 use EL\PhaxBundle\Model\PhaxReaction;
 
 
@@ -16,7 +18,7 @@ use EL\PhaxBundle\Model\PhaxReaction;
  *          ...
  *      ));
  */
-class PhaxService
+class PhaxService extends ContainerAware
 {
     
     /**
@@ -28,6 +30,31 @@ class PhaxService
     public function reaction(array $parameters = array())
     {
         return new PhaxReaction($parameters);
+    }
+    
+    
+    /**
+     * Build and return a PhaxReaction or Response
+     * depending of query type
+     * 
+     * @param string $view
+     * @param array $parameters
+     * @return \EL\PhaxBundle\Model\PhaxReaction
+     */
+    public function render($view, array $parameters = array(), Response $response = null)
+    {
+        $is_phax_request = $this
+                ->container
+                ->get('request')
+                ->request
+                ->has('phax_metadata')
+        ;
+        
+        if ($is_phax_request) {
+            return $this->reaction($parameters);
+        } else {
+            return $this->container->get('templating')->renderResponse($view, $parameters, $response);
+        }
     }
     
     

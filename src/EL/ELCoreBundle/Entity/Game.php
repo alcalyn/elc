@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="el_core_game")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\GameRepository")
  */
-class Game extends AbstractLangEntity
+class Game extends AbstractLangEntity implements \JsonSerializable
 {
     /**
      * @var integer
@@ -290,6 +290,7 @@ class Game extends AbstractLangEntity
     	return array(
     		'id'			=> $this->getId(),
     		'name'			=> $this->getName(),
+    		'title'			=> $this->getTitle(),
     		'nb_player_min'	=> $this->getNbplayerMin(),
     		'nb_player_max'	=> $this->getNbplayerMax(),
     		'room'			=> $this->getRoom(),

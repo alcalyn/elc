@@ -12,14 +12,14 @@ var tictactoe = {
 	
 	thread: undefined,
 	
-	init: function()
+	init: function ()
 	{
 		console.log('init tictactoe');
 		tictactoe.bindCases();
 		tictactoe.startRefresh();
 	},
 	
-	bindCases: function()
+	bindCases: function ()
 	{
 		$('.grid-item').click(function () {
 			$case = $(this);
@@ -36,7 +36,7 @@ var tictactoe = {
 	/**
 	 * Called when an empty case has been clicked
 	 */
-	caseClicked: function(line, col)
+	caseClicked: function (line, col)
 	{
 		console.log('case clicked '+line+' ; '+col);
 		tictactoe.set(line, col, tictactoe.current_player == 1 ? 'X' : 'O');
@@ -44,12 +44,12 @@ var tictactoe = {
 		tictactoe.changeCurrentPlayer();
 	},
 	
-	getCase: function(line, col)
+	getCase: function (line, col)
 	{
 		return $(['#grid', line, col].join('-'));
 	},
 	
-	set: function(line, col, value)
+	set: function (line, col, value)
 	{
 		if (line < 0 || line > 2 || col < 0 || col > 2) {
 			console.warn('tictactoe.set must have line and col between 0 and 2, got '+line+' ; '+col);
@@ -79,7 +79,7 @@ var tictactoe = {
 		return true;
 	},
 	
-	get: function(line, col)
+	get: function (line, col)
 	{
 		var $case = tictactoe.getCase(line, col);
 
@@ -91,7 +91,7 @@ var tictactoe = {
 		return '-';
 	},
 	
-	setGrid: function(grid)
+	setGrid: function (grid)
 	{
 		if (grid.length != 9) {
 			console.warn('tictactoe.setGrid, grid does not contains 9 cases : "'+grid+'"');
@@ -109,7 +109,7 @@ var tictactoe = {
 		return true;
 	},
 	
-	getGrid: function()
+	getGrid: function ()
 	{
 		var grid = '';
 		
@@ -123,7 +123,7 @@ var tictactoe = {
 		return grid;
 	},
 	
-	animate: function($case)
+	animate: function ($case)
 	{
 		var border_size		= tictactoe.case_size / 2;
 		var border_color	= $case.hasClass('grid-odd') ? tictactoe.color_bg_odd : tictactoe.color_bg_even ;
@@ -137,12 +137,12 @@ var tictactoe = {
 		}, 180);
 	},
 	
-	changeCurrentPlayer: function()
+	changeCurrentPlayer: function ()
 	{
 		tictactoe.current_player = 3 - tictactoe.current_player;
 	},
 	
-	startRefresh: function()
+	startRefresh: function ()
 	{
 		if (tictactoe.thread) {
 			clearInterval(tictactoe.thread);
@@ -151,7 +151,7 @@ var tictactoe = {
 		tictactoe.thread = setInterval(tictactoe.refresh, 2000);
 	},
 	
-	stopRefresh: function()
+	stopRefresh: function ()
 	{
 		if (tictactoe.thread) {
 			clearInterval(tictactoe.thread);
@@ -159,18 +159,18 @@ var tictactoe = {
 		}
 	},
 	
-	refresh: function()
+	refresh: function ()
 	{
 		phax.action('tictactoe', 'refresh', {extended_party_id: jsContext.extended_party.id});
 	},
 	
-	refreshAction: function(r)
+	refreshReaction: function (r)
 	{
 		tictactoe.setGrid(r.party.grid);
 		tictactoe.current_player = r.party.current_player;
 	},
 	
-	tick: function(line, col)
+	tick: function (line, col)
 	{
 		var data = {
 			locale: jsContext.locale,
@@ -185,14 +185,14 @@ var tictactoe = {
 		phax.action('tictactoe', 'tick', data);
 	},
 	
-	tickAction: function(r)
+	tickReaction: function (r)
 	{
 		console.log(r);
 	}
 	
 };
 
-jQuery(function() {
+jQuery(function () {
 	phax.load_controller('tictactoe');
 });
 

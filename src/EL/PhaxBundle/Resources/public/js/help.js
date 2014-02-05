@@ -6,17 +6,17 @@ var help = {
         console.log('Phax help controller has been loaded.');
     },
     
-    defaultAction: function(r)
+    defaultReaction: function(r)
     {
         console.log(r.phax_metadata.message);
     },
     
-    testAction: function(r)
+    testReaction: function(r)
     {
         console.log(r);
     },
     
-    pingAction: function(r)
+    pingReaction: function(r)
     {
         console.log(r.phax_metadata.message);
     }

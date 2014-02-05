@@ -97,7 +97,7 @@ var surf = {
 	/**
 	 * Display new page
 	 */
-	loadTemplateAction: function(r)
+	loadTemplateReaction: function(r)
 	{
 		$('title').html(r.data.title);
 		$('#block-body').html(r.data.body);

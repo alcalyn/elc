@@ -2,7 +2,7 @@
 
 var slot = {
     
-    init: function()
+    init: function ()
     {
         console.log('init slot controller');
         
@@ -14,7 +14,7 @@ var slot = {
         slot.enableDragAndDrop();
         
         if (jsContext.is_host) {
-            $.each($('.slots .slot'), function(index, _slot) {
+            $.each($('.slots .slot'), function (index, _slot) {
                 if ($(_slot).find('ul.dropdown-menu').size() > 0) {
                     slot.bindSlotMenu(index, _slot, {id: $(_slot).val('player_id')});
             		slot.bindJoinButton(index);
@@ -22,14 +22,14 @@ var slot = {
             });
         }
         
-        setInterval(function() {
+        setInterval(function () {
             phax.action('slot', 'refresh', jsContext);
         }, 3000);
         
         return true;
     },
     
-    refreshAction: function(r)
+    refreshReaction: function (r)
     {
         if (party.checkState(r.party.state)) {
             return;
@@ -47,7 +47,7 @@ var slot = {
         }
     },
     
-    hasChanged: function(index, r)
+    hasChanged: function (index, r)
     {
     	var $slot = $('.slots .slot').eq(index);
     	var _slot = r.slots[index];
@@ -90,7 +90,7 @@ var slot = {
     	return false;
     },
     
-    update: function(index, _slot, player, is_host)
+    update: function (index, _slot, player, is_host)
     {
     	// TODO
     	/**
@@ -131,7 +131,7 @@ var slot = {
         
         var menus = slot.activeMenus(_slot, player);
         
-        $.each(menus, function(key, value) {
+        $.each(menus, function (key, value) {
         	if (value) {
         		$slotmenus.find('li.slotmenu-'+key).removeClass('disabled');
         	} else {
@@ -141,7 +141,7 @@ var slot = {
     },
     
     
-    activeMenus: function(_slot, player)
+    activeMenus: function (_slot, player)
     {
     	return {
             open:           !player && !_slot.open,
@@ -154,7 +154,7 @@ var slot = {
     },
     
     
-    bindSlotMenu: function(index, _slot, player)
+    bindSlotMenu: function (index, _slot, player)
     {
     	$ul = $('.slots .slot').eq(index).find('ul.dropdown-menu');
     	
@@ -162,7 +162,7 @@ var slot = {
     		return false;
     	}
     	
-    	$ul.find('li.slotmenu-open a').click(function() {
+    	$ul.find('li.slotmenu-open a').click(function () {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
@@ -172,7 +172,7 @@ var slot = {
 			return false;
 		});
     	
-		$ul.find('li.slotmenu-close a').click(function() {
+		$ul.find('li.slotmenu-close a').click(function () {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
@@ -182,7 +182,7 @@ var slot = {
 			return false;
 		});
 		
-		$ul.find('li.slotmenu-ban a').click(function() {
+		$ul.find('li.slotmenu-ban a').click(function () {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
@@ -194,14 +194,14 @@ var slot = {
     },
     
     
-    bindJoinButton: function(index)
+    bindJoinButton: function (index)
     {
     	$joinButton = $('.slots .slot').eq(index).find('.slot-join');
     	
     	if ($joinButton.size() > 0) {
-    		$joinButton.click(function() {
+    		$joinButton.click(function () {
     			phax.action('slot', 'ajaxJoin', $.extend({}, jsContext, {slot_index: index}));
-    			var current_index = slot.getIndexWhere(function($slot) {
+    			var current_index = slot.getIndexWhere(function ($slot) {
     				return parseInt($slot.data('player_id')) === jsContext.player.id;
     			});
     			
@@ -214,7 +214,7 @@ var slot = {
     },
     
     
-    enableDragAndDrop: function(index)
+    enableDragAndDrop: function (index)
     {
 		$('.slots').sortable({
 	        revert:		200,
@@ -222,14 +222,14 @@ var slot = {
 			cancel:		false,
 			opacity:	0.75,
 			zIndex:		1001,
-			start: function() {
-				jQuery.each($('.slots .slot'), function(index, _slot) {
+			start: function () {
+				jQuery.each($('.slots .slot'), function (index, _slot) {
 		    		$(_slot).data('order', index);
 		    	});
 			},
-			update: function() {
+			update: function () {
 				var new_order = [];
-				jQuery.each($('.slots .slot'), function(index, _slot) {
+				jQuery.each($('.slots .slot'), function (index, _slot) {
 		    		var order = $(_slot).data('order');
 		    		new_order.push(order);
 		    	});
@@ -240,10 +240,10 @@ var slot = {
     },
     
     
-    getIndexWhere: function(callback)
+    getIndexWhere: function (callback)
     {
     	var found = -1;
-    	jQuery.each($('.slots .slot'), function(index, _slot) {
+    	jQuery.each($('.slots .slot'), function (index, _slot) {
     		if (callback($(_slot))) {
     			found = index;
     			return false;
@@ -254,27 +254,27 @@ var slot = {
     },
     
     
-    ajaxJoinAction: function(r)
+    ajaxJoinReaction: function (r)
     {
-    	slot.refreshAction(r);
+    	slot.refreshReaction(r);
     },
     
     
-    openAction: function(r)
+    openReaction: function (r)
     {
-    	slot.refreshAction(r);
+    	slot.refreshReaction(r);
     },
     
     
-    banAction: function(r)
+    banReaction: function (r)
     {
-    	slot.refreshAction(r);
+    	slot.refreshReaction(r);
     },
     
     
-    reorderAction: function(r)
+    reorderReaction: function (r)
     {
-    	slot.refreshAction(r);
+    	slot.refreshReaction(r);
     }
     
 };
@@ -283,7 +283,7 @@ var slot = {
 
 var slotTemplates = {
 	
-	replace: function(index, _slot, player, is_host)
+	replace: function (index, _slot, player, is_host)
 	{
 		var $slot = $(slotTemplates.get(_slot, player, is_host));
 		
@@ -295,7 +295,7 @@ var slotTemplates = {
 		slot.enableDragAndDrop(index);
 	},
 	
-	get: function(_slot, player, is_host)
+	get: function (_slot, player, is_host)
 	{
 		var is_me = player && (player.id === jsContext.player.id);
 		
@@ -326,7 +326,7 @@ var slotTemplates = {
 		}
 	},
 	
-	getHostPlayerMe: function(_slot, player, is_host)
+	getHostPlayerMe: function (_slot, player, is_host)
 	{
 		return '\
 			<div class="btn-group slot joueur host" data-player_id="'+player.id+'">\
@@ -339,7 +339,7 @@ var slotTemplates = {
     	';
 	},
 	
-	getHostPlayer: function(_slot, player, is_host)
+	getHostPlayer: function (_slot, player, is_host)
 	{
 		return '\
 			<div class="btn-group slot joueur" data-player_id="'+player.id+'">\
@@ -356,7 +356,7 @@ var slotTemplates = {
 		';
 	},
 	
-	getHostOpen: function(_slot, player, is_host)
+	getHostOpen: function (_slot, player, is_host)
 	{
 		return '\
 	        <div class="btn-group slot slot-open">\
@@ -374,7 +374,7 @@ var slotTemplates = {
 	    ';
 	},
 	
-	getHostClosed: function(_slot, player, is_host)
+	getHostClosed: function (_slot, player, is_host)
 	{
 		return '\
 	        <div class="btn-group slot slot-closed">\
@@ -389,7 +389,7 @@ var slotTemplates = {
 		';
 	},
 	
-	getPlayer: function(_slot, player, is_host)
+	getPlayer: function (_slot, player, is_host)
 	{
 		return '\
 	        <div class="btn-group slot joueur '+on(is_host, 'host')+'" data-player_id="'+player.id+'">\
@@ -402,7 +402,7 @@ var slotTemplates = {
 		';
 	},
 	
-	getOpen: function(_slot, player, is_host)
+	getOpen: function (_slot, player, is_host)
 	{
 		return '\
 	        <div class="btn-group slot slot-open">\
@@ -416,7 +416,7 @@ var slotTemplates = {
 		';
 	},
 	
-	getClosed: function(_slot, player, is_host)
+	getClosed: function (_slot, player, is_host)
 	{
 		return '\
 	        <div class="btn-group slot slot-closed">\
@@ -429,7 +429,7 @@ var slotTemplates = {
 	
 	
 	
-	getMenu: function(_slot, player)
+	getMenu: function (_slot, player)
 	{
 		var menus = slot.activeMenus(_slot, player);
 		

@@ -59,7 +59,10 @@ class JsVarsService
 	{
 		$this->set(self::TYPE_PHAX_CONFIG, 'www_script', $this->router->generate('phax_script', array()));
 		$this->set(self::TYPE_PHAX_CONFIG, 'www_root', $this->router->generate('elcore_home', array()));
+        
 		//$this->initPhaxController('surf');
+		$this->initPhaxController('widget');
+        
 		$this->addContext('player', $this->security_context->getToken()->getUser()->jsonSerialize());
 		$this->addContext('locale', $this->translator->getLocale());
 	}

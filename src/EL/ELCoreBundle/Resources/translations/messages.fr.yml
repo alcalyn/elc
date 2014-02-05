@@ -95,6 +95,10 @@ my:
 
 name: Nom
 
+no:
+    current:
+        parties: 'Vous n''avez pas de parties en cours'
+
 observers:
     disallowed: 'Visiteurs désactivés'
 

@@ -1,29 +1,30 @@
 parameters:
-    phax.class: EL\PhaxBundle\Services\PhaxService
-    phax_core.class: EL\PhaxBundle\Services\PhaxCoreService
-    phax.controller.help: EL\PhaxBundle\Controller\HelpController
-    phax.controller.surf: EL\PhaxBundle\Controller\SurfController
-    phax.command.action: EL\PhaxBundle\Command\ActionCommand
 
 services:
     phax:
-        class: %phax.class%
+        class: EL\PhaxBundle\Services\PhaxService
+        calls:
+            - [setContainer, ["@service_container"]]
+
     phax_core:
-        class: %phax_core.class%
+        class: EL\PhaxBundle\Services\PhaxCoreService
         calls:
             - [setContainer, ["@service_container"]]
 #        tags:
 #            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
     phax.help:
-        class: %phax.controller.help%
+        class: EL\PhaxBundle\Controller\HelpController
         calls:
             - [setContainer, ["@service_container"]]
+
     phax.surf:
-        class: %phax.controller.surf%
+        class: EL\PhaxBundle\Controller\SurfController
         calls:
             - [setContainer, ["@service_container"]]
+
     phax.command.phax_action:
-        class: %phax.command.action%
+        class: EL\PhaxBundle\Command\ActionCommand
         tags:
             -  { name: console.command }
         calls:

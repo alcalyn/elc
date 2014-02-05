@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="el_core_slot")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\SlotRepository")
  */
-class Slot
+class Slot implements \JsonSerializable
 {
     /**
      * @var integer

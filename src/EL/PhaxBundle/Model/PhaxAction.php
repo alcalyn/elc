@@ -7,7 +7,7 @@ namespace EL\PhaxBundle\Model;
  * PhaxAction, created at phax request.
  * Contains response data
  */
-class PhaxAction
+class PhaxAction implements \JsonSerializable
 {
     
     /**
@@ -146,5 +146,4 @@ class PhaxAction
         
         return $array;
     }
-
 }

@@ -1,0 +1,14 @@
+{# host player not me #}
+<div class="btn-group slot joueur" data-player_id="{{ slot.player.id }}">
+    <button type="button" class="btn btn-default player-pseudo btn-slot-11">
+        {{ slot.player.pseudo }}
+
+        {% if slot.player.badge is defined %}
+            <span class="badge">{{ slot.player.badge }}</span>
+        {% endif %}
+    </button>
+    <button type="button" class="btn btn-default dropdown-toggle btn-slot-1" data-toggle="dropdown">
+        <span class="caret"></span>
+    </button>
+    {% include 'ELCoreBundle:Slot:slot-dropdown.html.twig' %}
+</div>

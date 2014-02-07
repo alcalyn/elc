@@ -5,10 +5,8 @@ namespace EL\ELCoreBundle\Services;
 use EL\ELCoreBundle\Entity\Game;
 use Symfony\Component\DependencyInjection\Container;
 
-
 class GameService
 {
-    
     /**
      * @var \Doctrine\Common\Persistence\ObjectManager
      */
@@ -43,7 +41,7 @@ class GameService
         $this->game = $game;
         
         if (!is_null($container)) {
-        	$this->extended_game = $container->get($this->getGameServiceName());
+            $this->extended_game = $container->get($this->getGameServiceName());
         }
         
         return $this;
@@ -71,7 +69,7 @@ class GameService
      */
     public function getGame()
     {
-    	$this->needGame();
+        $this->needGame();
         return $this->game;
     }
     
@@ -82,8 +80,8 @@ class GameService
      */
     public function getExtendedGame()
     {
-    	$this->needExtendedGame();
-    	return $this->extended_game;
+        $this->needExtendedGame();
+        return $this->extended_game;
     }
     
     
@@ -108,7 +106,7 @@ class GameService
         }
     }
     
-	protected function needExtendedGame()
+    protected function needExtendedGame()
     {
         if (is_null($this->extended_game)) {
             throw new \Exception('GameService : extended game must be defined by calling setGame');

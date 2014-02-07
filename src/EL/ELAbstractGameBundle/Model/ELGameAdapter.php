@@ -9,16 +9,14 @@ use EL\ELCoreBundle\Model\ELUserException;
 use EL\ELAbstractGameBundle\Form\Entity\AdapterOptions;
 use EL\ELAbstractGameBundle\Form\Type\AdapterOptionsType;
 
-
 class ELGameAdapter extends Controller implements ELGameInterface
 {
-	
     /**
      * {@inheritdoc}
      */
     public function getOptionsType()
     {
-    	return new AdapterOptionsType();
+        return new AdapterOptionsType();
     }
     
     /**
@@ -26,7 +24,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function getOptions()
     {
-    	return new AdapterOptions();
+        return new AdapterOptions();
     }
     
     /**
@@ -34,7 +32,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function saveOptions(CoreParty $core_party, $options)
     {
-    	return true;
+        return true;
     }
     
     /**
@@ -42,7 +40,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function loadOptions(CoreParty $core_party)
     {
-    	return new AdapterOptions();
+        return new AdapterOptions();
     }
     
     /**
@@ -50,7 +48,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function getSlotsConfiguration($options)
     {
-    	return array(
+        return array(
             'parameters' => array(
                 'allow_add_slots'       => true,
                 'allow_remove_slots'    => true,
@@ -87,7 +85,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function loadParty($slug_party)
     {
-    	return new stdClass();
+        return new stdClass();
     }
     
     /**
@@ -95,19 +93,19 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function canStart(PartyService $party_service)
     {
-    	$nb_player_min	= $party_service->getGame()->getNbplayerMin();
-    	$nb_player_max	= $party_service->getGame()->getNbplayerMax();
-    	$nb_player		= $party_service->getNbPlayer();
-    	
-    	if ($nb_player < $nb_player_min) {
-    		throw new ELUserException('cannot.start.notenoughplayer', ELUserException::TYPE_WARNING);
-    	}
-    	
-    	if ($nb_player > $nb_player_max) {
-    		throw new ELUserException('cannot.start.toomanyplayer', ELUserException::TYPE_WARNING);
-    	}
-    	
-    	return true;
+        $nb_player_min  = $party_service->getGame()->getNbplayerMin();
+        $nb_player_max  = $party_service->getGame()->getNbplayerMax();
+        $nb_player      = $party_service->getNbPlayer();
+        
+        if ($nb_player < $nb_player_min) {
+            throw new ELUserException('cannot.start.notenoughplayer', ELUserException::TYPE_WARNING);
+        }
+        
+        if ($nb_player > $nb_player_max) {
+            throw new ELUserException('cannot.start.toomanyplayer', ELUserException::TYPE_WARNING);
+        }
+        
+        return true;
     }
     
     /**
@@ -115,10 +113,10 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function activeAction($_locale, PartyService $party_service)
     {
-    	return $this->render('ELAbstractGameBundle:Adapter:active.html.twig', array(
-    		'game'          => $party_service->getGame(),
-    		'core_party'    => $party_service->getParty(),
-    	));
+        return $this->render('ELAbstractGameBundle:Adapter:active.html.twig', array(
+            'game'          => $party_service->getGame(),
+            'core_party'    => $party_service->getParty(),
+        ));
     }
     
     /**
@@ -126,10 +124,10 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function endedAction($_locale, PartyService $party_service)
     {
-    	return $this->render('ELAbstractGameBundle:Adapter:ended.html.twig', array(
-    		'game'          => $party_service->getGame(),
-    		'core_party'    => $party_service->getParty(),
-    	));
+        return $this->render('ELAbstractGameBundle:Adapter:ended.html.twig', array(
+            'game'          => $party_service->getGame(),
+            'core_party'    => $party_service->getParty(),
+        ));
     }
     
     /**
@@ -172,8 +170,6 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function createClone($slug_party, CoreParty $core_party_clone)
     {
-    	return new stdClass();
+        return new stdClass();
     }
-    
-    
 }

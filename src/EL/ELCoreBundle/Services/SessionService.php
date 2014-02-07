@@ -4,9 +4,7 @@ namespace EL\ELCoreBundle\Services;
 
 use EL\ELCoreBundle\Entity\Player;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-
 
 class SessionService
 {
@@ -85,22 +83,22 @@ class SessionService
     
     public function getPlayer()
     {
-    	$user = $this->security_context->getToken()->getUser();
-    	
-    	if ($user instanceof Player) {
-    		return $user;
-    	} else {
-	        return null;
-    	}
+        $user = $this->security_context->getToken()->getUser();
+        
+        if ($user instanceof Player) {
+            return $user;
+        } else {
+            return null;
+        }
     }
     
     public function logPlayer($player)
     {
         $token = new UsernamePasswordToken(
-                $player,
-                $player->getPassword(),
-                'main',
-                $player->getRoles()
+            $player,
+            $player->getPassword(),
+            'main',
+            $player->getRoles()
         );
         
         $this->security_context->setToken($token);
@@ -132,6 +130,4 @@ class SessionService
     {
         return 'Guest '.rand(10000, 99999);
     }
-    
-    
 }

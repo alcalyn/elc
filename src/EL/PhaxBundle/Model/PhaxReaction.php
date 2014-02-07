@@ -4,22 +4,20 @@ namespace EL\PhaxBundle\Model;
 
 use EL\PhaxBundle\Model\PhaxException;
 
-
 /**
  * PhaxReaction, returned by phax controllers.
  * Contains parameters, errors and other metadata of reaction.
  */
 class PhaxReaction implements \JsonSerializable
 {
-    
     /**
      *
      * @var array
-     *      Contains Phax information :
-     *          has_error               : if an error occured
-     *          errors                  : array containings strings error
-     *          trigger_js_reaction     : if client should trigger reaction in js with the same name (controller.action())
-     *          message                 : meta message, used for command line mode
+     *  Contains Phax information :
+     *      has_error               : if an error occured
+     *      errors                  : array containings strings error
+     *      trigger_js_reaction     : if client should trigger reaction in js with the same name (controller.action())
+     *      message                 : meta message, used for command line mode
      * 
      */
     private $metadata;
@@ -51,7 +49,8 @@ class PhaxReaction implements \JsonSerializable
         );
     }
     
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if ($name === 'phax_metadata') {
             throw new PhaxException('Cannot use "phax_metadata" as variable name for a PhaxReaction');
         }
@@ -59,15 +58,18 @@ class PhaxReaction implements \JsonSerializable
         $this->data[$name] = $value;
     }
     
-    public function __get($name) {
+    public function __get($name)
+    {
         return $this->data[$name];
     }
     
-    public function __isset($name) {
+    public function __isset($name)
+    {
         return isset($this->data[$name]);
     }
     
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return array(
             'phax_metadata' => $this->metadata,
         ) + $this->data;

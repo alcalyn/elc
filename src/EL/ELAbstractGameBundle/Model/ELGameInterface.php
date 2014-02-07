@@ -5,7 +5,6 @@ namespace EL\ELAbstractGameBundle\Model;
 use EL\ELCoreBundle\Entity\Party as CoreParty;
 use EL\ELCoreBundle\Services\PartyService;
 
-
 interface ELGameInterface
 {
     
@@ -111,6 +110,4 @@ interface ELGameInterface
      * @return void nothing interesting
      */
     public function createClone($slug_party, CoreParty $clone_core_party);
-    
-    
 }

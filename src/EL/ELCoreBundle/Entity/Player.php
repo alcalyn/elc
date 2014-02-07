@@ -191,7 +191,8 @@ class Player implements UserInterface, \JsonSerializable
         return $this->bot;
     }
     
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return array(
             'id'            => $this->getId(),
             'pseudo'        => $this->getPseudo(),
@@ -212,15 +213,18 @@ class Player implements UserInterface, \JsonSerializable
         return $this->pseudo;
     }
     
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->passwordHash;
     }
     
-    public function getSalt() {
+    public function getSalt()
+    {
         return '2457éèé(ezgg25 %^^';
     }
     
-    public function getRoles() {
+    public function getRoles()
+    {
         $roles = array();
         
         if ($this->getInvited()) {
@@ -232,6 +236,7 @@ class Player implements UserInterface, \JsonSerializable
         return $roles;
     }
     
-    public function eraseCredentials() {
+    public function eraseCredentials()
+    {
     }
 }

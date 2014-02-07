@@ -80,7 +80,7 @@ class IllFlushItLaterService
     {
         $self = $this;
         
-        $this->illdoitlater->addCall(function () use($self) {
+        $this->illdoitlater->addCall(function () use ($self) {
             $self->flushNow();
         }, 'illflushitlater-flush');
         
@@ -114,6 +114,4 @@ class IllFlushItLaterService
             count($this->persist_entities) +
             count($this->merge_entities);
     }
-    
-    
 }

@@ -57,7 +57,7 @@ class Slot implements \JsonSerializable
     
     public function __construct()
     {
-    	$this->score = 0;
+        $this->score = 0;
     }
 
 
@@ -148,8 +148,8 @@ class Slot implements \JsonSerializable
      */
     public function addScore($n = 1)
     {
-    	$this->score += $n;
-    	return $this;
+        $this->score += $n;
+        return $this;
     }
 
     /**
@@ -221,7 +221,8 @@ class Slot implements \JsonSerializable
     }
     
     
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return array(
             'player'    => is_null($this->getPlayer()) ? null : $this->getPlayer()->jsonSerialize(),
             'position'  => $this->getPosition(),

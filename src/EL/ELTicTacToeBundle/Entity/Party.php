@@ -62,7 +62,7 @@ class Party implements \JsonSerializable
     
     public function __construct()
     {
-    	$this->setGrid('---------');
+        $this->setGrid('---------');
     }
 
 
@@ -171,26 +171,24 @@ class Party implements \JsonSerializable
     
     public function jsonSerialize()
     {
-    	return array(
-    		'id'				=> $this->getId(),
-    		'first_player'		=> $this->getFirstPlayer(),
-    		'current_player'	=> $this->getCurrentPlayer(),
-    		'grid'				=> $this->getGrid(),
-    	);
+        return array(
+            'id'                => $this->getId(),
+            'first_player'      => $this->getFirstPlayer(),
+            'current_player'    => $this->getCurrentPlayer(),
+            'grid'              => $this->getGrid(),
+        );
     }
     
     
     public function createClone($clone_core_party)
     {
-    	$clone = new self();
-    	
-    	$clone->party			= $clone_core_party;
-    	$clone->firstPlayer		= $this->firstPlayer;
-    	$clone->current_player	= $this->firstPlayer == 0 ? rand(1, 2) : $this->firstPlayer ;
-    	$clone->grid			= '---------';
-    	
-    	return $clone;
+        $clone = new self();
+        
+        $clone->party           = $clone_core_party;
+        $clone->firstPlayer     = $this->firstPlayer;
+        $clone->current_player  = $this->firstPlayer == 0 ? rand(1, 2) : $this->firstPlayer ;
+        $clone->grid            = '---------';
+        
+        return $clone;
     }
-    
-    
 }

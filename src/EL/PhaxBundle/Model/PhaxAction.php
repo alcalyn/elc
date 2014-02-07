@@ -58,7 +58,7 @@ class PhaxAction implements \JsonSerializable
     {
         if ($name === 'phax_metadata') {
             throw new PhaxException(
-                    'Cannot use "phax_metadata" as variable name for a PhaxAction'
+                'Cannot use "phax_metadata" as variable name for a PhaxAction'
             );
         }
         
@@ -88,7 +88,7 @@ class PhaxAction implements \JsonSerializable
      */
     public function getLocale()
     {
-    	return $this->getRequest()->getLocale();
+        return $this->getRequest()->getLocale();
     }
 
     /**
@@ -131,12 +131,13 @@ class PhaxAction implements \JsonSerializable
     
     public function get($variable, $default = null)
     {
-    	return $this->__isset($variable) ?
-    		$this->__get($variable) :
-    		$default ;
+        return $this->__isset($variable) ?
+            $this->__get($variable) :
+            $default ;
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         $array = $this->data;
         $array['phax_metadata'] = array(
             'controller'    => $this->getController(),

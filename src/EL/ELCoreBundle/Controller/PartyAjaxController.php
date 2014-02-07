@@ -3,30 +3,27 @@
 namespace EL\ELCoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\PhaxBundle\Model\PhaxAction;
 use EL\PhaxBundle\Model\PhaxResponse;
 use EL\ELCoreBundle\Model\ELCoreException;
 
 class PartyAjaxController extends Controller
 {
-    
-	/**
-	 * Create a party
-	 * 
+    /**
+     * Create a party
+     * 
      * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
     public function createAction(PhaxAction $phax_action)
     {
-    	return $this->get('phax')->reaction(array(
+        return $this->get('phax')->reaction(array(
         ));
     }
     
-	/**
-	 * Return party instance from slug
-	 * 
+    /**
+     * Return party instance from slug
+     * 
      * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
@@ -37,13 +34,13 @@ class PartyAjaxController extends Controller
         
         if (is_null($locale)) {
             throw new ELCoreException(
-                    'partyAjax::refreshAction : locale must be defined'
+                'partyAjax::refreshAction : locale must be defined'
             );
         }
         
         if (is_null($slug_party)) {
             throw new ELCoreException(
-                    'partyAjax::refreshAction : slug_party must be defined'
+                'partyAjax::refreshAction : slug_party must be defined'
             );
         }
         
@@ -52,9 +49,8 @@ class PartyAjaxController extends Controller
                 ->setPartyBySlug($slug_party, $locale)
         ;
         
-    	return $this->get('phax')->reaction(array(
+        return $this->get('phax')->reaction(array(
             'core_party' => $party_service->getParty()->jsonSerialize(),
         ));
     }
-
 }

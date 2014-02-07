@@ -20,9 +20,11 @@ class PlayerRepository extends EntityRepository
             from ELCoreBundle:Player p
             where p.pseudo = :pseudo
             and p.invited = 0
-        ')->setParameters(array(
+        ')
+        ->setParameters(array(
             'pseudo' => $pseudo,
-        ))->getSingleScalarResult();
+        ))
+        ->getSingleScalarResult();
     }
     
     public function loginQuery($pseudo, $password)

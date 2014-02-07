@@ -10,15 +10,12 @@ use EL\ELTicTacToeBundle\Form\Entity\TicTacToePartyOptions;
 use EL\ELTicTacToeBundle\Entity\Party;
 use EL\ELCoreBundle\Entity\Party as CoreParty;
 
-
 class DefaultController extends ELGameAdapter
 {
     public function gameOptionsAction()
     {
         return $this->render('ELTicTacToeBundle:Default:game_options.html.twig');
     }
-    
-    
     
     public function getOptionsType()
     {
@@ -32,14 +29,14 @@ class DefaultController extends ELGameAdapter
     
     public function saveOptions(CoreParty $core_party, $options)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	
+        $em = $this->getDoctrine()->getManager();
+        
         $party = new Party();
         
         $current_player = $options->getFirstPlayer();
         
         if ($current_player == 0) {
-        	$current_player = rand(1, 2);
+            $current_player = rand(1, 2);
         }
         
         $party
@@ -56,18 +53,18 @@ class DefaultController extends ELGameAdapter
     
     public function loadOptions(CoreParty $core_party)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	
-    	$party = $em
-    			->getRepository('ELTicTacToeBundle:Party')
-    			->findOneBySlugParty($core_party->getSlug())
-    	;
-    	
-    	$options = new TicTacToePartyOptions();
-    	
-    	$options->setFirstPlayer($party->getFirstPlayer());
-    	
-    	return $options;
+        $em = $this->getDoctrine()->getManager();
+        
+        $party = $em
+                ->getRepository('ELTicTacToeBundle:Party')
+                ->findOneBySlugParty($core_party->getSlug())
+        ;
+        
+        $options = new TicTacToePartyOptions();
+        
+        $options->setFirstPlayer($party->getFirstPlayer());
+        
+        return $options;
     }
     
     public function getSlotsConfiguration($options)
@@ -96,34 +93,34 @@ class DefaultController extends ELGameAdapter
         );
     }
     
-	public function loadParty($slug_party)
+    public function loadParty($slug_party)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	
-    	$party = $em
-    			->getRepository('ELTicTacToeBundle:Party')
-    			->findOneBySlugParty($slug_party);
-    	
-    	return $party;
+        $em = $this->getDoctrine()->getManager();
+        
+        $party = $em
+                ->getRepository('ELTicTacToeBundle:Party')
+                ->findOneBySlugParty($slug_party);
+        
+        return $party;
     }
     
-	public function activeAction($_locale, PartyService $party_service)
-	{
-		$em = $this->getDoctrine()->getManager();
-		
-		$game		= $party_service->getGame();
-		$core_party	= $party_service->getParty();
+    public function activeAction($_locale, PartyService $party_service)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $game       = $party_service->getGame();
+        $core_party = $party_service->getParty();
 
         $party = $em
                 ->getRepository('ELTicTacToeBundle:Party')
                 ->findOneByCoreParty($core_party)
         ;
-		
-    	return $this->render('ELTicTacToeBundle:Default:active.html.twig', array(
-    		'game'              => $game,
-    		'party'             => $core_party,
-    		'extended_party'    => $party,
-    	));
+        
+        return $this->render('ELTicTacToeBundle:Default:active.html.twig', array(
+            'game'              => $game,
+            'party'             => $core_party,
+            'extended_party'    => $party,
+        ));
     }
     
     public function isMyTurn(PartyService $party_service)
@@ -141,11 +138,11 @@ class DefaultController extends ELGameAdapter
         return $partyPlayer === $loggedPlayer;
     }
     
-	public function createClone($slug_party, CoreParty $clone_core_party)
+    public function createClone($slug_party, CoreParty $clone_core_party)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	
-    	$extended_party = $em
+        $em = $this->getDoctrine()->getManager();
+        
+        $extended_party = $em
                 ->getRepository('ELTicTacToeBundle:Party')
                 ->findOneBySlugParty($slug_party)
         ;
@@ -155,5 +152,4 @@ class DefaultController extends ELGameAdapter
         $em->persist($clone_extended_party);
         $em->flush();
     }
-    
 }

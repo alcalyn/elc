@@ -2,14 +2,12 @@
 
 namespace EL\ELTicTacToeBundle\Form\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  *
  */
-class TicTacToePartyOptions {
-    
-	/**
+class TicTacToePartyOptions
+{
+    /**
      * @var integer
      * 
      * First player to play :
@@ -17,8 +15,8 @@ class TicTacToePartyOptions {
      * 1: first player
      * 2: second player
      */
-	private $first_player;
-	
+    private $first_player;
+    
     
     public function __construct()
     {
@@ -36,6 +34,4 @@ class TicTacToePartyOptions {
         $this->first_player = $first_player;
         return $this;
     }
-
-
 }

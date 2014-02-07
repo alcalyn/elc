@@ -9,12 +9,8 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use EL\ELCoreBundle\Entity\Player;
 
-class SecurityService
-implements
-        UserProviderInterface,
-        PasswordEncoderInterface
+class SecurityService implements UserProviderInterface, PasswordEncoderInterface
 {
-    
     private $em;
     
     
@@ -58,12 +54,14 @@ implements
      * Implementation of PasswordEncoderInterface
      */
     
-    public function encodePassword($raw, $salt) {
+    public function encodePassword($raw, $salt)
+    {
         $hash = md5($salt.$raw.$salt);
         return $hash;
     }
     
-    public function isPasswordValid($encoded, $raw, $salt) {
+    public function isPasswordValid($encoded, $raw, $salt)
+    {
         return $encoded === $this->encodePassword($raw, $salt);
     }
 }

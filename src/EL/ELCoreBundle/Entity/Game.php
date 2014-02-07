@@ -218,7 +218,7 @@ class Game extends AbstractLangEntity implements \JsonSerializable
      */
     public function getNbPlayer()
     {
-        if($this->getNbplayerMin() == $this->getNbplayerMax()) {
+        if ($this->getNbplayerMin() == $this->getNbplayerMax()) {
             return $this->getNbplayerMin();
         } else {
             return implode(' - ', array(
@@ -287,14 +287,13 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     
     public function jsonSerialize()
     {
-    	return array(
-    		'id'			=> $this->getId(),
-    		'name'			=> $this->getName(),
-    		'title'			=> $this->getTitle(),
-    		'nb_player_min'	=> $this->getNbplayerMin(),
-    		'nb_player_max'	=> $this->getNbplayerMax(),
-    		'room'			=> $this->getRoom(),
-    	);
+        return array(
+            'id'            => $this->getId(),
+            'name'          => $this->getName(),
+            'title'         => $this->getTitle(),
+            'nb_player_min' => $this->getNbplayerMin(),
+            'nb_player_max' => $this->getNbplayerMax(),
+            'room'          => $this->getRoom(),
+        );
     }
-    
 }

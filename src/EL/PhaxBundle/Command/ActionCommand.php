@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use EL\PhaxBundle\Model\PhaxAction;
 
-
 /**
  * Phax command line.
  * 
@@ -30,8 +29,13 @@ class ActionCommand extends ContainerAwareCommand
             ->setName('phax:action')
             ->setDescription('Execute Phax action using command line')
             ->addArgument('controller', InputArgument::OPTIONAL, 'Controller name', 'help')
-            ->addArgument('action',     InputArgument::OPTIONAL, 'Action name',     'default')
-            ->addOption('parameters', 'p', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Parameters to send to the controller')
+            ->addArgument('action', InputArgument::OPTIONAL, 'Action name', 'default')
+            ->addOption(
+                'parameters',
+                'p',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'Parameters to send to the controller'
+            )
         ;
     }
 

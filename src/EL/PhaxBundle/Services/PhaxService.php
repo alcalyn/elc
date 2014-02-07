@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 use EL\PhaxBundle\Model\PhaxReaction;
 
-
 /**
  * Helper class for building default phax reaction,
  * such as standard reaction with some parameters,
@@ -99,5 +98,4 @@ class PhaxService extends ContainerAware
         $reaction->setMetaMessage($message);
         return $reaction;
     }
-    
 }

@@ -4,11 +4,8 @@ namespace EL\ELCoreBundle\Form\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- *
- */
-class Signup {
-    
+class Signup
+{
     /**
      *
      * @var string
@@ -96,9 +93,4 @@ class Signup {
     {
         return $this->getPassword() === $this->getPasswordRepeat();
     }
-
-
-
-
-    
 }

@@ -2,18 +2,13 @@
 
 namespace EL\ELCoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use EL\ELCoreBundle\Entity\Player;
-use EL\ELCoreBundle\Form\Entity\Login;
-use EL\ELCoreBundle\Form\Type\LoginType;
 use Symfony\Component\Form\FormError;
 use EL\ELCoreBundle\Form\Entity\Signup;
 use EL\ELCoreBundle\Form\Type\SignupType;
 use EL\ELCoreBundle\Services\SessionService;
-use Symfony\Component\Security\Core\SecurityContext;
 
 class UserController extends Controller
 {
@@ -67,8 +62,8 @@ class UserController extends Controller
         if ($this->get('security.context')->isGranted('ROLE_PLAYER')) {
             $flashbag = $this->get('session')->getFlashBag();
             $flashbag->add(
-                    'danger',
-                    'You are already logged. Logout first to signup'
+                'danger',
+                'You are already logged. Logout first to signup'
             );
             return $this->redirect($this->generateUrl('elcore_home'));
         }
@@ -88,16 +83,14 @@ class UserController extends Controller
                     case SessionService::PSEUDO_UNAVAILABLE:
                         $signup_form
                             ->get('pseudo')
-                            ->addError(new FormError(
-                                $translator->trans('%pseudo%.already.taken', array(
-                                    '%pseudo%'  => $signup->getPseudo(),
-                                ))));
+                            ->addError(new FormError($translator->trans('%pseudo%.already.taken', array(
+                                '%pseudo%'  => $signup->getPseudo(),
+                            ))));
                         break;
                     
                     case SessionService::ALREADY_LOGGED:
                         $signup_form
-                            ->addError(new FormError(
-                                $translator->trans('you.are.already.logged')));
+                            ->addError(new FormError($translator->trans('you.are.already.logged')));
                         break;
                     
                     case 0:
@@ -105,23 +98,20 @@ class UserController extends Controller
                         
                     default:
                         $signup_form
-                            ->addError(new FormError(
-                                $translator->trans('unableto.create.account')));
+                            ->addError(new FormError($translator->trans('unableto.create.account')));
                         break;
                 }
             } else {
                 $signup_form
                         ->get('password_repeat')
-                        ->addError(new FormError(
-                            $translator->trans('password.repeat.isnotthesmae')));
+                        ->addError(new FormError($translator->trans('password.repeat.isnotthesmae')));
                 
                 if ($session->pseudoExists($signup->getPseudo())) {
                     $signup_form
-                            ->get('pseudo')
-                            ->addError(new FormError(
-                                $translator->trans('%pseudo%.already.taken', array(
-                                    '%pseudo%'  => $signup->getPseudo(),
-                                ))));
+                        ->get('pseudo')
+                        ->addError(new FormError($translator->trans('%pseudo%.already.taken', array(
+                            '%pseudo%'  => $signup->getPseudo(),
+                        ))));
                 }
             }
         }

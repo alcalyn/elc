@@ -6,11 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\PhaxBundle\Model\PhaxResponse;
 use EL\PhaxBundle\Model\PhaxAction;
 
-
-
 class PhaxController extends Controller
 {
-    
     /**
      * Phax main controller.
      * Call this controller using phax.action() in js.

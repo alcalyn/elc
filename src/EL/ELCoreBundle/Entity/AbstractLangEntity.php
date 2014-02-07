@@ -14,7 +14,6 @@ namespace EL\ELCoreBundle\Entity;
  */
 class AbstractLangEntity
 {
-    
     public function __call($name, $args)
     {
         if (strtolower(substr($name, 0, 3)) === 'get') {
@@ -27,9 +26,9 @@ class AbstractLangEntity
             return $this->langs[0]->$getter();
         } else {
             throw new \Exception(sprintf(
-                    'Method "%s" for object "%s" does not exist',
-                    $getter,
-                    get_class($this)
+                'Method "%s" for object "%s" does not exist',
+                $getter,
+                get_class($this)
             ));
         }
     }

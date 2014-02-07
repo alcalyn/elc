@@ -9,10 +9,8 @@ use EL\PhaxBundle\Model\PhaxException;
 use EL\PhaxBundle\Model\PhaxAction;
 use EL\PhaxBundle\Model\PhaxReaction;
 
-
 class PhaxCoreService extends ContainerAware
 {
-    
     /**
      * @param PhaxAction containing request and/or parameters
      * @return \EL\PhaxBundle\Model\PhaxReaction
@@ -26,23 +24,23 @@ class PhaxCoreService extends ContainerAware
         
         if (!$this->container->has($service_name)) {
             throw new PhaxException(
-                    'The controller '.$phax_action->getController().' does not exists. '.
-                    'It must be declared as service named '.$service_name
+                'The controller '.$phax_action->getController().' does not exists. '.
+                'It must be declared as service named '.$service_name
             );
         }
         
         $phax_controller = $this
-                ->container
-                ->get($service_name)
+            ->container
+            ->get($service_name)
         ;
         
         $phax_reaction = $this->callAction($phax_controller, $phax_action);
         
         if (!($phax_reaction instanceof PhaxReaction)) {
             throw new PhaxException(
-                    'The controller '.$phax_action->getController().'::'.$phax_action->getAction().
-                    ' must return an instance of EL\PhaxBundle\Model\PhaxReaction, '.
-                    get_class($phax_reaction).' returned'
+                'The controller '.$phax_action->getController().'::'.$phax_action->getAction().
+                ' must return an instance of EL\PhaxBundle\Model\PhaxReaction, '.
+                get_class($phax_reaction).' returned'
             );
         }
         

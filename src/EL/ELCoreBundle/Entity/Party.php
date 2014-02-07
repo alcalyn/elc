@@ -14,10 +14,10 @@ use EL\ELCoreBundle\Entity\Slot;
 class Party implements \JsonSerializable
 {
     
-	/**
-	 * Party created, waiting for player, order slot
-	 * @var integer
-	 */
+    /**
+     * Party created, waiting for player, order slot
+     * @var integer
+     */
     const PREPARATION   = 1;
     
     /**
@@ -303,7 +303,7 @@ class Party implements \JsonSerializable
      */
     public function hasHost()
     {
-    	return !is_null($this->getHost());
+        return !is_null($this->getHost());
     }
 
     /**
@@ -538,46 +538,44 @@ class Party implements \JsonSerializable
     
     public function jsonSerialize()
     {
-    	$slots = array();
-    	
-    	foreach ($this->getSlots() as $slot) {
-    		$slots[$slot->getPosition()] = $slot->jsonSerialize();
-    	}
-    	
-    	return array(
-    		'id'				=> $this->getId(),
-    		'slug'				=> $this->getSlug(),
-    		'allow_chat'		=> $this->getAllowChat(),
-    		'allow_observers'	=> $this->getAllowObservers(),
-            'title'				=> $this->getTitle(),
-            'state'				=> $this->getState(),
-    		'open'				=> $this->getOpen(),
-    		'room'				=> $this->getRoom(),
-    		'host'				=> is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
-    		'game'				=> $this->getGame()->jsonSerialize(),
-    		'slots'				=> $slots,
-    		'date_create'		=> $this->getDateCreate(),
-    		'date_started'		=> $this->getDateStarted(),
-    		'date_ended'		=> $this->getDateEnded(),
-    	);
+        $slots = array();
+        
+        foreach ($this->getSlots() as $slot) {
+            $slots[$slot->getPosition()] = $slot->jsonSerialize();
+        }
+        
+        return array(
+            'id'                => $this->getId(),
+            'slug'              => $this->getSlug(),
+            'allow_chat'        => $this->getAllowChat(),
+            'allow_observers'   => $this->getAllowObservers(),
+            'title'             => $this->getTitle(),
+            'state'             => $this->getState(),
+            'open'              => $this->getOpen(),
+            'room'              => $this->getRoom(),
+            'host'              => is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
+            'game'              => $this->getGame()->jsonSerialize(),
+            'slots'             => $slots,
+            'date_create'       => $this->getDateCreate(),
+            'date_started'      => $this->getDateStarted(),
+            'date_ended'        => $this->getDateEnded(),
+        );
     }
     
     
     public function createClone()
     {
-    	$clone = new self();
-    	
-    	$clone->game			= $this->game;
-    	$clone->title			= $this->title;
-    	$clone->open			= $this->open;
-    	$clone->room			= $this->room;
-    	$clone->allow_chat		= $this->allow_chat;
-    	$clone->allow_observers	= $this->allow_observers;
-    	$clone->state			= self::PREPARATION;
-    	$clone->date_create		= new \DateTime();
-    	
-    	return $clone;
+        $clone = new self();
+        
+        $clone->game            = $this->game;
+        $clone->title           = $this->title;
+        $clone->open            = $this->open;
+        $clone->room            = $this->room;
+        $clone->allow_chat      = $this->allow_chat;
+        $clone->allow_observers = $this->allow_observers;
+        $clone->state           = self::PREPARATION;
+        $clone->date_create     = new \DateTime();
+        
+        return $clone;
     }
-    
-    
 }

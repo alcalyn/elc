@@ -71,7 +71,7 @@ class PartyRepository extends EntityRepository
     
     public function countSlug($slug)
     {
-    	$query = $this->_em->createQuery('
+        $query = $this->_em->createQuery('
             select count(p)
             from ELCoreBundle:Party p
             where  p.slug = :slug
@@ -81,5 +81,4 @@ class PartyRepository extends EntityRepository
         
         return $query->getSingleScalarResult();
     }
-    
 }

@@ -88,5 +88,4 @@ class GamesController extends Controller
             'game' => $game,
         ));
     }
-
 }

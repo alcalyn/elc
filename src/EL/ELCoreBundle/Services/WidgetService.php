@@ -45,5 +45,4 @@ class WidgetService
     {
         return $this->widgets;
     }
-    
 }

@@ -3,8 +3,6 @@
 namespace EL\ELCoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\ELCoreBundle\Services\PartyService;
 use EL\PhaxBundle\Model\PhaxAction;
 use EL\PhaxBundle\Model\PhaxResponse;
@@ -19,7 +17,7 @@ class SlotController extends Controller
         $_locale    = $phax_action->getLocale();
         
         $party = $this
-        		->get('el_core.party')
+                ->get('el_core.party')
                 ->setPartyBySlug($slug_party, $_locale)
                 ->getParty()
         ;
@@ -41,13 +39,13 @@ class SlotController extends Controller
     {
         $slug_party = $phax_action->slug_party;
         $_locale    = $phax_action->getLocale();
-        $slot_index	= $phax_action->slot_index;
-        $slot_open	= $phax_action->slot_open === 'true';
+        $slot_index = $phax_action->slot_index;
+        $slot_open  = $phax_action->slot_open === 'true';
         
         $party_service = $this
-	        	->get('el_core.party')
-	        	->setPartyBySlug($slug_party, $_locale)
-	        	->openSlot($slot_index, $slot_open)
+                ->get('el_core.party')
+                ->setPartyBySlug($slug_party, $_locale)
+                ->openSlot($slot_index, $slot_open)
         ;
         
         return $this->refreshAction($phax_action);
@@ -58,13 +56,13 @@ class SlotController extends Controller
     {
         $slug_party = $phax_action->slug_party;
         $_locale    = $phax_action->getLocale();
-        $slot_index	= isset($phax_action->slot_index) ? intval($phax_action->slot_index) : -1 ;
+        $slot_index = isset($phax_action->slot_index) ? intval($phax_action->slot_index) : -1 ;
         
         $this
-	        	->get('el_core.party')
-	        	->setPartyBySlug($slug_party, $_locale)
+                ->get('el_core.party')
+                ->setPartyBySlug($slug_party, $_locale)
                 ->canJoin(null, $slot_index)
-	    ;
+        ;
         
         return $this->refreshAction($phax_action);
     }
@@ -72,35 +70,34 @@ class SlotController extends Controller
     
     public function banAction(PhaxAction $phax_action)
     {
-    	$slug_party = $phax_action->slug_party;
+        $slug_party = $phax_action->slug_party;
         $_locale    = $phax_action->getLocale();
-        $player_id	= $phax_action->player_id;
+        $player_id  = $phax_action->player_id;
         
         $party_service = $this
-	        	->get('el_core.party')
-	        	->setPartyBySlug($slug_party, $_locale)
-	    ;
-	    
-	    $ok = $party_service->ban($player_id);
-	    
-	    return $this->refreshAction($phax_action);
+                ->get('el_core.party')
+                ->setPartyBySlug($slug_party, $_locale)
+        ;
+        
+        $ok = $party_service->ban($player_id);
+        
+        return $this->refreshAction($phax_action);
     }
     
     
     public function reorderAction(PhaxAction $phax_action)
     {
-    	$slug_party = $phax_action->slug_party;
+        $slug_party = $phax_action->slug_party;
         $_locale    = $phax_action->getLocale();
-        $indexes	= $phax_action->new_order;
+        $indexes    = $phax_action->new_order;
         
         $party_service = $this
-	        	->get('el_core.party')
-	        	->setPartyBySlug($slug_party, $_locale)
-	    ;
-	    
-	    $party_service->reorderSlots($indexes);
-	    
-    	return $this->refreshAction($phax_action);
+                ->get('el_core.party')
+                ->setPartyBySlug($slug_party, $_locale)
+        ;
+        
+        $party_service->reorderSlots($indexes);
+        
+        return $this->refreshAction($phax_action);
     }
-    
 }

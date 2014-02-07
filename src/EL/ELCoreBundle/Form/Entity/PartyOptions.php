@@ -2,43 +2,38 @@
 
 namespace EL\ELCoreBundle\Form\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use EL\ELCoreBundle\Form\Entity\SpecialPartyOptions;
 
-/**
- *
- */
-class PartyOptions {
+class PartyOptions
+{
+    /**
+     * Title of the party visible by other players
+     * 
+     * @var string
+     */
+    private $title;
     
-	
-	/**
-	 * Title of the party visible by other players
-	 * 
-	 * @var string
-	 */
-	private $title;
-	
-	/**
-	 * Private party, you cant join unless invitation
-	 * 
-	 * @var boolean
-	 */
-	private $private;
-	
-	/**
-	 * Disallow others players to observe this party when playing
-	 * 
-	 * @var boolean
-	 */
-	private $disallow_observers;
-	
-	/**
-	 * Disable chat for this party
-	 * 
-	 * @var boolean
-	 */
-	private $disallow_chat;
-	
+    /**
+     * Private party, you cant join unless invitation
+     * 
+     * @var boolean
+     */
+    private $private;
+    
+    /**
+     * Disallow others players to observe this party when playing
+     * 
+     * @var boolean
+     */
+    private $disallow_observers;
+    
+    /**
+     * Disable chat for this party
+     * 
+     * @var boolean
+     */
+    private $disallow_chat;
+    
     
     
     /**
@@ -47,15 +42,15 @@ class PartyOptions {
      * @var SpecialPartyOptions
      */
     private $special_party_options;
-	
-	
+    
+    
     
     public function __construct()
     {
         $this
-        		->setPrivate(false)
-        		->setDisallowObservers(false)
-        		->setDisallowChat(false)
+                ->setPrivate(false)
+                ->setDisallowObservers(false)
+                ->setDisallowChat(false)
         ;
     }
     
@@ -83,7 +78,7 @@ class PartyOptions {
     
     public function getDisallowObservers()
     {
-    	return $this->disallow_observers;
+        return $this->disallow_observers;
     }
 
     public function setDisallowObservers($disallow_observers)
@@ -92,16 +87,16 @@ class PartyOptions {
         return $this;
     }
 
-	public function getDisallowChat()
-	{
-		return $this->disallow_chat;
-	}
-	
-	public function setDisallowChat($disallow_chat)
-	{
-		$this->disallow_chat = $disallow_chat;
-		return $this;
-	}
+    public function getDisallowChat()
+    {
+        return $this->disallow_chat;
+    }
+    
+    public function setDisallowChat($disallow_chat)
+    {
+        $this->disallow_chat = $disallow_chat;
+        return $this;
+    }
 
     public function getSpecialPartyOptions()
     {
@@ -113,8 +108,4 @@ class PartyOptions {
         $this->special_party_options = $special_party_options;
         return $this;
     }
-    
-
-
-    
 }

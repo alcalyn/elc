@@ -28,5 +28,4 @@ class SlideshowController extends Controller
             'slides'    => $slides,
         ));
     }
-    
 }

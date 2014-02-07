@@ -4,11 +4,8 @@ namespace EL\ELCoreBundle\Form\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- *
- */
-class Login {
-    
+class Login
+{
     /**
      *
      * @var string
@@ -71,7 +68,4 @@ class Login {
         $this->remember_me = $remember_me;
         return $this;
     }
-
-
-    
 }

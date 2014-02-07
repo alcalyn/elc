@@ -4,7 +4,6 @@ namespace EL\ELCoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
 class WidgetController extends Controller
 {
     public function myPartiesAction($_locale)

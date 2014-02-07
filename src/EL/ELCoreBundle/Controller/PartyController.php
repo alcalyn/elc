@@ -86,7 +86,7 @@ class PartyController extends Controller
         $party = $party_service->getParty();
         
         if (!in_array($party->getState(), array(Party::PREPARATION, Party::STARTING))) {
-            return $this->redirect($_locale, $slug_game, $slug_party);
+            return $this->redirectParty($_locale, $slug_game, $slug_party);
         }
         
         $player     = $this->getUser();
@@ -144,7 +144,7 @@ class PartyController extends Controller
             $e->addFlashMessage($this->get('session'));
         }
         
-        return $this->redirect($_locale, $slug_game, $slug_party, $party_service->getParty());
+        return $this->redirectParty($_locale, $slug_game, $slug_party, $party_service->getParty());
     }
     
     
@@ -233,7 +233,7 @@ class PartyController extends Controller
                 throw new ELCoreException('Unknown action : "'.$action.'"');
         }
         
-        return $this->redirect($_locale, $slug_game, $slug_party, $party);
+        return $this->redirectParty($_locale, $slug_game, $slug_party, $party);
     }
     
     
@@ -255,7 +255,7 @@ class PartyController extends Controller
         $party = $party_service->getParty();
         
         if ($party->getState() !== Party::ACTIVE) {
-            return $this->redirect($_locale, $slug_game, $slug_party, $party);
+            return $this->redirectParty($_locale, $slug_game, $slug_party, $party);
         }
         
         $extended_game  = $this->get($party_service->getGameServiceName());
@@ -287,7 +287,7 @@ class PartyController extends Controller
         $party = $party_service->getParty();
         
         if ($party->getState() !== Party::ENDED) {
-            return $this->redirect($_locale, $slug_game, $slug_party, $party);
+            return $this->redirectParty($_locale, $slug_game, $slug_party, $party);
         }
         
         $extended_game = $this->get($party_service->getGameServiceName());
@@ -296,7 +296,7 @@ class PartyController extends Controller
     }
     
     
-    private function redirect($_locale, $slug_game, $slug_party, Party $party = null)
+    private function redirectParty($_locale, $slug_game, $slug_party, Party $party = null)
     {
         $parameters = array(
             '_locale'       => $_locale,

@@ -54,28 +54,9 @@ class PhaxAction implements \JsonSerializable
         $this->data         = $params;
     }
     
-    public function __set($name, $value)
-    {
-        if ($name === 'phax_metadata') {
-            throw new PhaxException(
-                'Cannot use "phax_metadata" as variable name for a PhaxAction'
-            );
-        }
-        
-        $this->data[$name] = $value;
-    }
-    
-    public function __get($name)
-    {
-        return $this->data[$name];
-    }
-    
-    public function __isset($name)
-    {
-        return isset($this->data[$name]);
-    }
-    
     /**
+     * Return request instance used for this action
+     * 
      * @return \Symfony\Component\HttpFoundation\Request
      */
     public function getRequest()
@@ -83,14 +64,6 @@ class PhaxAction implements \JsonSerializable
         return $this->request;
     }
     
-    /**
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->getRequest()->getLocale();
-    }
-
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \EL\PhaxBundle\Model\PhaxAction
@@ -100,8 +73,20 @@ class PhaxAction implements \JsonSerializable
         $this->request = $request;
         return $this;
     }
+    
+    /**
+     * Return current locale of request
+     * 
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->getRequest()->getLocale();
+    }
 
     /**
+     * Return if this action has been requested from command line
+     * 
      * @return boolean
      */
     public function isCli()
@@ -119,21 +104,70 @@ class PhaxAction implements \JsonSerializable
         return $this;
     }
     
+    /**
+     * Return the name of the controller
+     * 
+     * @return string
+     */
     public function getController()
     {
         return $this->controller;
     }
 
+    /**
+     * Return the name of the action
+     * 
+     * @return string
+     */
     public function getAction()
     {
         return $this->action;
     }
     
+    /**
+     * Check if $variable exists
+     * 
+     * @param string $variable
+     * @return boolean
+     */
+    public function has($variable)
+    {
+        return isset($this->data[$variable]);
+    }
+    
+    /**
+     * Get variable from ajax request,
+     * or return $default if not exists
+     * 
+     * @param string $variable
+     * @param mixed $default
+     * @return mixed
+     */
     public function get($variable, $default = null)
     {
-        return $this->__isset($variable) ?
-            $this->__get($variable) :
+        return $this->has($variable) ?
+            $this->data[$variable] :
             $default ;
+    }
+    
+    /**
+     * Get all variables of action
+     * 
+     * @return array
+     */
+    public function all()
+    {
+        return $this->data;
+    }
+    
+    public function __get($variable)
+    {
+        return $this->get($variable);
+    }
+    
+    public function __isset($variable)
+    {
+        return $this->has($variable);
     }
 
     public function jsonSerialize()

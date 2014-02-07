@@ -13,8 +13,13 @@ var phax = {
             action: action ? action : 'default'
         };
         
+        /*
+         * Debug data : displays controller and action in request call
+         */
+        var debug_data = '?_'+controller+'_'+action;
+        
         jQuery.post(
-            phaxConfig.www_script,
+            phaxConfig.www_script+debug_data,
             data,
             function(r) {
                 phax.reaction(controller, action, r);

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="el_core_player")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PlayerRepository")
  */
-class Player implements UserInterface, \JsonSerializable
+class Player implements \JsonSerializable
 {
     /**
      * @var integer
@@ -61,8 +61,9 @@ class Player implements UserInterface, \JsonSerializable
     public function __construct()
     {
         $this
-                ->setDateCreate(new \DateTime())
-                ->setBot(false);
+            ->setDateCreate(new \DateTime())
+            ->setBot(false)
+        ;
     }
     
     
@@ -199,44 +200,5 @@ class Player implements UserInterface, \JsonSerializable
             'invited'       => $this->getInvited(),
             'bot'           => $this->getBot(),
         );
-    }
-    
-    
-    
-    
-    /*
-     * Implementation of UserInterface
-     */
-    
-    public function getUsername()
-    {
-        return $this->pseudo;
-    }
-    
-    public function getPassword()
-    {
-        return $this->passwordHash;
-    }
-    
-    public function getSalt()
-    {
-        return '2457éèé(ezgg25 %^^';
-    }
-    
-    public function getRoles()
-    {
-        $roles = array();
-        
-        if ($this->getInvited()) {
-            $roles []= 'ROLE_GUEST';
-        } else {
-            $roles []= 'ROLE_PLAYER';
-        }
-        
-        return $roles;
-    }
-    
-    public function eraseCredentials()
-    {
     }
 }

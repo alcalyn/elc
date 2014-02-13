@@ -2,6 +2,8 @@
 
 namespace EL\ELCoreBundle\Services;
 
+use Doctrine\ORM\EntityManager;
+use EL\ELCoreBundle\Services\IllDoItLaterService;
 
 /**
  * Use IllDoItLater Service to persist and flush entities
@@ -11,6 +13,9 @@ namespace EL\ELCoreBundle\Services;
  */
 class IllFlushItLaterService
 {
+    /**
+     * @var EntityManager
+     */
     private $em;
     
     /**
@@ -22,9 +27,9 @@ class IllFlushItLaterService
     private $merge_entities;
     
     
-    public function __construct($em, $illdoitlater)
+    public function __construct(EntityManager $em, IllDoItLaterService $illdoitlater)
     {
-        $this->em = $em;
+        $this->em           = $em;
         $this->illdoitlater = $illdoitlater;
         
         $this->clear();

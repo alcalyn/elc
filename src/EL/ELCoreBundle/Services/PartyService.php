@@ -3,10 +3,12 @@
 namespace EL\ELCoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
 use EL\ELCoreBundle\Services\GameService;
 use EL\ELCoreBundle\Entity\Party;
 use EL\ELCoreBundle\Entity\Slot;
 use EL\ELCoreBundle\Entity\Player;
+use EL\ELCoreBundle\Services\SessionService;
 use EL\ELCoreBundle\Model\Slug;
 use EL\ELCoreBundle\Model\ELCoreException;
 use EL\ELCoreBundle\Model\ELUserException;
@@ -38,9 +40,9 @@ class PartyService extends GameService
     private $illflushitlater;
     
     /**
-     * Security context
+     * @var SessionService
      */
-    private $security_context;
+    private $session;
     
     /**
      * @var Party
@@ -49,12 +51,12 @@ class PartyService extends GameService
     
     
     
-    public function __construct($em, $illflushitlater, $security_context)
+    public function __construct(EntityManager $em, IllFlushItLaterService $illflushitlater, SessionService $session)
     {
         parent::__construct($em);
         
         $this->illflushitlater  = $illflushitlater;
-        $this->security_context = $security_context;
+        $this->session          = $session;
     }
     
     
@@ -108,7 +110,7 @@ class PartyService extends GameService
         $party = new Party();
         $party
                 ->setGame($this->getGame())
-                ->setHost($this->security_context->getToken()->getUser())
+                ->setHost($this->session->getPlayer())
                 ->setTitle($partyOption->getTitle())
                 ->setOpen(!$partyOption->getPrivate())
                 ->setAllowChat(!$partyOption->getDisallowChat())
@@ -167,7 +169,7 @@ class PartyService extends GameService
             ;
             
             if ($isHost) {
-                $slot->setPlayer($this->security_context->getToken()->getUser());
+                $slot->setPlayer($this->session->getPlayer());
             }
             
             $this->em->persist($slot);
@@ -197,7 +199,7 @@ class PartyService extends GameService
         $this->needParty();
         
         if (is_null($player)) {
-            $player = $this->security_context->getToken()->getUser();
+            $player = $this->session->getPlayer();
         }
         $party  = is_null($party) ? $this->getParty() : $party ;
         $state  = $party->getState();
@@ -286,7 +288,7 @@ class PartyService extends GameService
     public function inParty(Player $player = null, Party $party = null)
     {
         if (is_null($player)) {
-            $player = $this->security_context->getToken()->getUser();
+            $player = $this->session->getPlayer();
         }
         
         $party  = is_null($party) ? $this->getParty() : $party ;
@@ -344,7 +346,7 @@ class PartyService extends GameService
     public function quitParty($player_id = null)
     {
         if (is_null($player_id)) {
-            $player_id = $this->security_context->getToken()->getUser()->getId();
+            $player_id = $this->session->getPlayer()->getId();
         }
         
         $slot = $this->em
@@ -412,7 +414,7 @@ class PartyService extends GameService
         }
         
         if (is_null($player)) {
-            $player = $this->security_context->getToken()->getUser();
+            $player = $this->session->getPlayer();
         }
         
         return $this->getParty()->getHost()->getId() === $player->getId();
@@ -526,11 +528,12 @@ class PartyService extends GameService
      */
     public function remake($extended_party_service)
     {
-        $player = $this->security_context->getToken()->getUser();
+        $player = $this->session->getPlayer();
         $party  = $this->getParty();
+        $remake = $party->getRemake();
         
-        if (!is_null($remake = $party->getRemake())) {
-            $this->join($player, -1, $remake);
+        if (null !== $remake) {
+            $this->join($player, -1, true, $remake);
             return $remake;
         }
         

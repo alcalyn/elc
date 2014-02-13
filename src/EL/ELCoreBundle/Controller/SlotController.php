@@ -61,7 +61,7 @@ class SlotController extends Controller
         $this
                 ->get('el_core.party')
                 ->setPartyBySlug($slug_party, $_locale)
-                ->canJoin(null, $slot_index)
+                ->join(null, $slot_index)
         ;
         
         return $this->refreshAction($phax_action);

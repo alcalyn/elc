@@ -1,5 +1,5 @@
 {# player #}
-<div class="btn-group slot joueur {% if party.host and (slot.player.id == party.host.id) %}host{% endif %}" data-player_id="{{ slot.player.id }}">
+<div class="btn-group slot joueur {% if core_party.host and (slot.player.id == core_party.host.id) %}host{% endif %}" data-player_id="{{ slot.player.id }}">
     <button type="button" class="btn btn-default player-pseudo btn-slot-12">
         {{ slot.player.pseudo }}
 

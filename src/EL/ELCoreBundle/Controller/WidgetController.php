@@ -15,7 +15,7 @@ class WidgetController extends Controller
         
         $parties = $em
                 ->getRepository('ELCoreBundle:Party')
-                ->findCurrentPartiesForPlayer($_locale, $this->getUser())
+                ->findCurrentPartiesForPlayer($_locale, $this->get('el_core.session')->getPlayer())
         ;
 
         foreach ($parties as $party) {

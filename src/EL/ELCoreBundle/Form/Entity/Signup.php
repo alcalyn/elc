@@ -3,7 +3,11 @@
 namespace EL\ELCoreBundle\Form\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContext;
 
+/**
+ * @Assert\Callback(methods={"isSamePasswords"})
+ */
 class Signup
 {
     /**
@@ -89,8 +93,14 @@ class Signup
     }
     
     
-    public function isValid()
+    public function isSamePasswords(ExecutionContext $context = null)
     {
-        return $this->getPassword() === $this->getPasswordRepeat();
+        $same = $this->getPassword() === $this->getPasswordRepeat();
+        
+        if ((!$same) && (null !== $context)) {
+            $context->addViolationAt('password_repeat', 'passwords.repeatition.fails', array(), null);
+        }
+        
+        return $same;
     }
 }

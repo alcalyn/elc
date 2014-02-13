@@ -58,6 +58,16 @@ class Party implements \JsonSerializable
      */
     private $current_player;
     
+    /**
+     * Datetime for the last party end.
+     * Used for wait a few second before restart a new grid,
+     * and show to opponent the last ticked case
+     *
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="last_party_end", type="datetime", nullable=true)
+     */
+    private $last_party_end;
     
     
     public function __construct()
@@ -190,5 +200,28 @@ class Party implements \JsonSerializable
         $clone->grid            = '---------';
         
         return $clone;
+    }
+
+    /**
+     * Set last_party_end
+     *
+     * @param \DateTime $lastPartyEnd
+     * @return Party
+     */
+    public function setLastPartyEnd($lastPartyEnd)
+    {
+        $this->last_party_end = $lastPartyEnd;
+    
+        return $this;
+    }
+
+    /**
+     * Get last_party_end
+     *
+     * @return \DateTime 
+     */
+    public function getLastPartyEnd()
+    {
+        return $this->last_party_end;
     }
 }

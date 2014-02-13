@@ -2,9 +2,10 @@
 
 namespace EL\ELCoreBundle\Services;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\ORM\EntityManager;
+use EL\ELCoreBundle\Model\ELUserException;
 use EL\ELCoreBundle\Entity\Player;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class SessionService
 {
@@ -12,54 +13,116 @@ class SessionService
     const ALREADY_LOGGED = -2;
     
     
-    private $security_context;
-    private $em;
-    private $elcore_security;
+    /**
+     * @var \Symfony\Component\HttpFoundation\Session\Session
+     */
+    private $session;
+    
+    /**
+     * 
+     * @var IllFlushItLaterService
+     */
     private $illflushitlater;
-    private $request;
-    private $event_dispatcher;
+    
+    /**
+     *
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
     
     
-    public function __construct($security_context, $em, $elcore_security, $illflushitlater, $request, $event_dispatcher)
+    
+    public function __construct(Session $session, IllFlushItLaterService $illflushitlater, EntityManager $em)
     {
-        $this->security_context = $security_context;
-        $this->em = $em;
-        $this->elcore_security = $elcore_security;
-        $this->illflushitlater = $illflushitlater;
-        $this->request = $request;
-        $this->event_dispatcher = $event_dispatcher;
+        $this->session          = $session;
+        $this->illflushitlater  = $illflushitlater;
+        $this->em               = $em;
         
         $this->start();
     }
     
+    /**
+     * Init session, create a guest if first connexion
+     * 
+     * @return Player logged
+     */
     public function start()
     {
-        if (is_null($this->getPlayer())) {
-            $guest = self::generateGuest();
-            $this->logPlayer($guest);
+        $this->session->start();
+        
+        if ($this->session->has('player')) {
             $this->savePlayer();
+            return $this->getPlayer();
+        } else {
+            $guest = self::generateGuest('en');
+            $this->setPlayer($guest);
+            $this->savePlayer();
+            return $guest;
         }
     }
     
+    /**
+     * Log an user
+     * 
+     * @param string $pseudo
+     * @param string $password plain
+     */
+    public function login($pseudo, $password)
+    {
+        $passwordHash = $this->hashPassword($password);
+        
+        $results = $this->em
+                ->getRepository('ELCoreBundle:Player')
+                ->loginQuery($pseudo, $passwordHash);
+        
+        if (count($results) == 1) {
+            $this->setPlayer($results[0]);
+            
+            return true;
+        } else {
+            throw new ELUserException('login.error');
+        }
+    }
+    
+    /**
+     * Logout
+     * 
+     * @return \EL\ELCoreBundle\Services\SessionService
+     */
+    public function logout()
+    {
+        if ($this->getPlayer()->getInvited()) {
+            
+        } else {
+            $this->session->invalidate();
+            $this->session->start();
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Create an account
+     * 
+     * @param type $pseudo
+     * @param type $password
+     * 
+     * @return int
+     */
     public function signup($pseudo, $password)
     {
         if ($this->isLogged()) {
-            return self::ALREADY_LOGGED;
+            throw new ELCoreException('already.logged');
         }
         
         if ($this->pseudoExists($pseudo)) {
-            return self::PSEUDO_UNAVAILABLE;
+            throw new ELUserException('pseudo.unavailable');
         }
         
         $player = $this->getPlayer();
-        
-        $password_hash = $this
-                ->elcore_security
-                ->encodePassword($password, $player->getSalt());
-        
         $player
                 ->setPseudo($pseudo)
-                ->setPasswordHash($password_hash)
+                ->setPasswordHash($this->hashPassword($password))
                 ->setInvited(false);
         
         $this->savePlayer();
@@ -67,6 +130,12 @@ class SessionService
         return 0;
     }
     
+    /**
+     * Check if pseudo exists
+     * 
+     * @param string $pseudo
+     * @return boolean
+     */
     public function pseudoExists($pseudo)
     {
         $count = $this->em
@@ -76,57 +145,83 @@ class SessionService
         return intval($count) > 0;
     }
     
+    /**
+     * Return false if there is an invited user
+     * 
+     * @return boolean
+     */
     public function isLogged()
     {
         return !$this->getPlayer()->getInvited();
     }
     
+    /**
+     * Return logged player
+     * 
+     * @return Player
+     */
     public function getPlayer()
     {
-        $user = $this->security_context->getToken()->getUser();
-        
-        if ($user instanceof Player) {
-            return $user;
-        } else {
-            return null;
-        }
+        return $this->session->get('player');
     }
     
-    public function logPlayer($player)
+    /**
+     * Set player
+     * 
+     * @param Player $player
+     * 
+     * @return \EL\ELCoreBundle\Services\SessionService
+     */
+    public function setPlayer($player)
     {
-        $token = new UsernamePasswordToken(
-            $player,
-            $player->getPassword(),
-            'main',
-            $player->getRoles()
-        );
-        
-        $this->security_context->setToken($token);
-        
-        $event = new InteractiveLoginEvent($this->request, $token);
-        $this->event_dispatcher->dispatch('security.interactive_login', $event);
+        $this->session->set('player', $player);
         
         return $this;
     }
     
+    /**
+     * Save current user in database
+     * 
+     * @return \EL\ELCoreBundle\Services\SessionService
+     */
     public function savePlayer()
     {
-        $this->illflushitlater->merge($this->getPlayer());
-        $this->illflushitlater->flush();
+        $player = $this->getPlayer();
+        
+        $newplayer = $this->em->merge($player);
+        $this->setPlayer($newplayer);
+        $this->em->flush();
+        
         return $this;
     }
     
-    public static function generateGuest($lang = 'en')
+    /**
+     * Hash function
+     * 
+     * @param string $password plain
+     * 
+     * @return string md5
+     */
+    public function hashPassword($password)
+    {
+        $salt = 'Sel de Guérande';
+        
+        return md5($salt.$password.$salt);
+    }
+    
+    public static function generateGuest($locale = 'en')
     {
         $guest = new Player();
         
-        return $guest
-                ->setPseudo(self::generateGuestName($lang))
-                ->setInvited(true)
+        $guest
+            ->setPseudo(self::generateGuestName($locale))
+            ->setInvited(true)
         ;
+        
+        return $guest;
     }
     
-    public static function generateGuestName($lang = 'en')
+    public static function generateGuestName($locale = 'en')
     {
         return 'Guest '.rand(10000, 99999);
     }

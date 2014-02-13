@@ -3,7 +3,6 @@ parameters:
     el_core.illdoitlater.class:         EL\ELCoreBundle\Services\IllDoItLaterService
     el_core.illflushitlater.class:      EL\ELCoreBundle\Services\IllFlushItLaterService
     el_core.js_vars.class:              EL\ELCoreBundle\Services\JsVarsService
-    el_core.security.class:             EL\ELCoreBundle\Services\SecurityService
     el_core.base_controller.class:      EL\ELCoreBundle\Services\ELCoreController
     el_core.party.class:                EL\ELCoreBundle\Services\PartyService
     el_core.game.class:                 EL\ELCoreBundle\Services\GameService
@@ -13,39 +12,44 @@ parameters:
     el_core.controller.widget.class:    EL\ELCoreBundle\Controller\WidgetController
 
 services:
-    el_core.security:
-        class: %el_core.security.class%
-        arguments: [@doctrine.orm.entity_manager]
     el_core.session:
         class: %el_core.session.class%
-        arguments: [@security.context, @doctrine.orm.entity_manager, @el_core.security, @el_core.illflushitlater, @request, @event_dispatcher]
-        scope: request
+        arguments: [@session, @el_core.illflushitlater, @doctrine.orm.entity_manager]
+        
     el_core.illdoitlater:
         class: %el_core.illdoitlater.class%
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
+        
     el_core.illflushitlater:
         class: %el_core.illflushitlater.class%
         arguments: [@doctrine.orm.entity_manager, @el_core.illdoitlater]
+        
     el_core.js_vars:
         class: %el_core.js_vars.class%
-        arguments: [@router, @security.context, @translator]
+        arguments: [@router, @el_core.session, @translator]
+        
     el_core.game:
         class: %el_core.game.class%
         arguments: [@doctrine.orm.entity_manager]
+        
     el_core.party:
         class: %el_core.party.class%
-        arguments: [@doctrine.orm.entity_manager, @el_core.illflushitlater, @security.context]
+        arguments: [@doctrine.orm.entity_manager, @el_core.illflushitlater, @el_core.session]
+        
     el_core.widgets:
         class: %el_core.widget.class%
+        
     phax.party:
         class: %el_core.controller.party.class%
         calls:
             - [setContainer, ["@service_container"]]
+            
     phax.slot:
         class: %el_core.controller.slot.class%
         calls:
             - [setContainer, ["@service_container"]]
+            
     phax.widget:
         class: %el_core.controller.widget.class%
         calls:

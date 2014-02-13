@@ -89,7 +89,7 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slug_game, $slug_party);
         }
         
-        $player     = $this->getUser();
+        $player     = $this->get('el_core.session')->getPlayer();
         $canJoin    = true === $party_service->canJoin();
         $is_host    = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
         $in_party   = $party_service->inParty();
@@ -161,7 +161,7 @@ class PartyController extends Controller
                 ->setPartyBySlug($slug_party, $_locale, $this->container)
         ;
         
-        $player     = $this->getUser();
+        $player     = $this->get('el_core.session')->getPlayer();
         $party      = $party_service->getParty();
         $is_host    = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
         $t          = $this->get('translator');

@@ -27,14 +27,15 @@ class PlayerRepository extends EntityRepository
         ->getSingleScalarResult();
     }
     
-    public function loginQuery($pseudo, $password)
+    public function loginQuery($pseudo, $passwordHash)
     {
         return $this->_em
                 ->getRepository('ELCoreBundle:Player')
                 ->findBy(array(
-                    'pseudo'        => $pseudo,
-                    'passwordHash'  => Player::hashPassword($password),
                     'invited'       => 0,
+                    'bot'           => 0,
+                    'pseudo'        => $pseudo,
+                    'passwordHash'  => $passwordHash,
                 ));
     }
 }

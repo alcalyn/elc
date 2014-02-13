@@ -28,7 +28,7 @@ class JsVarsService
     /**
      * @var SessionService
      */
-    private $security_context;
+    private $session;
     
     /**
      * @var Translator
@@ -38,11 +38,11 @@ class JsVarsService
     
     
     
-    public function __construct(Router $router, $security_context, Translator $translator)
+    public function __construct(Router $router, SessionService $session, Translator $translator)
     {
-        $this->router            = $router;
-        $this->security_context    = $security_context;
-        $this->translator        = $translator;
+        $this->router       = $router;
+        $this->session      = $session;
+        $this->translator   = $translator;
         
         $this->vars = array(
             self::TYPE_PHAX_CONFIG                => array(),
@@ -61,7 +61,7 @@ class JsVarsService
         //$this->initPhaxController('surf');
         $this->initPhaxController('widget');
         
-        $this->addContext('player', $this->security_context->getToken()->getUser()->jsonSerialize());
+        $this->addContext('player', $this->session->getPlayer()->jsonSerialize());
         $this->addContext('locale', $this->translator->getLocale());
     }
     

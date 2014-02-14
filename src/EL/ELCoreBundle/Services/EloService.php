@@ -127,9 +127,6 @@ class EloService extends ScoreService
         $scoreData0->setEloReliability(min($reliability0, 1));
         $scoreData1->setEloReliability(min($reliability1, 1));
         
-        $this->em->persist($scoreData0);
-        $this->em->persist($scoreData1);
-        
         /**
          * Create statistics
          */

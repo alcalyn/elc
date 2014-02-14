@@ -20,7 +20,8 @@ class EloService extends ScoreService
     }
     
     /**
-     * Return current elo score for a player on a game or game variant
+     * Return current elo score for a player on a game or game variant.
+     * You should use ScoreService::get() if you need others score statistics too (WLD)
      * 
      * @param \EL\ELCoreBundle\Entity\Player $player
      * @param Game|GameVariant $game
@@ -138,8 +139,6 @@ class EloService extends ScoreService
          */
         $this->em->persist($stat0);
         $this->em->persist($stat1);
-        $this->em->persist($scoreData0);
-        $this->em->persist($scoreData1);
         
         $this->em->flush();
         
@@ -159,7 +158,7 @@ class EloService extends ScoreService
      * 
      * @return array
      */
-    public function beat(Player $p0, Player $p1, $game, Party $party = null)
+    public function win(Player $p0, Player $p1, $game, Party $party = null)
     {
         return $this->update($p0, $p1, $game, $party, 1);
     }

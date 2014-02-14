@@ -49,7 +49,7 @@ class Elo
      * @var GameVariant
      * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\GameVariant")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $gameVariant;
     

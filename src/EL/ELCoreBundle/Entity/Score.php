@@ -207,6 +207,42 @@ class Score
     {
         return $this->draws;
     }
+    
+    /**
+     * Increment wins
+     * 
+     * @return Score
+     */
+    public function addWin()
+    {
+        $this->wins++;
+        
+        return $this;
+    }
+    
+    /**
+     * Increment losses
+     * 
+     * @return Score
+     */
+    public function addLoss()
+    {
+        $this->losses++;
+        
+        return $this;
+    }
+    
+    /**
+     * Increment draws
+     * 
+     * @return Score
+     */
+    public function addDraw()
+    {
+        $this->draws++;
+        
+        return $this;
+    }
 
     /**
      * Set player

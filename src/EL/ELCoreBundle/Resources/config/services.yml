@@ -7,6 +7,8 @@ parameters:
     el_core.party.class:                EL\ELCoreBundle\Services\PartyService
     el_core.game.class:                 EL\ELCoreBundle\Services\GameService
     el_core.widget.class:               EL\ELCoreBundle\Services\WidgetService
+    el_core.score.class:                EL\ELCoreBundle\Services\ScoreService
+    el_core.elo.class:                  EL\ELCoreBundle\Services\EloService
     el_core.controller.party.class:     EL\ELCoreBundle\Controller\PartyAjaxController
     el_core.controller.slot.class:      EL\ELCoreBundle\Controller\SlotController
     el_core.controller.widget.class:    EL\ELCoreBundle\Controller\WidgetController
@@ -39,6 +41,14 @@ services:
         
     el_core.widgets:
         class: %el_core.widget.class%
+        
+    el_core.score:
+        class: %el_core.score.class%
+        arguments: [@doctrine.orm.entity_manager]
+        
+    el_core.score.elo:
+        class: %el_core.elo.class%
+        arguments: [@doctrine.orm.entity_manager]
         
     phax.party:
         class: %el_core.controller.party.class%

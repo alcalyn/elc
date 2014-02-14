@@ -6,12 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * WLD
+ * Save a win/loss/draw party in time
  *
  * @ORM\Table(name="el_core_wld")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\WLDRepository")
  */
 class WLD
 {
+    const WIN   = 1;
+    const LOSS  = 2;
+    const DRAW  = 3;
+    
+    
     /**
      * @var integer
      *

@@ -13,6 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
 class Elo
 {
     /**
+     * Each player starts at this score
+     */
+    const INITIAL_SCORE = 1500;
+    
+    /**
+     * Parties number needed to reach 100% relability
+     */
+    const PARTY_RELIABILITY = 10;
+    
+    /**
+     * K factor, greater K is, greater will be elo updates.
+     */
+    const K = 16;
+    
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -22,21 +38,33 @@ class Elo
     private $id;
     
     /**
+     * @var Player
+     * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Player")
      * @ORM\JoinColumn(nullable=false)
      */
     private $player;
     
     /**
+     * @var GameVariant
+     * 
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\GameVariant")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $gameVariant;
+    
+    /**
+     * @var Party
+     * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $party;
     
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\Column(name="value", type="float")
      */
     private $value;
 
@@ -61,7 +89,7 @@ class Elo
     /**
      * Set value
      *
-     * @param integer $value
+     * @param float $value
      * @return Elo
      */
     public function setValue($value)
@@ -74,7 +102,7 @@ class Elo
     /**
      * Get value
      *
-     * @return integer 
+     * @return float 
      */
     public function getValue()
     {
@@ -133,7 +161,7 @@ class Elo
      * @param \EL\ELCoreBundle\Entity\Party $party
      * @return Elo
      */
-    public function setParty(\EL\ELCoreBundle\Entity\Party $party)
+    public function setParty(\EL\ELCoreBundle\Entity\Party $party = null)
     {
         $this->party = $party;
     
@@ -148,5 +176,28 @@ class Elo
     public function getParty()
     {
         return $this->party;
+    }
+
+    /**
+     * Set gameVariant
+     *
+     * @param \EL\ELCoreBundle\Entity\GameVariant $gameVariant
+     * @return Elo
+     */
+    public function setGameVariant(\EL\ELCoreBundle\Entity\GameVariant $gameVariant)
+    {
+        $this->gameVariant = $gameVariant;
+    
+        return $this;
+    }
+
+    /**
+     * Get gameVariant
+     *
+     * @return \EL\ELCoreBundle\Entity\GameVariant 
+     */
+    public function getGameVariant()
+    {
+        return $this->gameVariant;
     }
 }

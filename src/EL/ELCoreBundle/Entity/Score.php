@@ -87,6 +87,7 @@ class Score
             ->setWins(0)
             ->setLosses(0)
             ->setDraws(0)
+            ->setPoints(0)
         ;
     }
     

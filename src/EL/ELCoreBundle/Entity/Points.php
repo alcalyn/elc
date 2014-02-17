@@ -5,29 +5,13 @@ namespace EL\ELCoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Elo
+ * Points
  *
- * @ORM\Table(name="el_core_elo")
- * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\EloRepository")
+ * @ORM\Table(name="el_core_points")
+ * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\PointsRepository")
  */
-class Elo
+class Points
 {
-    /**
-     * Each player starts at this score
-     */
-    const INITIAL_SCORE = 1500;
-    
-    /**
-     * Parties number needed to reach 100% relability
-     */
-    const PARTY_RELIABILITY = 10;
-    
-    /**
-     * K factor, greater K is, greater will be elo updates.
-     */
-    const K = 16;
-    
-    
     /**
      * @var integer
      *
@@ -54,21 +38,13 @@ class Elo
     private $gameVariant;
     
     /**
-     * @var Player
-     * 
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Player")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $opponent;
-    
-    /**
      * @var Party
      * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
      * @ORM\JoinColumn(nullable=true)
      */
     private $party;
-    
+
     /**
      * @var float
      *
@@ -98,7 +74,7 @@ class Elo
      * Set value
      *
      * @param float $value
-     * @return Elo
+     * @return Points
      */
     public function setValue($value)
     {
@@ -121,7 +97,7 @@ class Elo
      * Set dateCreate
      *
      * @param \DateTime $dateCreate
-     * @return Elo
+     * @return Points
      */
     public function setDateCreate($dateCreate)
     {
@@ -144,7 +120,7 @@ class Elo
      * Set player
      *
      * @param \EL\ELCoreBundle\Entity\Player $player
-     * @return Elo
+     * @return Points
      */
     public function setPlayer(\EL\ELCoreBundle\Entity\Player $player)
     {
@@ -164,33 +140,10 @@ class Elo
     }
 
     /**
-     * Set party
-     *
-     * @param \EL\ELCoreBundle\Entity\Party $party
-     * @return Elo
-     */
-    public function setParty(\EL\ELCoreBundle\Entity\Party $party = null)
-    {
-        $this->party = $party;
-    
-        return $this;
-    }
-
-    /**
-     * Get party
-     *
-     * @return \EL\ELCoreBundle\Entity\Party 
-     */
-    public function getParty()
-    {
-        return $this->party;
-    }
-
-    /**
      * Set gameVariant
      *
      * @param \EL\ELCoreBundle\Entity\GameVariant $gameVariant
-     * @return Elo
+     * @return Points
      */
     public function setGameVariant(\EL\ELCoreBundle\Entity\GameVariant $gameVariant)
     {
@@ -210,25 +163,25 @@ class Elo
     }
 
     /**
-     * Set opponent
+     * Set party
      *
-     * @param \EL\ELCoreBundle\Entity\Player $opponent
-     * @return Elo
+     * @param \EL\ELCoreBundle\Entity\Party $party
+     * @return Points
      */
-    public function setOpponent(\EL\ELCoreBundle\Entity\Player $opponent)
+    public function setParty(\EL\ELCoreBundle\Entity\Party $party = null)
     {
-        $this->opponent = $opponent;
+        $this->party = $party;
     
         return $this;
     }
 
     /**
-     * Get opponent
+     * Get party
      *
-     * @return \EL\ELCoreBundle\Entity\Player 
+     * @return \EL\ELCoreBundle\Entity\Party 
      */
-    public function getOpponent()
+    public function getParty()
     {
-        return $this->opponent;
+        return $this->party;
     }
 }

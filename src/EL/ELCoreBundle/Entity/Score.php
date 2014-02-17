@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Score
+ * 
+ * Contains score data for a player on a game variant,
+ * such as elo, elo reliability, wins/losses/draws
  *
  * @ORM\Table(name="el_core_score")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\ScoreRepository")
@@ -28,26 +31,65 @@ class Score
     private $player;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\GameVariant")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $party;
-
+    private $gameVariant;
+    
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="elo", type="float")
+     */
+    private $elo;
+    
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="elo_reliability", type="float")
+     */
+    private $elo_reliability;
+    
     /**
      * @var integer
-     *
-     * @ORM\Column(name="value", type="integer")
+     * 
+     * @ORM\Column(name="wins", type="integer")
      */
-    private $value;
-
+    private $wins;
+    
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_create", type="datetime")
+     * @var integer
+     * 
+     * @ORM\Column(name="losses", type="integer")
      */
-    private $dateCreate;
-
-
+    private $losses;
+    
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="draws", type="integer")
+     */
+    private $draws;
+    
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="points", type="float")
+     */
+    private $points;
+    
+    
+    public function __construct()
+    {
+        $this
+            ->setElo(Elo::INITIAL_SCORE)
+            ->setEloReliability(0.0)
+            ->setWins(0)
+            ->setLosses(0)
+            ->setDraws(0)
+        ;
+    }
+    
     /**
      * Get id
      *
@@ -59,49 +101,154 @@ class Score
     }
 
     /**
-     * Set value
+     * Set elo
      *
-     * @param integer $value
+     * @param float $elo
      * @return Score
      */
-    public function setValue($value)
+    public function setElo($elo)
     {
-        $this->value = $value;
+        $this->elo = $elo;
     
         return $this;
     }
 
     /**
-     * Get value
+     * Get elo
+     *
+     * @return float 
+     */
+    public function getElo()
+    {
+        return $this->elo;
+    }
+
+    /**
+     * Set elo_reliability
+     *
+     * @param float $eloReliability
+     * @return Score
+     */
+    public function setEloReliability($eloReliability)
+    {
+        $this->elo_reliability = $eloReliability;
+    
+        return $this;
+    }
+
+    /**
+     * Get elo_reliability
+     *
+     * @return float 
+     */
+    public function getEloReliability()
+    {
+        return $this->elo_reliability;
+    }
+
+    /**
+     * Set wins
+     *
+     * @param integer $wins
+     * @return Score
+     */
+    public function setWins($wins)
+    {
+        $this->wins = $wins;
+    
+        return $this;
+    }
+
+    /**
+     * Get wins
      *
      * @return integer 
      */
-    public function getValue()
+    public function getWins()
     {
-        return $this->value;
+        return $this->wins;
     }
 
     /**
-     * Set dateCreate
+     * Set losses
      *
-     * @param \DateTime $dateCreate
+     * @param integer $losses
      * @return Score
      */
-    public function setDateCreate($dateCreate)
+    public function setLosses($losses)
     {
-        $this->dateCreate = $dateCreate;
+        $this->losses = $losses;
     
         return $this;
     }
 
     /**
-     * Get dateCreate
+     * Get losses
      *
-     * @return \DateTime 
+     * @return integer 
      */
-    public function getDateCreate()
+    public function getLosses()
     {
-        return $this->dateCreate;
+        return $this->losses;
+    }
+
+    /**
+     * Set draws
+     *
+     * @param integer $draws
+     * @return Score
+     */
+    public function setDraws($draws)
+    {
+        $this->draws = $draws;
+    
+        return $this;
+    }
+
+    /**
+     * Get draws
+     *
+     * @return integer 
+     */
+    public function getDraws()
+    {
+        return $this->draws;
+    }
+    
+    /**
+     * Increment wins
+     * 
+     * @return Score
+     */
+    public function addWin()
+    {
+        $this->wins++;
+        
+        return $this;
+    }
+    
+    /**
+     * Increment losses
+     * 
+     * @return Score
+     */
+    public function addLoss()
+    {
+        $this->losses++;
+        
+        return $this;
+    }
+    
+    /**
+     * Increment draws
+     * 
+     * @return Score
+     */
+    public function addDraw()
+    {
+        $this->draws++;
+        
+        return $this;
     }
 
     /**
@@ -128,25 +275,48 @@ class Score
     }
 
     /**
-     * Set party
+     * Set gameVariant
      *
-     * @param \EL\ELCoreBundle\Entity\Party $party
+     * @param \EL\ELCoreBundle\Entity\GameVariant $gameVariant
      * @return Score
      */
-    public function setParty(\EL\ELCoreBundle\Entity\Party $party)
+    public function setGameVariant(\EL\ELCoreBundle\Entity\GameVariant $gameVariant)
     {
-        $this->party = $party;
+        $this->gameVariant = $gameVariant;
     
         return $this;
     }
 
     /**
-     * Get party
+     * Get gameVariant
      *
-     * @return \EL\ELCoreBundle\Entity\Party 
+     * @return \EL\ELCoreBundle\Entity\GameVariant 
      */
-    public function getParty()
+    public function getGameVariant()
     {
-        return $this->party;
+        return $this->gameVariant;
+    }
+
+    /**
+     * Set points
+     *
+     * @param float $points
+     * @return Score
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+    
+        return $this;
+    }
+
+    /**
+     * Get points
+     *
+     * @return float 
+     */
+    public function getPoints()
+    {
+        return $this->points;
     }
 }

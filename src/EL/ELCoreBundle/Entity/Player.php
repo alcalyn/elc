@@ -20,42 +20,42 @@ class Player implements \JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="pseudo", type="string", length=31, unique=true)
      */
-    private $pseudo;
+    protected $pseudo;
 
     /**
      * @var string
      *
      * @ORM\Column(name="password_hash", type="string", length=32, nullable=true)
      */
-    private $passwordHash;
+    protected $passwordHash;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="invited", type="boolean")
      */
-    private $invited;
+    protected $invited;
     
     /**
      * @var boolean
      *
      * @ORM\Column(name="bot", type="boolean")
      */
-    private $bot;
+    protected $bot;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_create", type="datetime")
      */
-    private $dateCreate;
+    protected $dateCreate;
 
 
     public function __construct()

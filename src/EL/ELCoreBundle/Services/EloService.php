@@ -87,13 +87,13 @@ class EloService extends ScoreService
         /**
          * Initialize variables
          */
-        $gameVariant    = $this->asGameVariant($game);
-        $scoreData0     = $this->getScoreData($p0, $gameVariant);
-        $scoreData1     = $this->getScoreData($p1, $gameVariant);
-        $elo0           = $scoreData0->getElo();
-        $elo1           = $scoreData1->getElo();
-        $reliability0   = $scoreData0->getEloReliability();
-        $reliability1   = $scoreData1->getEloReliability();
+        $gameVariant        = $this->asGameVariant($game);
+        $scoreData0         = $this->getScoreData($p0, $gameVariant);
+        $scoreData1         = $this->getScoreData($p1, $gameVariant);
+        $elo0               = $scoreData0->getElo();
+        $elo1               = $scoreData1->getElo();
+        $eloReliability0    = $scoreData0->getEloReliability();
+        $eloReliability1    = $scoreData1->getEloReliability();
         
         /**
          * Calculate probability $p0 have to beat $p1
@@ -105,6 +105,15 @@ class EloService extends ScoreService
          */
         $update0 = $win - $proba;
         $update1 = -$update0;
+        
+        /**
+         * Calculate local reliability to avoid 0 and 0 reliability for new players
+         * (if two new players have 0 and 0.1 reliability, they are rectified to 0.9 and 1)
+         */
+        $reliabilityRectification = 1 - max($eloReliability0, $eloReliability1);
+        
+        $reliability0 = $eloReliability0 + $reliabilityRectification;
+        $reliability1 = $eloReliability1 + $reliabilityRectification;
         
         /**
          * Apply coefs K-factor and reliability of each other
@@ -122,16 +131,16 @@ class EloService extends ScoreService
          * Increase reliabilities
          */
         $reliability_gain = 1 / Elo::PARTY_RELIABILITY;
-        $reliability0 += $reliability_gain;
-        $reliability1 += $reliability_gain;
+        $eloReliability0 += $reliability_gain;
+        $eloReliability1 += $reliability_gain;
         
         /**
          * Update scores data
          */
         $scoreData0->setElo($elo0);
         $scoreData1->setElo($elo1);
-        $scoreData0->setEloReliability(min($reliability0, 1));
-        $scoreData1->setEloReliability(min($reliability1, 1));
+        $scoreData0->setEloReliability(min($eloReliability0, 1));
+        $scoreData1->setEloReliability(min($eloReliability1, 1));
         
         /**
          * Create statistics

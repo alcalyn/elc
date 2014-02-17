@@ -63,6 +63,10 @@ class EloService extends ScoreService
      * Notify an elo update for $p0 and $p1, on a game or game variant $game.
      * Indicate in $win 0, 0.5 or 1
      * 
+     * Example of use :
+     *      $this->get('el_core.score.elo')->win($p0, $p1, $game);
+     *      $this->get('el_core.score.elo')->update($p0, $p1, $game, $party, 1);
+     * 
      * @param \EL\ELCoreBundle\Entity\Player $p0
      * @param \EL\ELCoreBundle\Entity\Player $p1
      * @param Game|GameVariant $game

@@ -44,7 +44,7 @@ class Score
     private $elo;
     
     /**
-     * @var integer
+     * @var float
      * 
      * @ORM\Column(name="elo_reliability", type="float")
      */
@@ -70,6 +70,13 @@ class Score
      * @ORM\Column(name="draws", type="integer")
      */
     private $draws;
+    
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="points", type="float")
+     */
+    private $points;
     
     
     public function __construct()
@@ -288,5 +295,28 @@ class Score
     public function getGameVariant()
     {
         return $this->gameVariant;
+    }
+
+    /**
+     * Set points
+     *
+     * @param float $points
+     * @return Score
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+    
+        return $this;
+    }
+
+    /**
+     * Get points
+     *
+     * @return float 
+     */
+    public function getPoints()
+    {
+        return $this->points;
     }
 }

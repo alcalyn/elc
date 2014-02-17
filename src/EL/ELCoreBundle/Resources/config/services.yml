@@ -8,6 +8,7 @@ parameters:
     el_core.game.class:                 EL\ELCoreBundle\Services\GameService
     el_core.widget.class:               EL\ELCoreBundle\Services\WidgetService
     el_core.score.class:                EL\ELCoreBundle\Services\ScoreService
+    el_core.points.class:               EL\ELCoreBundle\Services\PointsService
     el_core.elo.class:                  EL\ELCoreBundle\Services\EloService
     el_core.wld.class:                  EL\ELCoreBundle\Services\WLDService
     el_core.controller.party.class:     EL\ELCoreBundle\Controller\PartyAjaxController
@@ -45,6 +46,10 @@ services:
         
     el_core.score:
         class: %el_core.score.class%
+        arguments: [@doctrine.orm.entity_manager]
+        
+    el_core.score.points:
+        class: %el_core.points.class%
         arguments: [@doctrine.orm.entity_manager]
         
     el_core.score.elo:

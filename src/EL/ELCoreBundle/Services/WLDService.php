@@ -20,6 +20,11 @@ class WLDService extends ScoreService
     /**
      * Add a win, loss or draw to $player, and add a time statistic
      * 
+     * Examples of uses :
+     *      $this->get('el_core.score.wld')->win($player, $game);
+     *      $this->get('el_core.score.wld')->draw($player, $game, $party);
+     *      $this->get('el_core.score.wld')->update($player, $gameVariant, WLD::WIN, $party);
+     * 
      * @param Player            $player
      * @param Game|GameVariant  $game
      * @param integer           $wld_value WLD::WIN, WLD::LOSS or WLD::DRAW

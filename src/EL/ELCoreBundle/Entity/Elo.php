@@ -54,6 +54,14 @@ class Elo
     private $gameVariant;
     
     /**
+     * @var Player
+     * 
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Player")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $opponent;
+    
+    /**
      * @var Party
      * 
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
@@ -199,5 +207,28 @@ class Elo
     public function getGameVariant()
     {
         return $this->gameVariant;
+    }
+
+    /**
+     * Set opponent
+     *
+     * @param \EL\ELCoreBundle\Entity\Player $opponent
+     * @return Elo
+     */
+    public function setOpponent(\EL\ELCoreBundle\Entity\Player $opponent)
+    {
+        $this->opponent = $opponent;
+    
+        return $this;
+    }
+
+    /**
+     * Get opponent
+     *
+     * @return \EL\ELCoreBundle\Entity\Player 
+     */
+    public function getOpponent()
+    {
+        return $this->opponent;
     }
 }

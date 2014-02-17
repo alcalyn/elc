@@ -45,13 +45,14 @@ class EloService extends ScoreService
      * 
      * @return Elo created
      */
-    private function createStatistic(Player $player, $newElo, GameVariant $gameVariant, Party $party = null)
+    private function createStatistic(Player $player, Player $opponent, $newElo, GameVariant $gameVariant, Party $party = null)
     {
         $elo = new Elo();
         
         return $elo
             ->setPlayer($player)
             ->setGameVariant($gameVariant)
+            ->setOpponent($opponent)
             ->setParty($party)
             ->setValue($newElo)
             ->setDateCreate(new \DateTime())
@@ -131,8 +132,8 @@ class EloService extends ScoreService
         /**
          * Create statistics
          */
-        $stat0 = $this->createStatistic($p0, $elo0, $gameVariant, $party);
-        $stat1 = $this->createStatistic($p1, $elo1, $gameVariant, $party);
+        $stat0 = $this->createStatistic($p0, $p1, $elo0, $gameVariant, $party);
+        $stat1 = $this->createStatistic($p1, $p0, $elo1, $gameVariant, $party);
         
         /**
          * Save into database

@@ -3,6 +3,8 @@
 namespace EL\ELCoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use EL\ELCoreBundle\Entity\Player;
+use EL\ELCoreBundle\Entity\GameVariant;
 
 /**
  * ScoreRepository
@@ -12,4 +14,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class ScoreRepository extends EntityRepository
 {
+    public function get(Player $player, GameVariant $gameVariant)
+    {
+        return $this->_em->createQuery('
+            select s
+            from ELCoreBundle:Score s
+            left join s.player p
+            left join s.gameVariant gv
+            where p.id = :player_id
+            and gv.id = :game_variant_id
+        ')->setParameters(array(
+            'player_id'         => $player->getId(),
+            'game_variant_id'   => $gameVariant->getId(),
+        ))->getOneOrNullResult();
+    }
 }

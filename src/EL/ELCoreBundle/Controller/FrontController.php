@@ -4,6 +4,7 @@ namespace EL\ELCoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use EL\ELCoreBundle\Entity\WLD;
 
 class FrontController extends Controller
 {

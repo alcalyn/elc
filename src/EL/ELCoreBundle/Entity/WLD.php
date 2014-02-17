@@ -6,12 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * WLD
+ * Save a win/loss/draw party in time
  *
  * @ORM\Table(name="el_core_wld")
  * @ORM\Entity(repositoryClass="EL\ELCoreBundle\Repository\WLDRepository")
  */
 class WLD
 {
+    const WIN   = 1;
+    const LOSS  = 2;
+    const DRAW  = 3;
+    
+    
     /**
      * @var integer
      *
@@ -28,8 +34,16 @@ class WLD
     private $player;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
+     * @var GameVariant
+     * 
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\GameVariant")
      * @ORM\JoinColumn(nullable=false)
+     */
+    private $gameVariant;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\Party")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $party;
 
@@ -133,7 +147,7 @@ class WLD
      * @param \EL\ELCoreBundle\Entity\Party $party
      * @return WLD
      */
-    public function setParty(\EL\ELCoreBundle\Entity\Party $party)
+    public function setParty(\EL\ELCoreBundle\Entity\Party $party = null)
     {
         $this->party = $party;
     
@@ -148,5 +162,28 @@ class WLD
     public function getParty()
     {
         return $this->party;
+    }
+
+    /**
+     * Set gameVariant
+     *
+     * @param \EL\ELCoreBundle\Entity\GameVariant $gameVariant
+     * @return WLD
+     */
+    public function setGameVariant(\EL\ELCoreBundle\Entity\GameVariant $gameVariant)
+    {
+        $this->gameVariant = $gameVariant;
+    
+        return $this;
+    }
+
+    /**
+     * Get gameVariant
+     *
+     * @return \EL\ELCoreBundle\Entity\GameVariant 
+     */
+    public function getGameVariant()
+    {
+        return $this->gameVariant;
     }
 }

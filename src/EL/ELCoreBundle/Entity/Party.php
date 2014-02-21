@@ -94,9 +94,9 @@ class Party implements \JsonSerializable
     /**
      * @var boolean
      *
-     * @ORM\Column(name="open", type="boolean")
+     * @ORM\Column(name="private", type="boolean")
      */
-    private $open;
+    private $private;
     
     /**
      * @var boolean
@@ -114,18 +114,18 @@ class Party implements \JsonSerializable
      * 
      * If the chat is enabled for this party
      * 
-     * @ORM\Column(name="allow_chat", type="boolean")
+     * @ORM\Column(name="disallow_chat", type="boolean")
      */
-    private $allow_chat;
+    private $disallow_chat;
     
     /**
      * @var boolean
      * 
      * If this party allows observers
      * 
-     * @ORM\Column(name="allow_observers", type="boolean")
+     * @ORM\Column(name="disallow_observers", type="boolean")
      */
-    private $allow_observers;
+    private $disallow_observers;
     
     /**
      * Contains party which is the clone of this
@@ -159,17 +159,17 @@ class Party implements \JsonSerializable
     
     
     
-    public function __construct()
+    public function __construct($title = null)
     {
         $this
-                ->setOpen(true)
+                ->setTitle($title)
                 ->setState(self::PREPARATION)
                 ->setRoom(true)
-                ->setAllowChat(true)
-                ->setAllowObservers(true)
+                ->setPrivate(false)
+                ->setDisallowChat(false)
+                ->setDisallowObservers(false)
         ;
     }
-    
 
     /**
      * Get id
@@ -205,26 +205,26 @@ class Party implements \JsonSerializable
     }
 
     /**
-     * Set open
+     * Set slug
      *
-     * @param boolean $open
+     * @param string $slug
      * @return Party
      */
-    public function setOpen($open)
+    public function setSlug($slug)
     {
-        $this->open = $open;
+        $this->slug = $slug;
     
         return $this;
     }
 
     /**
-     * Get open
+     * Get slug
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getOpen()
+    public function getSlug()
     {
-        return $this->open;
+        return $this->slug;
     }
 
     /**
@@ -251,126 +251,26 @@ class Party implements \JsonSerializable
     }
 
     /**
-     * Set game
+     * Set private
      *
-     * @param \stdClass $game
+     * @param boolean $private
      * @return Party
      */
-    public function setGame($game)
+    public function setPrivate($private)
     {
-        $this->game = $game;
+        $this->private = $private;
     
         return $this;
     }
 
     /**
-     * Get game
+     * Get private
      *
-     * @return \stdClass 
+     * @return boolean 
      */
-    public function getGame()
+    public function getPrivate()
     {
-        return $this->game;
-    }
-
-    /**
-     * Set host
-     *
-     * @param \EL\ELCoreBundle\Entity\Player $host
-     * @return Party
-     */
-    public function setHost(\EL\ELCoreBundle\Entity\Player $host = null)
-    {
-        $this->host = $host;
-    
-        return $this;
-    }
-
-    /**
-     * Get host
-     *
-     * @return \EL\ELCoreBundle\Entity\Player 
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
-    
-    /**
-     * Has Host
-     * 
-     * @return boolean if party has host
-     */
-    public function hasHost()
-    {
-        return !is_null($this->getHost());
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Party
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-    
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string 
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Add slots
-     *
-     * @param \EL\ELCoreBundle\Entity\Slot $slots
-     * @return Party
-     */
-    public function addSlot(Slot $slots)
-    {
-        $this->slots[] = $slots;
-    
-        return $this;
-    }
-
-    /**
-     * Remove slots
-     *
-     * @param \EL\ELCoreBundle\Entity\Slot $slots
-     */
-    public function removeSlot(Slot $slots)
-    {
-        $this->slots->removeElement($slots);
-    }
-
-    /**
-     * Get slots
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSlots()
-    {
-        return $this->slots;
-    }
-    
-    /**
-     * Get slot at index $index
-     * 
-     * @param integer $index
-     * @return \EL\ELCoreBundle\Entity\Slot
-     */
-    public function getSlot($index)
-    {
-        return $this->slots[$index];
+        return $this->private;
     }
 
     /**
@@ -396,51 +296,50 @@ class Party implements \JsonSerializable
         return $this->room;
     }
 
-
     /**
-     * Set allow_chat
+     * Set disallow_chat
      *
-     * @param boolean $allowChat
+     * @param boolean $disallowChat
      * @return Party
      */
-    public function setAllowChat($allowChat)
+    public function setDisallowChat($disallowChat)
     {
-        $this->allow_chat = $allowChat;
+        $this->disallow_chat = $disallowChat;
     
         return $this;
     }
 
     /**
-     * Get allow_chat
+     * Get disallow_chat
      *
      * @return boolean 
      */
-    public function getAllowChat()
+    public function getDisallowChat()
     {
-        return $this->allow_chat;
+        return $this->disallow_chat;
     }
 
     /**
-     * Set allow_observers
+     * Set disallow_observers
      *
-     * @param boolean $allowObservers
+     * @param boolean $disallowObservers
      * @return Party
      */
-    public function setAllowObservers($allowObservers)
+    public function setDisallowObservers($disallowObservers)
     {
-        $this->allow_observers = $allowObservers;
+        $this->disallow_observers = $disallowObservers;
     
         return $this;
     }
 
     /**
-     * Get allow_observers
+     * Get disallow_observers
      *
      * @return boolean 
      */
-    public function getAllowObservers()
+    public function getDisallowObservers()
     {
-        return $this->allow_observers;
+        return $this->disallow_observers;
     }
 
     /**
@@ -513,6 +412,85 @@ class Party implements \JsonSerializable
     }
 
     /**
+     * Set game
+     *
+     * @param \EL\ELCoreBundle\Entity\Game $game
+     * @return Party
+     */
+    public function setGame(\EL\ELCoreBundle\Entity\Game $game)
+    {
+        $this->game = $game;
+    
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \EL\ELCoreBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * Set host
+     *
+     * @param \EL\ELCoreBundle\Entity\Player $host
+     * @return Party
+     */
+    public function setHost(\EL\ELCoreBundle\Entity\Player $host = null)
+    {
+        $this->host = $host;
+    
+        return $this;
+    }
+
+    /**
+     * Get host
+     *
+     * @return \EL\ELCoreBundle\Entity\Player 
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
+     * Add slots
+     *
+     * @param \EL\ELCoreBundle\Entity\Slot $slots
+     * @return Party
+     */
+    public function addSlot(\EL\ELCoreBundle\Entity\Slot $slots)
+    {
+        $this->slots[] = $slots;
+    
+        return $this;
+    }
+
+    /**
+     * Remove slots
+     *
+     * @param \EL\ELCoreBundle\Entity\Slot $slots
+     */
+    public function removeSlot(\EL\ELCoreBundle\Entity\Slot $slots)
+    {
+        $this->slots->removeElement($slots);
+    }
+
+    /**
+     * Get slots
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSlots()
+    {
+        return $this->slots;
+    }
+
+    /**
      * Set remake
      *
      * @param \EL\ELCoreBundle\Entity\Party $remake
@@ -535,7 +513,11 @@ class Party implements \JsonSerializable
         return $this->remake;
     }
     
-    
+    /**
+     * Return data to put in json
+     * 
+     * @return array
+     */
     public function jsonSerialize()
     {
         $slots = array();
@@ -562,7 +544,11 @@ class Party implements \JsonSerializable
         );
     }
     
-    
+    /**
+     * create a remake party from this
+     * 
+     * @return Party
+     */
     public function createClone()
     {
         $clone = new self();

@@ -104,7 +104,6 @@ interface ELGameInterface
      * Return a clone of extended party.
      * Used when someone remake a party.
      * 
-     * @param $_locale
      * @param $slug_party to clone
      * @param $clone_core_party just cloned
      * @return void nothing interesting

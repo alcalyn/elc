@@ -10,12 +10,15 @@ use EL\ELCoreBundle\Model\ELUserException;
 use EL\ELCoreBundle\Entity\Party;
 use EL\ELCoreBundle\Entity\Game;
 use EL\ELCoreBundle\Services\PartyService;
-use EL\ELCoreBundle\Form\Entity\PartyOptions;
-use EL\ELCoreBundle\Form\Type\PartyOptionsType;
+use EL\ELCoreBundle\Form\Type\PartyType;
 
 class PartyController extends Controller
 {
     /**
+     * Party creation page.
+     * Contains form of base party (public/private...),
+     * and extended game party
+     * 
      * @Route(
      *      "/games/{slug}/creation",
      *      name = "elcore_party_creation"
@@ -23,50 +26,40 @@ class PartyController extends Controller
      */
     public function createAction($_locale, $slug)
     {
-        $party_service = $this
-                ->get('el_core.party')
-                ->setGameBySlug($slug, $_locale, $this->container)
-        ;
+        $party_service  = $this->get('el_core.party')->setGameBySlug($slug, $_locale, $this->container);
+        $extended_game  = $party_service->getExtendedGame();
+        $party          = new Party($party_service->generateRandomTitle());
+        $form_party     = $this->createForm(new PartyType(), $party);
         
-        $extended_game = $party_service->getExtendedGame();
+        // a refaire !
         
-        $party_options = new PartyOptions();
-        $party_options
-                ->setTitle($party_service->generateRandomTitle())
-                ->setSpecialPartyOptions($extended_game->getOptions());
+        $form_party->handleRequest($this->getRequest());
         
-        $party_options_type = new PartyOptionsType($extended_game->getOptionsType());
-        
-        $party_options_form = $this->createForm($party_options_type, $party_options);
-        $party_options_form->handleRequest($this->getRequest());
-        
-        if ($party_options_form->isValid()) {
-            $party = $party_service
-                    ->createParty($party_options);
-            
-            $party_service
-                    ->setParty($party);
-            
-            $special_party_options = $party_options
-                    ->getSpecialPartyOptions();
-            
-            $em = $this->getDoctrine()->getManager();
-            
-            if ($extended_game->saveOptions($party, $special_party_options)) {
-                $party_service
-                        ->createSlots($extended_game->getSlotsConfiguration($special_party_options));
+        if ($form_party->isSubmitted()) {
+            if ($form_party->isValid()) {
+                $party_service->setParty($party);
+
+                $special_party_options = $party->getSpecialPartyOptions();
+
+                if ($extended_game->saveOptions($party, $special_party_options)) {
+                    $party_service
+                            ->createSlots($extended_game->getSlotsConfiguration($special_party_options))
+                    ;
+
+                    return $this->redirect($this->generateUrl('elcore_party_preparation', array(
+                        '_locale'       => $_locale,
+                        'slug_game'     => $slug,
+                        'slug_party'    => $party->getSlug(),
+                    )));
+                }
+            } else {
                 
-                return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                    '_locale'       => $_locale,
-                    'slug_game'     => $slug,
-                    'slug_party'    => $party->getSlug(),
-                )));
             }
         }
         
         return $this->render('ELCoreBundle:Party:creation.html.twig', array(
             'game'             => $party_service->getGame(),
-            'party_options'    => $party_options_form->createView(),
+            'party_options'    => $form_party->createView(),
         ));
     }
     

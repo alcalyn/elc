@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\ELAbstractGameBundle\Model\ELGameAdapter;
 use EL\ELCoreBundle\Services\PartyService;
 use EL\ELTicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
-use EL\ELTicTacToeBundle\Form\Entity\TicTacToePartyOptions;
 use EL\ELTicTacToeBundle\Entity\Party;
 use EL\ELCoreBundle\Entity\Party as CoreParty;
 
@@ -24,7 +23,7 @@ class DefaultController extends ELGameAdapter
     
     public function getOptions()
     {
-        return new TicTacToePartyOptions();
+        return new Party();
     }
     
     public function saveOptions(CoreParty $core_party, $options)
@@ -60,7 +59,7 @@ class DefaultController extends ELGameAdapter
                 ->findOneBySlugParty($core_party->getSlug())
         ;
         
-        $options = new TicTacToePartyOptions();
+        $options = new Party();
         
         $options->setFirstPlayer($party->getFirstPlayer());
         
@@ -132,13 +131,13 @@ class DefaultController extends ELGameAdapter
         $coreParty      = $party_service->getParty();
         $ticTacToeParty = $this->loadParty($coreParty->getSlug());
         $turn           = $ticTacToeParty->getCurrentPlayer();
-        $partyPlayer    = $coreParty->getSlot($turn - 1)->getPlayer()->getId();
+        $partyPlayer    = $coreParty->getSlots()->get($turn - 1)->getPlayer()->getId();
         $loggedPlayer   = $this->get('el_core.session')->getPlayer()->getId();
         
         return $partyPlayer === $loggedPlayer;
     }
     
-    public function createClone($slug_party, CoreParty $clone_core_party)
+    public function createRemake($slug_party, CoreParty $clone_core_party)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -147,7 +146,7 @@ class DefaultController extends ELGameAdapter
                 ->findOneBySlugParty($slug_party)
         ;
         
-        $clone_extended_party = $extended_party->createClone($clone_core_party);
+        $clone_extended_party = $extended_party->createRemake($clone_core_party);
         
         $em->persist($clone_extended_party);
         $em->flush();

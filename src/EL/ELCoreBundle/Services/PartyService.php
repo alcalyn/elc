@@ -105,24 +105,16 @@ class PartyService extends GameService
      * @param PartyOptions $partyOption
      * @return Party
      */
-    public function createParty($partyOption)
+    public function createParty()
     {
         $party = new Party();
         $party
                 ->setGame($this->getGame())
                 ->setHost($this->session->getPlayer())
-                ->setTitle($partyOption->getTitle())
-                ->setOpen(!$partyOption->getPrivate())
-                ->setAllowChat(!$partyOption->getDisallowChat())
-                ->setAllowObservers(!$partyOption->getDisallowObservers())
-                ->setState(Party::PREPARATION)
-                ->setDateCreate(new \DateTime())
+                ->setTitle($this->generateRandomTitle())
         ;
         
         $this->addSlug($party);
-        
-        $this->illflushitlater->persist($party);
-        $this->illflushitlater->flush();
         
         return $party;
     }
@@ -198,9 +190,7 @@ class PartyService extends GameService
     {
         $this->needParty();
         
-        if (is_null($player)) {
-            $player = $this->session->getPlayer();
-        }
+        $player = is_null($player) ? $this->session->getPlayer() : $player ;
         $party  = is_null($party) ? $this->getParty() : $party ;
         $state  = $party->getState();
         $room   = $party->getRoom();
@@ -220,7 +210,7 @@ class PartyService extends GameService
                 if ($slot->isFree()) {
                     $freeSlot = $slot;
                 } else {
-                    if ($slot->getPlayer() == $player) {
+                    if ($slot->getPlayer() === $player) {
                         $alreadyJoin = $slot;
                     }
                 }
@@ -371,7 +361,8 @@ class PartyService extends GameService
         
         $slot = $this
                 ->getParty()
-                ->getSlot($index)
+                ->getSlots()
+                ->get($index)
         ;
         
         if ($slot->getOpen() !== $open) {
@@ -521,7 +512,7 @@ class PartyService extends GameService
     
     /**
      * Remake the current party by creating core party
-     * and call extended party createClone with new core party as argument
+     * and call extended party createRemake with new core party as argument
      * 
      * @param ELGameInterface $extended_party_service
      * @return Party
@@ -537,7 +528,7 @@ class PartyService extends GameService
             return $remake;
         }
         
-        $clone_core_party       = $party->createClone();
+        $clone_core_party       = $party->createRemake();
         
         $party->setRemake($clone_core_party);
         $clone_core_party->setHost($player);
@@ -552,7 +543,7 @@ class PartyService extends GameService
         $this->illflushitlater->persist($party);
         $this->illflushitlater->flush();
         
-        $extended_party_service->createClone($party->getSlug(), $clone_core_party);
+        $extended_party_service->createRemake($party->getSlug(), $clone_core_party);
         
         return $clone_core_party;
     }

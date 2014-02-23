@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Party implements \JsonSerializable
 {
+    const RANDOM_PLAYER         = 0;
+    const PLAYER_X              = 1;
+    const PLAYER_O              = 2;
+    
+    const END_ON_PARTIES_NUMBER = 1;
+    const END_ON_WINS_NUMBER    = 2;
+    const END_ON_DRAWS_NUMBER   = 3;
+    
     /**
      * @var integer
      *
@@ -37,6 +45,24 @@ class Party implements \JsonSerializable
      * @ORM\Column(name="first_player", type="smallint")
      */
     private $firstPlayer;
+
+    /**
+     * @var integer
+     * 
+     * Number of wins or party before end
+     *
+     * @ORM\Column(name="number_of_parties", type="smallint")
+     */
+    private $numberOfParties;
+
+    /**
+     * @var integer
+     * 
+     * Number of wins or party before end
+     *
+     * @ORM\Column(name="victory_condition", type="smallint")
+     */
+    private $victoryCondition;
     
     /**
      * @var string
@@ -72,7 +98,12 @@ class Party implements \JsonSerializable
     
     public function __construct()
     {
-        $this->setGrid('---------');
+        $this
+            ->setFirstPlayer(self::RANDOM_PLAYER)
+            ->setVictoryCondition(self::END_ON_PARTIES_NUMBER)
+            ->setNumberOfParties(2)
+            ->setGrid('---------')
+        ;
     }
 
 
@@ -190,7 +221,7 @@ class Party implements \JsonSerializable
     }
     
     
-    public function createClone($clone_core_party)
+    public function createRemake($clone_core_party)
     {
         $clone = new self();
         
@@ -223,5 +254,51 @@ class Party implements \JsonSerializable
     public function getLastPartyEnd()
     {
         return $this->last_party_end;
+    }
+
+    /**
+     * Set numberOfParties
+     *
+     * @param integer $numberOfParties
+     * @return Party
+     */
+    public function setNumberOfParties($numberOfParties)
+    {
+        $this->numberOfParties = $numberOfParties;
+    
+        return $this;
+    }
+
+    /**
+     * Get numberOfParties
+     *
+     * @return integer 
+     */
+    public function getNumberOfParties()
+    {
+        return $this->numberOfParties;
+    }
+
+    /**
+     * Set victoryCondition
+     *
+     * @param integer $victoryCondition
+     * @return Party
+     */
+    public function setVictoryCondition($victoryCondition)
+    {
+        $this->victoryCondition = $victoryCondition;
+    
+        return $this;
+    }
+
+    /**
+     * Get victoryCondition
+     *
+     * @return integer 
+     */
+    public function getVictoryCondition()
+    {
+        return $this->victoryCondition;
     }
 }

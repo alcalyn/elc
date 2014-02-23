@@ -27,19 +27,19 @@
 			</div>
 			<div class="panel-body">
 				<p>
-					{% if core_party.open %}
-						{{ 'public.party'|trans }}
-					{% else %}
+					{% if core_party.private %}
 						{{ 'private.party'|trans }}
+					{% else %}
+						{{ 'public.party'|trans }}
 					{% endif %}
 				</p>
 				<p>
-					{% if not core_party.allowChat %}
+					{% if core_party.disallowChat %}
 						{{ 'chat.disabled'|trans }}
 					{% endif %}
 				</p>
 				<p>
-					{% if not core_party.allowObservers %}
+					{% if core_party.disallowObservers %}
 						{{ 'observers.disallowed'|trans }}
 					{% endif %}
 				</p>

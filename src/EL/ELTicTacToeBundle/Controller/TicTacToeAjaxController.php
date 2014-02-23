@@ -89,7 +89,7 @@ class TicTacToeAjaxController extends Controller
         $coords     = $phax_action->get('coords');
         $player     = $this->get('el_core.session')->getPlayer();
         $baseParty  = $extendedParty->getParty();
-        $slot       = $baseParty->getSlot($extendedParty->getCurrentPlayer() - 1);
+        $slot       = $baseParty->getSlots()->get($extendedParty->getCurrentPlayer() - 1);
         
         /**
          * Check inputs
@@ -169,12 +169,12 @@ class TicTacToeAjaxController extends Controller
                  * Party with a winner
                  */
                 $baseParty
-                    ->getSlot($winner === 'X' ? 0 : 1)
+                    ->getSlots()->get($winner === 'X' ? 0 : 1)
                     ->addScore()
                 ;
                 
-                $winnerPlayer = $baseParty->getSlot($winner === 'X' ? 0 : 1)->getPlayer();
-                $looserPlayer = $baseParty->getSlot($winner === 'O' ? 0 : 1)->getPlayer();
+                $winnerPlayer = $baseParty->getSlots()->get($winner === 'X' ? 0 : 1)->getPlayer();
+                $looserPlayer = $baseParty->getSlots()->get($winner === 'O' ? 0 : 1)->getPlayer();
                 
                 $wld_service->win($winnerPlayer, $baseParty->getGame(), $baseParty);
                 $wld_service->lose($looserPlayer, $baseParty->getGame(), $baseParty);
@@ -189,8 +189,8 @@ class TicTacToeAjaxController extends Controller
                 }
                 
                 $elo_service->draw(
-                    $baseParty->getSlot(0)->getPlayer(),
-                    $baseParty->getSlot(1)->getPlayer(),
+                    $baseParty->getSlots()->get(0)->getPlayer(),
+                    $baseParty->getSlots()->get(1)->getPlayer(),
                     $baseParty->getGame(),
                     $baseParty
                 );

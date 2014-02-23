@@ -10,12 +10,17 @@ use EL\ELCoreBundle\Model\ELUserException;
 use EL\ELCoreBundle\Entity\Party;
 use EL\ELCoreBundle\Entity\Game;
 use EL\ELCoreBundle\Services\PartyService;
-use EL\ELCoreBundle\Form\Entity\PartyOptions;
-use EL\ELCoreBundle\Form\Type\PartyOptionsType;
+use EL\ELCoreBundle\Form\Type\PartyType;
+use EL\ELCoreBundle\Form\Entity\Options;
+use EL\ELCoreBundle\Form\Type\OptionsType;
 
 class PartyController extends Controller
 {
     /**
+     * Party creation page.
+     * Contains form of base party (public/private...),
+     * and extended game party
+     * 
      * @Route(
      *      "/games/{slug}/creation",
      *      name = "elcore_party_creation"
@@ -23,50 +28,47 @@ class PartyController extends Controller
      */
     public function createAction($_locale, $slug)
     {
-        $party_service = $this
-                ->get('el_core.party')
-                ->setGameBySlug($slug, $_locale, $this->container)
-        ;
+        $em                 = $this->getDoctrine()->getManager();
+        $request            = $this->getRequest();
+        $partyService       = $this->get('el_core.party')->setGameBySlug($slug, $_locale, $this->container);
+        $extendedGame       = $partyService->getExtendedGame();
+        $coreParty          = $partyService->createParty();
+        $extendedParty      = $extendedGame->getOptions();
+        $extendedPartyType  = $extendedGame->getOptionsType();
+        $options            = new Options($coreParty, $extendedParty);
+        $optionsForm        = $this->createForm(new OptionsType($extendedPartyType), $options);
         
-        $extended_game = $party_service->getExtendedGame();
+        $optionsForm->handleRequest($request);
         
-        $party_options = new PartyOptions();
-        $party_options
-                ->setTitle($party_service->generateRandomTitle())
-                ->setSpecialPartyOptions($extended_game->getOptions());
-        
-        $party_options_type = new PartyOptionsType($extended_game->getOptionsType());
-        
-        $party_options_form = $this->createForm($party_options_type, $party_options);
-        $party_options_form->handleRequest($this->getRequest());
-        
-        if ($party_options_form->isValid()) {
-            $party = $party_service
-                    ->createParty($party_options);
-            
-            $party_service
-                    ->setParty($party);
-            
-            $special_party_options = $party_options
-                    ->getSpecialPartyOptions();
-            
-            $em = $this->getDoctrine()->getManager();
-            
-            if ($extended_game->saveOptions($party, $special_party_options)) {
-                $party_service
-                        ->createSlots($extended_game->getSlotsConfiguration($special_party_options));
+        if ($optionsForm->isSubmitted()) {
+            if ($optionsForm->isValid()) {
+                $partyService->setParty($coreParty);
                 
+                $coreParty->setDateCreate(new \DateTime());
+                
+                $em->persist($coreParty);
+                
+                // notify extended game that party has been created with $extendedParty options
+                $extendedGame->saveOptions($coreParty, $extendedParty);
+                
+                // get slots configuration from extended party depending of options
+                $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedParty);
+                
+                // create slots from given slots configuration
+                $partyService->createSlots($slotsConfiguration);
+                
+                // redirect to preparation page
                 return $this->redirect($this->generateUrl('elcore_party_preparation', array(
                     '_locale'       => $_locale,
                     'slug_game'     => $slug,
-                    'slug_party'    => $party->getSlug(),
+                    'slug_party'    => $coreParty->getSlug(),
                 )));
             }
         }
         
         return $this->render('ELCoreBundle:Party:creation.html.twig', array(
-            'game'             => $party_service->getGame(),
-            'party_options'    => $party_options_form->createView(),
+            'game'          => $partyService->getGame(),
+            'optionsForm'   => $optionsForm->createView(),
         ));
     }
     

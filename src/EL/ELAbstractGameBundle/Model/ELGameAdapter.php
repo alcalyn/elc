@@ -24,6 +24,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function getOptions()
     {
+        // can we delete this and return a new stdClass ?
         return new AdapterOptions();
     }
     
@@ -168,7 +169,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function createClone($slug_party, CoreParty $core_party_clone)
+    public function createRemake($slug_party, CoreParty $core_party_clone)
     {
         return new stdClass();
     }

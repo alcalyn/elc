@@ -7,15 +7,6 @@ use EL\ELCoreBundle\Services\PartyService;
 
 interface ELGameInterface
 {
-    
-    /**
-     * Return a form type which extends base form
-     * at the creation of a personalized party.
-     * 
-     * @return AbstractForm
-     */
-    public function getOptionsType();
-    
     /**
      * Return an object to hydrate by options form.
      * Can have default values
@@ -23,6 +14,14 @@ interface ELGameInterface
      * @return stdClass
      */
     public function getOptions();
+    
+    /**
+     * Return a form type which extends base form
+     * at the creation of a personalized party.
+     * 
+     * @return AbstractType
+     */
+    public function getOptionsType();
     
     /**
      * Called then optionsType form has been posted.
@@ -104,10 +103,9 @@ interface ELGameInterface
      * Return a clone of extended party.
      * Used when someone remake a party.
      * 
-     * @param $_locale
      * @param $slug_party to clone
      * @param $clone_core_party just cloned
      * @return void nothing interesting
      */
-    public function createClone($slug_party, CoreParty $clone_core_party);
+    public function createRemake($slug_party, CoreParty $clone_core_party);
 }

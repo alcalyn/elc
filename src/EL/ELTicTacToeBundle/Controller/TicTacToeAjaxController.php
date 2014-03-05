@@ -167,7 +167,7 @@ class TicTacToeAjaxController extends Controller
         /**
          * Tick the case
          */
-        $grid[$index] = $extendedParty->getCurrentPlayer() == 1 ? 'X' : 'O' ;
+        $grid[$index] = $extendedParty->getCurrentPlayer() == Party::PLAYER_X ? 'X' : 'O' ;
         
         $extendedParty
             ->setGrid($grid)

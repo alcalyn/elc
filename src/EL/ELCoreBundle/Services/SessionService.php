@@ -51,7 +51,7 @@ class SessionService
         $this->session->start();
         
         if ($this->session->has('player')) {
-            $this->savePlayer();
+            $this->resyncronizePlayer();
             return $this->getPlayer();
         } else {
             $guest = self::generateGuest('en');
@@ -186,13 +186,27 @@ class SessionService
      */
     public function savePlayer()
     {
-        $player = $this->getPlayer();
-        
-        $newplayer = $this->em->merge($player);
-        $this->setPlayer($newplayer);
+        $this->resyncronizePlayer();
         $this->em->flush();
         
         return $this;
+    }
+    
+    /**
+     * Syncronize player instance in session with entitymanager,
+     * recreate it if not exists
+     */
+    private function resyncronizePlayer()
+    {
+        $oldPlayer = $this->getPlayer();
+        
+        try {
+            $newplayer = $this->em->merge($oldPlayer);
+            $this->setPlayer($newplayer);
+        } catch (\Doctrine\ORM\EntityNotFoundException $ex) {
+            $this->em->persist($oldPlayer);
+            $this->em->flush($oldPlayer);
+        }
     }
     
     /**

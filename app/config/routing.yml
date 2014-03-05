@@ -1,15 +1,19 @@
+phax_surf:
+    resource: "@PhaxSurfBundle/Resources/config/routing.yml"
+    prefix:   /
+
 el_abstract_game:
-    resource: "@ELAbstractGameBundle/Resources/config/routing.yml"
+    resource: "@AbstractGameBundle/Resources/config/routing.yml"
     prefix:   /
 
 phax:
-    resource: "@PhaxBundle/Resources/config/routing.yml"
+    resource: "@PhaxCoreBundle/Resources/config/routing.yml"
     prefix:   /
 
 el_core:
-    resource: "@ELCoreBundle/Resources/config/routing.yml"
+    resource: "@CoreBundle/Resources/config/routing.yml"
     prefix:   /
 
 el_tic_tac_toe:
-    resource: "@ELTicTacToeBundle/Resources/config/routing.yml"
+    resource: "@TicTacToeBundle/Resources/config/routing.yml"
     prefix:   /

@@ -1,0 +1,4 @@
+{% extends app.request.xmlHttpRequest 
+    ? 'CoreBundle::ajax-layout.html.twig'
+    : 'CoreBundle::full-layout.html.twig'
+%}

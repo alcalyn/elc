@@ -1,0 +1,68 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
+
+{% block body %}
+<div class="jeux-filtre">
+	<form action="#" class="form-inline">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="input-group">
+					<input type="text" class="form-control input-sm" placeholder="{{ 'game.name'|trans }}">
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default input-sm">{{ 'search'|trans }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<select class="form-control input-sm">
+					<option selected="selected">{{ 'filter.by'|trans }}</option>
+					<option>{{ 'name'|trans }}</option>
+					<option>{{ 'opponents.note'|trans }}</option>
+					<option>{{ 'my.favorites'|trans }}</option>
+				</select>
+			</div>
+			<div class="col-md-3">
+				<div class="input-group">
+					<input type="text" class="form-control input-sm" placeholder="2 - 4">
+					<span class="input-group-addon input-sm">{{ '_.players'|trans }}</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<select class="form-control input-sm">
+					<option selected="selected">Catégorie</option>
+					<option>Stratégie</option>
+					<option>Réflexion</option>
+					<option>Cartes</option>
+					<option>Stratégie</option>
+					<option>Réflexion</option>
+					<option>Cartes</option>
+					<option>Stratégie</option>
+					<option>Réflexion</option>
+					<option>Cartes</option>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<hr />
+<div class="row jeux-list">
+    {% for game in games %}
+    <div class="col-md-6">
+		<a href="{{ path('elcore_game_home', {'slug': game.slug}) }}" class="block">
+			<div class="jeu-item">
+				<h3>{{ game.title }} <span>1678 Élo</span></h3>
+				<small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
+				<div class="game-desc">
+					<p>
+                        {{ game.shortdesc }}
+					</p>
+				</div>
+			</div>
+		</a>
+	</div>
+    {% endfor %}
+</div>
+{% endblock %}

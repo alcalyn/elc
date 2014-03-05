@@ -1,0 +1,7 @@
+parameters:
+
+services:
+    phax.surf:
+        class: Phax\CoreBundle\Controller\SurfController
+        calls:
+            - [setContainer, ["@service_container"]]

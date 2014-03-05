@@ -1,3 +1,0 @@
-#el_tictactoe_gameoptions:
-#    pattern: /
-#    defaults: { _controller: ELTicTacToeBundle:Default:gameOptions }

@@ -1,0 +1,10 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
+
+{% block body %}
+<div class="jeux-preparation">
+    <h1>{{ 'create.game.%gametitle%'|trans({'%gametitle%': game.title}) }}</h1>
+    {{ form(optionsForm) }}
+</div>
+{% endblock %}

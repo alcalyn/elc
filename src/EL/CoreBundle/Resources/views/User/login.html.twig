@@ -1,0 +1,12 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
+
+{% block body %}
+<h2>{{ 'login'|trans }}</h2>
+{% if error %}
+    <div class="alert alert-error">{{ error.message }}</div>
+{% endif %}
+
+{{ form(loginForm) }}
+{% endblock %}

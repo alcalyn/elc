@@ -218,7 +218,7 @@ class PartyService extends GameService
                 }
             }
 
-            if (!$nextFreeSlot && !$alreadyJoinSlot) {
+            if ($nextFreeSlot && $alreadyJoinSlot) {
                 break;
             }
         }
@@ -252,7 +252,7 @@ class PartyService extends GameService
         // Assign player to nextFreeSlot
         if ($join) {
             $nextFreeSlot->setPlayer($player);
-            $this->illflushitlater->persist($alreadyJoinSlot);
+            $this->illflushitlater->persist($nextFreeSlot);
             $this->illflushitlater->flush();
             
             if ($alreadyJoinSlot) {
@@ -426,15 +426,15 @@ class PartyService extends GameService
      */
     public function isHost(Player $player = null)
     {
-        if (!$this->getParty()->hasHost()) {
+        if (null === $this->getParty()->getHost()) {
             return false;
         }
         
-        if (is_null($player)) {
+        if (null === $player) {
             $player = $this->session->getPlayer();
         }
         
-        return $this->getParty()->getHost()->getId() === $player->getId();
+        return $this->getParty()->getHost() === $player;
     }
     
     

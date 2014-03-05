@@ -13,14 +13,10 @@ var slot = {
         
         slot.enableDragAndDrop();
         
-        if (jsContext.isHost) {
-            $.each($('.slots .slot'), function (index, _slot) {
-                if ($(_slot).find('ul.dropdown-menu').size() > 0) {
-                    slot.bindSlotMenu(index, _slot, {id: $(_slot).val('playerId')});
-            		slot.bindJoinButton(index);
-                }
-            });
-        }
+        $.each($('.slots .slot'), function (index, _slot) {
+            slot.bindSlotMenu(index, _slot, {id: $(_slot).val('playerId')});
+            slot.bindJoinButton(index);
+        });
         
         setInterval(function () {
             phax.action('slot', 'refresh', jsContext);
@@ -189,7 +185,7 @@ var slot = {
 				return false;
 			}
             var currentIndex = $(this).closest('.slot').index();
-			phax.action('slot', 'ban', $.extend({}, jsContext, {playerId: player.id}));
+			phax.action('slot', 'ban', $.extend({}, jsContext, {playerId: $(this).closest('.slot').data('playerid')}));
 			slot.update(currentIndex, {open: true});
 			$(this).hide();
 			return false;
@@ -206,7 +202,7 @@ var slot = {
                 var currentIndex = $(this).closest('.slot').index();
     			phax.action('slot', 'ajaxJoin', $.extend({}, jsContext, {slotIndex: currentIndex}));
     			var currentIndex = slot.getIndexWhere(function ($slot) {
-    				return parseInt($slot.data('playerId')) === jsContext.player.id;
+    				return parseInt($slot.data('playerid')) === jsContext.player.id;
     			});
     			
     			if (currentIndex >= 0) {
@@ -343,7 +339,7 @@ var slotTemplates = {
 	getHostPlayerMe: function (_slot, player, isHost)
 	{
 		return '\
-			<div class="btn-group slot joueur host" data-playerId="'+player.id+'">\
+			<div class="btn-group slot joueur host" data-playerid="'+player.id+'">\
 		        <button type="button" class="btn btn-default player-pseudo btn-slot-12">\
 		            '+player.pseudo+'\
 		            \
@@ -356,7 +352,7 @@ var slotTemplates = {
 	getHostPlayer: function (_slot, player, isHost)
 	{
 		return '\
-			<div class="btn-group slot joueur" data-playerId="'+player.id+'">\
+			<div class="btn-group slot joueur" data-playerid="'+player.id+'">\
 		        <button type="button" class="btn btn-default player-pseudo btn-slot-11">\
 		            '+player.pseudo+'\
 		            \
@@ -406,7 +402,7 @@ var slotTemplates = {
 	getPlayer: function (_slot, player, isHost)
 	{
 		return '\
-	        <div class="btn-group slot joueur '+on(isHost, 'host')+'" data-playerId="'+player.id+'">\
+	        <div class="btn-group slot joueur '+on(isHost, 'host')+'" data-playerid="'+player.id+'">\
 	            <button type="button" class="btn btn-default player-pseudo btn-slot-12">\
         			'+player.pseudo+'\
 					\

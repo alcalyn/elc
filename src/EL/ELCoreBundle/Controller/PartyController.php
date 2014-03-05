@@ -104,6 +104,7 @@ class PartyController extends Controller
                 ->addContext('in-party', $inParty)
                 ->useTrans('open')
                 ->useTrans('close')
+                ->useTrans('join')
                 ->useTrans('slot.open')
                 ->useTrans('slot.closed')
                 ->useTrans('delete.slot')

@@ -13,7 +13,7 @@ var slot = {
         
         slot.enableDragAndDrop();
         
-        if (jsContext.is_host) {
+        if (jsContext.isHost) {
             $.each($('.slots .slot'), function (index, _slot) {
                 if ($(_slot).find('ul.dropdown-menu').size() > 0) {
                     slot.bindSlotMenu(index, _slot, {id: $(_slot).val('playerId')});
@@ -35,13 +35,13 @@ var slot = {
             return;
         }
         
-        for(var i=0;i<r.slots.length;i++) {
+        for(var i=0;i<r.party.slots.length;i++) {
             if (slot.hasChanged(i, r)) {
             	slot.update(
                     i,
-                    r.slots[i],
-                    r.slots[i].player,
-                    r.party.host && r.slots[i].player && r.party.host.id === r.slots[i].player.id
+                    r.party.slots[i],
+                    r.party.slots[i].player,
+                    r.party.host && r.party.slots[i].player && r.party.host.id === r.party.slots[i].player.id
             	);
             }
         }
@@ -50,10 +50,10 @@ var slot = {
     hasChanged: function (index, r)
     {
     	var $slot = $('.slots .slot').eq(index);
-    	var _slot = r.slots[index];
+    	var _slot = r.party.slots[index];
     	
     	// host is no longer me, or i am now host
-    	if (!jsContext.is_host === (r.party.host.id === jsContext.player.id)) {
+    	if (!jsContext.isHost === (r.party.host.id === jsContext.player.id)) {
     		console.log('host is no longer me, or i am now host');
     		return true;
     	}
@@ -90,7 +90,7 @@ var slot = {
     	return false;
     },
     
-    update: function (index, _slot, player, is_host)
+    update: function (index, _slot, player, isHost)
     {
     	// TODO
     	/**
@@ -98,7 +98,7 @@ var slot = {
     	 * or if it is a minor update,
     	 * dont replace html, and change some classes (for non host players)...
     	 */
-    	slotTemplates.replace(index, _slot, player, is_host);
+    	slotTemplates.replace(index, _slot, player, isHost);
     	return;
     	
         var $slot = $('.slots .slot').eq(index);
@@ -116,7 +116,7 @@ var slot = {
             } else {
                 $slot.addClass('joueur');
                 
-                if (is_host) {
+                if (isHost) {
                     $slot.addClass('host');
                 }
             }
@@ -166,8 +166,9 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			phax.action('slot', 'open', $.extend({}, jsContext, {slotIndex: index, slotOpen: true}));
-			slot.update(index, {open: true});
+            var currentIndex = $(this).closest('.slot').index();
+			phax.action('slot', 'open', $.extend({}, jsContext, {slotIndex: currentIndex, slotOpen: true}));
+			slot.update(currentIndex, {open: true});
 			$(this).hide();
 			return false;
 		});
@@ -176,8 +177,9 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
-			phax.action('slot', 'open', $.extend({}, jsContext, {slotIndex: index, slotOpen: false}));
-			slot.update(index, {open: false});
+            var currentIndex = $(this).closest('.slot').index();
+			phax.action('slot', 'open', $.extend({}, jsContext, {slotIndex: currentIndex, slotOpen: false}));
+			slot.update(currentIndex, {open: false});
 			$(this).hide();
 			return false;
 		});
@@ -186,8 +188,9 @@ var slot = {
 			if ($(this).parent('li').hasClass('disabled')) {
 				return false;
 			}
+            var currentIndex = $(this).closest('.slot').index();
 			phax.action('slot', 'ban', $.extend({}, jsContext, {playerId: player.id}));
-			slot.update(index, {open: true});
+			slot.update(currentIndex, {open: true});
 			$(this).hide();
 			return false;
 		});
@@ -200,15 +203,16 @@ var slot = {
     	
     	if ($joinButton.size() > 0) {
     		$joinButton.click(function () {
-    			phax.action('slot', 'ajaxJoin', $.extend({}, jsContext, {slotIndex: index}));
-    			var current_index = slot.getIndexWhere(function ($slot) {
+                var currentIndex = $(this).closest('.slot').index();
+    			phax.action('slot', 'ajaxJoin', $.extend({}, jsContext, {slotIndex: currentIndex}));
+    			var currentIndex = slot.getIndexWhere(function ($slot) {
     				return parseInt($slot.data('playerId')) === jsContext.player.id;
     			});
     			
-    			if (current_index >= 0) {
-    				slot.update(current_index, {open:true});
+    			if (currentIndex >= 0) {
+    				slot.update(currentIndex, {open:true});
     			}
-    			slot.update(index, {open:true}, jsContext.player, jsContext.is_host);
+    			slot.update(currentIndex, {open:true}, jsContext.player, jsContext.isHost);
     		});
     	}
     },
@@ -233,7 +237,7 @@ var slot = {
 		    		var order = $(_slot).data('order');
 		    		newOrder.push(order);
 		    	});
-				phax.action('slot', 'reorder', $.extend({}, jsContext, {newOrder: newOrder}));
+				slot.reoder(newOrder);
 			}
 		});
 		$('.slots, .slot').disableSelection();
@@ -271,6 +275,16 @@ var slot = {
     	slot.refreshReaction(r);
     },
     
+    /**
+     * Reorder slots
+     * 
+     * @param {array} newOrder contening new indexes
+     * @returns {void}
+     */
+    reoder: function (newOrder)
+    {
+        phax.action('slot', 'reorder', $.extend({}, jsContext, {newOrder: newOrder}));
+    },
     
     reorderReaction: function (r)
     {
@@ -283,9 +297,9 @@ var slot = {
 
 var slotTemplates = {
 	
-	replace: function (index, _slot, player, is_host)
+	replace: function (index, _slot, player, isHost)
 	{
-		var $slot = $(slotTemplates.get(_slot, player, is_host));
+		var $slot = $(slotTemplates.get(_slot, player, isHost));
 		
 		$('.slots .slot').eq(index).after($slot);
 		$('.slots .slot').eq(index).remove();
@@ -295,38 +309,38 @@ var slotTemplates = {
 		slot.enableDragAndDrop(index);
 	},
 	
-	get: function (_slot, player, is_host)
+	get: function (_slot, player, isHost)
 	{
-		var is_me = player && (player.id === jsContext.player.id);
+		var isMe = player && (player.id === jsContext.player.id);
 		
-		if (parseInt(jsContext.is_host) === 1) {
+		if (parseInt(jsContext.isHost) === 1) {
 			if (player) {
-				if (is_me) {
-					return slotTemplates.getHostPlayerMe(_slot, player, is_host);
+				if (isMe) {
+					return slotTemplates.getHostPlayerMe(_slot, player, isHost);
 				} else {
-					return slotTemplates.getHostPlayer(_slot, player, is_host);
+					return slotTemplates.getHostPlayer(_slot, player, isHost);
 				}
 			} else {
 				if (_slot && _slot.open) {
-					return slotTemplates.getHostOpen(_slot, player, is_host);
+					return slotTemplates.getHostOpen(_slot, player, isHost);
 				} else {
-					return slotTemplates.getHostClosed(_slot, player, is_host);
+					return slotTemplates.getHostClosed(_slot, player, isHost);
 				}
 			}
 		} else {
 			if (player) {
-				return slotTemplates.getPlayer(_slot, player, is_host);
+				return slotTemplates.getPlayer(_slot, player, isHost);
 			} else {
 				if (_slot && _slot.open) {
-					return slotTemplates.getOpen(_slot, player, is_host);
+					return slotTemplates.getOpen(_slot, player, isHost);
 				} else {
-					return slotTemplates.getClosed(_slot, player, is_host);
+					return slotTemplates.getClosed(_slot, player, isHost);
 				}
 			}
 		}
 	},
 	
-	getHostPlayerMe: function (_slot, player, is_host)
+	getHostPlayerMe: function (_slot, player, isHost)
 	{
 		return '\
 			<div class="btn-group slot joueur host" data-playerId="'+player.id+'">\
@@ -339,7 +353,7 @@ var slotTemplates = {
     	';
 	},
 	
-	getHostPlayer: function (_slot, player, is_host)
+	getHostPlayer: function (_slot, player, isHost)
 	{
 		return '\
 			<div class="btn-group slot joueur" data-playerId="'+player.id+'">\
@@ -356,7 +370,7 @@ var slotTemplates = {
 		';
 	},
 	
-	getHostOpen: function (_slot, player, is_host)
+	getHostOpen: function (_slot, player, isHost)
 	{
 		return '\
 	        <div class="btn-group slot slot-open">\
@@ -374,7 +388,7 @@ var slotTemplates = {
 	    ';
 	},
 	
-	getHostClosed: function (_slot, player, is_host)
+	getHostClosed: function (_slot, player, isHost)
 	{
 		return '\
 	        <div class="btn-group slot slot-closed">\
@@ -389,10 +403,10 @@ var slotTemplates = {
 		';
 	},
 	
-	getPlayer: function (_slot, player, is_host)
+	getPlayer: function (_slot, player, isHost)
 	{
 		return '\
-	        <div class="btn-group slot joueur '+on(is_host, 'host')+'" data-playerId="'+player.id+'">\
+	        <div class="btn-group slot joueur '+on(isHost, 'host')+'" data-playerId="'+player.id+'">\
 	            <button type="button" class="btn btn-default player-pseudo btn-slot-12">\
         			'+player.pseudo+'\
 					\
@@ -402,7 +416,7 @@ var slotTemplates = {
 		';
 	},
 	
-	getOpen: function (_slot, player, is_host)
+	getOpen: function (_slot, player, isHost)
 	{
 		return '\
 	        <div class="btn-group slot slot-open">\
@@ -416,7 +430,7 @@ var slotTemplates = {
 		';
 	},
 	
-	getClosed: function (_slot, player, is_host)
+	getClosed: function (_slot, player, isHost)
 	{
 		return '\
 	        <div class="btn-group slot slot-closed">\

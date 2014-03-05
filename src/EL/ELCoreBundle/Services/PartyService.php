@@ -145,7 +145,7 @@ class PartyService extends GameService
             $party = $this->getParty();
         }
         
-        $position = 1;
+        $position = 0;
         
         foreach ($slotsConfiguration['slots'] as $s) {
             $isHost =  isset($s['host']) && $s['host'];
@@ -183,94 +183,102 @@ class PartyService extends GameService
      * @param integer $slotIndex preference. If defined and free, join this slot. Else join first free slot.
      * @param boolean $join, false to not join even if possible
      * @param boolean $party to join
-     * @return true if can join
+     * 
+     * @return PartyService
+     * 
      * @throws ELUserException if cannot join
      */
     public function join(Player $player = null, $slotIndex = -1, $join = true, Party $party = null)
     {
         $this->needParty();
         
-        $player = is_null($player) ? $this->session->getPlayer() : $player ;
-        $party  = is_null($party) ? $this->getParty() : $party ;
-        $state  = $party->getState();
-        $room   = $party->getRoom();
+        $player         = is_null($player) ? $this->session->getPlayer() : $player ;
+        $party          = is_null($party) ? $this->getParty() : $party ;
+        $state          = $party->getState();
         
         if ($state === Party::ENDED) {
             throw new ELUserException('cannot.join.party.ended');
         }
         
-        $freeSlot       = null;
-        $alreadyJoin    = null;
-        $slots          = array();
-        
-        if ($state === Party::PREPARATION || $room) {
-            $slots = $party->getSlots();
-            
-            foreach ($slots as $slot) {
-                if ($slot->isFree()) {
-                    $freeSlot = $slot;
-                } else {
-                    if ($slot->getPlayer() === $player) {
-                        $alreadyJoin = $slot;
-                    }
-                }
-                
-                if (!is_null($freeSlot) && !is_null($alreadyJoin)) {
-                    break;
-                }
-            }
-        } else {
+        if (($state === Party::ACTIVE) && !$party->getRoom()) {
             throw new ELUserException('cannot.join.party.started');
         }
         
-        if (!$freeSlot) {
-            if (is_null($alreadyJoin)) {
-                throw new ELUserException('cannot.join.nofreeslot');
+        $slots              = $party->getSlots();
+        $nextFreeSlot       = null;
+        $alreadyJoinSlot    = null;
+        
+        // find next free slot and current player slot he maybe already joined
+        foreach ($slots as $slot) {
+            if ($slot->isFree()) {
+                $nextFreeSlot = $slot;
             } else {
-                throw new ELUserException('youhave.already.join');
+                if ($slot->getPlayer() === $player) {
+                    $alreadyJoinSlot = $slot;
+                }
+            }
+
+            if (!$nextFreeSlot && !$alreadyJoinSlot) {
+                break;
             }
         }
         
-        if ($join || !is_null($alreadyJoin)) {
-            $changeSlot = false;
-            
-            if (($slotIndex >= 0) && ($slotIndex < count($slots))) {
-                $slot = $slots[$slotIndex];
-                if ($slot->isFree()) {
-                    $freeSlot = $slot;
-                    $changeSlot = true;
-                }
-            }
-            
-            if (!is_null($alreadyJoin)) {
-                if ($changeSlot) {
-                    $alreadyJoin->setPlayer(null);
-                    $freeSlot->setPlayer($player);
-                    $this->illflushitlater->persist($alreadyJoin);
-                    $this->illflushitlater->persist($freeSlot);
-                    $this->illflushitlater->flush();
+        // Throw exception if there is no free slot
+        if (!$nextFreeSlot) {
+            if ($alreadyJoinSlot) {
+                if ($slotIndex < 0) {
+                    throw new ELUserException('youhave.already.join');
+                } else {
+                    throw new ELUserException('cannot.join.thisslot');
                 }
             } else {
-                $freeSlot->setPlayer($player);
-                $this->illflushitlater->persist($freeSlot);
+                throw new ELUserException('cannot.join.nofreeslot');
+            }
+        }
+        
+        // set nextFreeSlot to slotIndex if free and defined
+        if ($slotIndex >= 0) {
+            if ($slotIndex < $slots->count()) {
+                if ($slots->get($slotIndex)->isFree()) {
+                    $nextFreeSlot = $slots->get($slotIndex);
+                } else {
+                    throw new ELUserException('slot.notfree');
+                }
+            } else {
+                throw new ELUserException('slot.notexists');
+            }
+        }
+            
+        // Assign player to nextFreeSlot
+        if ($join) {
+            $nextFreeSlot->setPlayer($player);
+            $this->illflushitlater->persist($alreadyJoinSlot);
+            $this->illflushitlater->flush();
+            
+            if ($alreadyJoinSlot) {
+                $alreadyJoinSlot->setPlayer(null);
+                $this->illflushitlater->persist($alreadyJoinSlot);
                 $this->illflushitlater->flush();
             }
         }
         
-        if (is_null($alreadyJoin)) {
-            return true;
-        } else {
-            throw new ELUserException('youhave.already.join');
-        }
+        return $this;
     }
     
-    
+    /**
+     * 
+     * @param \EL\ELCoreBundle\Entity\Player $player
+     * @param type $slotIndex
+     * @param \EL\ELCoreBundle\Entity\Party $party
+     * @return boolean if he can join
+     */
     public function canJoin(Player $player = null, $slotIndex = -1, Party $party = null)
     {
         try {
-            return $this->join($player, $slotIndex, false, $party);
+            $this->join($player, $slotIndex, false, $party);
+            return true;
         } catch (ELUserException $e) {
-            return $e;
+            return false;
         }
     }
     
@@ -311,17 +319,17 @@ class PartyService extends GameService
     /**
      * Ban a player on this party
      * 
-     * @param integer $playerId to ban of this party
+     * @param PartyService
      */
     public function ban($playerId)
     {
         if (!$this->isHost()) {
-            return false;
+            throw new ELUserException('cannot.ban.nothost');
         }
         
         $this->quitParty($playerId);
         
-        return true;
+        return $this;
     }
     
     
@@ -354,7 +362,13 @@ class PartyService extends GameService
         }
     }
     
-    
+    /**
+     * Open or close a slot
+     * 
+     * @param integer $index
+     * @param boolean $open
+     * @return \EL\ELCoreBundle\Services\PartyService
+     */
     public function openSlot($index, $open = true)
     {
         $this->needParty();
@@ -369,6 +383,8 @@ class PartyService extends GameService
             $slot->setOpen($open);
             $this->illflushitlater->flush();
         }
+        
+        return $this;
     }
     
     /**
@@ -377,6 +393,8 @@ class PartyService extends GameService
      * @param array $indexes containing new indexes, as :
      *                 0, 2, 1      => switch second and third slot
      *                 2, 0, 1, 3   => set the third slot at first position
+     * 
+     * @return PartyService
      */
     public function reorderSlots(array $indexes)
     {
@@ -386,7 +404,7 @@ class PartyService extends GameService
         
         $i = 0;
         foreach ($slots as $slot) {
-            $newPosition = intval($indexes[$i++]) + 1;
+            $newPosition = intval($indexes[$i++]);
             $oldPosition = intval($slot->getPosition());
             
             if ($newPosition !== $oldPosition) {
@@ -396,8 +414,16 @@ class PartyService extends GameService
         }
         
         $this->illflushitlater->flush();
+        
+        return $this;
     }
     
+    /**
+     * Check if $player is the host of this party
+     * 
+     * @param \EL\ELCoreBundle\Entity\Player $player
+     * @return boolean
+     */
     public function isHost(Player $player = null)
     {
         if (!$this->getParty()->hasHost()) {

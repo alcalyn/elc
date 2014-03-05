@@ -113,8 +113,8 @@ class DefaultController extends ELGameAdapter
         $coreParty      = $partyService->getParty();
         $ticTacToeParty = $this->loadParty($coreParty->getSlug());
         $turn           = $ticTacToeParty->getCurrentPlayer();
-        $partyPlayer    = $coreParty->getSlots()->get($turn - 1)->getPlayer()->getId();
-        $loggedPlayer   = $this->get('el_core.session')->getPlayer()->getId();
+        $partyPlayer    = $coreParty->getSlots()->get($turn)->getPlayer();
+        $loggedPlayer   = $this->get('el_core.session')->getPlayer();
         
         return $partyPlayer === $loggedPlayer;
     }

@@ -12,9 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Party implements \JsonSerializable
 {
-    const RANDOM_PLAYER         = 0;
-    const PLAYER_X              = 1;
-    const PLAYER_O              = 2;
+    const PLAYER_X              = 0;
+    const PLAYER_O              = 1;
     
     const END_ON_PARTIES_NUMBER = 1;
     const END_ON_WINS_NUMBER    = 2;
@@ -108,8 +107,8 @@ class Party implements \JsonSerializable
     public function __construct()
     {
         $this
-            ->setFirstPlayer(rand(1, 2))
-            ->setCurrentPlayer(rand(1, 2))
+            ->setFirstPlayer(rand(0, 1))
+            ->setCurrentPlayer($this->getFirstPlayer())
             ->setVictoryCondition(self::END_ON_PARTIES_NUMBER)
             ->setNumberOfParties(2)
             ->setGrid('---------')
@@ -230,21 +229,6 @@ class Party implements \JsonSerializable
             'grid'          => $this->getGrid(),
         );
     }
-    
-    
-    public function createRemake($corePartyClone)
-    {
-        $clone = new self();
-        
-        $clone->party               = $corePartyClone;
-        $clone->firstPlayer         = 3 - $this->firstPlayer;
-        $clone->currentPlayer       = $clone->firstPlayer;
-        $clone->numberOfParties     = $this->numberOfParties;
-        $clone->victoryCondition    = $this->victoryCondition;
-        $clone->grid                = '---------';
-        
-        return $clone;
-    }
 
     /**
      * Set lastPartyEnd
@@ -336,5 +320,25 @@ class Party implements \JsonSerializable
     public function getPartyNumber()
     {
         return $this->partyNumber;
+    }
+    
+    /**
+     * Create a remake party from this party
+     * 
+     * @param \EL\ELCoreBundle\Entity\Party $corePartyClone
+     * @return \self
+     */
+    public function createRemake(\EL\ELCoreBundle\Entity\Party $corePartyClone)
+    {
+        $clone = new self();
+        
+        $clone->party               = $corePartyClone;
+        $clone->firstPlayer         = 1 - $this->firstPlayer;
+        $clone->currentPlayer       = $clone->firstPlayer;
+        $clone->numberOfParties     = $this->numberOfParties;
+        $clone->victoryCondition    = $this->victoryCondition;
+        $clone->grid                = '---------';
+        
+        return $clone;
     }
 }

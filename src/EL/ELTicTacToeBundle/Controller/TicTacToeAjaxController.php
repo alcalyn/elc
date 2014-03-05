@@ -108,7 +108,7 @@ class TicTacToeAjaxController extends Controller
         $coords     = $phaxAction->get('coords');
         $player     = $this->get('el_core.session')->getPlayer();
         $baseParty  = $extendedParty->getParty();
-        $slot       = $baseParty->getSlots()->get($extendedParty->getCurrentPlayer() - 1);
+        $slot       = $baseParty->getSlots()->get($extendedParty->getCurrentPlayer());
         
         /**
          * Check inputs
@@ -171,7 +171,7 @@ class TicTacToeAjaxController extends Controller
         
         $extendedParty
             ->setGrid($grid)
-            ->setCurrentPlayer(3 - $extendedParty->getCurrentPlayer())
+            ->setCurrentPlayer(1 - $extendedParty->getCurrentPlayer())
         ;
         
         /**
@@ -180,6 +180,8 @@ class TicTacToeAjaxController extends Controller
         $winner = self::winner($grid);
         
         if (null !== $winner) {
+            $extendedParty->setLastPartyEnd(new \DateTime());
+            
             $wldService = $this->get('el_core.score.wld');
             $eloService = $this->get('el_core.score.elo');
             
@@ -214,8 +216,6 @@ class TicTacToeAjaxController extends Controller
                     $baseParty
                 );
             }
-            
-            $extendedParty->setLastPartyEnd(new \DateTime());
         }
         
         /**

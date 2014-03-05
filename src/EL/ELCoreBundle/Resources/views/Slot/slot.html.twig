@@ -2,18 +2,18 @@
     {% if slot.player is not null %}
         {% if slot.player.id == player.id %}
             {# host player me #}
-            {% include 'ELCoreBundle:Slot/Option:slot-host-me.html.twig' %}
+            {% include 'ELCoreBundle:Slot/Option/Host:slot-me.html.twig' %}
         {% else %}
             {# host player not me #}
-            {% include 'ELCoreBundle:Slot/Option:slot-host.html.twig' %}
+            {% include 'ELCoreBundle:Slot/Option/Host:slot-player.html.twig' %}
         {% endif %}
     {% else %}
         {% if slot.open %}
             {# host open #}
-            {% include 'ELCoreBundle:Slot/Option:slot-host-open.html.twig' %}
+            {% include 'ELCoreBundle:Slot/Option/Host:slot-open.html.twig' %}
         {% else %}
             {# host closed #}
-            {% include 'ELCoreBundle:Slot/Option:slot-host-closed.html.twig' %}
+            {% include 'ELCoreBundle:Slot/Option/Host:slot-closed.html.twig' %}
         {% endif %}
     {% endif %}
 {% else %}

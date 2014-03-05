@@ -2,6 +2,8 @@
 
 var tictactoe = {
     
+    PLAYER_X:       0,
+    PLAYER_O:       1,
     case_size:      140,
     color_X:        'lightCoral',
     color_O:        'lightBlue',
@@ -9,11 +11,11 @@ var tictactoe = {
     color_bg_even:  '#DDD',
     
     /**
-     * Current player, 1 or 2
+     * Current player, 0 or 1
      * 
      * @var integer
      */
-    currentPlayer: 1,
+    currentPlayer: 0,
     
     /**
      * Thread from setInterval for refreshing grid
@@ -67,7 +69,7 @@ var tictactoe = {
             return false;
         }
         
-        tictactoe.set(line, col, tictactoe.currentPlayer === 1 ? 'X' : 'O');
+        tictactoe.set(line, col, tictactoe.currentPlayer === tictactoe.PLAYER_X ? 'X' : 'O');
         tictactoe.tick(line, col);
         tictactoe.changeCurrentPlayer();
         return true;
@@ -274,7 +276,7 @@ var tictactoe = {
      */
     changeCurrentPlayer: function ()
     {
-        tictactoe.currentPlayer = 3 - tictactoe.currentPlayer;
+        tictactoe.currentPlayer = 1 - tictactoe.currentPlayer;
     },
     
     /**
@@ -412,4 +414,3 @@ var tictactoe = {
 jQuery(function () {
     phax.load_controller('tictactoe');
 });
-

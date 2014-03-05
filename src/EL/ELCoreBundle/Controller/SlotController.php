@@ -3,13 +3,23 @@
 namespace EL\ELCoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use EL\ELCoreBundle\Services\PartyService;
 use EL\PhaxBundle\Model\PhaxAction;
-use EL\PhaxBundle\Model\PhaxResponse;
+use EL\ELCoreBundle\Entity\Party;
 
 class SlotController extends Controller
 {
-    
+    /**
+     * Return a response with an updated party instance
+     * 
+     * @param \EL\ELCoreBundle\Entity\Party $party
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function party(Party $party)
+    {
+        return $this->get('phax')->reaction(array(
+            'party'     => $party->jsonSerialize(),
+        ));
+    }
     
     public function refreshAction(PhaxAction $phaxAction)
     {
@@ -22,16 +32,7 @@ class SlotController extends Controller
                 ->getParty()
         ;
         
-        $slots = array();
-        
-        foreach ($party->getSlots() as $slot) {
-            $slots[$slot->getPosition() - 1] = $slot->jsonSerialize();
-        }
-        
-        return $this->get('phax')->reaction(array(
-            'party'     => $party->jsonSerialize(),
-            'slots'     => $slots,
-        ));
+        return $this->party($party);
     }
     
     
@@ -42,13 +43,13 @@ class SlotController extends Controller
         $slotIndex  = $phaxAction->slotIndex;
         $slotOpen   = $phaxAction->slotOpen === 'true';
         
-        $this
+        $partyService = $this
                 ->get('el_core.party')
                 ->setPartyBySlug($slugParty, $_locale)
                 ->openSlot($slotIndex, $slotOpen)
         ;
         
-        return $this->refreshAction($phaxAction);
+        return $this->party($partyService->getParty());
     }
     
     
@@ -58,13 +59,13 @@ class SlotController extends Controller
         $_locale    = $phaxAction->getLocale();
         $slotIndex  = isset($phaxAction->slotIndex) ? intval($phaxAction->slotIndex) : -1 ;
         
-        $this
+        $partyService = $this
                 ->get('el_core.party')
                 ->setPartyBySlug($slugParty, $_locale)
                 ->join(null, $slotIndex)
         ;
         
-        return $this->refreshAction($phaxAction);
+        return $this->party($partyService->getParty());
     }
     
     
@@ -77,11 +78,10 @@ class SlotController extends Controller
         $partyService = $this
                 ->get('el_core.party')
                 ->setPartyBySlug($slugParty, $_locale)
+                ->ban($playerId)
         ;
         
-        $ok = $partyService->ban($playerId);
-        
-        return $this->refreshAction($phaxAction);
+        return $this->party($partyService->getParty());
     }
     
     
@@ -94,10 +94,9 @@ class SlotController extends Controller
         $partyService = $this
                 ->get('el_core.party')
                 ->setPartyBySlug($slugParty, $_locale)
+                ->reorderSlots($indexes)
         ;
         
-        $partyService->reorderSlots($indexes);
-        
-        return $this->refreshAction($phaxAction);
+        return $this->party($partyService->getParty());
     }
 }

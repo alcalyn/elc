@@ -1,0 +1,27 @@
+<div class="widget my-games">
+    <div class="widget-head">
+        <h3 class="widget-title"><span class="glyphicon glyphicon-tower"></span> {{ 'my.current.parties'|trans }}</h3>
+    </div>
+    <div class="widget-body">
+        {% if currentParties|length == 0 %}
+            {{ 'no.current.parties'|trans }}
+        {% else %}
+            <form action="#" class="form-inline">
+                <select name="filter-game" class="form-control smaller">
+                    <option value="-1">{{ 'all.games'|trans }}</option>
+                        {% for gameId, gameTitle in gamesList %}
+                            <option value="{{ gameId }}">{{ gameTitle }}</option>
+                        {% endfor %}
+                </select>
+                <label><input type="checkbox" name="my-turn" /> {{ 'my.turn'|trans }}</label>
+            </form>
+            <div class="list-group-container scrollin">
+                <div class="list-group">
+                    {% for currentParty in currentParties %}
+                        {% include 'CoreBundle:Widget/MyParties:my-parties-list-item.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

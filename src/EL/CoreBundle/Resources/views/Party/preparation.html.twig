@@ -1,0 +1,108 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
+
+{% block body %}
+<h2>{{ game.title }}</h2>
+<p class="partie-title">{{ coreParty.title }}</p>
+{% if coreParty.host %}
+	<p class="host">Hôte : {{ coreParty.host.pseudo }}</h2>
+{% endif %}
+<hr />
+<div class="row">
+	<div class="col-md-6">
+		<div class="slots">
+            {% for slot in slots %}
+                {% include 'CoreBundle:Slot:slot.html.twig' %}
+            {% endfor %}
+		</div>
+		<div class="more-slot">
+			<button class="btn btn-default" type="button">Ajouter un slot</button>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default options">
+			<div class="panel-heading">
+				<h4 class="panel-title">Options de la partie</h4>
+			</div>
+			<div class="panel-body">
+				<p>
+					{% if coreParty.private %}
+						{{ 'private.party'|trans }}
+					{% else %}
+						{{ 'public.party'|trans }}
+					{% endif %}
+				</p>
+				<p>
+					{% if coreParty.disallowChat %}
+						{{ 'chat.disabled'|trans }}
+					{% endif %}
+				</p>
+				<p>
+					{% if coreParty.disallowObservers %}
+						{{ 'observers.disallowed'|trans }}
+					{% endif %}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<hr />
+<div class="row">
+	<form action="{{ path('elcore_party_preparation_action', { 'slugGame': game.slug, 'slugParty': coreParty.slug }) }}" method="post">
+	    {% if inParty %}
+	    	{% if isHost %}
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="cancel" class="btn btn-warning">{{ 'cancel'|trans }}</button>
+		        </div>
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="run" class="btn btn-primary">{{ 'run.party'|trans }}</button>
+		        </div>
+		    {% else %}
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="leave" class="btn btn-warning">{{ 'leave'|trans }}</button>
+		        </div>
+		        <div class="col-md-4">
+		            <button type="submit" name="action" value="ready" class="btn btn-success">{{ 'ready'|trans }}</button>
+		        </div>
+		    {% endif %}
+	    {% else %}
+	        {% if canJoin %}
+	            <div class="col-md-4 col-md-offset-4">
+	                <button type="submit" name="action" value="join" class="btn btn-success">{{ 'join.party'|trans }}</button>
+	            </div>
+	        {% else %}
+	            <div class="col-md-4 col-md-offset-4">
+	                <p>{{ 'cannot.join.party.full'|trans }}</p>
+	            </div>
+	        {% endif %}
+	    {% endif %}
+    </form>
+</div>
+<hr />
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default chat">
+			<div class="panel-heading">
+				<h4 class="panel-title">Chat de la partie</h4>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<li><span class="pseudo">robert60</span> : Bon salut, vous êtes prêt ?</li>
+					<li><span class="pseudo">juju</span> : Message à rallonge Message à rallonge Message à rallonge Message à rallonge Message à rallonge Message à rallonge Message à rallonge </li>
+					<li><span class="pseudo">robert60</span> : Bon salut, vous êtes prêt ?</li>
+					<li><span class="pseudo">poloshow</span> : Aller go !</li>
+				</ul>
+			</div>
+			<div class="panel-footer">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Message...">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">Envoyer</button>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

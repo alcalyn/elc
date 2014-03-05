@@ -37,7 +37,7 @@ class PhaxAction implements \JsonSerializable
      * 
      * @var boolean 
      */
-    private $is_cli;
+    private $isCli;
     
     /**
      * Contains action parameters
@@ -91,16 +91,16 @@ class PhaxAction implements \JsonSerializable
      */
     public function isCli()
     {
-        return $this->is_cli;
+        return $this->isCli;
     }
 
     /**
-     * @param boolean $is_cli
+     * @param boolean $isCli
      * @return \EL\PhaxBundle\Model\PhaxAction
      */
-    public function setIsCli($is_cli)
+    public function setIsCli($isCli)
     {
-        $this->is_cli = $is_cli;
+        $this->isCli = $isCli;
         return $this;
     }
     
@@ -176,7 +176,7 @@ class PhaxAction implements \JsonSerializable
         $array['phax_metadata'] = array(
             'controller'    => $this->getController(),
             'action'        => $this->getAction(),
-            'is_cli'        => $this->isCli(),
+            'isCli'        => $this->isCli(),
         );
         
         return $array;

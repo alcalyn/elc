@@ -48,7 +48,7 @@ class Score
      * 
      * @ORM\Column(name="elo_reliability", type="float")
      */
-    private $elo_reliability;
+    private $eloReliability;
     
     /**
      * @var integer
@@ -125,26 +125,26 @@ class Score
     }
 
     /**
-     * Set elo_reliability
+     * Set eloReliability
      *
      * @param float $eloReliability
      * @return Score
      */
     public function setEloReliability($eloReliability)
     {
-        $this->elo_reliability = $eloReliability;
+        $this->eloReliability = $eloReliability;
     
         return $this;
     }
 
     /**
-     * Get elo_reliability
+     * Get eloReliability
      *
      * @return float 
      */
     public function getEloReliability()
     {
-        return $this->elo_reliability;
+        return $this->eloReliability;
     }
 
     /**

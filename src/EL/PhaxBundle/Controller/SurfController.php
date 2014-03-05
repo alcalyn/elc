@@ -10,12 +10,12 @@ class SurfController extends Controller
     /**
      * Return a partial template from path
      * 
-     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @param \EL\PhaxBundle\Model\PhaxAction $phaxAction
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
-    public function loadTemplateAction(PhaxAction $phax_action)
+    public function loadTemplateAction(PhaxAction $phaxAction)
     {
-        $path       = $phax_action->get('path');
+        $path       = $phaxAction->get('path');
         $route      = $this->get('router')->match($path);
         $forward    = $this->forward($route['_controller'], $route);
         $data       = json_decode($forward->getContent());

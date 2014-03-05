@@ -27,7 +27,7 @@ class GameVariantLang
      * @ORM\ManyToOne(targetEntity="EL\ELCoreBundle\Entity\GameVariant", inversedBy="langs")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $game_variant;
+    private $gameVariant;
     
     /**
      * @var Lang

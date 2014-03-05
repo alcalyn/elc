@@ -291,8 +291,8 @@ class Game extends AbstractLangEntity implements \JsonSerializable
             'id'            => $this->getId(),
             'name'          => $this->getName(),
             'title'         => $this->getTitle(),
-            'nb_player_min' => $this->getNbplayerMin(),
-            'nb_player_max' => $this->getNbplayerMax(),
+            'nbPlayerMin' => $this->getNbplayerMin(),
+            'nbPlayerMax' => $this->getNbplayerMax(),
             'room'          => $this->getRoom(),
         );
     }

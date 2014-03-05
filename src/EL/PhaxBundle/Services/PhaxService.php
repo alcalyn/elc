@@ -42,14 +42,14 @@ class PhaxService extends ContainerAware
      */
     public function render($view, array $parameters = array(), Response $response = null)
     {
-        $is_phax_request = $this
+        $isPhaxRequest = $this
                 ->container
                 ->get('request')
                 ->request
                 ->has('phax_metadata')
         ;
         
-        if ($is_phax_request) {
+        if ($isPhaxRequest) {
             return $this->reaction($parameters);
         } else {
             return $this->container->get('templating')->renderResponse($view, $parameters, $response);

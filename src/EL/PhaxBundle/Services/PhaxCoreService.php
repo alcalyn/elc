@@ -18,33 +18,33 @@ class PhaxCoreService extends ContainerAware
      *                  - controller does not exists (not declared as service "phax.XXX"
      *                  - controller does not return a PhaxReaction instance
      */
-    public function action(PhaxAction $phax_action)
+    public function action(PhaxAction $phaxAction)
     {
-        $service_name = 'phax.'.$phax_action->getController();
+        $serviceName = 'phax.'.$phaxAction->getController();
         
-        if (!$this->container->has($service_name)) {
+        if (!$this->container->has($serviceName)) {
             throw new PhaxException(
-                'The controller '.$phax_action->getController().' does not exists. '.
-                'It must be declared as service named '.$service_name
+                'The controller '.$phaxAction->getController().' does not exists. '.
+                'It must be declared as service named '.$serviceName
             );
         }
         
-        $phax_controller = $this
+        $phaxController = $this
             ->container
-            ->get($service_name)
+            ->get($serviceName)
         ;
         
-        $phax_reaction = $this->callAction($phax_controller, $phax_action);
+        $phaxReaction = $this->callAction($phaxController, $phaxAction);
         
-        if (!($phax_reaction instanceof PhaxReaction)) {
+        if (!($phaxReaction instanceof PhaxReaction)) {
             throw new PhaxException(
-                'The controller '.$phax_action->getController().'::'.$phax_action->getAction().
+                'The controller '.$phaxAction->getController().'::'.$phaxAction->getAction().
                 ' must return an instance of EL\PhaxBundle\Model\PhaxReaction, '.
-                get_class($phax_reaction).' returned'
+                get_class($phaxReaction).' returned'
             );
         }
         
-        return $phax_reaction;
+        return $phaxReaction;
     }
     
     
@@ -52,45 +52,45 @@ class PhaxCoreService extends ContainerAware
      * Call action by passing arguments to method parameters with the same name.
      * Or pass PhaxAction if myAction(PhaxAction $arg) is used.
      * 
-     * @param mixed $phax_controller instance of a phax controller
-     * @param PhaxAction $phax_action instance of PhaxAction
+     * @param mixed $phaxController instance of a phax controller
+     * @param PhaxAction $phaxAction instance of PhaxAction
      * @return PhaxReaction
-     * @throws PhaxException if method parameters name does not correspond to $phax_action arguments
+     * @throws PhaxException if method parameters name does not correspond to $phaxAction arguments
      */
-    private function callAction($phax_controller, $phax_action)
+    private function callAction($phaxController, $phaxAction)
     {
-        $method_name    = $phax_action->getAction().'Action';
-        $method         = new \ReflectionMethod($phax_controller, $method_name);
-        $arguments      = array();
+        $methodName = $phaxAction->getAction().'Action';
+        $method     = new \ReflectionMethod($phaxController, $methodName);
+        $arguments  = array();
         
         foreach ($method->getParameters() as $parameter) {
-            $parameter_class = $parameter->getClass();
+            $parameterClass = $parameter->getClass();
             
-            if ($parameter_class && $parameter_class->getName() === 'EL\PhaxBundle\Model\PhaxAction') {
-                $arguments []= $phax_action;
-            } elseif (isset($phax_action->{$parameter->getName()})) {
-                $arguments []= $phax_action->{$parameter->getName()};
+            if ($parameterClass && $parameterClass->getName() === 'EL\PhaxBundle\Model\PhaxAction') {
+                $arguments []= $phaxAction;
+            } elseif (isset($phaxAction->{$parameter->getName()})) {
+                $arguments []= $phaxAction->{$parameter->getName()};
             } else {
                 throw new PhaxException(
-                    'Action '.$method_name.' of your Phax controller '.get_class($phax_controller)
+                    'Action '.$methodName.' of your Phax controller '.get_class($phaxController)
                     . ' has a parameter '.$parameter->getName().' which do not correspond to any query parameter.'
-                    . ' To pass entire PhaxAction instance, use "myAction(PhaxAction $arg_name)"'
+                    . ' To pass entire PhaxAction instance, use "myAction(PhaxAction $phaxAction)"'
                     . ' in your method declaration.'
                 );
             }
         }
         
-        return call_user_func_array(array($phax_controller, $method_name), $arguments);
+        return call_user_func_array(array($phaxController, $methodName), $arguments);
     }
     
     
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $error_message = $event
+        $errorMessage = $event
                 ->getException()
                 ->getMessage()
         ;
         
-        $event->setResponse(new Response($error_message));
+        $event->setResponse(new Response($errorMessage));
     }
 }

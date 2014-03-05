@@ -1,4 +1,4 @@
-
+ 
 
 var party = {
 	
@@ -15,7 +15,7 @@ var party = {
         setInterval(function () {
             var data = {
                 locale:     jsContext.locale,
-                slug_party: jsContext.core_party.slug
+                slugParty: jsContext.coreParty.slug
             };
             
             phax.action('party', 'refresh', data);
@@ -24,7 +24,7 @@ var party = {
     
     refreshReaction: function (r)
     {
-        party.checkState(r.core_party.state);
+        party.checkState(r.coreParty.state);
     },
     
     /**
@@ -43,12 +43,12 @@ var party = {
             return false;
         }
         
-        if (!(parseInt(jsContext.core_party.state) > 0)) {
-            console.warn('jsContext.core_party.state = '+jsContext.core_party.state);
+        if (!(parseInt(jsContext.coreParty.state) > 0)) {
+            console.warn('jsContext.coreParty.state = '+jsContext.coreParty.state);
             return false;
         }
         
-        if (state === jsContext.core_party.state) {
+        if (state === jsContext.coreParty.state) {
             return false;
         } else {
             party.refresh();

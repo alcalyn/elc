@@ -11,39 +11,37 @@ class HelpController extends Controller
     /**
      * Return a help page in console.log() or console format
      * 
-     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @param \EL\PhaxBundle\Model\PhaxAction $phaxAction
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
-    public function defaultAction(PhaxAction $phax_action)
+    public function defaultAction(PhaxAction $phaxAction)
     {
-        $is_cli = $phax_action->isCli();
+        $isCli = $phaxAction->isCli();
         
-        $page_template = $is_cli ?
+        $pageTemplate = $isCli ?
                 'PhaxBundle:Help:help_page.cli.twig' :
                 'PhaxBundle:Help:help_page.web.twig' ;
         
-        $page_variables = array();
-        
-        $page_content = $this
-                ->render($page_template, $page_variables)
+        $pageContent = $this
+                ->render($pageTemplate)
                 ->getContent()
         ;
         
-        return $this->get('phax')->metaMessage($page_content);
+        return $this->get('phax')->metaMessage($pageContent);
     }
     
     
     /**
      * Return all parameters sent in phax action
      * 
-     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @param \EL\PhaxBundle\Model\PhaxAction $phaxAction
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
-    public function testAction(PhaxAction $phax_action)
+    public function testAction(PhaxAction $phaxAction)
     {
         $a = 1 / (2 - 2);
-        $data = $phax_action->jsonSerialize();
-        $data['phax_action_metadata'] = $data['phax_metadata'];
+        $data = $phaxAction->jsonSerialize();
+        $data['phaxAction_metadata'] = $data['phax_metadata'];
         
         return $this->get('phax')->reaction($data);
     }
@@ -52,7 +50,7 @@ class HelpController extends Controller
     /**
      * Return a pong with datetime
      * 
-     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @param \EL\PhaxBundle\Model\PhaxAction $phaxAction
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
     public function pingAction()

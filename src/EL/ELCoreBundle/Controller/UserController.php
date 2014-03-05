@@ -26,7 +26,7 @@ class UserController extends Controller
         $player = $this->get('el_core.session')->getPlayer();
         
         return array(
-            'player'    => $player,
+            'player' => $player,
         );
     }
     
@@ -41,12 +41,12 @@ class UserController extends Controller
     {
         $request    = $this->getRequest();
         $login      = new Login();
-        $login_form = $this->createForm(new LoginType(), $login);
+        $loginForm  = $this->createForm(new LoginType(), $login);
         
-        $login_form->handleRequest($request);
+        $loginForm->handleRequest($request);
         
-        if ($login_form->isSubmitted()) {
-            if ($login_form->isValid()) {
+        if ($loginForm->isSubmitted()) {
+            if ($loginForm->isValid()) {
                 $session = $this->get('el_core.session');
                 
                 try {
@@ -61,7 +61,7 @@ class UserController extends Controller
         
         return array(
             'error'         => null,
-            'login_form'    => $login_form->createView(),
+            'loginForm'    => $loginForm->createView(),
         );
     }
     
@@ -76,12 +76,12 @@ class UserController extends Controller
     {
         $request        = $this->getRequest();
         $signup         = new Signup();
-        $signup_form    = $this->createForm(new SignupType(), $signup);
+        $signupForm     = $this->createForm(new SignupType(), $signup);
         
-        $signup_form->handleRequest($request);
+        $signupForm->handleRequest($request);
         
-        if ($signup_form->isSubmitted()) {
-            if ($signup_form->isValid()) {
+        if ($signupForm->isSubmitted()) {
+            if ($signupForm->isValid()) {
                 $session = $this->get('el_core.session');
                 
                 try {
@@ -96,7 +96,7 @@ class UserController extends Controller
         
         return array(
             'error'         => null,
-            'signup_form'   => $signup_form->createView(),
+            'signupForm'    => $signupForm->createView(),
         );
     }
     

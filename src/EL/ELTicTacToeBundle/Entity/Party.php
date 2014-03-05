@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Party implements \JsonSerializable
 {
+    const RANDOM_PLAYER         = 0;
+    const PLAYER_X              = 1;
+    const PLAYER_O              = 2;
+    
+    const END_ON_PARTIES_NUMBER = 1;
+    const END_ON_WINS_NUMBER    = 2;
+    const END_ON_DRAWS_NUMBER   = 3;
+    
     /**
      * @var integer
      *
@@ -37,6 +45,24 @@ class Party implements \JsonSerializable
      * @ORM\Column(name="first_player", type="smallint")
      */
     private $firstPlayer;
+
+    /**
+     * @var integer
+     * 
+     * Number of wins or party before end
+     *
+     * @ORM\Column(name="number_of_parties", type="smallint")
+     */
+    private $numberOfParties;
+
+    /**
+     * @var integer
+     * 
+     * Number of wins or party before end
+     *
+     * @ORM\Column(name="victory_condition", type="smallint")
+     */
+    private $victoryCondition;
     
     /**
      * @var string
@@ -56,7 +82,16 @@ class Party implements \JsonSerializable
      *
      * @ORM\Column(name="current_player", type="smallint", nullable=true)
      */
-    private $current_player;
+    private $currentPlayer;
+    
+    /**
+     * @var integer
+     * 
+     * Number of current party, used to count parties for END_ON_PARTIES_NUMBER condition
+     *
+     * @ORM\Column(name="party_number", type="smallint", nullable=true)
+     */
+    private $partyNumber;
     
     /**
      * Datetime for the last party end.
@@ -67,12 +102,19 @@ class Party implements \JsonSerializable
      * 
      * @ORM\Column(name="last_party_end", type="datetime", nullable=true)
      */
-    private $last_party_end;
+    private $lastPartyEnd;
     
     
     public function __construct()
     {
-        $this->setGrid('---------');
+        $this
+            ->setFirstPlayer(rand(1, 2))
+            ->setCurrentPlayer(rand(1, 2))
+            ->setVictoryCondition(self::END_ON_PARTIES_NUMBER)
+            ->setNumberOfParties(2)
+            ->setGrid('---------')
+            ->setPartyNumber(1)
+        ;
     }
 
 
@@ -156,72 +198,143 @@ class Party implements \JsonSerializable
     }
 
     /**
-     * Set current_player
+     * Set currentPlayer
      *
      * @param integer $currentPlayer
      * @return Party
      */
     public function setCurrentPlayer($currentPlayer)
     {
-        $this->current_player = $currentPlayer;
+        $this->currentPlayer = $currentPlayer;
     
         return $this;
     }
 
     /**
-     * Get current_player
+     * Get currentPlayer
      *
      * @return integer 
      */
     public function getCurrentPlayer()
     {
-        return $this->current_player;
+        return $this->currentPlayer;
     }
     
     
     public function jsonSerialize()
     {
         return array(
-            'id'                => $this->getId(),
-            'first_player'      => $this->getFirstPlayer(),
-            'current_player'    => $this->getCurrentPlayer(),
-            'grid'              => $this->getGrid(),
+            'id'            => $this->getId(),
+            'firstPlayer'   => $this->getFirstPlayer(),
+            'currentPlayer' => $this->getCurrentPlayer(),
+            'grid'          => $this->getGrid(),
         );
     }
     
     
-    public function createClone($clone_core_party)
+    public function createRemake($corePartyClone)
     {
         $clone = new self();
         
-        $clone->party           = $clone_core_party;
-        $clone->firstPlayer     = $this->firstPlayer;
-        $clone->current_player  = $this->firstPlayer == 0 ? rand(1, 2) : $this->firstPlayer ;
-        $clone->grid            = '---------';
+        $clone->party               = $corePartyClone;
+        $clone->firstPlayer         = 3 - $this->firstPlayer;
+        $clone->currentPlayer       = $clone->firstPlayer;
+        $clone->numberOfParties     = $this->numberOfParties;
+        $clone->victoryCondition    = $this->victoryCondition;
+        $clone->grid                = '---------';
         
         return $clone;
     }
 
     /**
-     * Set last_party_end
+     * Set lastPartyEnd
      *
      * @param \DateTime $lastPartyEnd
      * @return Party
      */
     public function setLastPartyEnd($lastPartyEnd)
     {
-        $this->last_party_end = $lastPartyEnd;
+        $this->lastPartyEnd = $lastPartyEnd;
     
         return $this;
     }
 
     /**
-     * Get last_party_end
+     * Get lastPartyEnd
      *
      * @return \DateTime 
      */
     public function getLastPartyEnd()
     {
-        return $this->last_party_end;
+        return $this->lastPartyEnd;
+    }
+
+    /**
+     * Set numberOfParties
+     *
+     * @param integer $numberOfParties
+     * @return Party
+     */
+    public function setNumberOfParties($numberOfParties)
+    {
+        $this->numberOfParties = $numberOfParties;
+    
+        return $this;
+    }
+
+    /**
+     * Get numberOfParties
+     *
+     * @return integer 
+     */
+    public function getNumberOfParties()
+    {
+        return $this->numberOfParties;
+    }
+
+    /**
+     * Set victoryCondition
+     *
+     * @param integer $victoryCondition
+     * @return Party
+     */
+    public function setVictoryCondition($victoryCondition)
+    {
+        $this->victoryCondition = $victoryCondition;
+    
+        return $this;
+    }
+
+    /**
+     * Get victoryCondition
+     *
+     * @return integer 
+     */
+    public function getVictoryCondition()
+    {
+        return $this->victoryCondition;
+    }
+
+    /**
+     * Set partyNumber
+     *
+     * @param integer $partyNumber
+     * @return Party
+     */
+    public function setPartyNumber($partyNumber)
+    {
+        $this->partyNumber = $partyNumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get partyNumber
+     *
+     * @return integer 
+     */
+    public function getPartyNumber()
+    {
+        return $this->partyNumber;
     }
 }

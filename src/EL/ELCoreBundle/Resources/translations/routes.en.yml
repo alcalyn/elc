@@ -19,23 +19,23 @@ elcore_games_list: /games
 # Desc: /
 elcore_home: /
 
-# Desc: /games/{slug_game}/{slug_party}
-elcore_party: '/games/{slug_game}/{slug_party}'
+# Desc: /games/{slugGame}/{slugParty}
+elcore_party: '/games/{slugGame}/{slugParty}'
 
 # Desc: /games/{slug}/creation
 elcore_party_creation: '/games/{slug}/creation'
 
-# Desc: /games/{slug_game}/{slug_party}/results
-elcore_party_ended: '/games/{slug_game}/{slug_party}/results'
+# Desc: /games/{slugGame}/{slugParty}/results
+elcore_party_ended: '/games/{slugGame}/{slugParty}/results'
 
-# Desc: /games/{slug_game}/{slug_party}/join
-elcore_party_join: '/games/{slug_game}/{slug_party}/join'
+# Desc: /games/{slugGame}/{slugParty}/join
+elcore_party_join: '/games/{slugGame}/{slugParty}/join'
 
-# Desc: /games/{slug_game}/{slug_party}/preparation
-elcore_party_preparation: '/games/{slug_game}/{slug_party}/preparation'
+# Desc: /games/{slugGame}/{slugParty}/preparation
+elcore_party_preparation: '/games/{slugGame}/{slugParty}/preparation'
 
-# Desc: /games/{slug_game}/{slug_party}/preparation/action
-elcore_party_preparation_action: '/games/{slug_game}/{slug_party}/preparation/action'
+# Desc: /games/{slugGame}/{slugParty}/preparation/action
+elcore_party_preparation_action: '/games/{slugGame}/{slugParty}/preparation/action'
 
 # Desc: /player/login
 elcore_user_login: /player/login

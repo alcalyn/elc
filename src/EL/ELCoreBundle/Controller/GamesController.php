@@ -38,9 +38,9 @@ class GamesController extends Controller
      */
     public function homeAction($_locale, $slug)
     {
-        $game_service= $this->get('el_core.game');
+        $gameService= $this->get('el_core.game');
         
-        $game = $game_service
+        $game = $gameService
                 ->setGameBySlug($slug, $_locale)
                 ->getGame();
         
@@ -58,9 +58,9 @@ class GamesController extends Controller
      */
     public function rankingAction($_locale, $slug)
     {
-        $game_service= $this->get('el_core.game');
+        $gameService= $this->get('el_core.game');
         
-        $game = $game_service
+        $game = $gameService
                 ->setGameBySlug($slug, $_locale)
                 ->getGame();
         
@@ -78,9 +78,9 @@ class GamesController extends Controller
      */
     public function rulesAction($_locale, $slug)
     {
-        $game_service= $this->get('el_core.game');
+        $gameService= $this->get('el_core.game');
         
-        $game = $game_service
+        $game = $gameService
                 ->setGameBySlug($slug, $_locale)
                 ->getGame();
         

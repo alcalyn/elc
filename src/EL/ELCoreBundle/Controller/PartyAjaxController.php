@@ -12,10 +12,10 @@ class PartyAjaxController extends Controller
     /**
      * Create a party
      * 
-     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @param \EL\PhaxBundle\Model\PhaxAction $phaxAction
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
-    public function createAction(PhaxAction $phax_action)
+    public function createAction(PhaxAction $phaxAction)
     {
         return $this->get('phax')->reaction(array(
         ));
@@ -24,13 +24,13 @@ class PartyAjaxController extends Controller
     /**
      * Return party instance from slug
      * 
-     * @param \EL\PhaxBundle\Model\PhaxAction $phax_action
+     * @param \EL\PhaxBundle\Model\PhaxAction $phaxAction
      * @return \EL\PhaxBundle\Model\PhaxReaction
      */
-    public function refreshAction(PhaxAction $phax_action)
+    public function refreshAction(PhaxAction $phaxAction)
     {
-        $locale     = $phax_action->get('locale');
-        $slug_party = $phax_action->get('slug_party');
+        $locale     = $phaxAction->get('locale');
+        $slugParty  = $phaxAction->get('slugParty');
         
         if (is_null($locale)) {
             throw new ELCoreException(
@@ -38,19 +38,19 @@ class PartyAjaxController extends Controller
             );
         }
         
-        if (is_null($slug_party)) {
+        if (is_null($slugParty)) {
             throw new ELCoreException(
-                'partyAjax::refreshAction : slug_party must be defined'
+                'partyAjax::refreshAction : slugParty must be defined'
             );
         }
         
-        $party_service = $this
+        $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $locale)
+                ->setPartyBySlug($slugParty, $locale)
         ;
         
         return $this->get('phax')->reaction(array(
-            'core_party' => $party_service->getParty()->jsonSerialize(),
+            'coreParty' => $partyService->getParty()->jsonSerialize(),
         ));
     }
 }

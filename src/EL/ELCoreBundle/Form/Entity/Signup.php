@@ -36,14 +36,14 @@ class Signup
      * @var string
      * @Assert\NotBlank()
      */
-    private $password_repeat;
+    private $passwordRepeat;
     
     
     /**
      *
      * @var boolean 
      */
-    private $remember_me;
+    private $rememberMe;
     
     
     
@@ -60,12 +60,12 @@ class Signup
 
     public function getPasswordRepeat()
     {
-        return $this->password_repeat;
+        return $this->passwordRepeat;
     }
 
     public function getRememberMe()
     {
-        return $this->remember_me;
+        return $this->rememberMe;
     }
 
     public function setPseudo($pseudo)
@@ -80,15 +80,15 @@ class Signup
         return $this;
     }
 
-    public function setPasswordRepeat($password_repeat)
+    public function setPasswordRepeat($passwordRepeat)
     {
-        $this->password_repeat = $password_repeat;
+        $this->passwordRepeat = $passwordRepeat;
         return $this;
     }
 
-    public function setRememberMe($remember_me)
+    public function setRememberMe($rememberMe)
     {
-        $this->remember_me = $remember_me;
+        $this->rememberMe = $rememberMe;
         return $this;
     }
     
@@ -98,7 +98,7 @@ class Signup
         $same = $this->getPassword() === $this->getPasswordRepeat();
         
         if ((!$same) && (null !== $context)) {
-            $context->addViolationAt('password_repeat', 'passwords.repeatition.fails', array(), null);
+            $context->addViolationAt('passwordRepeat', 'passwords.repeatition.fails', array(), null);
         }
         
         return $same;

@@ -4,9 +4,9 @@
 
 {% block body %}
 <h2>{{ game.title }}</h2>
-<p class="partie-title">{{ core_party.title }}</p>
-{% if core_party.host %}
-	<p class="host">Hôte : {{ core_party.host.pseudo }}</h2>
+<p class="partie-title">{{ coreParty.title }}</p>
+{% if coreParty.host %}
+	<p class="host">Hôte : {{ coreParty.host.pseudo }}</h2>
 {% endif %}
 <hr />
 <div class="row">
@@ -27,19 +27,19 @@
 			</div>
 			<div class="panel-body">
 				<p>
-					{% if core_party.open %}
-						{{ 'public.party'|trans }}
-					{% else %}
+					{% if coreParty.private %}
 						{{ 'private.party'|trans }}
+					{% else %}
+						{{ 'public.party'|trans }}
 					{% endif %}
 				</p>
 				<p>
-					{% if not core_party.allowChat %}
+					{% if coreParty.disallowChat %}
 						{{ 'chat.disabled'|trans }}
 					{% endif %}
 				</p>
 				<p>
-					{% if not core_party.allowObservers %}
+					{% if coreParty.disallowObservers %}
 						{{ 'observers.disallowed'|trans }}
 					{% endif %}
 				</p>
@@ -49,9 +49,9 @@
 </div>
 <hr />
 <div class="row">
-	<form action="{{ path('elcore_party_preparation_action', { 'slug_game': game.slug, 'slug_party': core_party.slug }) }}" method="post">
-	    {% if in_party %}
-	    	{% if is_host %}
+	<form action="{{ path('elcore_party_preparation_action', { 'slugGame': game.slug, 'slugParty': coreParty.slug }) }}" method="post">
+	    {% if inParty %}
+	    	{% if isHost %}
 		        <div class="col-md-4">
 		            <button type="submit" name="action" value="cancel" class="btn btn-warning">{{ 'cancel'|trans }}</button>
 		        </div>
@@ -67,7 +67,7 @@
 		        </div>
 		    {% endif %}
 	    {% else %}
-	        {% if can_join %}
+	        {% if canJoin %}
 	            <div class="col-md-4 col-md-offset-4">
 	                <button type="submit" name="action" value="join" class="btn btn-success">{{ 'join.party'|trans }}</button>
 	            </div>

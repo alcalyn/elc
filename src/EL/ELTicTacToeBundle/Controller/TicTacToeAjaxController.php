@@ -8,11 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\PhaxBundle\Model\PhaxAction;
 use EL\ELCoreBundle\Entity\WLD;
 use EL\ELCoreBundle\Entity\Party as CoreParty;
+use EL\ELTicTacToeBundle\Entity\Party;
 
 class TicTacToeAjaxController extends Controller
 {
     
-    public function refreshAction(PhaxAction $phax_action)
+    public function refreshAction(PhaxAction $phaxAction)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -21,43 +22,61 @@ class TicTacToeAjaxController extends Controller
          */
         $extendedParty = $em
                 ->getRepository('ELTicTacToeBundle:Party')
-                ->findOneByExtendedPartyId($phax_action->extended_party_id)
+                ->findOneByExtendedPartyId($phaxAction->extendedPartyId)
         ;
         
-        $last_party_end = $extendedParty->getLastPartyEnd();
+        $lastPartyEnd = $extendedParty->getLastPartyEnd();
         
         /**
          * If we are waiting for new grid
          */
-        if (null !== $last_party_end) {
+        if (null !== $lastPartyEnd) {
             /**
              * Check if we have wait more than 3 seconds
              */
             $now        = new \DateTime();
-            $new_time   = clone $last_party_end;
+            $newTime    = clone $lastPartyEnd;
             
-            $new_time->add(new \DateInterval('PT3S'));
+            $newTime->add(new \DateInterval('PT3S'));
             
             /**
              * If we have wait enough time, check for party end, or clean the grid and restart a new
              */
-            if ($now > $new_time) {
-                $party_service = $this
+            if ($now > $newTime) {
+                $partyService = $this
                     ->get('el_core.party')
                     ->setParty($extendedParty->getParty())
                 ;
                 
-                $core_party = $party_service->getParty();
-
-                foreach ($core_party->getSlots() as $slot) {
-                    if ($slot->getScore() >= 2) {
-                        $party_service->end();
-                        break;
+                $coreParty = $partyService->getParty();
+                
+                if (Party::END_ON_PARTIES_NUMBER === $extendedParty->getVictoryCondition()) {
+                    if ($extendedParty->getPartyNumber() >= $extendedParty->getNumberOfParties()) {
+                        $partyService->end();
+                    }
+                } else {
+                    $victoriesCount = 0;
+                    
+                    foreach ($coreParty->getSlots() as $slot) {
+                        $victoriesCount += $slot->getScore();
+                    }
+                    
+                    if (Party::END_ON_WINS_NUMBER === $extendedParty->getVictoryCondition()) {
+                        if ($victoriesCount >= $extendedParty->getNumberOfParties()) {
+                            $partyService->end();
+                        }
+                    } else if (Party::END_ON_DRAWS_NUMBER === $extendedParty->getVictoryCondition()) {
+                        $drawsCount = $extendedParty->getPartyNumber() - $victoriesCount;
+                        
+                        if ($drawsCount >= $extendedParty->getNumberOfParties()) {
+                            $partyService->end();
+                        }
                     }
                 }
                 
-                if (CoreParty::ENDED !== $core_party->getState()) {
+                if (CoreParty::ENDED !== $coreParty->getState()) {
                     $extendedParty->setGrid('---------');
+                    $extendedParty->setPartyNumber($extendedParty->getPartyNumber() + 1);
                 }
                 
                 $extendedParty->setLastPartyEnd(null);
@@ -75,21 +94,21 @@ class TicTacToeAjaxController extends Controller
     }
     
     
-    public function tickAction(PhaxAction $phax_action)
+    public function tickAction(PhaxAction $phaxAction)
     {
         $em = $this->getDoctrine()->getManager();
         
         $extendedParty = $em
                 ->getRepository('ELTicTacToeBundle:Party')
-                ->findOneByExtendedPartyId($phax_action->extended_party_id)
+                ->findOneByExtendedPartyId($phaxAction->extendedPartyId)
         ;
         
         $phax       = $this->get('phax');
         $grid       = $extendedParty->getGrid();
-        $coords     = $phax_action->get('coords');
+        $coords     = $phaxAction->get('coords');
         $player     = $this->get('el_core.session')->getPlayer();
         $baseParty  = $extendedParty->getParty();
-        $slot       = $baseParty->getSlot($extendedParty->getCurrentPlayer() - 1);
+        $slot       = $baseParty->getSlots()->get($extendedParty->getCurrentPlayer() - 1);
         
         /**
          * Check inputs
@@ -161,36 +180,36 @@ class TicTacToeAjaxController extends Controller
         $winner = self::winner($grid);
         
         if (null !== $winner) {
-            $wld_service = $this->get('el_core.score.wld');
-            $elo_service = $this->get('el_core.score.elo');
+            $wldService = $this->get('el_core.score.wld');
+            $eloService = $this->get('el_core.score.elo');
             
             if ($winner !== '-') {
                 /**
                  * Party with a winner
                  */
                 $baseParty
-                    ->getSlot($winner === 'X' ? 0 : 1)
+                    ->getSlots()->get($winner === 'X' ? 0 : 1)
                     ->addScore()
                 ;
                 
-                $winnerPlayer = $baseParty->getSlot($winner === 'X' ? 0 : 1)->getPlayer();
-                $looserPlayer = $baseParty->getSlot($winner === 'O' ? 0 : 1)->getPlayer();
+                $winnerPlayer = $baseParty->getSlots()->get($winner === 'X' ? 0 : 1)->getPlayer();
+                $looserPlayer = $baseParty->getSlots()->get($winner === 'O' ? 0 : 1)->getPlayer();
                 
-                $wld_service->win($winnerPlayer, $baseParty->getGame(), $baseParty);
-                $wld_service->lose($looserPlayer, $baseParty->getGame(), $baseParty);
+                $wldService->win($winnerPlayer, $baseParty->getGame(), $baseParty);
+                $wldService->lose($looserPlayer, $baseParty->getGame(), $baseParty);
                 
-                $elo_service->win($winnerPlayer, $looserPlayer, $baseParty->getGame(), $baseParty);
+                $eloService->win($winnerPlayer, $looserPlayer, $baseParty->getGame(), $baseParty);
             } else {
                 /**
                  * Draw party
                  */
                 foreach ($baseParty->getSlots() as $slot) {
-                    $wld_service->draw($slot->getPlayer(), $baseParty->getGame(), $baseParty);
+                    $wldService->draw($slot->getPlayer(), $baseParty->getGame(), $baseParty);
                 }
                 
-                $elo_service->draw(
-                    $baseParty->getSlot(0)->getPlayer(),
-                    $baseParty->getSlot(1)->getPlayer(),
+                $eloService->draw(
+                    $baseParty->getSlots()->get(0)->getPlayer(),
+                    $baseParty->getSlots()->get(1)->getPlayer(),
                     $baseParty->getGame(),
                     $baseParty
                 );

@@ -94,9 +94,9 @@ class Party implements \JsonSerializable
     /**
      * @var boolean
      *
-     * @ORM\Column(name="open", type="boolean")
+     * @ORM\Column(name="private", type="boolean")
      */
-    private $open;
+    private $private;
     
     /**
      * @var boolean
@@ -114,18 +114,18 @@ class Party implements \JsonSerializable
      * 
      * If the chat is enabled for this party
      * 
-     * @ORM\Column(name="allow_chat", type="boolean")
+     * @ORM\Column(name="disallow_chat", type="boolean")
      */
-    private $allow_chat;
+    private $disallowChat;
     
     /**
      * @var boolean
      * 
      * If this party allows observers
      * 
-     * @ORM\Column(name="allow_observers", type="boolean")
+     * @ORM\Column(name="disallow_observers", type="boolean")
      */
-    private $allow_observers;
+    private $disallowObservers;
     
     /**
      * Contains party which is the clone of this
@@ -141,35 +141,35 @@ class Party implements \JsonSerializable
      *
      * @ORM\Column(name="date_create", type="datetime")
      */
-    private $date_create;
+    private $dateCreate;
     
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_started", type="datetime", nullable=true)
      */
-    private $date_started;
+    private $dateStarted;
     
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_ended", type="datetime", nullable=true)
      */
-    private $date_ended;
+    private $dateEnded;
     
     
     
     public function __construct()
     {
         $this
-                ->setOpen(true)
                 ->setState(self::PREPARATION)
                 ->setRoom(true)
-                ->setAllowChat(true)
-                ->setAllowObservers(true)
+                ->setPrivate(false)
+                ->setDisallowChat(false)
+                ->setDisallowObservers(false)
+                ->setDateCreate(new \DateTime())
         ;
     }
-    
 
     /**
      * Get id
@@ -205,26 +205,26 @@ class Party implements \JsonSerializable
     }
 
     /**
-     * Set open
+     * Set slug
      *
-     * @param boolean $open
+     * @param string $slug
      * @return Party
      */
-    public function setOpen($open)
+    public function setSlug($slug)
     {
-        $this->open = $open;
+        $this->slug = $slug;
     
         return $this;
     }
 
     /**
-     * Get open
+     * Get slug
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getOpen()
+    public function getSlug()
     {
-        return $this->open;
+        return $this->slug;
     }
 
     /**
@@ -251,12 +251,173 @@ class Party implements \JsonSerializable
     }
 
     /**
-     * Set game
+     * Set private
      *
-     * @param \stdClass $game
+     * @param boolean $private
      * @return Party
      */
-    public function setGame($game)
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+    
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return boolean 
+     */
+    public function getPrivate()
+    {
+        return $this->private;
+    }
+
+    /**
+     * Set room
+     *
+     * @param boolean $room
+     * @return Party
+     */
+    public function setRoom($room)
+    {
+        $this->room = $room;
+    
+        return $this;
+    }
+
+    /**
+     * Get room
+     *
+     * @return boolean 
+     */
+    public function getRoom()
+    {
+        return $this->room;
+    }
+
+    /**
+     * Set disallowChat
+     *
+     * @param boolean $disallowChat
+     * @return Party
+     */
+    public function setDisallowChat($disallowChat)
+    {
+        $this->disallowChat = $disallowChat;
+    
+        return $this;
+    }
+
+    /**
+     * Get disallowChat
+     *
+     * @return boolean 
+     */
+    public function getDisallowChat()
+    {
+        return $this->disallowChat;
+    }
+
+    /**
+     * Set disallowObservers
+     *
+     * @param boolean $disallowObservers
+     * @return Party
+     */
+    public function setDisallowObservers($disallowObservers)
+    {
+        $this->disallowObservers = $disallowObservers;
+    
+        return $this;
+    }
+
+    /**
+     * Get disallowObservers
+     *
+     * @return boolean 
+     */
+    public function getDisallowObservers()
+    {
+        return $this->disallowObservers;
+    }
+
+    /**
+     * Set dateCreate
+     *
+     * @param \DateTime $dateCreate
+     * @return Party
+     */
+    public function setDateCreate($dateCreate)
+    {
+        $this->dateCreate = $dateCreate;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateCreate
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreate()
+    {
+        return $this->dateCreate;
+    }
+
+    /**
+     * Set dateStarted
+     *
+     * @param \DateTime $dateStarted
+     * @return Party
+     */
+    public function setDateStarted($dateStarted)
+    {
+        $this->dateStarted = $dateStarted;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateStarted
+     *
+     * @return \DateTime 
+     */
+    public function getDateStarted()
+    {
+        return $this->dateStarted;
+    }
+
+    /**
+     * Set dateEnded
+     *
+     * @param \DateTime $dateEnded
+     * @return Party
+     */
+    public function setDateEnded($dateEnded)
+    {
+        $this->dateEnded = $dateEnded;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateEnded
+     *
+     * @return \DateTime 
+     */
+    public function getDateEnded()
+    {
+        return $this->dateEnded;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \EL\ELCoreBundle\Entity\Game $game
+     * @return Party
+     */
+    public function setGame(\EL\ELCoreBundle\Entity\Game $game)
     {
         $this->game = $game;
     
@@ -266,7 +427,7 @@ class Party implements \JsonSerializable
     /**
      * Get game
      *
-     * @return \stdClass 
+     * @return \EL\ELCoreBundle\Entity\Game 
      */
     public function getGame()
     {
@@ -295,39 +456,6 @@ class Party implements \JsonSerializable
     {
         return $this->host;
     }
-    
-    /**
-     * Has Host
-     * 
-     * @return boolean if party has host
-     */
-    public function hasHost()
-    {
-        return !is_null($this->getHost());
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Party
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-    
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string 
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
 
     /**
      * Add slots
@@ -335,7 +463,7 @@ class Party implements \JsonSerializable
      * @param \EL\ELCoreBundle\Entity\Slot $slots
      * @return Party
      */
-    public function addSlot(Slot $slots)
+    public function addSlot(\EL\ELCoreBundle\Entity\Slot $slots)
     {
         $this->slots[] = $slots;
     
@@ -347,7 +475,7 @@ class Party implements \JsonSerializable
      *
      * @param \EL\ELCoreBundle\Entity\Slot $slots
      */
-    public function removeSlot(Slot $slots)
+    public function removeSlot(\EL\ELCoreBundle\Entity\Slot $slots)
     {
         $this->slots->removeElement($slots);
     }
@@ -360,156 +488,6 @@ class Party implements \JsonSerializable
     public function getSlots()
     {
         return $this->slots;
-    }
-    
-    /**
-     * Get slot at index $index
-     * 
-     * @param integer $index
-     * @return \EL\ELCoreBundle\Entity\Slot
-     */
-    public function getSlot($index)
-    {
-        return $this->slots[$index];
-    }
-
-    /**
-     * Set room
-     *
-     * @param boolean $room
-     * @return Party
-     */
-    public function setRoom($room)
-    {
-        $this->room = $room;
-    
-        return $this;
-    }
-
-    /**
-     * Get room
-     *
-     * @return boolean 
-     */
-    public function getRoom()
-    {
-        return $this->room;
-    }
-
-
-    /**
-     * Set allow_chat
-     *
-     * @param boolean $allowChat
-     * @return Party
-     */
-    public function setAllowChat($allowChat)
-    {
-        $this->allow_chat = $allowChat;
-    
-        return $this;
-    }
-
-    /**
-     * Get allow_chat
-     *
-     * @return boolean 
-     */
-    public function getAllowChat()
-    {
-        return $this->allow_chat;
-    }
-
-    /**
-     * Set allow_observers
-     *
-     * @param boolean $allowObservers
-     * @return Party
-     */
-    public function setAllowObservers($allowObservers)
-    {
-        $this->allow_observers = $allowObservers;
-    
-        return $this;
-    }
-
-    /**
-     * Get allow_observers
-     *
-     * @return boolean 
-     */
-    public function getAllowObservers()
-    {
-        return $this->allow_observers;
-    }
-
-    /**
-     * Set date_create
-     *
-     * @param \DateTime $dateCreate
-     * @return Party
-     */
-    public function setDateCreate($dateCreate)
-    {
-        $this->date_create = $dateCreate;
-    
-        return $this;
-    }
-
-    /**
-     * Get date_create
-     *
-     * @return \DateTime 
-     */
-    public function getDateCreate()
-    {
-        return $this->date_create;
-    }
-
-    /**
-     * Set date_started
-     *
-     * @param \DateTime $dateStarted
-     * @return Party
-     */
-    public function setDateStarted($dateStarted)
-    {
-        $this->date_started = $dateStarted;
-    
-        return $this;
-    }
-
-    /**
-     * Get date_started
-     *
-     * @return \DateTime 
-     */
-    public function getDateStarted()
-    {
-        return $this->date_started;
-    }
-
-    /**
-     * Set date_ended
-     *
-     * @param \DateTime $dateEnded
-     * @return Party
-     */
-    public function setDateEnded($dateEnded)
-    {
-        $this->date_ended = $dateEnded;
-    
-        return $this;
-    }
-
-    /**
-     * Get date_ended
-     *
-     * @return \DateTime 
-     */
-    public function getDateEnded()
-    {
-        return $this->date_ended;
     }
 
     /**
@@ -535,7 +513,11 @@ class Party implements \JsonSerializable
         return $this->remake;
     }
     
-    
+    /**
+     * Return data to put in json
+     * 
+     * @return array
+     */
     public function jsonSerialize()
     {
         $slots = array();
@@ -545,36 +527,40 @@ class Party implements \JsonSerializable
         }
         
         return array(
-            'id'                => $this->getId(),
-            'slug'              => $this->getSlug(),
-            'allow_chat'        => $this->getAllowChat(),
-            'allow_observers'   => $this->getAllowObservers(),
-            'title'             => $this->getTitle(),
-            'state'             => $this->getState(),
-            'open'              => $this->getOpen(),
-            'room'              => $this->getRoom(),
-            'host'              => is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
-            'game'              => $this->getGame()->jsonSerialize(),
-            'slots'             => $slots,
-            'date_create'       => $this->getDateCreate(),
-            'date_started'      => $this->getDateStarted(),
-            'date_ended'        => $this->getDateEnded(),
+            'id'                    => $this->getId(),
+            'slug'                  => $this->getSlug(),
+            'disallowChat'         => $this->getDisallowChat(),
+            'disallowObservers'    => $this->getDisallowObservers(),
+            'title'                 => $this->getTitle(),
+            'state'                 => $this->getState(),
+            'private'               => $this->getPrivate(),
+            'room'                  => $this->getRoom(),
+            'host'                  => is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
+            'game'                  => $this->getGame()->jsonSerialize(),
+            'slots'                 => $slots,
+            'dateCreate'           => $this->getDateCreate(),
+            'dateStarted'          => $this->getDateStarted(),
+            'dateEnded'            => $this->getDateEnded(),
         );
     }
     
-    
-    public function createClone()
+    /**
+     * create a remake party from this
+     * 
+     * @return Party
+     */
+    public function createRemake()
     {
         $clone = new self();
         
-        $clone->game            = $this->game;
-        $clone->title           = $this->title;
-        $clone->open            = $this->open;
-        $clone->room            = $this->room;
-        $clone->allow_chat      = $this->allow_chat;
-        $clone->allow_observers = $this->allow_observers;
-        $clone->state           = self::PREPARATION;
-        $clone->date_create     = new \DateTime();
+        $clone->game                = $this->game;
+        $clone->title               = $this->title;
+        $clone->private             = $this->private;
+        $clone->room                = $this->room;
+        $clone->disallowChat       = $this->disallowChat;
+        $clone->disallowObservers  = $this->disallowObservers;
+        $clone->state               = self::PREPARATION;
+        $clone->dateCreate         = new \DateTime();
         
         return $clone;
     }

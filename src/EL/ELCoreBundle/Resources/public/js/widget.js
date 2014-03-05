@@ -28,17 +28,17 @@ var widget = {
         /**
          * Update parties list
          */
-        var $parties_list = $('.widget.my-games .list-group');
+        var $partiesList = $('.widget.my-games .list-group');
         
-        $parties_list.find('.list-group-item').remove();
+        $partiesList.find('.list-group-item').remove();
         
-        for (var key in r.current_parties) {
-            var current_party = r.current_parties[key];
+        for (var key in r.currentParties) {
+            var currentParty = r.currentParties[key];
             
-            $parties_list.append('\
-                <a href="'+current_party.link+'" class="list-group-item'+(current_party.my_turn ? ' my-turn' : '')+'">\
-                    <h4 class="list-group-item-heading">'+current_party.game.title+'</h4>\
-                    <p class="list-group-item-text">'+current_party.description+'</p>\
+            $partiesList.append('\
+                <a href="'+currentParty.link+'" class="list-group-item'+(currentParty.myTurn ? ' my-turn' : '')+'">\
+                    <h4 class="list-group-item-heading">'+currentParty.game.title+'</h4>\
+                    <p class="list-group-item-text">'+currentParty.description+'</p>\
                 </a>\
             ');
         }
@@ -48,16 +48,16 @@ var widget = {
         /**
          * Update games select
          */
-        var $games_select       = $('.widget.my-games form select');
-        var selected_game_id    = $games_select.val();
+        var $gamesSelect    = $('.widget.my-games form select');
+        var selectedGameId  = $gamesSelect.val();
         
-        $games_select.find('option[value!="-1"]').remove();
+        $gamesSelect.find('option[value!="-1"]').remove();
         
-        for (var game_id in r.games_list) {
-            var game_title = r.games_list[game_id];
-            $games_select.append('<option value="'+game_id+'">'+game_title+'</option>');
+        for (var gameId in r.gamesList) {
+            var gameTitle = r.gamesList[gameId];
+            $gamesSelect.append('<option value="'+gameId+'">'+gameTitle+'</option>');
         }
         
-        $games_select.find('option[value="'+selected_game_id+'"]').prop('selected', true);
+        $gamesSelect.find('option[value="'+selectedGameId+'"]').prop('selected', true);
     }
 };

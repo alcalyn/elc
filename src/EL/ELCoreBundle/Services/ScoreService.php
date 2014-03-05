@@ -24,37 +24,37 @@ class ScoreService
     
     /**
      * Get game variant from database, create if not exists.
-     * if $variant_name is not provided, default game variant will be returned
+     * if $variantName is not provided, default game variant will be returned
      * 
      * @param Game $game
-     * @param string $variant_name
+     * @param string $variantName
      * 
      * @return \EL\ELCoreBundle\Entity\GameVariant
      */
-    protected function getGameVariant(Game $game, $variant_name = null)
+    protected function getGameVariant(Game $game, $variantName = null)
     {
-        if (null === $variant_name) {
-            $variant_name = GameVariant::DEFAULT_NAME;
+        if (null === $variantName) {
+            $variantName = GameVariant::DEFAULT_NAME;
         }
         
-        $game_variant = $this->em
+        $gameVariant = $this->em
             ->getRepository('ELCoreBundle:GameVariant')
-            ->get($game, $variant_name)
+            ->get($game, $variantName)
         ;
         
-        if (null === $game_variant) {
-            $game_variant = new GameVariant();
+        if (null === $gameVariant) {
+            $gameVariant = new GameVariant();
             
-            $game_variant
+            $gameVariant
                 ->setGame($game)
-                ->setName($variant_name)
+                ->setName($variantName)
             ;
             
-            $this->em->persist($game_variant);
+            $this->em->persist($gameVariant);
             $this->em->flush();
         }
         
-        return $game_variant;
+        return $gameVariant;
     }
     
     /**
@@ -117,10 +117,10 @@ class ScoreService
      */
     protected function checkGameOrGameVariant($var)
     {
-        $is_game            = ($var instanceof Game);
-        $is_game_variant    = ($var instanceof GameVariant);
+        $isGame         = ($var instanceof Game);
+        $isGameVariant  = ($var instanceof GameVariant);
         
-        if (!($is_game || $is_game_variant)) {
+        if (!($isGame || $isGameVariant)) {
             throw new ELCoreException('Expected instance of Game or GameVariant, got '.get_class($var));
         }
     }

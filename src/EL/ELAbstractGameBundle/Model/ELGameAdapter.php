@@ -24,13 +24,14 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function getOptions()
     {
+        // can we delete this and return a new stdClass ?
         return new AdapterOptions();
     }
     
     /**
      * {@inheritdoc}
      */
-    public function saveOptions(CoreParty $core_party, $options)
+    public function saveOptions(CoreParty $coreParty, $options)
     {
         return true;
     }
@@ -38,7 +39,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function loadOptions(CoreParty $core_party)
+    public function loadOptions(CoreParty $coreParty)
     {
         return new AdapterOptions();
     }
@@ -83,7 +84,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function loadParty($slug_party)
+    public function loadParty($slugParty)
     {
         return new stdClass();
     }
@@ -91,17 +92,17 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function canStart(PartyService $party_service)
+    public function canStart(PartyService $partyService)
     {
-        $nb_player_min  = $party_service->getGame()->getNbplayerMin();
-        $nb_player_max  = $party_service->getGame()->getNbplayerMax();
-        $nb_player      = $party_service->getNbPlayer();
+        $nbPlayerMin  = $partyService->getGame()->getNbplayerMin();
+        $nbPlayerMax  = $partyService->getGame()->getNbplayerMax();
+        $nbPlayer     = $partyService->getNbPlayer();
         
-        if ($nb_player < $nb_player_min) {
+        if ($nbPlayer < $nbPlayerMin) {
             throw new ELUserException('cannot.start.notenoughplayer', ELUserException::TYPE_WARNING);
         }
         
-        if ($nb_player > $nb_player_max) {
+        if ($nbPlayer > $nbPlayerMax) {
             throw new ELUserException('cannot.start.toomanyplayer', ELUserException::TYPE_WARNING);
         }
         
@@ -111,31 +112,31 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function activeAction($_locale, PartyService $party_service)
+    public function activeAction($_locale, PartyService $partyService)
     {
         return $this->render('ELAbstractGameBundle:Adapter:active.html.twig', array(
-            'game'          => $party_service->getGame(),
-            'core_party'    => $party_service->getParty(),
+            'game'          => $partyService->getGame(),
+            'coreParty'    => $partyService->getParty(),
         ));
     }
     
     /**
      * {@inheritdoc}
      */
-    public function endedAction($_locale, PartyService $party_service)
+    public function endedAction($_locale, PartyService $partyService)
     {
         return $this->render('ELAbstractGameBundle:Adapter:ended.html.twig', array(
-            'game'          => $party_service->getGame(),
-            'core_party'    => $party_service->getParty(),
+            'game'          => $partyService->getGame(),
+            'coreParty'    => $partyService->getParty(),
         ));
     }
     
     /**
      * {@inheritdoc}
      */
-    public function getCurrentDescription($_locale, PartyService $party_service)
+    public function getCurrentDescription($_locale, PartyService $partyService)
     {
-        $party = $party_service->getParty();
+        $party = $partyService->getParty();
         
         if ($party->getState() === CoreParty::PREPARATION) {
             return 'Preparation...';
@@ -160,7 +161,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function isMyTurn(PartyService $party_service)
+    public function isMyTurn(PartyService $partyService)
     {
         return false;
     }
@@ -168,7 +169,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function createClone($slug_party, CoreParty $core_party_clone)
+    public function createRemake($slugParty, CoreParty $corePartyClone)
     {
         return new stdClass();
     }

@@ -125,12 +125,12 @@ class PartyService extends GameService
         $slug = Slug::slug($party->getTitle());
         $party->setSlug($slug);
         
-        $count_slug = $this->em
+        $countSlug = $this->em
                 ->getRepository('ELCoreBundle:Party')
                 ->countSlug($slug)
         ;
         
-        if (intval($count_slug) > 0) {
+        if (intval($countSlug) > 0) {
             $this->em->persist($party);
             $this->em->flush();
             $party->setSlug($slug.'-'.$party->getId());
@@ -138,7 +138,7 @@ class PartyService extends GameService
     }
     
     
-    public function createSlots(array $slots_configuration, Party $party = null)
+    public function createSlots(array $slotsConfiguration, Party $party = null)
     {
         if (is_null($party)) {
             $this->needParty();
@@ -147,7 +147,7 @@ class PartyService extends GameService
         
         $position = 1;
         
-        foreach ($slots_configuration['slots'] as $s) {
+        foreach ($slotsConfiguration['slots'] as $s) {
             $isHost =  isset($s['host']) && $s['host'];
             $isOpen = !isset($s['host']) || $s['host'];
             $score  =  isset($s['score']) ? $s['score'] : 0 ;
@@ -172,7 +172,7 @@ class PartyService extends GameService
     
     
     /**
-     * Check if player can join the party at slot $slot_index, or an other.
+     * Check if player can join the party at slot $slotIndex, or an other.
      * If join is true, the player join the party if he can.
      * If player has already join party, he just change slot.
      * 
@@ -180,13 +180,13 @@ class PartyService extends GameService
      * else return true if he can join
      * 
      * @param \EL\ELCoreBundle\Entity\Player $player
-     * @param integer $slot_index preference. If defined and free, join this slot. Else join first free slot.
+     * @param integer $slotIndex preference. If defined and free, join this slot. Else join first free slot.
      * @param boolean $join, false to not join even if possible
      * @param boolean $party to join
      * @return true if can join
      * @throws ELUserException if cannot join
      */
-    public function join(Player $player = null, $slot_index = -1, $join = true, Party $party = null)
+    public function join(Player $player = null, $slotIndex = -1, $join = true, Party $party = null)
     {
         $this->needParty();
         
@@ -234,8 +234,8 @@ class PartyService extends GameService
         if ($join || !is_null($alreadyJoin)) {
             $changeSlot = false;
             
-            if (($slot_index >= 0) && ($slot_index < count($slots))) {
-                $slot = $slots[$slot_index];
+            if (($slotIndex >= 0) && ($slotIndex < count($slots))) {
+                $slot = $slots[$slotIndex];
                 if ($slot->isFree()) {
                     $freeSlot = $slot;
                     $changeSlot = true;
@@ -265,10 +265,10 @@ class PartyService extends GameService
     }
     
     
-    public function canJoin(Player $player = null, $slot_index = -1, Party $party = null)
+    public function canJoin(Player $player = null, $slotIndex = -1, Party $party = null)
     {
         try {
-            return $this->join($player, $slot_index, false, $party);
+            return $this->join($player, $slotIndex, false, $party);
         } catch (ELUserException $e) {
             return $e;
         }
@@ -311,15 +311,15 @@ class PartyService extends GameService
     /**
      * Ban a player on this party
      * 
-     * @param integer $player_id to ban of this party
+     * @param integer $playerId to ban of this party
      */
-    public function ban($player_id)
+    public function ban($playerId)
     {
         if (!$this->isHost()) {
             return false;
         }
         
-        $this->quitParty($player_id);
+        $this->quitParty($playerId);
         
         return true;
     }
@@ -328,20 +328,20 @@ class PartyService extends GameService
     /**
      * Quit party by removing user from its slot.
      * 
-     * @param integer $player_id, or nothing for current user
+     * @param integer $playerId, or nothing for current user
      * @return boolean
      *             true if user has quit,
      *             false if user was not in this party
      */
-    public function quitParty($player_id = null)
+    public function quitParty($playerId = null)
     {
-        if (is_null($player_id)) {
-            $player_id = $this->session->getPlayer()->getId();
+        if (is_null($playerId)) {
+            $playerId = $this->session->getPlayer()->getId();
         }
         
         $slot = $this->em
             ->getRepository('ELCoreBundle:Slot')
-            ->findOneByPlayerAndParty($player_id, $this->getParty()->getId())
+            ->findOneByPlayerAndParty($playerId, $this->getParty()->getId())
         ;
         
         if ($slot) {
@@ -386,11 +386,11 @@ class PartyService extends GameService
         
         $i = 0;
         foreach ($slots as $slot) {
-            $new_position = intval($indexes[$i++]) + 1;
-            $old_position = intval($slot->getPosition());
+            $newPosition = intval($indexes[$i++]) + 1;
+            $oldPosition = intval($slot->getPosition());
             
-            if ($new_position !== $old_position) {
-                $slot->setPosition($new_position);
+            if ($newPosition !== $oldPosition) {
+                $slot->setPosition($newPosition);
                 $this->illflushitlater->persist($slot);
             }
         }
@@ -473,14 +473,14 @@ class PartyService extends GameService
         $party = $this->getParty();
         
         if ($this->getParty()->getState() === Party::STARTING) {
-            $start_date = clone $party->getDateStarted();
-            $start_date->add(new \DateInterval('PT'.self::DELAY_BEFORE_START.'S'));
+            $startDate = clone $party->getDateStarted();
+            $startDate->add(new \DateInterval('PT'.self::DELAY_BEFORE_START.'S'));
             $now = new \DateTime();
             
-            if ($start_date < $now) {
+            if ($startDate < $now) {
                 $party
                     ->setState(Party::ACTIVE)
-                    ->setDateStarted($start_date)
+                    ->setDateStarted($startDate)
                 ;
                 
                 $this->illflushitlater->persist($party);
@@ -514,10 +514,10 @@ class PartyService extends GameService
      * Remake the current party by creating core party
      * and call extended party createRemake with new core party as argument
      * 
-     * @param ELGameInterface $extended_party_service
+     * @param ELGameInterface $extendedPartyService
      * @return Party
      */
-    public function remake($extended_party_service)
+    public function remake($extendedPartyService)
     {
         $player = $this->session->getPlayer();
         $party  = $this->getParty();
@@ -528,24 +528,24 @@ class PartyService extends GameService
             return $remake;
         }
         
-        $clone_core_party       = $party->createRemake();
+        $cloneCoreParty       = $party->createRemake();
         
-        $party->setRemake($clone_core_party);
-        $clone_core_party->setHost($player);
-        $this->addSlug($clone_core_party);
+        $party->setRemake($cloneCoreParty);
+        $cloneCoreParty->setHost($player);
+        $this->addSlug($cloneCoreParty);
         
-        $options                = $extended_party_service->loadOptions($this->getParty());
-        $slots_configuration    = $extended_party_service->getSlotsConfiguration($options);
+        $options                = $extendedPartyService->loadOptions($this->getParty());
+        $slotsConfiguration    = $extendedPartyService->getSlotsConfiguration($options);
         
-        $this->createSlots($slots_configuration, $clone_core_party);
+        $this->createSlots($slotsConfiguration, $cloneCoreParty);
         
-        $this->illflushitlater->persist($clone_core_party);
+        $this->illflushitlater->persist($cloneCoreParty);
         $this->illflushitlater->persist($party);
         $this->illflushitlater->flush();
         
-        $extended_party_service->createRemake($party->getSlug(), $clone_core_party);
+        $extendedPartyService->createRemake($party->getSlug(), $cloneCoreParty);
         
-        return $clone_core_party;
+        return $cloneCoreParty;
     }
     
     

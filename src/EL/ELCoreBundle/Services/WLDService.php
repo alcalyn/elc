@@ -27,17 +27,17 @@ class WLDService extends ScoreService
      * 
      * @param Player            $player
      * @param Game|GameVariant  $game
-     * @param integer           $wld_value WLD::WIN, WLD::LOSS or WLD::DRAW
+     * @param integer           $wldValue WLD::WIN, WLD::LOSS or WLD::DRAW
      * @param Party             $party
      * 
      * @return Score score data just updated of $player
      * 
-     * @throws ELCoreException if $wld_value not WLD::WIN, WLD::LOSS or WLD::DRAW
+     * @throws ELCoreException if $wldValue not WLD::WIN, WLD::LOSS or WLD::DRAW
      */
-    public function update(Player $player, $game, $wld_value, Party $party = null)
+    public function update(Player $player, $game, $wldValue, Party $party = null)
     {
-        if (!in_array($wld_value, array(WLD::WIN, WLD::LOSS, WLD::DRAW))) {
-            throw new ELCoreException('$wld_value must be WLD::WIN, WLD::LOSS or WLD::DRAW, got "'.$wld_value.'"');
+        if (!in_array($wldValue, array(WLD::WIN, WLD::LOSS, WLD::DRAW))) {
+            throw new ELCoreException('$wldValue must be WLD::WIN, WLD::LOSS or WLD::DRAW, got "'.$wldValue.'"');
         }
         
         /**
@@ -49,7 +49,7 @@ class WLDService extends ScoreService
         /**
          * Increment score data of player
          */
-        switch ($wld_value) {
+        switch ($wldValue) {
             case WLD::WIN:
                 $scoreData->addWin();
                 break;
@@ -71,7 +71,7 @@ class WLDService extends ScoreService
             ->setPlayer($player)
             ->setGameVariant($gameVariant)
             ->setParty($party)
-            ->setValue($wld_value)
+            ->setValue($wldValue)
             ->setDateCreate(new \DateTime())
         ;
         

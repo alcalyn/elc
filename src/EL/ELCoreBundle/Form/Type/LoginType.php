@@ -17,7 +17,7 @@ class LoginType extends AbstractType
                 ->add('password', 'password', array(
                     'attr' => array('class' => 'form-control'),
                 ))
-                ->add('remember_me', 'checkbox', array(
+                ->add('rememberMe', 'checkbox', array(
                     'label'     => 'Remember me on this computer',
                     'required'  => false,
                 ))

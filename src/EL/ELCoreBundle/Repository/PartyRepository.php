@@ -53,7 +53,7 @@ class PartyRepository extends EntityRepository
             left join g.langs gl
             left join gl.lang l
             where l.locale = :locale
-            and _pl.id = :player_id
+            and _pl.id = :playerId
             and p.state in (
                 :state_preparation,
                 :state_starting,
@@ -62,7 +62,7 @@ class PartyRepository extends EntityRepository
             order by s.position
         ')->setParameters(array(
             'locale'            => $locale,
-            'player_id'         => $player->getId(),
+            'playerId'         => $player->getId(),
             'state_preparation' => Party::PREPARATION,
             'state_starting'    => Party::STARTING,
             'state_active'      => Party::ACTIVE,

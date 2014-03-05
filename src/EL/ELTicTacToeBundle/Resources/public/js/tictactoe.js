@@ -13,7 +13,7 @@ var tictactoe = {
      * 
      * @var integer
      */
-    current_player: 1,
+    currentPlayer: 1,
     
     /**
      * Thread from setInterval for refreshing grid
@@ -62,12 +62,12 @@ var tictactoe = {
      */
     caseClicked: function (line, col)
     {
-        if (jsContext.core_party.slots[tictactoe.current_player].player.id !== jsContext.player.id) {
+        if (jsContext.coreParty.slots[tictactoe.currentPlayer].player.id !== jsContext.player.id) {
             alert('Not your turn');
             return false;
         }
         
-        tictactoe.set(line, col, tictactoe.current_player === 1 ? 'X' : 'O');
+        tictactoe.set(line, col, tictactoe.currentPlayer === 1 ? 'X' : 'O');
         tictactoe.tick(line, col);
         tictactoe.changeCurrentPlayer();
         return true;
@@ -274,7 +274,7 @@ var tictactoe = {
      */
     changeCurrentPlayer: function ()
     {
-        tictactoe.current_player = 3 - tictactoe.current_player;
+        tictactoe.currentPlayer = 3 - tictactoe.currentPlayer;
     },
     
     /**
@@ -311,7 +311,7 @@ var tictactoe = {
      */
     refresh: function ()
     {
-        phax.action('tictactoe', 'refresh', {extended_party_id: jsContext.extended_party.id});
+        phax.action('tictactoe', 'refresh', {extendedPartyId: jsContext.extendedParty.id});
     },
     
     /**
@@ -323,7 +323,7 @@ var tictactoe = {
     refreshReaction: function (r)
     {
         tictactoe.setGrid(r.party.grid);
-        tictactoe.current_player = r.party.current_player;
+        tictactoe.currentPlayer = r.party.currentPlayer;
         
         if (tictactoe.waitingForNextGrid) {
             if (null === r.winner) {
@@ -355,8 +355,8 @@ var tictactoe = {
     {
         var data = {
             locale:             jsContext.locale,
-            party_slug:         jsContext.core_party.slug,
-            extended_party_id:  jsContext.extended_party.id,
+            party_slug:         jsContext.coreParty.slug,
+            extendedPartyId:    jsContext.extendedParty.id,
             coords: {
                 line: line,
                 col: col

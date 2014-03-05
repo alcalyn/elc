@@ -12,19 +12,19 @@ class OptionsType extends AbstractType
     /**
      * @var AbstractType
      */
-    private $extendedPartyType;
+    private $extendedOptionsType;
     
     
-    public function __construct(AbstractType $extendedPartyType)
+    public function __construct(AbstractType $extendedOptionsType)
     {
-        $this->extendedPartyType = $extendedPartyType;
+        $this->extendedOptionsType = $extendedOptionsType;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
                 ->add('coreParty', new CorePartyType())
-                ->add('extendedOptions', $this->extendedPartyType)
+                ->add('extendedOptions', $this->extendedOptionsType)
                 ->add('createGame', 'submit')
         ;
     }

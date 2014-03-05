@@ -24,17 +24,17 @@ class PhaxController extends Controller
         $controller = $params['phax_metadata']['controller'];
         $action     = $params['phax_metadata']['action'];
         
-        $phax_action = new PhaxAction($controller, $action, $params);
-        $phax_action
+        $phaxAction = new PhaxAction($controller, $action, $params);
+        $phaxAction
                 ->setRequest($request)
                 ->setIsCli(false)
         ;
         
-        $phax_reaction = $this
+        $phaxReaction = $this
                 ->get('phax_core')
-                ->action($phax_action)
+                ->action($phaxAction)
         ;
 
-        return new PhaxResponse($phax_reaction);
+        return new PhaxResponse($phaxReaction);
     }
 }

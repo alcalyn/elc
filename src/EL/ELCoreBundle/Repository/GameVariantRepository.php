@@ -14,17 +14,17 @@ use EL\ELCoreBundle\Entity\GameVariant;
  */
 class GameVariantRepository extends EntityRepository
 {
-    public function get(Game $game, $variant_name)
+    public function get(Game $game, $variantName)
     {
         return $this->_em->createQuery('
             select gv
             from ELCoreBundle:GameVariant gv
             left join gv.game g
-            where g.id = :game_id
-            and gv.name = :variant_name
+            where g.id = :gameId
+            and gv.name = :variantName
         ')->setParameters(array(
-            'game_id'       => $game->getId(),
-            'variant_name'  => $variant_name,
+            'gameId'       => $game->getId(),
+            'variantName'  => $variantName,
         ))
         ->getOneOrNullResult();
     }

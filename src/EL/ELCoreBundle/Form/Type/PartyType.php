@@ -18,11 +18,11 @@ class PartyType extends AbstractType
                 'label'     => 'private.only.invitation',
                 'required'  => false,
             ))
-            ->add('disallow_observers', 'checkbox', array(
+            ->add('disallowObservers', 'checkbox', array(
                 'label'     => 'disallow.observers',
                 'required'  => false,
             ))
-            ->add('disallow_chat', 'checkbox', array(
+            ->add('disallowChat', 'checkbox', array(
                 'label'     => 'disallow.chat',
                 'required'  => false,
             ))

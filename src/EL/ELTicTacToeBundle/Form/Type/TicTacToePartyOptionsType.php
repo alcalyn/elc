@@ -14,7 +14,13 @@ class TicTacToePartyOptionsType extends AbstractType
         $builder
             ->add('numberOfParties', 'choice', array(
                 'label'     => 'number.of.parties',
-                'choices'   => array(1, 2, 3, 4, 5),
+                'choices'   => array(
+                    1 => 1,
+                    2 => 2,
+                    3 => 3,
+                    4 => 4,
+                    5 => 5,
+                ),
             ))
             ->add('victoryCondition', 'choice', array(
                 'label'     => 'victorycondition',

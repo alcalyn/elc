@@ -11,14 +11,14 @@ class SlotController extends Controller
 {
     
     
-    public function refreshAction(PhaxAction $phax_action)
+    public function refreshAction(PhaxAction $phaxAction)
     {
-        $slug_party = $phax_action->slug_party;
-        $_locale    = $phax_action->getLocale();
+        $slugParty  = $phaxAction->slugParty;
+        $_locale    = $phaxAction->getLocale();
         
         $party = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $_locale)
+                ->setPartyBySlug($slugParty, $_locale)
                 ->getParty()
         ;
         
@@ -35,69 +35,69 @@ class SlotController extends Controller
     }
     
     
-    public function openAction(PhaxAction $phax_action)
+    public function openAction(PhaxAction $phaxAction)
     {
-        $slug_party = $phax_action->slug_party;
-        $_locale    = $phax_action->getLocale();
-        $slot_index = $phax_action->slot_index;
-        $slot_open  = $phax_action->slot_open === 'true';
-        
-        $party_service = $this
-                ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $_locale)
-                ->openSlot($slot_index, $slot_open)
-        ;
-        
-        return $this->refreshAction($phax_action);
-    }
-    
-    
-    public function ajaxJoinAction(PhaxAction $phax_action)
-    {
-        $slug_party = $phax_action->slug_party;
-        $_locale    = $phax_action->getLocale();
-        $slot_index = isset($phax_action->slot_index) ? intval($phax_action->slot_index) : -1 ;
+        $slugParty  = $phaxAction->slugParty;
+        $_locale    = $phaxAction->getLocale();
+        $slotIndex  = $phaxAction->slotIndex;
+        $slotOpen   = $phaxAction->slotOpen === 'true';
         
         $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $_locale)
-                ->join(null, $slot_index)
+                ->setPartyBySlug($slugParty, $_locale)
+                ->openSlot($slotIndex, $slotOpen)
         ;
         
-        return $this->refreshAction($phax_action);
+        return $this->refreshAction($phaxAction);
     }
     
     
-    public function banAction(PhaxAction $phax_action)
+    public function ajaxJoinAction(PhaxAction $phaxAction)
     {
-        $slug_party = $phax_action->slug_party;
-        $_locale    = $phax_action->getLocale();
-        $player_id  = $phax_action->player_id;
+        $slugParty  = $phaxAction->slugParty;
+        $_locale    = $phaxAction->getLocale();
+        $slotIndex  = isset($phaxAction->slotIndex) ? intval($phaxAction->slotIndex) : -1 ;
         
-        $party_service = $this
+        $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $_locale)
+                ->setPartyBySlug($slugParty, $_locale)
+                ->join(null, $slotIndex)
         ;
         
-        $ok = $party_service->ban($player_id);
-        
-        return $this->refreshAction($phax_action);
+        return $this->refreshAction($phaxAction);
     }
     
     
-    public function reorderAction(PhaxAction $phax_action)
+    public function banAction(PhaxAction $phaxAction)
     {
-        $slug_party = $phax_action->slug_party;
-        $_locale    = $phax_action->getLocale();
-        $indexes    = $phax_action->new_order;
+        $slugParty  = $phaxAction->slugParty;
+        $_locale    = $phaxAction->getLocale();
+        $playerId   = $phaxAction->playerId;
         
-        $party_service = $this
+        $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slug_party, $_locale)
+                ->setPartyBySlug($slugParty, $_locale)
         ;
         
-        $party_service->reorderSlots($indexes);
+        $ok = $partyService->ban($playerId);
         
-        return $this->refreshAction($phax_action);
+        return $this->refreshAction($phaxAction);
+    }
+    
+    
+    public function reorderAction(PhaxAction $phaxAction)
+    {
+        $slugParty  = $phaxAction->slugParty;
+        $_locale    = $phaxAction->getLocale();
+        $indexes    = $phaxAction->newOrder;
+        
+        $partyService = $this
+                ->get('el_core.party')
+                ->setPartyBySlug($slugParty, $_locale)
+        ;
+        
+        $partyService->reorderSlots($indexes);
+        
+        return $this->refreshAction($phaxAction);
     }
 }

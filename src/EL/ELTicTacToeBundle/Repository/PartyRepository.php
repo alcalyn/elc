@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class PartyRepository extends EntityRepository
 {
-    public function findOneByCoreParty($core_party)
+    public function findOneByCoreParty($coreParty)
     {
         $query = $this->_em->createQuery('
             select p, cp
@@ -21,28 +21,28 @@ class PartyRepository extends EntityRepository
             where cp.id = :core_party_id
         ')
         ->setParameters(array(
-            'core_party_id' => $core_party->getId(),
+            'core_party_id' => $coreParty->getId(),
         ));
         
         return $query->getSingleResult();
     }
     
-    public function findOneBySlugParty($slug_party)
+    public function findOneBySlugParty($slugParty)
     {
         $query = $this->_em->createQuery('
             select p, cp
             from ELTicTacToeBundle:Party p
             join p.party cp
-            where cp.slug = :core_party_slug
+            where cp.slug = :corePartySlug
         ')
         ->setParameters(array(
-            'core_party_slug' => $slug_party,
+            'corePartySlug' => $slugParty,
         ));
         
         return $query->getSingleResult();
     }
     
-    public function findOneByExtendedPartyId($extended_party_id)
+    public function findOneByExtendedPartyId($extendedPartyId)
     {
         $query = $this->_em->createQuery('
             select p, cp, s, pl
@@ -50,10 +50,10 @@ class PartyRepository extends EntityRepository
             left join p.party cp
             left join cp.slots s
             left join s.player pl
-            where p.id = :extended_party_id
+            where p.id = :extendedPartyId
         ')
         ->setParameters(array(
-            'extended_party_id' => $extended_party_id,
+            'extendedPartyId' => $extendedPartyId,
         ));
         
         return $query->getSingleResult();

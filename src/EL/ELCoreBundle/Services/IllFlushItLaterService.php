@@ -23,8 +23,8 @@ class IllFlushItLaterService
      */
     private $illdoitlater;
     
-    private $persist_entities;
-    private $merge_entities;
+    private $persistEntities;
+    private $mergeEntities;
     
     
     public function __construct(EntityManager $em, IllDoItLaterService $illdoitlater)
@@ -43,7 +43,7 @@ class IllFlushItLaterService
     public function persist($entity)
     {
         if ($this->illdoitlater->isEnabled()) {
-            $this->persist_entities []= $entity;
+            $this->persistEntities []= $entity;
         } else {
             $this->em->persist($entity);
         }
@@ -55,7 +55,7 @@ class IllFlushItLaterService
     public function merge($entity)
     {
         if ($this->illdoitlater->isEnabled()) {
-            $this->merge_entities []= $entity;
+            $this->mergeEntities []= $entity;
         } else {
             $this->em->merge($entity);
         }
@@ -75,8 +75,8 @@ class IllFlushItLaterService
     
     public function clear()
     {
-        $this->persist_entities = array();
-        $this->merge_entities   = array();
+        $this->persistEntities = array();
+        $this->mergeEntities   = array();
         return $this;
     }
     
@@ -96,11 +96,11 @@ class IllFlushItLaterService
     public function flushNow()
     {
         if ($this->illdoitlater->isEnabled() && $this->getEntitiesCount() > 0) {
-            foreach ($this->persist_entities as $entity) {
+            foreach ($this->persistEntities as $entity) {
                 $this->em->persist($entity);
             }
 
-            foreach ($this->merge_entities as $entity) {
+            foreach ($this->mergeEntities as $entity) {
                 $this->em->merge($entity);
             }
             
@@ -116,7 +116,7 @@ class IllFlushItLaterService
     public function getEntitiesCount()
     {
         return
-            count($this->persist_entities) +
-            count($this->merge_entities);
+            count($this->persistEntities) +
+            count($this->mergeEntities);
     }
 }

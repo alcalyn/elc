@@ -32,14 +32,14 @@ interface ELGameInterface
      * 
      * @return boolean
      */
-    public function saveOptions(CoreParty $core_party, $options);
+    public function saveOptions(CoreParty $coreParty, $options);
     
     /**
      * Retreive options from core party
      * 
      * @return boolean
      */
-    public function loadOptions(CoreParty $core_party);
+    public function loadOptions(CoreParty $coreParty);
     
     /**
      * Return a default slots configuration
@@ -56,7 +56,7 @@ interface ELGameInterface
      * 
      * @return stdClass
      */
-    public function loadParty($slug_party);
+    public function loadParty($slugParty);
     
     /**
      * Can define customs rules to start party.
@@ -64,21 +64,21 @@ interface ELGameInterface
      * 
      * @return mixed true or ELUserException
      */
-    public function canStart(PartyService $party_service);
+    public function canStart(PartyService $partyService);
     
     /**
      * Controller of active party screen
      * 
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function activeAction($_locale, PartyService $party_service);
+    public function activeAction($_locale, PartyService $partyService);
     
     /**
      * Controller of ended party screen (scores)
      * 
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function endedAction($_locale, PartyService $party_service);
+    public function endedAction($_locale, PartyService $partyService);
     
     /**
      * Return short message which will be displayed
@@ -90,22 +90,22 @@ interface ELGameInterface
      * 
      * @return string
      */
-    public function getCurrentDescription($_locale, PartyService $party_service);
+    public function getCurrentDescription($_locale, PartyService $partyService);
     
     /**
      * Return boolean if it is my turn to play
      * 
      * @return boolean
      */
-    public function isMyTurn(PartyService $party_service);
+    public function isMyTurn(PartyService $partyService);
     
     /**
      * Return a clone of extended party.
      * Used when someone remake a party.
      * 
-     * @param $slug_party to clone
-     * @param $clone_core_party just cloned
+     * @param $slugParty to clone
+     * @param $corePartyClone just cloned
      * @return void nothing interesting
      */
-    public function createRemake($slug_party, CoreParty $clone_core_party);
+    public function createRemake($slugParty, CoreParty $corePartyClone);
 }

@@ -3,21 +3,21 @@
         <h3 class="widget-title"><span class="glyphicon glyphicon-tower"></span> {{ 'my.current.parties'|trans }}</h3>
     </div>
     <div class="widget-body">
-        {% if current_parties|length == 0 %}
+        {% if currentParties|length == 0 %}
             {{ 'no.current.parties'|trans }}
         {% else %}
             <form action="#" class="form-inline">
                 <select name="filter-game" class="form-control smaller">
                     <option value="-1">{{ 'all.games'|trans }}</option>
-                        {% for game_id, game_title in games_list %}
-                            <option value="{{ game_id }}">{{ game_title }}</option>
+                        {% for gameId, gameTitle in gamesList %}
+                            <option value="{{ gameId }}">{{ gameTitle }}</option>
                         {% endfor %}
                 </select>
                 <label><input type="checkbox" name="my-turn" /> {{ 'my.turn'|trans }}</label>
             </form>
             <div class="list-group-container scrollin">
                 <div class="list-group">
-                    {% for current_party in current_parties %}
+                    {% for currentParty in currentParties %}
                         {% include 'ELCoreBundle:Widget/MyParties:my-parties-list-item.html.twig' %}
                     {% endfor %}
                 </div>

@@ -31,7 +31,7 @@ class Login
      *
      * @var boolean 
      */
-    private $remember_me;
+    private $rememberMe;
     
     
     
@@ -47,7 +47,7 @@ class Login
 
     public function getRememberMe()
     {
-        return $this->remember_me;
+        return $this->rememberMe;
     }
 
     
@@ -63,9 +63,9 @@ class Login
         return $this;
     }
 
-    public function setRememberMe($remember_me)
+    public function setRememberMe($rememberMe)
     {
-        $this->remember_me = $remember_me;
+        $this->rememberMe = $rememberMe;
         return $this;
     }
 }

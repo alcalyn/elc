@@ -116,7 +116,7 @@ class Party implements \JsonSerializable
      * 
      * @ORM\Column(name="disallow_chat", type="boolean")
      */
-    private $disallow_chat;
+    private $disallowChat;
     
     /**
      * @var boolean
@@ -125,7 +125,7 @@ class Party implements \JsonSerializable
      * 
      * @ORM\Column(name="disallow_observers", type="boolean")
      */
-    private $disallow_observers;
+    private $disallowObservers;
     
     /**
      * Contains party which is the clone of this
@@ -141,21 +141,21 @@ class Party implements \JsonSerializable
      *
      * @ORM\Column(name="date_create", type="datetime")
      */
-    private $date_create;
+    private $dateCreate;
     
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_started", type="datetime", nullable=true)
      */
-    private $date_started;
+    private $dateStarted;
     
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_ended", type="datetime", nullable=true)
      */
-    private $date_ended;
+    private $dateEnded;
     
     
     
@@ -297,118 +297,118 @@ class Party implements \JsonSerializable
     }
 
     /**
-     * Set disallow_chat
+     * Set disallowChat
      *
      * @param boolean $disallowChat
      * @return Party
      */
     public function setDisallowChat($disallowChat)
     {
-        $this->disallow_chat = $disallowChat;
+        $this->disallowChat = $disallowChat;
     
         return $this;
     }
 
     /**
-     * Get disallow_chat
+     * Get disallowChat
      *
      * @return boolean 
      */
     public function getDisallowChat()
     {
-        return $this->disallow_chat;
+        return $this->disallowChat;
     }
 
     /**
-     * Set disallow_observers
+     * Set disallowObservers
      *
      * @param boolean $disallowObservers
      * @return Party
      */
     public function setDisallowObservers($disallowObservers)
     {
-        $this->disallow_observers = $disallowObservers;
+        $this->disallowObservers = $disallowObservers;
     
         return $this;
     }
 
     /**
-     * Get disallow_observers
+     * Get disallowObservers
      *
      * @return boolean 
      */
     public function getDisallowObservers()
     {
-        return $this->disallow_observers;
+        return $this->disallowObservers;
     }
 
     /**
-     * Set date_create
+     * Set dateCreate
      *
      * @param \DateTime $dateCreate
      * @return Party
      */
     public function setDateCreate($dateCreate)
     {
-        $this->date_create = $dateCreate;
+        $this->dateCreate = $dateCreate;
     
         return $this;
     }
 
     /**
-     * Get date_create
+     * Get dateCreate
      *
      * @return \DateTime 
      */
     public function getDateCreate()
     {
-        return $this->date_create;
+        return $this->dateCreate;
     }
 
     /**
-     * Set date_started
+     * Set dateStarted
      *
      * @param \DateTime $dateStarted
      * @return Party
      */
     public function setDateStarted($dateStarted)
     {
-        $this->date_started = $dateStarted;
+        $this->dateStarted = $dateStarted;
     
         return $this;
     }
 
     /**
-     * Get date_started
+     * Get dateStarted
      *
      * @return \DateTime 
      */
     public function getDateStarted()
     {
-        return $this->date_started;
+        return $this->dateStarted;
     }
 
     /**
-     * Set date_ended
+     * Set dateEnded
      *
      * @param \DateTime $dateEnded
      * @return Party
      */
     public function setDateEnded($dateEnded)
     {
-        $this->date_ended = $dateEnded;
+        $this->dateEnded = $dateEnded;
     
         return $this;
     }
 
     /**
-     * Get date_ended
+     * Get dateEnded
      *
      * @return \DateTime 
      */
     public function getDateEnded()
     {
-        return $this->date_ended;
+        return $this->dateEnded;
     }
 
     /**
@@ -529,8 +529,8 @@ class Party implements \JsonSerializable
         return array(
             'id'                    => $this->getId(),
             'slug'                  => $this->getSlug(),
-            'disallow_chat'         => $this->getDisallowChat(),
-            'disallow_observers'    => $this->getDisallowObservers(),
+            'disallowChat'         => $this->getDisallowChat(),
+            'disallowObservers'    => $this->getDisallowObservers(),
             'title'                 => $this->getTitle(),
             'state'                 => $this->getState(),
             'private'               => $this->getPrivate(),
@@ -538,9 +538,9 @@ class Party implements \JsonSerializable
             'host'                  => is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
             'game'                  => $this->getGame()->jsonSerialize(),
             'slots'                 => $slots,
-            'date_create'           => $this->getDateCreate(),
-            'date_started'          => $this->getDateStarted(),
-            'date_ended'            => $this->getDateEnded(),
+            'dateCreate'           => $this->getDateCreate(),
+            'dateStarted'          => $this->getDateStarted(),
+            'dateEnded'            => $this->getDateEnded(),
         );
     }
     
@@ -557,10 +557,10 @@ class Party implements \JsonSerializable
         $clone->title               = $this->title;
         $clone->private             = $this->private;
         $clone->room                = $this->room;
-        $clone->disallow_chat       = $this->disallow_chat;
-        $clone->disallow_observers  = $this->disallow_observers;
+        $clone->disallowChat       = $this->disallowChat;
+        $clone->disallowObservers  = $this->disallowObservers;
         $clone->state               = self::PREPARATION;
-        $clone->date_create         = new \DateTime();
+        $clone->dateCreate         = new \DateTime();
         
         return $clone;
     }

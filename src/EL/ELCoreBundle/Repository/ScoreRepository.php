@@ -21,11 +21,11 @@ class ScoreRepository extends EntityRepository
             from ELCoreBundle:Score s
             left join s.player p
             left join s.gameVariant gv
-            where p.id = :player_id
-            and gv.id = :game_variant_id
+            where p.id = :playerId
+            and gv.id = :gameVariantId
         ')->setParameters(array(
-            'player_id'         => $player->getId(),
-            'game_variant_id'   => $gameVariant->getId(),
+            'playerId'         => $player->getId(),
+            'gameVariantId'   => $gameVariant->getId(),
         ))->getOneOrNullResult();
     }
 }

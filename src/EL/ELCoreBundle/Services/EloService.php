@@ -130,9 +130,9 @@ class EloService extends ScoreService
         /**
          * Increase reliabilities
          */
-        $reliability_gain = 1 / Elo::PARTY_RELIABILITY;
-        $eloReliability0 += $reliability_gain;
-        $eloReliability1 += $reliability_gain;
+        $reliabilityGain = 1 / Elo::PARTY_RELIABILITY;
+        $eloReliability0 += $reliabilityGain;
+        $eloReliability1 += $reliabilityGain;
         
         /**
          * Update scores data

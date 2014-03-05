@@ -70,21 +70,21 @@ class ActionCommand extends ContainerAwareCommand
             }
         }
         
-        $phax_action = new PhaxAction($controller, $action, $params);
-        $phax_action
+        $phaxAction = new PhaxAction($controller, $action, $params);
+        $phaxAction
                 ->setIsCli(true)
         ;
         
-        $phax_reaction = $this
+        $phaxReaction = $this
                 ->getContainer()
                 ->get('phax_core')
-                ->action($phax_action)
+                ->action($phaxAction)
         ;
 
-        if ($phax_reaction->hasMetaMessage()) {
-            $output->writeln($phax_reaction->getMetaMessage());
+        if ($phaxReaction->hasMetaMessage()) {
+            $output->writeln($phaxReaction->getMetaMessage());
         } else {
-            $output->writeln(json_encode($phax_reaction->jsonSerialize()));
+            $output->writeln(json_encode($phaxReaction->jsonSerialize()));
         }
     }
 }

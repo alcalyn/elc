@@ -22,7 +22,7 @@ class GameService
      * 
      * @var ELAbstractGame\Model\ELGameInterface
      */
-    private $extended_game = null;
+    private $extendedGame = null;
     
     
     
@@ -41,7 +41,7 @@ class GameService
         $this->game = $game;
         
         if (!is_null($container)) {
-            $this->extended_game = $container->get($this->getGameServiceName());
+            $this->extendedGame = $container->get($this->getGameServiceName());
         }
         
         return $this;
@@ -81,7 +81,7 @@ class GameService
     public function getExtendedGame()
     {
         $this->needExtendedGame();
-        return $this->extended_game;
+        return $this->extendedGame;
     }
     
     
@@ -108,7 +108,7 @@ class GameService
     
     protected function needExtendedGame()
     {
-        if (is_null($this->extended_game)) {
+        if (is_null($this->extendedGame)) {
             throw new \Exception('GameService : extended game must be defined by calling setGame');
         }
     }

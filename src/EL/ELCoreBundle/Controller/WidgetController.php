@@ -9,9 +9,9 @@ class WidgetController extends Controller
     public function myPartiesAction($_locale)
     {
         $em             = $this->getDoctrine()->getManager();
-        $parties_list   = array();
-        $games_list     = array();
-        $party_service  = $this->get('el_core.party');
+        $partiesList    = array();
+        $gamesList      = array();
+        $partyService   = $this->get('el_core.party');
         
         $parties = $em
                 ->getRepository('ELCoreBundle:Party')
@@ -19,29 +19,29 @@ class WidgetController extends Controller
         ;
 
         foreach ($parties as $party) {
-            $party_service->setParty($party, $this->container);
+            $partyService->setParty($party, $this->container);
 
             $game                       = $party->getGame();
-            $games_list[$game->getId()] = $game->getTitle();
-            $extended_game              = $party_service->getExtendedGame();
-            $party_description          = $extended_game->getCurrentDescription($_locale, $party_service);
-            $my_turn                    = $extended_game->isMyTurn($party_service);
+            $gamesList[$game->getId()]  = $game->getTitle();
+            $extendedGame               = $partyService->getExtendedGame();
+            $partyDescription           = $extendedGame->getCurrentDescription($_locale, $partyService);
+            $myTurn                     = $extendedGame->isMyTurn($partyService);
 
-            $parties_list []= array(
+            $partiesList []= array(
                 'game'          => $game,
                 'party'         => $party,
-                'description'   => $party_description,
-                'my_turn'       => $my_turn,
+                'description'   => $partyDescription,
+                'myTurn'       => $myTurn,
                 'link'          => $this->generateUrl('elcore_party', array(
-                    'slug_game'     => $game->getSlug(),
-                    'slug_party'    => $party->getSlug(),
+                    'slugGame'     => $game->getSlug(),
+                    'slugParty'    => $party->getSlug(),
                 )),
             );
         }
 
         return $this->get('phax')->render('ELCoreBundle:Widget/MyParties:my-parties.html.twig', array(
-            'current_parties'   => $parties_list,
-            'games_list'        => $games_list,
+            'currentParties'   => $partiesList,
+            'gamesList'        => $gamesList,
         ));
     }
 }

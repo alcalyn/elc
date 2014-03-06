@@ -1,7 +1,3 @@
-phax_surf:
-    resource: "@PhaxSurfBundle/Resources/config/routing.yml"
-    prefix:   /
-
 el_abstract_game:
     resource: "@AbstractGameBundle/Resources/config/routing.yml"
     prefix:   /

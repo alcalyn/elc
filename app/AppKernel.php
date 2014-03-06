@@ -23,7 +23,6 @@ class AppKernel extends Kernel
             new EL\CoreBundle\CoreBundle(),
             new EL\AbstractGameBundle\AbstractGameBundle(),
             new EL\TicTacToeBundle\TicTacToeBundle(),
-            new Phax\SurfBundle\PhaxSurfBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

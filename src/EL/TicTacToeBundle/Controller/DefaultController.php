@@ -10,42 +10,56 @@ use EL\CoreBundle\Entity\Party as CoreParty;
 
 class DefaultController extends ELGameAdapter
 {
-    public function getOptionsType()
+    public function getPartyType()
     {
         return new TicTacToePartyOptionsType();
     }
     
-    public function getOptions()
+    public function createParty()
     {
         return new Party();
     }
     
-    public function saveOptions(CoreParty $coreParty, $options)
+    public function getCreationFormTemplate()
+    {
+        return implode(':', array(
+            'TicTacToeBundle',
+            'Default',
+            'tictactoeCreationForm.html.twig',
+        ));
+    }
+    
+    public function getDisplayOptionsTemplate()
+    {
+        return implode(':', array(
+            'TicTacToeBundle',
+            'Default',
+            'tictactoeOptions.html.twig',
+        ));
+    }
+    
+    public function saveParty(CoreParty $coreParty, $extendedParty)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $options->setParty($coreParty);
+        $extendedParty->setParty($coreParty);
         
-        $em->persist($options);
+        $em->persist($extendedParty);
         $em->flush();
         
         return true;
     }
     
-    public function loadOptions(CoreParty $coreParty)
+    public function loadParty(CoreParty $coreParty)
     {
         $em = $this->getDoctrine()->getManager();
         
         $party = $em
                 ->getRepository('TicTacToeBundle:Party')
-                ->findOneBySlugParty($coreParty->getSlug())
+                ->findOneByCoreParty($coreParty)
         ;
         
-        $options = new Party();
-        
-        $options->setFirstPlayer($party->getFirstPlayer());
-        
-        return $options;
+        return $party;
     }
     
     public function getSlotsConfiguration($options)
@@ -74,17 +88,6 @@ class DefaultController extends ELGameAdapter
         );
     }
     
-    public function loadParty($slugParty)
-    {
-        $em = $this->getDoctrine()->getManager();
-        
-        $party = $em
-                ->getRepository('TicTacToeBundle:Party')
-                ->findOneBySlugParty($slugParty);
-        
-        return $party;
-    }
-    
     public function activeAction($_locale, PartyService $partyService)
     {
         $em = $this->getDoctrine()->getManager();
@@ -111,7 +114,7 @@ class DefaultController extends ELGameAdapter
         }
         
         $coreParty      = $partyService->getParty();
-        $ticTacToeParty = $this->loadParty($coreParty->getSlug());
+        $ticTacToeParty = $this->loadParty($coreParty);
         $turn           = $ticTacToeParty->getCurrentPlayer();
         $partyPlayer    = $coreParty->getSlots()->get($turn)->getPlayer();
         $loggedPlayer   = $this->get('el_core.session')->getPlayer();

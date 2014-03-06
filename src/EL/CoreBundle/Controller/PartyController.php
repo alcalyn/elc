@@ -13,6 +13,7 @@ use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Form\Type\PartyType;
 use EL\CoreBundle\Form\Entity\Options;
 use EL\CoreBundle\Form\Type\OptionsType;
+use EL\CoreBundle\Model\Slug;
 
 class PartyController extends Controller
 {
@@ -33,8 +34,8 @@ class PartyController extends Controller
         $partyService           = $this->get('el_core.party')->setGameBySlug($slug, $_locale, $this->container);
         $extendedGame           = $partyService->getExtendedGame();
         $coreParty              = $partyService->createParty();
-        $extendedOptions        = $extendedGame->getOptions();
-        $extendedOptionsType    = $extendedGame->getOptionsType();
+        $extendedOptions        = $extendedGame->createParty();
+        $extendedOptionsType    = $extendedGame->getPartyType();
         $options                = new Options($coreParty, $extendedOptions);
         $optionsForm            = $this->createForm(new OptionsType($extendedOptionsType), $options);
         
@@ -44,12 +45,15 @@ class PartyController extends Controller
             if ($optionsForm->isValid()) {
                 $partyService->setParty($coreParty);
                 
-                $coreParty->setDateCreate(new \DateTime());
+                $coreParty
+                        ->setDateCreate(new \DateTime())
+                        ->setSlug(Slug::slug($coreParty->getTitle()))
+                ;
                 
                 $em->persist($coreParty);
                 
                 // notify extended game that party has been created with $extendedOptions options
-                $extendedGame->saveOptions($coreParty, $extendedOptions);
+                $extendedGame->saveParty($coreParty, $extendedOptions);
                 
                 // get slots configuration from extended party depending of options
                 $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions);
@@ -67,8 +71,9 @@ class PartyController extends Controller
         }
         
         return $this->render('CoreBundle:Party:creation.html.twig', array(
-            'game'          => $partyService->getGame(),
-            'optionsForm'   => $optionsForm->createView(),
+            'game'                  => $partyService->getGame(),
+            'optionsForm'           => $optionsForm->createView(),
+            'creationFormTemplate'  => $extendedGame->getCreationFormTemplate(),
         ));
     }
     
@@ -83,7 +88,7 @@ class PartyController extends Controller
     {
         $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale);
+                ->setPartyBySlug($slugParty, $_locale, $this->container);
         
         $party = $partyService->getParty();
         
@@ -91,10 +96,11 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty);
         }
         
-        $player     = $this->get('el_core.session')->getPlayer();
-        $canJoin    = true === $partyService->canJoin();
-        $isHost     = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
-        $inParty    = $partyService->inParty();
+        $player         = $this->get('el_core.session')->getPlayer();
+        $canJoin        = true === $partyService->canJoin();
+        $isHost         = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
+        $inParty        = $partyService->inParty();
+        $extendedGame   = $partyService->getExtendedGame();
         
         $this->get('el_core.js_vars')
                 ->initPhaxController('slot')
@@ -116,13 +122,15 @@ class PartyController extends Controller
         ;
         
         return $this->render('CoreBundle:Party:preparation.html.twig', array(
-            'player'        => $player,
-            'coreParty'     => $party,
-            'game'          => $party->getGame(),
-            'slots'         => $party->getSlots(),
-            'inParty'       => $inParty,
-            'canJoin'       => $canJoin,
-            'isHost'        => $isHost,
+            'player'                    => $player,
+            'coreParty'                 => $party,
+            'extendedOptions'           => $extendedGame->loadParty($party),
+            'extendedOptionsTemplate'   => $extendedGame->getDisplayOptionsTemplate(),
+            'game'                      => $party->getGame(),
+            'slots'                     => $party->getSlots(),
+            'inParty'                   => $inParty,
+            'canJoin'                   => $canJoin,
+            'isHost'                    => $isHost,
         ));
     }
     
@@ -267,7 +275,7 @@ class PartyController extends Controller
         $jsVars
             ->initPhaxController('party')
             ->addContext('core-party', $party->jsonSerialize())
-            ->addContext('extended-party', $extendedGame->loadParty($slugParty)->jsonSerialize())
+            ->addContext('extended-party', $extendedGame->loadParty($party)->jsonSerialize())
         ;
         
         return $extendedGame->activeAction($_locale, $partyService);

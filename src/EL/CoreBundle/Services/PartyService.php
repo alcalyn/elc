@@ -560,7 +560,7 @@ class PartyService extends GameService
         $cloneCoreParty->setHost($player);
         $this->addSlug($cloneCoreParty);
         
-        $options                = $extendedPartyService->loadOptions($this->getParty());
+        $options                = $extendedPartyService->loadParty($this->getParty());
         $slotsConfiguration    = $extendedPartyService->getSlotsConfiguration($options);
         
         $this->createSlots($slotsConfiguration, $cloneCoreParty);

@@ -40,6 +40,9 @@ elcore_party_preparation_action: '/jeux/{slugGame}/{slugParty}/preparation/actio
 # Desc: /player/login
 elcore_user_login: /joueur/connexion
 
+# Desc: /player/logout
+elcore_user_logout: /joueur/deconnexion
+
 # Desc: /player/signup
 elcore_user_signup: /joueur/creer-un-compte
 

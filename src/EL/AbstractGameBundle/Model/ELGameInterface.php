@@ -13,15 +13,15 @@ interface ELGameInterface
      * 
      * @return stdClass
      */
-    public function getOptions();
+    public function createParty();
     
     /**
-     * Return a form type which extends base form
+     * Return a form type for party
      * at the creation of a personalized party.
      * 
      * @return AbstractType
      */
-    public function getOptionsType();
+    public function getPartyType();
     
     /**
      * Called then optionsType form has been posted.
@@ -30,16 +30,39 @@ interface ELGameInterface
      * 
      * Return false to refuse options
      * 
-     * @return boolean
-     */
-    public function saveOptions(CoreParty $coreParty, $options);
-    
-    /**
-     * Retreive options from core party
+     * @param CoreParty $coreParty
+     * @param stdClass $extendedParty
      * 
      * @return boolean
      */
-    public function loadOptions(CoreParty $coreParty);
+    public function saveParty(CoreParty $coreParty, $extendedParty);
+    
+    /**
+     * Retreive extended party from core party
+     * Load extended party class,
+     * only extended party configuration and date
+     * (no slots...)
+     * 
+     * @param CoreParty $coreParty
+     * 
+     * @return stdClass
+     */
+    public function loadParty(CoreParty $coreParty);
+    
+    /**
+     * Return a form template for your options
+     * 
+     * @return string template path, such as 'AbstractGameBundle:Adapter:optionsForm.html.twig'
+     */
+    public function getCreationFormTemplate();
+    
+    /**
+     * Return infomations about extended options of current party.
+     * Your options are accessible in twig though variable 'extendedOptions'
+     * 
+     * @return string template path, such as 'AbstractGameBundle:Adapter:displayOptions.html.twig'
+     */
+    public function getDisplayOptionsTemplate();
     
     /**
      * Return a default slots configuration
@@ -48,15 +71,6 @@ interface ELGameInterface
      * @return array
      */
     public function getSlotsConfiguration($options);
-    
-    /**
-     * Load extended party class,
-     * only extended party configuration and date
-     * (no slots...)
-     * 
-     * @return stdClass
-     */
-    public function loadParty($slugParty);
     
     /**
      * Can define customs rules to start party.

@@ -1,7 +1,3 @@
-'%pseudo%':
-    already:
-        taken: 'Le pseudo %pseudo% à déjà été pris'
-
 'Log out': 'Log out'
 'Remember me on this computer': 'Remember me on this computer'
 
@@ -53,15 +49,14 @@ disallow:
 
 draws: Nulles
 elo: Élo
+endafter: 'Terminer le jeu après'
 faq: FAQ
 
 filter:
     by: 'Filtrer par'
 
-first:
-    player: 'Premier joueur'
-
 game:
+    endafter: Le Morpion se terminera après
     name: 'Nom du jeu'
 
 games: Jeux
@@ -99,6 +94,10 @@ no:
     current:
         parties: 'Vous n''avez pas de parties en cours'
 
+number:
+    of:
+        parties: Nombre
+
 observers:
     disallowed: 'Visiteurs désactivés'
 
@@ -112,15 +111,10 @@ parties: Parties
 party:
     title: 'Titre de la partie'
 
-password: 'Mot de passe'
-password.repeat.isnotthesmae: 'Le mot de passe et la répétition doivent être identiques'
-
 play:
     now: 'Jouer maintenant'
 
 player: Joueur
-player.1: 'Joueur 1'
-player.2: 'Joueur 2'
 
 private:
     only:
@@ -128,19 +122,12 @@ private:
 
     party: 'Partie privée'
 
-pseudo: Pseudo
-
 public:
     party: 'Partie publique'
 
-random: Aléatoire
 ranking: Classement
 ready: Prêt
 remake: Recommencer
-
-rememberme:
-    onthiscomputer: 'Se souvenir de moi sur cet ordinateur'
-
 rules: Règles
 
 run:
@@ -155,13 +142,8 @@ slot:
     closed: 'Slot fermé'
     open: 'Slot ouvert'
 
-unableto:
-    create:
-        account: 'Impossible de créer un compte. Erreur inconnue'
+tictactoe:
+    options: 'Options du morpion'
 
+victorycondition: 'Nombre de ...'
 wins: Victoires
-
-you:
-    are:
-        already:
-            logged: 'Vous êtes déjà connécté. Déconnectez vous d''abord'

@@ -15,11 +15,11 @@ class TicTacToePartyOptionsType extends AbstractType
             ->add('numberOfParties', 'choice', array(
                 'label'     => 'number.of.parties',
                 'choices'   => array(
-                    1 => 1,
-                    2 => 2,
-                    3 => 3,
-                    4 => 4,
-                    5 => 5,
+                    1 => /** @Ignore */ 1,
+                    2 => /** @Ignore */ 2,
+                    3 => /** @Ignore */ 3,
+                    4 => /** @Ignore */ 4,
+                    5 => /** @Ignore */ 5,
                 ),
             ))
             ->add('victoryCondition', 'choice', array(

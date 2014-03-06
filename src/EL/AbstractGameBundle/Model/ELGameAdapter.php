@@ -14,7 +14,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function getOptionsType()
+    public function getPartyType()
     {
         return new AdapterOptionsType();
     }
@@ -22,7 +22,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function getOptions()
+    public function createParty()
     {
         // can we delete this and return a new stdClass ?
         return new AdapterOptions();
@@ -31,7 +31,23 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function saveOptions(CoreParty $coreParty, $options)
+    public function getCreationFormTemplate()
+    {
+        return 'AbstractGameBundle:Adapter:optionsForm.html.twig';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayOptionsTemplate()
+    {
+        return 'AbstractGameBundle:Adapter:displayOptions.html.twig';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function saveParty(CoreParty $coreParty, $options)
     {
         return true;
     }
@@ -39,7 +55,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function loadOptions(CoreParty $coreParty)
+    public function loadParty(CoreParty $coreParty)
     {
         return new AdapterOptions();
     }
@@ -79,14 +95,6 @@ class ELGameAdapter extends Controller implements ELGameInterface
                 ),
             ),
         );
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function loadParty($slugParty)
-    {
-        return new stdClass();
     }
     
     /**

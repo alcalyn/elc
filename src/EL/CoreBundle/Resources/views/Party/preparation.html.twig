@@ -26,23 +26,8 @@
 				<h4 class="panel-title">Options de la partie</h4>
 			</div>
 			<div class="panel-body">
-				<p>
-					{% if coreParty.private %}
-						{{ 'private.party'|trans }}
-					{% else %}
-						{{ 'public.party'|trans }}
-					{% endif %}
-				</p>
-				<p>
-					{% if coreParty.disallowChat %}
-						{{ 'chat.disabled'|trans }}
-					{% endif %}
-				</p>
-				<p>
-					{% if coreParty.disallowObservers %}
-						{{ 'observers.disallowed'|trans }}
-					{% endif %}
-				</p>
+				{% include 'CoreBundle:Party:_coreOptions.html.twig' %}
+                {% include extendedOptionsTemplate %}
 			</div>
 		</div>
 	</div>

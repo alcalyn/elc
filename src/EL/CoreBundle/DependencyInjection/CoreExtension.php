@@ -24,5 +24,9 @@ class CoreExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        
+        $aAsseticBundle = $container->getParameter('assetic.bundles');
+        $aAsseticBundle[] = 'CoreBundle';
+        $container->setParameter('assetic.bundles', $aAsseticBundle);
     }
 }

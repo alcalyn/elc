@@ -329,6 +329,10 @@ footer > * {
 .slots .slot {
 	margin-bottom: 12px;
 }
+.slots .slot .btn-default,
+.more-slot .btn-default {
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.30) 0px, rgba(200, 200, 200, 0.00) 100%);
+}
 .slots .slot button.player-pseudo {
 	cursor: move;
 	text-align: left;

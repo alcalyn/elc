@@ -30,10 +30,17 @@
 .grid-value_- {
     cursor: pointer;
 }
-.grid-value_X {
+
+.grid-value_X.grid-even {
     background-color: lightCoral;
 }
-.grid-value_O {
+.grid-value_X.grid-odd {
+    background-color: #F78787;
+}
+.grid-value_O.grid-even {
     background-color: lightBlue;
+}
+.grid-value_O.grid-odd {
+    background-color: #B5E0EE;
 }
 

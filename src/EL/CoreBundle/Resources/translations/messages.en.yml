@@ -1,7 +1,3 @@
-'%pseudo%':
-    already:
-        taken: 'Pseudo %pseudo% is already taken'
-
 'Log out': 'Log out'
 'Remember me on this computer': 'Remember me on this computer'
 
@@ -53,15 +49,14 @@ disallow:
 
 draws: Draws
 elo: Elo
+endafter: 'End game after'
 faq: FAQ
 
 filter:
     by: 'Filter by'
 
-first:
-    player: 'First player'
-
 game:
+    endafter: Tic Tac Toe will terminate after
     name: 'Game name'
 
 games: Games
@@ -99,6 +94,10 @@ no:
     current:
         parties: 'You have no current games'
 
+number:
+    of:
+        parties: Number
+
 observers:
     disallowed: 'Observers disallowed'
 
@@ -112,15 +111,10 @@ parties: Games
 party:
     title: 'Party Title'
 
-password: Password
-password.repeat.isnotthesmae: 'Password and repeat are not the same'
-
 play:
     now: 'Play now'
 
 player: Player
-player.1: 'Player 1'
-player.2: 'Player 2'
 
 private:
     only:
@@ -128,19 +122,12 @@ private:
 
     party: 'Private party'
 
-pseudo: Pseudo
-
 public:
     party: 'Public party'
 
-random: Random
 ranking: Ranking
 ready: Ready
 remake: Remake
-
-rememberme:
-    onthiscomputer: 'Remember me on this computer'
-
 rules: Rules
 
 run:
@@ -155,13 +142,8 @@ slot:
     closed: 'Slot closed'
     open: 'Slot open'
 
-unableto:
-    create:
-        account: 'Unable to create account'
+tictactoe:
+    options: 'Tic Tac Toe options'
 
+victorycondition: 'Number of ...'
 wins: Wins
-
-you:
-    are:
-        already:
-            logged: 'You are already logged. Log out first'

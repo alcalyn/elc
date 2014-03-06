@@ -4,12 +4,25 @@
 		<title>{% block title %}Electron Libre{% endblock %}</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/elcore/bootstrap/css/bootstrap.min.css') }}" media="screen" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/elcore/css/style.css') }}" />
+        
+        {% stylesheets
+            '@CoreBundle/Resources/public/bootstrap/css/*'
+            '@CoreBundle/Resources/public/css/*'
+            '@TicTacToeBundle/Resources/public/css/*'
+
+            filter='cssrewrite'
+        %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        
         
 		<!--[if IE 6]>
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/elcore/css/iecss.css') }}" />
+        {% stylesheets
+            '@CoreBundle/Resources/public/css/iecss.css'
+            filter='cssrewrite'
+        %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
 		<![endif]-->
 		
         {% block htmlhead %}
@@ -238,7 +251,11 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<p class="text-center">© Electron Libre 2013-2014 - <a href="#">{{ 'contacts'|trans }}</a></p>
+								<p class="text-center">
+                                    © Electron Libre 2013-2014 -
+                                    <a href="#">{{ 'contacts'|trans }}</a> -
+                                    <a href="http://glyphicons.com/">Thanks to Glyphicons</a>
+                                </p>
 							</div>
 						</div>
 					</footer>
@@ -262,7 +279,8 @@
         {% javascripts
 		    '@CoreBundle/Resources/public/js/*'
 		    '@CoreBundle/Resources/public/bootstrap/js/bootstrap.min.js'
-		    '@PhaxCoreBundle/Resources/public/js/*' %}
+		    '@PhaxCoreBundle/Resources/public/js/*'
+        %}
 		        <script src="{{ asset_url }}" type="text/javascript"></script>
 		{% endjavascripts %}
 		

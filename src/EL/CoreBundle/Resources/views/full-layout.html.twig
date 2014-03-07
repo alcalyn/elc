@@ -9,11 +9,19 @@
             '@CoreBundle/Resources/public/bootstrap/css/*'
             '@CoreBundle/Resources/public/css/*'
             '@TicTacToeBundle/Resources/public/css/*'
-
-            filter='cssrewrite'
         %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
         {% endstylesheets %}
+        
+        {# stylesheets #}
+        {% stylesheets
+            output='fonts/glyphicons-halflings-regular.ttf'
+            'bundles/core/bootstrap/fonts/glyphicons-halflings-regular.ttf'
+        %}{% endstylesheets %}
+        {% stylesheets
+            output='fonts/glyphicons-halflings-regular.woff'
+            'bundles/core/bootstrap/fonts/glyphicons-halflings-regular.woff'
+        %}{% endstylesheets %}
         
         
 		<!--[if IE 6]>

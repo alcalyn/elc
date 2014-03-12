@@ -3,6 +3,9 @@
 namespace EL\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use EL\CoreBundle\Entity\Game;
+use EL\CoreBundle\Entity\GameVariant;
+use EL\CoreBundle\Entity\Player;
 
 /**
  * GameRepository
@@ -12,19 +15,39 @@ use Doctrine\ORM\EntityRepository;
  */
 class GameRepository extends EntityRepository
 {
-    public function findAllByLang($locale)
+    /**
+     * Returns all games in a locale.
+     * If Player is provided, returns also its score data
+     * 
+     * @param string $locale
+     * @param \EL\CoreBundle\Entity\Player $player
+     * @return type
+     */
+    public function findAllByLang($locale, Player $player = null)
     {
-        $query = $this->_em->createQuery('
-                select g, gl
-                from CoreBundle:Game g
-                join g.langs gl
-                join gl.lang l
-                where  l.locale = :locale
-        ')->setParameters(array(
-            'locale'    => $locale,
-        ));
+        $query = $this->_em->createQueryBuilder()
+                ->select('g, gl')
+                ->from('CoreBundle:Game', 'g')
+                ->leftJoin('g.langs', 'gl')
+                ->leftJoin('gl.lang', 'l')
+                ->where('l.locale = :locale')
+                ->setParameter('locale', $locale)
+        ;
         
-        return $query->getResult();
+        if (null !== $player) {
+            $query
+                    ->addSelect('s, gv, p')
+                    ->leftJoin('g.gameVariants', 'gv')
+                    ->leftJoin('gv.scores', 's')
+                    ->leftJoin('s.player', 'p')
+                    ->andWhere('(p.id = :playerId or p.id is null)')
+                    ->andWhere('(gv.name = :defaultVariantName or gv.name is null)')
+                    ->setParameter(':defaultVariantName', GameVariant::DEFAULT_NAME)
+                    ->setParameter(':playerId', $player->getId())
+            ;
+        }
+        
+        return $query->getQuery()->getResult();
     }
     
     
@@ -33,9 +56,9 @@ class GameRepository extends EntityRepository
         $query = $this->_em->createQuery('
                 select g, gl
                 from CoreBundle:Game g
-                join g.langs gl
-                join gl.lang l
-                where  l.locale = :locale
+                left join g.langs gl
+                left join gl.lang l
+                where l.locale = :locale
                 and gl.slug = :slug
         ')->setParameters(array(
             'locale'    => $locale,

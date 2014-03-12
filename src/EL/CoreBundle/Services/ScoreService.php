@@ -108,6 +108,28 @@ class ScoreService
         return $score;
     }
     
+    public function getRanking($game, $offset = 0, $length = -1)
+    {
+        $gameVariant = $this->asGameVariant($game);
+        
+        $orderRaw   = explode(',', $gameVariant->getGame()->getRankingOrder());
+        $order      = array();
+        
+        foreach ($orderRaw as $data) {
+            $tokens = explode(':', $data);
+            
+            $field      = $tokens[0];
+            $direction  = (isset($tokens[1]) && ('d' === $tokens[1])) ? 'desc' : 'asc' ;
+            
+            $order[$field] = $direction;
+        }
+        
+        return $this->em
+                ->getRepository('CoreBundle:Score')
+                ->getRanking($gameVariant, $order, $offset, $length)
+        ;
+    }
+    
     /**
      * Check if $var is a Game or GameVariant
      * 

@@ -14,25 +14,34 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
     {
         $items = array(
             array(
-                'name'          => 'chess',
-                'nbplayermin'   => 2,
-                'nbplayermax'   => 2,
-                'visible'       => true,
-                'category'       => 'strategy',
+                'name'              => 'chess',
+                'nbplayermin'       => 2,
+                'nbplayermax'       => 2,
+                'visible'           => true,
+                'category'          => 'strategy',
+                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,score',
+                'rankingOrder'      => 'wins:d,draws:d',
+                'rankingReference'  => 'wins',
             ),
             array(
-                'name'          => 'tictactoe',
-                'nbplayermin'   => 2,
-                'nbplayermax'   => 4,
-                'visible'       => true,
-                'category'       => 'strategy',
+                'name'              => 'tictactoe',
+                'nbplayermin'       => 2,
+                'nbplayermax'       => 4,
+                'visible'           => true,
+                'category'          => 'strategy',
+                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo',
+                'rankingOrder'      => 'wins:d,draws:d',
+                'rankingReference'  => 'wins',
             ),
             array(
-                'name'          => 'awale',
-                'nbplayermin'   => 2,
-                'nbplayermax'   => 2,
-                'visible'       => true,
-                'category'       => 'casino',
+                'name'              => 'awale',
+                'nbplayermin'       => 2,
+                'nbplayermax'       => 2,
+                'visible'           => true,
+                'category'          => 'casino',
+                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,score',
+                'rankingOrder'      => 'wins:d,draws:d',
+                'rankingReference'  => 'wins',
             ),
         );
         
@@ -41,11 +50,16 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         foreach ($items as $item) {
             $object = new Game();
             
-            $object->setName($item['name']);
-            $object->setNbplayerMin($item['nbplayermin']);
-            $object->setNbplayerMax($item['nbplayermax']);
-            $object->setVisible($item['visible']);
-            $object->setCategory($this->getReference($item['category']));
+            $object
+                    ->setName($item['name'])
+                    ->setNbplayerMin($item['nbplayermin'])
+                    ->setNbplayerMax($item['nbplayermax'])
+                    ->setVisible($item['visible'])
+                    ->setCategory($this->getReference($item['category']))
+                    ->setRankingColumns($item['rankingColumns'])
+                    ->setRankingOrder($item['rankingOrder'])
+                    ->setRankingReference($item['rankingReference'])
+            ;
             
             $manager->persist($objects[$i++] = $object);
             

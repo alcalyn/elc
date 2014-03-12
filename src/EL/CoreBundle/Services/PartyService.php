@@ -105,22 +105,20 @@ class PartyService extends GameService
      * @param PartyOptions $partyOption
      * @return Party
      */
-    public function createParty()
+    public function createParty($locale)
     {
         $party = new Party();
         $party
                 ->setGame($this->getGame())
                 ->setHost($this->session->getPlayer())
-                ->setTitle($this->generateRandomTitle())
+                ->setTitle($this->generateRandomTitle($locale))
         ;
-        
-        $this->addSlug($party);
         
         return $party;
     }
     
     
-    private function addSlug($party)
+    public function addSlug($party)
     {
         $slug = Slug::slug($party->getTitle());
         $party->setSlug($slug);
@@ -591,10 +589,10 @@ class PartyService extends GameService
     }
     
     
-    public function generateRandomTitle()
+    public function generateRandomTitle($locale)
     {
         $this->needGame();
-        return $this->getGame()->getTitle().' party '.rand(10000, 99999);
+        return $this->getGame()->getTitle().' '.rand(10000, 99999);
     }
     
     protected function needParty()

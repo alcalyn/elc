@@ -53,7 +53,19 @@
     <div class="col-md-6">
 		<a href="{{ path('elcore_game_home', {'slug': game.slug}) }}" class="block">
 			<div class="jeu-item">
-				<h3>{{ game.title }} <span>1678 Élo</span></h3>
+				<h3>
+                    {{ game.title }}
+                    {% if game.gameVariants|length > 0 and game.gameVariants[0].scores|length > 0 %}
+                        <span>
+                            {{ attribute(game.gameVariants[0].scores[0], game.rankingReference) }}
+                            {{ game.rankingReference|trans }}
+                        </span>
+                    {% else %}
+                        <span>
+                            <small style="font-size:12px;font-style:italic">{{ 'never.played.yet'|trans }}</small>
+                        </span>
+                    {% endif %}
+                </h3>
 				<small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
 				<div class="game-desc">
 					<p>

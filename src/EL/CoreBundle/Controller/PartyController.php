@@ -33,7 +33,7 @@ class PartyController extends Controller
         $request                = $this->getRequest();
         $partyService           = $this->get('el_core.party')->setGameBySlug($slug, $_locale, $this->container);
         $extendedGame           = $partyService->getExtendedGame();
-        $coreParty              = $partyService->createParty();
+        $coreParty              = $partyService->createParty($_locale);
         $extendedOptions        = $extendedGame->createParty();
         $extendedOptionsType    = $extendedGame->getPartyType();
         $options                = new Options($coreParty, $extendedOptions);
@@ -51,6 +51,9 @@ class PartyController extends Controller
                 ;
                 
                 $em->persist($coreParty);
+                
+                // create unique party slug
+                $partyService->addSlug($coreParty);
                 
                 // notify extended game that party has been created with $extendedOptions options
                 $extendedGame->saveParty($coreParty, $extendedOptions);

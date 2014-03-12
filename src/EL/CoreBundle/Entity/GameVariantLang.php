@@ -77,4 +77,50 @@ class GameVariantLang
     {
         return $this->title;
     }
+
+    /**
+     * Set gameVariant
+     *
+     * @param \EL\CoreBundle\Entity\GameVariant $gameVariant
+     * @return GameVariantLang
+     */
+    public function setGameVariant(\EL\CoreBundle\Entity\GameVariant $gameVariant)
+    {
+        $this->gameVariant = $gameVariant;
+    
+        return $this;
+    }
+
+    /**
+     * Get gameVariant
+     *
+     * @return \EL\CoreBundle\Entity\GameVariant 
+     */
+    public function getGameVariant()
+    {
+        return $this->gameVariant;
+    }
+
+    /**
+     * Set lang
+     *
+     * @param \EL\CoreBundle\Entity\Lang $lang
+     * @return GameVariantLang
+     */
+    public function setLang(\EL\CoreBundle\Entity\Lang $lang)
+    {
+        $this->lang = $lang;
+    
+        return $this;
+    }
+
+    /**
+     * Get lang
+     *
+     * @return \EL\CoreBundle\Entity\Lang 
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
 }

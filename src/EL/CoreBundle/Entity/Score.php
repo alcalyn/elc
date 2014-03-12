@@ -3,6 +3,8 @@
 namespace EL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EL\CoreBundle\Entity\Player;
+use EL\CoreBundle\Entity\GameVariant;
 
 /**
  * Score
@@ -25,13 +27,17 @@ class Score
     private $id;
     
     /**
+     * @var Player
+     * 
      * @ORM\ManyToOne(targetEntity="EL\CoreBundle\Entity\Player")
      * @ORM\JoinColumn(nullable=false)
      */
     private $player;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EL\CoreBundle\Entity\GameVariant")
+     * @var GameVariant
+     * 
+     * @ORM\ManyToOne(targetEntity="EL\CoreBundle\Entity\GameVariant", inversedBy="scores")
      * @ORM\JoinColumn(nullable=false)
      */
     private $gameVariant;
@@ -145,6 +151,16 @@ class Score
     public function getEloReliability()
     {
         return $this->eloReliability;
+    }
+    
+    /**
+     * Return sum of wins+losses+draws
+     * 
+     * @return integer
+     */
+    public function getParties()
+    {
+        return $this->wins + $this->losses + $this->draws;
     }
 
     /**
@@ -319,5 +335,19 @@ class Score
     public function getPoints()
     {
         return $this->points;
+    }
+    
+    /**
+     * Return ratio (wins/losses)
+     * 
+     * @return float
+     */
+    public function getRatio()
+    {
+        if (0 === $this->losses) {
+            return 1;
+        } else {
+            return $this->wins / $this->losses;
+        }
     }
 }

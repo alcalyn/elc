@@ -38,7 +38,7 @@ class GameVariant extends AbstractLangEntity
     /**
      * @var Game
      * 
-     * @ORM\ManyToOne(targetEntity="EL\CoreBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="EL\CoreBundle\Entity\Game", inversedBy="gameVariants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $game;
@@ -46,7 +46,15 @@ class GameVariant extends AbstractLangEntity
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\GameLang", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\Score", mappedBy="gameVariant")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $scores;
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * 
+     * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\GameVariantLang", mappedBy="gameVariant")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $langs;
@@ -146,5 +154,38 @@ class GameVariant extends AbstractLangEntity
     public function getLangs()
     {
         return $this->langs;
+    }
+
+    /**
+     * Add scores
+     *
+     * @param \EL\CoreBundle\Entity\Score $scores
+     * @return GameVariant
+     */
+    public function addScore(\EL\CoreBundle\Entity\Score $scores)
+    {
+        $this->scores[] = $scores;
+    
+        return $this;
+    }
+
+    /**
+     * Remove scores
+     *
+     * @param \EL\CoreBundle\Entity\Score $scores
+     */
+    public function removeScore(\EL\CoreBundle\Entity\Score $scores)
+    {
+        $this->scores->removeElement($scores);
+    }
+
+    /**
+     * Get scores
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getScores()
+    {
+        return $this->scores;
     }
 }

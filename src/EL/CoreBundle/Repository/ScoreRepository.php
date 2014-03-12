@@ -28,4 +28,41 @@ class ScoreRepository extends EntityRepository
             'gameVariantId'   => $gameVariant->getId(),
         ))->getOneOrNullResult();
     }
+    
+    public function getRanking(GameVariant $gameVariant, array $order = array(), $offset = 0, $length = -1)
+    {
+        $query = $this->_em->createQueryBuilder()
+                ->select('s, p')
+                ->from('CoreBundle:Score', 's')
+                ->leftJoin('s.gameVariant', 'gv')
+                ->leftJoin('s.player', 'p')
+                ->where('gv.id = :gameVariantId')
+        ;
+        
+        foreach ($order as $field => $direction) {
+            switch ($field) {
+                case 'ratio':
+                    $query->addOrderBy('s.wins / (0.5 * ((s.losses + 1) + ABS(s.losses - 1)))', $direction);
+                    break;
+                
+                case 'score':
+                    $query->addOrderBy('s.points', $direction);
+                    break;
+                
+                default:
+                    $query->addOrderBy('s.'.$field, $direction);
+            }
+        }
+        
+        if ($length >= 0) {
+            $query->setFirstResult($offset);
+            $query->setMaxResults($length);
+        }
+        
+        $query->setParameters(array(
+            'gameVariantId' => $gameVariant->getId(),
+        ));
+        
+        return $query->getQuery()->getResult();
+    }
 }

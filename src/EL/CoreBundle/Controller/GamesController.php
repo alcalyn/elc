@@ -8,8 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class GamesController extends Controller
 {
-    
-    
     /**
      * @Route(
      *      "/games",
@@ -18,14 +16,16 @@ class GamesController extends Controller
      */
     public function listAction($_locale)
     {
-        $em = $this->getDoctrine()->getManager();
-
+        $em             = $this->getDoctrine()->getManager();
+        $sessionService = $this->get('el_core.session');
+        
         $games = $em
                 ->getRepository('CoreBundle:Game')
-                ->findAllByLang($_locale);
+                ->findAllByLang($_locale, $sessionService->getPlayer())
+        ;
 
         return $this->render('CoreBundle:Games:list.html.twig', array(
-            'games' => $games,
+            'games'     => $games,
         ));
     }
 
@@ -38,14 +38,24 @@ class GamesController extends Controller
      */
     public function homeAction($_locale, $slug)
     {
-        $gameService= $this->get('el_core.game');
+        $gameService    = $this->get('el_core.game');
+        $scoreService   = $this->get('el_core.score');
         
         $game = $gameService
                 ->setGameBySlug($slug, $_locale)
-                ->getGame();
+                ->getGame()
+        ;
+        
+        $ranking = $scoreService
+                ->getRanking($game, 0, 10)
+        ;
+        
+        $rankingColumns = explode(',', $game->getRankingColumns());
         
         return $this->render('CoreBundle:Games:home.html.twig', array(
-            'game' => $game,
+            'game'              => $game,
+            'ranking'           => $ranking,
+            'rankingColumns'    => $rankingColumns,
         ));
     }
     

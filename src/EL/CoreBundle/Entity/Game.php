@@ -30,10 +30,20 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     private $category;
     
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * 
      * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\GameLang", mappedBy="game")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $langs;
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * 
+     * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\GameVariant", mappedBy="game")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $gameVariants;
 
     /**
      * @var string
@@ -66,6 +76,42 @@ class Game extends AbstractLangEntity implements \JsonSerializable
      * @ORM\Column(name="room", type="boolean")
      */
     private $room;
+
+    /**
+     * @var string
+     * 
+     * Which colums to display in rank board
+     * under the form col,col2,col3 ...
+     *
+     * @ORM\Column(
+     *      name="ranking_columns",
+     *      type="string",
+     *      length=63,
+     *      options={"default" = "parties,wins,losses,draws,ratio,elo,score"}
+     * )
+     */
+    private $rankingColumns;
+    
+    /**
+     * @var string
+     * 
+     * Ordering strategy of rank board
+     * under the form col:a,col3:d
+     * 
+     * 'a' for ascendant, 'd' for descendant
+     *
+     * @ORM\Column(name="ranking_order", type="string", length=31, options={"default" = "wins:d,draws:d"})
+     */
+    private $rankingOrder;
+
+    /**
+     * @var string
+     * 
+     * Main statistics to display with a player for this game
+     *
+     * @ORM\Column(name="ranking_reference", type="string", length=15, options={"default" = "wins"})
+     */
+    private $rankingReference;
     
     /**
      * @var boolean
@@ -80,10 +126,16 @@ class Game extends AbstractLangEntity implements \JsonSerializable
      */
     public function __construct()
     {
-        $this->langs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->langs        = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->gameVariants = new \Doctrine\Common\Collections\ArrayCollection();
+        
         $this
                 ->setRoom(false)
-                ->setVisible(true);
+                ->setVisible(true)
+                ->setRankingColumns('parties,wins,losses,draws,ratio,elo,score')
+                ->setRankingOrder('wins:d,draws:d')
+                ->setRankingReference('wins')
+        ;
     }
     
 
@@ -283,8 +335,114 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     {
         return $this->room;
     }
+
+    /**
+     * Set rankingColumns
+     *
+     * @param string $rankingColumns
+     * @return Game
+     */
+    public function setRankingColumns($rankingColumns)
+    {
+        $this->rankingColumns = $rankingColumns;
     
+        return $this;
+    }
+
+    /**
+     * Get rankingColumns
+     *
+     * @return string 
+     */
+    public function getRankingColumns()
+    {
+        return $this->rankingColumns;
+    }
+
+    /**
+     * Set rankingOrder
+     *
+     * @param string $rankingOrder
+     * @return Game
+     */
+    public function setRankingOrder($rankingOrder)
+    {
+        $this->rankingOrder = $rankingOrder;
     
+        return $this;
+    }
+
+    /**
+     * Get rankingOrder
+     *
+     * @return string 
+     */
+    public function getRankingOrder()
+    {
+        return $this->rankingOrder;
+    }
+
+    /**
+     * Set rankingReference
+     *
+     * @param string $rankingReference
+     * @return Game
+     */
+    public function setRankingReference($rankingReference)
+    {
+        $this->rankingReference = $rankingReference;
+    
+        return $this;
+    }
+
+    /**
+     * Get rankingReference
+     *
+     * @return string 
+     */
+    public function getRankingReference()
+    {
+        return $this->rankingReference;
+    }
+
+    /**
+     * Add gameVariants
+     *
+     * @param \EL\CoreBundle\Entity\GameVariant $gameVariants
+     * @return Game
+     */
+    public function addGameVariant(\EL\CoreBundle\Entity\GameVariant $gameVariants)
+    {
+        $this->gameVariants[] = $gameVariants;
+    
+        return $this;
+    }
+
+    /**
+     * Remove gameVariants
+     *
+     * @param \EL\CoreBundle\Entity\GameVariant $gameVariants
+     */
+    public function removeGameVariant(\EL\CoreBundle\Entity\GameVariant $gameVariants)
+    {
+        $this->gameVariants->removeElement($gameVariants);
+    }
+
+    /**
+     * Get gameVariants
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGameVariants()
+    {
+        return $this->gameVariants;
+    }
+    
+    /**
+     * Implements JsonSerialize
+     * 
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array(

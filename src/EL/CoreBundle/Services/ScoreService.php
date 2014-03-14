@@ -108,7 +108,19 @@ class ScoreService
         return $score;
     }
     
-    public function getRanking($game, $offset = 0, $length = -1)
+    /**
+     * Return a rank board of the $game from $offset to $lenth.
+     * 
+     * Example:
+     * getRanking($chessGame, 10);          // return top 10
+     * getRanking($chessGame, 100, 300);    // return rank from 300 to 400
+     * 
+     * @param Game|GameVariant $game
+     * @param integer $length number of item from $offset
+     * @param integer $offset from which rank to start default 0
+     * @return array
+     */
+    public function getRanking($game, $length = -1, $offset = 0)
     {
         $gameVariant = $this->asGameVariant($game);
         
@@ -126,7 +138,7 @@ class ScoreService
         
         return $this->em
                 ->getRepository('CoreBundle:Score')
-                ->getRanking($gameVariant, $order, $offset, $length)
+                ->getRanking($gameVariant, $order, $length, $offset)
         ;
     }
     

@@ -29,7 +29,7 @@ class ScoreRepository extends EntityRepository
         ))->getOneOrNullResult();
     }
     
-    public function getRanking(GameVariant $gameVariant, array $order = array(), $offset = 0, $length = -1)
+    public function getRanking(GameVariant $gameVariant, array $order = array(), $length = -1, $offset = 0)
     {
         $query = $this->_em->createQueryBuilder()
                 ->select('s, p')
@@ -47,6 +47,10 @@ class ScoreRepository extends EntityRepository
                 
                 case 'score':
                     $query->addOrderBy('s.points', $direction);
+                    break;
+                
+                case 'parties':
+                    $query->addOrderBy('s.wins + s.losses + s.draws', $direction);
                     break;
                 
                 default:

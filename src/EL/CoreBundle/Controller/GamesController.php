@@ -47,7 +47,7 @@ class GamesController extends Controller
         ;
         
         $ranking = $scoreService
-                ->getRanking($game, 0, 10)
+                ->getRanking($game, 10)
         ;
         
         $rankingColumns = explode(',', $game->getRankingColumns());

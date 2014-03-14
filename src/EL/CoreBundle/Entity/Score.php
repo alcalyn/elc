@@ -345,7 +345,7 @@ class Score
     public function getRatio()
     {
         if (0 === $this->losses) {
-            return 1;
+            return $this->wins;
         } else {
             return $this->wins / $this->losses;
         }

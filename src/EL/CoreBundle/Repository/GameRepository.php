@@ -31,17 +31,17 @@ class GameRepository extends EntityRepository
                 ->leftJoin('g.langs', 'gl')
                 ->leftJoin('gl.lang', 'l')
                 ->where('l.locale = :locale')
+                ->andWhere('g.visible = true')
                 ->setParameter('locale', $locale)
         ;
         
         if (null !== $player) {
             $query
-                    ->addSelect('s, gv, p')
+                    ->addSelect('gv, s')
                     ->leftJoin('g.gameVariants', 'gv')
-                    ->leftJoin('gv.scores', 's')
-                    ->leftJoin('s.player', 'p')
-                    ->andWhere('(p.id = :playerId or p.id is null)')
-                    ->andWhere('(gv.name = :defaultVariantName or gv.name is null)')
+                    ->leftJoin('gv.scores', 's', 'with', 's.player = :playerId')
+                    ->andWhere('s.player = :playerId or s.player is null')
+                    ->andWhere('gv.name = :defaultVariantName or gv.id is null')
                     ->setParameter(':defaultVariantName', GameVariant::DEFAULT_NAME)
                     ->setParameter(':playerId', $player->getId())
             ;

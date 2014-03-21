@@ -14,14 +14,16 @@ class SlotRepository extends EntityRepository
 {
     public function findOneByPlayerAndParty($playerId, $partyId)
     {
-        $query = $this->_em->createQuery('
-            select s
-            from CoreBundle:Slot s
-            join s.player player
-            join s.party party
-            where player.id = :playerId
-            and party.id = :partyId
-        ')
+        $query = $this->_em->createQuery(
+            '
+                select s
+                from CoreBundle:Slot s
+                join s.player player
+                join s.party party
+                where player.id = :playerId
+                and party.id = :partyId
+            '
+        )
         ->setParameters(array(
             'playerId' => $playerId,
             'partyId'  => $partyId,

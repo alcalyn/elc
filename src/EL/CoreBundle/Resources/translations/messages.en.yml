@@ -56,7 +56,7 @@ filter:
     by: 'Filter by'
 
 game:
-    endafter: Tic Tac Toe will terminate after
+    endafter: 'Tic Tac Toe will terminate after'
     name: 'Game name'
 
 games: Games
@@ -90,6 +90,10 @@ my:
 
 name: Name
 
+never:
+    played:
+        yet: Never played yet
+
 no:
     current:
         parties: 'You have no current games'
@@ -107,9 +111,8 @@ opponents:
     note: 'Opponents note'
 
 parties: Games
-
-party:
-    title: 'Party Title'
+party: Game
+party.title: 'Party Title'
 
 play:
     now: 'Play now'
@@ -126,6 +129,7 @@ public:
     party: 'Public party'
 
 ranking: Ranking
+ratio: Ratio
 ready: Ready
 remake: Remake
 rules: Rules

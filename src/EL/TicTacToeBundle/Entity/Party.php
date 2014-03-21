@@ -218,17 +218,6 @@ class Party implements \JsonSerializable
     {
         return $this->currentPlayer;
     }
-    
-    
-    public function jsonSerialize()
-    {
-        return array(
-            'id'            => $this->getId(),
-            'firstPlayer'   => $this->getFirstPlayer(),
-            'currentPlayer' => $this->getCurrentPlayer(),
-            'grid'          => $this->getGrid(),
-        );
-    }
 
     /**
      * Set lastPartyEnd
@@ -340,5 +329,22 @@ class Party implements \JsonSerializable
         $clone->grid                = '---------';
         
         return $clone;
+    }
+    
+    /**
+     * Json serialize implementation
+     * 
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id'                => $this->getId(),
+            'coreParty'         => $this->getParty()->jsonSerialize(),
+            'firstPlayer'       => $this->getFirstPlayer(),
+            'currentPlayer'     => $this->getCurrentPlayer(),
+            'partyNumber'       => $this->getPartyNumber(),
+            'grid'              => $this->getGrid(),
+        );
     }
 }

@@ -44,3 +44,42 @@
     background-color: #B5E0EE;
 }
 
+
+#players {
+    margin: 24px auto 48px auto;
+}
+#players > div {
+    text-align: center;
+}
+#players .scores {
+}
+#players .scores p {
+    font-size: 22px;
+    text-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+}
+#players .scores .pseudo {
+}
+#players .scores .score {
+    font-weight: bold;
+    font-size: 32px;
+}
+#players .scores .p1 .score {
+    margin-left: 16px;
+}
+#players .scores .p2 .score {
+    margin-right: 16px;
+}
+#players .scores .p1 {
+    color: lightCoral;
+    text-align: right;
+}
+#players .scores .p2 {
+    color: lightBlue;
+    text-align: left;
+}
+#players .party p {
+    font-size: 18px;
+}
+#players .victory p {
+    font-size: 16px;
+}

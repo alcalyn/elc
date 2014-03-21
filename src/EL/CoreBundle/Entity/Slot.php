@@ -220,13 +220,19 @@ class Slot implements \JsonSerializable
                 is_null($this->getPlayer());
     }
     
-    
+    /**
+     * Implements JsonSerializable
+     * 
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array(
+            'id'        => $this->getId(),
             'player'    => is_null($this->getPlayer()) ? null : $this->getPlayer()->jsonSerialize(),
             'position'  => $this->getPosition(),
             'open'      => $this->getOpen(),
+            'score'     => $this->getScore(),
         );
     }
 }

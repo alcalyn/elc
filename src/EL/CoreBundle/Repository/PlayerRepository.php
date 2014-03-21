@@ -15,12 +15,14 @@ class PlayerRepository extends EntityRepository
 {
     public function pseudoCount($pseudo)
     {
-        return $this->_em->createQuery('
-            select count(p.id)
-            from CoreBundle:Player p
-            where p.pseudo = :pseudo
-            and p.invited = 0
-        ')
+        return $this->_em->createQuery(
+            '
+                select count(p.id)
+                from CoreBundle:Player p
+                where p.pseudo = :pseudo
+                and p.invited = 0
+            '
+        )
         ->setParameters(array(
             'pseudo' => $pseudo,
         ))

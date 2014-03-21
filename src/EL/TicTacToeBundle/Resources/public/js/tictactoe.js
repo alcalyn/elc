@@ -5,8 +5,6 @@ var tictactoe = {
     PLAYER_X:       0,
     PLAYER_O:       1,
     case_size:      140,
-    color_X:        'lightCoral',
-    color_O:        'lightBlue',
     color_bg_odd:   '#EEE',
     color_bg_even:  '#DDD',
     
@@ -15,7 +13,7 @@ var tictactoe = {
      * 
      * @var integer
      */
-    currentPlayer: 0,
+    currentPlayer: undefined,
     
     /**
      * Thread from setInterval for refreshing grid
@@ -35,6 +33,7 @@ var tictactoe = {
     {
         tictactoe.bindCases();
         tictactoe.startRefresh();
+        tictactoe.currentPlayer = jsContext.extendedParty.firstPlayer;
     },
     
     /**
@@ -65,7 +64,7 @@ var tictactoe = {
     caseClicked: function (line, col)
     {
         if (jsContext.coreParty.slots[tictactoe.currentPlayer].player.id !== jsContext.player.id) {
-            alert('Not your turn');
+            alert(t('not.your.turn'));
             return false;
         }
         
@@ -348,6 +347,11 @@ var tictactoe = {
                 }
             }
         }
+        
+        $('.scores .p1 .score').html(r.party.coreParty.slots[0].score);
+        $('.scores .p2 .score').html(r.party.coreParty.slots[1].score);
+        
+        $('.party span').html(r.party.partyNumber);
     },
     
     /**

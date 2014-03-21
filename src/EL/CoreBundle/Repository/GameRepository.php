@@ -53,14 +53,16 @@ class GameRepository extends EntityRepository
     
     public function findByLang($locale, $slug)
     {
-        $query = $this->_em->createQuery('
+        $query = $this->_em->createQuery(
+            '
                 select g, gl
                 from CoreBundle:Game g
                 left join g.langs gl
                 left join gl.lang l
                 where l.locale = :locale
                 and gl.slug = :slug
-        ')->setParameters(array(
+            '
+        )->setParameters(array(
             'locale'    => $locale,
             'slug'      => $slug,
         ));

@@ -16,14 +16,16 @@ class ScoreRepository extends EntityRepository
 {
     public function get(Player $player, GameVariant $gameVariant)
     {
-        return $this->_em->createQuery('
-            select s
-            from CoreBundle:Score s
-            left join s.player p
-            left join s.gameVariant gv
-            where p.id = :playerId
-            and gv.id = :gameVariantId
-        ')->setParameters(array(
+        return $this->_em->createQuery(
+            '
+                select s
+                from CoreBundle:Score s
+                left join s.player p
+                left join s.gameVariant gv
+                where p.id = :playerId
+                and gv.id = :gameVariantId
+            '
+        )->setParameters(array(
             'playerId'         => $player->getId(),
             'gameVariantId'   => $gameVariant->getId(),
         ))->getOneOrNullResult();

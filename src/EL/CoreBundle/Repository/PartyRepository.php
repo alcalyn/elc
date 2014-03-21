@@ -16,18 +16,20 @@ class PartyRepository extends EntityRepository
 {
     public function findByLang($locale, $slug)
     {
-        $query = $this->_em->createQuery('
-            select p, g, gl, s
-            from CoreBundle:Party p
-            left join p.slots s
-            left join p.game g
-            left join p.host h
-            left join g.langs gl
-            left join gl.lang l
-            where l.locale = :locale
-            and p.slug = :slug
-            order by s.position
-        ')->setParameters(array(
+        $query = $this->_em->createQuery(
+            '
+                select p, g, gl, s
+                from CoreBundle:Party p
+                left join p.slots s
+                left join p.game g
+                left join p.host h
+                left join g.langs gl
+                left join gl.lang l
+                where l.locale = :locale
+                and p.slug = :slug
+                order by s.position
+            '
+        )->setParameters(array(
             'locale'    => $locale,
             'slug'      => $slug,
         ));
@@ -42,27 +44,29 @@ class PartyRepository extends EntityRepository
      */
     public function findCurrentPartiesForPlayer($locale, Player $player)
     {
-        return $this->_em->createQuery('
-            select p, g, gl, s, pl
-            from CoreBundle:Party p
-            left join p.slots _s
-            left join _s.player _pl
-            left join p.slots s
-            left join s.player pl
-            left join p.game g
-            left join g.langs gl
-            left join gl.lang l
-            where l.locale = :locale
-            and _pl.id = :playerId
-            and p.state in (
-                :state_preparation,
-                :state_starting,
-                :state_active
-            )
-            order by s.position
-        ')->setParameters(array(
+        return $this->_em->createQuery(
+            '
+                select p, g, gl, s, pl
+                from CoreBundle:Party p
+                left join p.slots _s
+                left join _s.player _pl
+                left join p.slots s
+                left join s.player pl
+                left join p.game g
+                left join g.langs gl
+                left join gl.lang l
+                where l.locale = :locale
+                and _pl.id = :playerId
+                and p.state in (
+                    :state_preparation,
+                    :state_starting,
+                    :state_active
+                )
+                order by s.position
+            '
+        )->setParameters(array(
             'locale'            => $locale,
-            'playerId'         => $player->getId(),
+            'playerId'          => $player->getId(),
             'state_preparation' => Party::PREPARATION,
             'state_starting'    => Party::STARTING,
             'state_active'      => Party::ACTIVE,
@@ -71,12 +75,14 @@ class PartyRepository extends EntityRepository
     
     public function countSlug($slug)
     {
-        $query = $this->_em->createQuery('
-            select count(p)
-            from CoreBundle:Party p
-            where  p.slug = :slug
-        ')->setParameters(array(
-            'slug'      => $slug,
+        $query = $this->_em->createQuery(
+            '
+                select count(p)
+                from CoreBundle:Party p
+                where  p.slug = :slug
+            '
+        )->setParameters(array(
+            'slug' => $slug,
         ));
         
         return $query->getSingleScalarResult();

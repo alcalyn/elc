@@ -13,6 +13,9 @@
 
 {% block body %}
 <div class="jeux-actif">
+    {#
+        Grid
+    #}
     <div id="grid">
     	{% for line in 0..2 %}
     		{% for col in 0..2 %}
@@ -21,27 +24,43 @@
     	{% endfor %}
     	<div style="clear:both"></div>
     </div>
+    
+    {#
+        Scores and party info
+    #}
     <div id="players">
-    	<div class="player player-1">
-    		<h3>
-    			{% if party.slots[0].player %}
-    				{{ party.slots[0].player.pseudo }}
-    			{% else %}
-    				---
-    			{% endif %}
-    		</h3>
-    		<p>{{ party.slots[0].score }} {{ 'wins'|trans }}</p>
-    	</div>
-    	<div class="player player-2">
-    		<h3>
-    			{% if party.slots[1].player %}
-    				{{ party.slots[1].player.pseudo }}
-    			{% else %}
-    				---
-    			{% endif %}
-    		</h3>
-    		<p>{{ party.slots[1].score }} {{ 'wins'|trans }}</p>
-    	</div>
+        {# Scores #}
+        <div class="row scores">
+            <div class="p1 col-md-6">
+                <p>
+                    <span class="pseudo">{{ party.slots[0].player.pseudo|default('?') }}</span>
+                    <span class="score">{{ party.slots[0].score|default('?') }}</span>
+                </p>
+            </div>
+            <div class="p2 col-md-6">
+                <p>
+                    <span class="score">{{ party.slots[1].score|default('?') }}</span>
+                    <span class="pseudo">{{ party.slots[1].player.pseudo|default('?') }}</span>
+                </p>
+            </div>
+        </div>
+        
+        {# Party number #}
+        <div class="row party">
+            <p class="col-md-12">
+                {{ 'party'|trans }} <span>{{ extendedParty.partyNumber }}</span>.
+            </p>
+        </div>
+        
+        {# Victory condition #}
+        <div class="row victory">
+            {% set conditions = {1: 'parties', 2: 'wins', 3: 'draws'} %}
+            <p class="col-md-12">
+                {{ 'game.endafter'|trans }}
+                {{ extendedParty.numberOfParties | trans }}
+                {{ conditions[extendedParty.victoryCondition] | trans }}.
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}

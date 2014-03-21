@@ -56,7 +56,7 @@ filter:
     by: 'Filtrer par'
 
 game:
-    endafter: Le Morpion se terminera après
+    endafter: 'Le Morpion se terminera après'
     name: 'Nom du jeu'
 
 games: Jeux
@@ -90,6 +90,10 @@ my:
 
 name: Nom
 
+never:
+    played:
+        yet: 'Pas encore joué'
+
 no:
     current:
         parties: 'Vous n''avez pas de parties en cours'
@@ -107,9 +111,8 @@ opponents:
     note: 'Note des adversaires'
 
 parties: Parties
-
-party:
-    title: 'Titre de la partie'
+party: Partie
+party.title: 'Titre de la partie'
 
 play:
     now: 'Jouer maintenant'
@@ -126,6 +129,7 @@ public:
     party: 'Partie publique'
 
 ranking: Classement
+ratio: Ratio
 ready: Prêt
 remake: Recommencer
 rules: Règles

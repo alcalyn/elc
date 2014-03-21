@@ -100,6 +100,10 @@ class DefaultController extends ELGameAdapter
                 ->findOneByCoreParty($coreParty)
         ;
         
+        $this->get('el_core.js_vars')
+                ->useTrans('not.your.turn')
+        ;
+        
         return $this->render('TicTacToeBundle:Default:active.html.twig', array(
             'game'          => $game,
             'party'         => $coreParty,

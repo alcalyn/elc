@@ -16,13 +16,15 @@ class GameVariantRepository extends EntityRepository
 {
     public function get(Game $game, $variantName)
     {
-        return $this->_em->createQuery('
-            select g, gv
-            from CoreBundle:GameVariant gv
-            left join gv.game g
-            where g.id = :gameId
-            and gv.name = :variantName
-        ')->setParameters(array(
+        return $this->_em->createQuery(
+            '
+                select g, gv
+                from CoreBundle:GameVariant gv
+                left join gv.game g
+                where g.id = :gameId
+                and gv.name = :variantName
+            '
+        )->setParameters(array(
             'gameId'       => $game->getId(),
             'variantName'  => $variantName,
         ))

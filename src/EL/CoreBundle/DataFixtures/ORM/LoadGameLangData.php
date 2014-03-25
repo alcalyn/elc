@@ -9,7 +9,6 @@ use EL\CoreBundle\Entity\GameLang;
 
 class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterface
 {
-    
     public function load(ObjectManager $manager)
     {
         $items = array(
@@ -34,16 +33,18 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
                 'lang'      => 'fr',
                 'title'     => 'Morpion',
                 'slug'      => 'morpion',
-                'shortdesc' => 'Morpion desc courte',
-                'longdesc'  => 'Morpion desc longue',
+                'shortdesc' => 'Pas envie de réfléchir ? Faîtes quelques parties de Morpion !',
+                'longdesc'  => 'Sûrement le jeu le plus basique du monde, alignez 3 symboles avant votre adversaire'
+                                . ' et remportez la partie.',
             ),
             array(
                 'game'      => 'tictactoe',
                 'lang'      => 'en',
                 'title'     => 'Tic Tac Toe',
                 'slug'      => 'tictactoe',
-                'shortdesc' => 'Tic tac toe short desc',
-                'longdesc'  => 'Tic tac toe long desc',
+                'shortdesc' => 'Don\'t want to take your head ? Make some Tic tac toe games !',
+                'longdesc'  => 'Certainly the most basic game of the world, align 3 symbols before your opponent'
+                                . ' and win the game.',
             ),
             array(
                 'game'      => 'awale',
@@ -80,7 +81,6 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
         
         $manager->flush();
     }
-    
     
     public function getOrder()
     {

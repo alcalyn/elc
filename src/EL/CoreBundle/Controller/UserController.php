@@ -31,9 +31,22 @@ class UserController extends Controller
     }
     
     /**
+     * )
      * @Route(
      *      "/player/login",
-     *      name = "elcore_user_login"
+     *      name = "elcore_user_login",
+     *      requirements = {
+     *          "_method" = "GET",
+     *          "_scheme" = "http"
+     *      }
+     * )
+     * @Route(
+     *      "/player/login",
+     *      name = "elcore_user_login_post",
+     *      requirements = {
+     *          "_method" = "POST",
+     *          "_scheme" = "https"
+     *      }
      * )
      * @Template
      */
@@ -41,7 +54,8 @@ class UserController extends Controller
     {
         $request    = $this->getRequest();
         $login      = new Login();
-        $loginForm  = $this->createForm(new LoginType(), $login);
+        $formAction = $this->generateUrl('elcore_user_login_post');
+        $loginForm  = $this->createForm(new LoginType(), $login, array('action' => $formAction));
         
         $loginForm->handleRequest($request);
         
@@ -52,7 +66,7 @@ class UserController extends Controller
                 try {
                     $session->login($login->getPseudo(), $login->getPassword());
                     
-                    return $this->redirect($this->generateUrl('elcore_home'));
+                    return $this->redirect($this->generateUrl('elcore_home', array('ju')));
                 } catch (ELUserException $e) {
                     $e->addFlashMessage($this->get('session'));
                 }
@@ -60,15 +74,27 @@ class UserController extends Controller
         }
         
         return array(
-            'error'         => null,
-            'loginForm'    => $loginForm->createView(),
+            'error'     => null,
+            'loginForm' => $loginForm->createView(),
         );
     }
     
     /**
      * @Route(
      *      "/player/signup",
-     *      name = "elcore_user_signup"
+     *      name = "elcore_user_signup",
+     *      requirements = {
+     *          "_method" = "GET",
+     *          "_scheme" = "http"
+     *      }
+     * )
+     * @Route(
+     *      "/player/signup",
+     *      name = "elcore_user_signup_post",
+     *      requirements = {
+     *          "_method" = "POST",
+     *          "_scheme" = "https"
+     *      }
      * )
      * @Template
      */
@@ -76,7 +102,8 @@ class UserController extends Controller
     {
         $request        = $this->getRequest();
         $signup         = new Signup();
-        $signupForm     = $this->createForm(new SignupType(), $signup);
+        $formAction     = $this->generateUrl('elcore_user_signup_post');
+        $signupForm     = $this->createForm(new SignupType(), $signup, array('action' => $formAction));
         
         $signupForm->handleRequest($request);
         

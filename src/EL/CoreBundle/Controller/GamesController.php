@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class GamesController extends Controller
 {
     /**
+     * List of games with current player score
+     * 
      * @Route(
      *      "/games",
      *      name = "elcore_games_list"
@@ -19,18 +21,26 @@ class GamesController extends Controller
         $em             = $this->getDoctrine()->getManager();
         $sessionService = $this->get('el_core.session');
         
+        $categories = $em
+                ->getRepository('CoreBundle:Category')
+                ->findAllForLang($_locale)
+        ;
+        
         $games = $em
                 ->getRepository('CoreBundle:Game')
                 ->findAllByLang($_locale, $sessionService->getPlayer())
         ;
 
         return $this->render('CoreBundle:Games:list.html.twig', array(
-            'games'     => $games,
+            'games'         => $games,
+            'categories'    => $categories,
         ));
     }
 
 
     /**
+     * Game page, with image, descrition, ranking, and buttons to start a party
+     * 
      * @Route(
      *      "/games/{slug}",
      *      name = "elcore_game_home"
@@ -61,6 +71,8 @@ class GamesController extends Controller
     
     
     /**
+     * Full ranking board for a game, with pagination, current player position...
+     * 
      * @Route(
      *      "/games/{slug}/ranking",
      *      name = "elcore_game_ranking"
@@ -68,19 +80,32 @@ class GamesController extends Controller
      */
     public function rankingAction($_locale, $slug)
     {
-        $gameService= $this->get('el_core.game');
+        $gameService    = $this->get('el_core.game');
+        $scoreService   = $this->get('el_core.score');
         
         $game = $gameService
                 ->setGameBySlug($slug, $_locale)
-                ->getGame();
+                ->getGame()
+        ;
+        
+        $ranking = $scoreService
+                ->getRanking($game, 100)
+        ;
+        
+        $rankingColumns = explode(',', $game->getRankingColumns());
         
         return $this->render('CoreBundle:Games:ranking.html.twig', array(
-            'game' => $game,
+            'game'              => $game,
+            'ranking'           => $ranking,
+            'rankingColumns'    => $rankingColumns,
         ));
     }
     
     
     /**
+     * Simple cms page with rules.
+     * Call Extended game template.
+     * 
      * @Route(
      *      "/games/{slug}/rules",
      *      name = "elcore_game_rules"

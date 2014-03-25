@@ -60,6 +60,13 @@ services:
         class: %el_core.wld.class%
         arguments: [@doctrine.orm.entity_manager]
         
+    el_core.twig.el_twig_extensions:
+        class: EL\CoreBundle\Extensions\ELTwigExtensions
+        arguments:
+            - @request_stack
+        tags:
+            - { name: twig.extension }
+        
     phax.party:
         class: %el_core.controller.party.class%
         calls:

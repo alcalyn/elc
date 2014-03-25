@@ -10,6 +10,8 @@ app/config/parameters.ini
 app/config/parameters.yml
 
 # Others
+app/bootstrap.php.cache
+composer.phar
 composer.lock
 *~
 

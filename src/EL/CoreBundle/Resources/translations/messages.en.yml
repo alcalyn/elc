@@ -76,6 +76,7 @@ let:
     cpufindgametoplay: 'Let computer to find me a suitable game to play'
 
 login: 'Log in'
+logout: Log out
 losses: Losses
 
 my:
@@ -132,6 +133,7 @@ ranking: Ranking
 ratio: Ratio
 ready: Ready
 remake: Remake
+remember.me: Remember me
 rules: Rules
 
 run:

@@ -21,12 +21,13 @@ class SignupType extends AbstractType
                     'attr' => array('class' => 'form-control'),
                 ))
                 ->add('rememberMe', 'checkbox', array(
-                    'label'     => 'Remember me on this computer',
+                    'label'     => 'remember.me',
                     'required'  => false,
                 ))
                 ->add('login', 'submit', array(
                     'attr'  => array('class' => 'btn btn-default'),
-                ));
+                ))
+        ;
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

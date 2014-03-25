@@ -1,0 +1,34 @@
+<div class="row-rank row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<table class="ranking table table-striped table-condensed table-hover text-center">
+				<thead><tr>
+					<th>#</th>
+                    <th>{{ 'player'|trans }}</th>
+                    {% if 'parties' in rankingColumns %}<th>{{ 'parties'|trans }}   </th>{% endif %}
+                    {% if 'wins'    in rankingColumns %}<th>{{ 'wins'|trans }}      </th>{% endif %}
+                    {% if 'losses'  in rankingColumns %}<th>{{ 'losses'|trans }}    </th>{% endif %}
+                    {% if 'draws'   in rankingColumns %}<th>{{ 'draws'|trans }}     </th>{% endif %}
+                    {% if 'ratio'   in rankingColumns %}<th>{{ 'ratio'|trans }}     </th>{% endif %}
+                    {% if 'elo'     in rankingColumns %}<th>{{ 'elo'|trans }}       </th>{% endif %}
+                    {% if 'score'   in rankingColumns %}<th>{{ 'score'|trans }}     </th>{% endif %}
+				</tr></thead>
+				<tbody>
+                    {% for rank in ranking %}
+                        <tr class="rank-gold">
+                            <td>{{ loop.index }}</td>
+                            <td><a href="#">{{ rank.player.pseudo }}</a></td>
+                            {% if 'parties' in rankingColumns %}<td>{{ rank.wins + rank.losses + rank.draws }}</td>                             {% endif %}
+                            {% if 'wins'    in rankingColumns %}<td>{{ rank.wins }}</td>                                                        {% endif %}
+                            {% if 'losses'  in rankingColumns %}<td>{{ rank.losses }}</td>                                                      {% endif %}
+                            {% if 'draws'   in rankingColumns %}<td>{{ rank.draws }}</td>                                                       {% endif %}
+                            {% if 'ratio'   in rankingColumns %}<td>{{ rank.ratio|round(3) }}</td>                                              {% endif %}
+                            {% if 'elo'     in rankingColumns %}<td title="{{ (rank.eloReliability * 100)|round }} %">{{ rank.elo|round }}</td> {% endif %}
+                            {% if 'score'   in rankingColumns %}<td>{{ rank.points|round(2) }}</td>                                             {% endif %}
+                        </tr>
+                    {% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

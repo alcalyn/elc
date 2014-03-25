@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="el_core_category")
  * @ORM\Entity(repositoryClass="EL\CoreBundle\Repository\CategoryRepository")
  */
-class Category
+class Category extends AbstractLangEntity
 {
     /**
      * @var integer
@@ -29,7 +29,7 @@ class Category
     /**
      * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\CategoryLang", mappedBy="category")
      */
-    private $langs;
+    protected $langs;
 
     /**
      * @var string

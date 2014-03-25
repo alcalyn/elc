@@ -1,6 +1,3 @@
-'Log out': 'Log out'
-'Remember me on this computer': 'Remember me on this computer'
-
 _:
     players: joueurs
 
@@ -76,6 +73,7 @@ let:
     cpufindgametoplay: 'Laisser l''ordinateur me trouver une partie de mon niveau'
 
 login: 'Se connecter'
+logout: Déconnexion
 losses: Pertes
 
 my:
@@ -132,6 +130,7 @@ ranking: Classement
 ratio: Ratio
 ready: Prêt
 remake: Recommencer
+remember.me: Se souvenir de moi
 rules: Règles
 
 run:

@@ -200,8 +200,11 @@ nav.navbar form input {
 }
 .row-game .game-desc {
 	margin: 16px 0;
+}
+.row-game .game-desc p {
 	text-align: justify;
-	font-size: 13px;
+	font-size: 18px;
+    
 }
 .row-action {
 	margin: 32px 0;
@@ -214,7 +217,13 @@ nav.navbar form input {
 #games-nav {
     margin-bottom: 16px;
 }
-.ranking {
+.ranking-title {
+    margin: 12px 18px;
+}
+table.ranking {
+}
+table.ranking thead th {
+    text-align: center;
 }
 .ranking a {
 	color: #000;

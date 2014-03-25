@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryRepository extends EntityRepository
 {
+    public function findAllForLang($_locale)
+    {
+        return $this->_em->createQueryBuilder()
+                ->select('c, cl, l')
+                ->from('CoreBundle:Category', 'c')
+                ->leftJoin('c.langs', 'cl')
+                ->leftJoin('cl.lang', 'l')
+                ->where('l.locale = :locale')
+                ->setParameters(array(
+                    ':locale' => $_locale,
+                ))
+                ->getQuery()
+                ->getResult()
+        ;
+    }
 }

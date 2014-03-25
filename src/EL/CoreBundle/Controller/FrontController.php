@@ -11,7 +11,10 @@ class FrontController extends Controller
     /**
      * @Route(
      *      "/",
-     *      name = "elcore_home"
+     *      name = "elcore_home",
+     *      requirements = {
+     *          "_scheme" = "http"
+     *      }
      * )
      */
     public function indexAction($_locale)

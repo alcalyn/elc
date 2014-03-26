@@ -5,24 +5,16 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css">
+        
         {% stylesheets
-            '@CoreBundle/Resources/public/bootstrap/css/*'
             '@CoreBundle/Resources/public/css/*'
             '@TicTacToeBundle/Resources/public/css/*'
         %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
         {% endstylesheets %}
-        
-        {# fonts #}
-        {% stylesheets
-            output='fonts/glyphicons-halflings-regular.ttf'
-            'bundles/core/bootstrap/fonts/glyphicons-halflings-regular.ttf'
-        %}{% endstylesheets %}
-        {% stylesheets
-            output='fonts/glyphicons-halflings-regular.woff'
-            'bundles/core/bootstrap/fonts/glyphicons-halflings-regular.woff'
-        %}{% endstylesheets %}
-        
         
 		<!--[if IE 6]>
         {% stylesheets
@@ -284,9 +276,12 @@
 	        {% endfor %}
         </div>
         
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
+        
         {% javascripts
 		    '@CoreBundle/Resources/public/js/*'
-		    '@CoreBundle/Resources/public/bootstrap/js/bootstrap.min.js'
 		    '@PhaxCoreBundle/Resources/public/js/*'
         %}
 		        <script src="{{ asset_url }}" type="text/javascript"></script>

@@ -1,9 +1,11 @@
 # Symfony directories
-vendor/*
-*/logs/*
-*/cache/*
-web/uploads/*
-web/bundles/*
+vendor
+app/logs
+app/cache
+web/uploads
+web/bundles
+web/css
+web/js
 
 # Configuration files
 app/config/parameters.ini
@@ -16,9 +18,9 @@ composer.lock
 *~
 
 # Netbeans
-/nbproject/*
+nbproject
 
 # Eclipse
 .buildpath
 .project
-.settings/
+.settings

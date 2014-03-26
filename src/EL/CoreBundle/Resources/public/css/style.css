@@ -214,6 +214,9 @@ nav.navbar form input {
 	font-size: 14px;
 	padding: 4px 12px;
 }
+.row-action h4 {
+    
+}
 #games-nav {
     margin-bottom: 16px;
 }
@@ -275,7 +278,7 @@ table.ranking thead th {
 
 /*----------------footer----------------*/
 footer {
-	min-height: 200px;
+	min-height: 80px;
 	background-color: #113965;
 }
 footer h3,
@@ -331,15 +334,15 @@ footer > * {
 	font-size: 12px;
 }
 .score-tip {
-}
-.score-tip [class^='col-'] {
-    padding: 0 4px !important;
-}
-.score-tip p {
     font-size: 10px;
+    margin: 2px 0;
 }
-.score-tip .value p {
+.score-tip dt {
     text-align: right;
+    width: 36px;
+}
+.score-tip dd {
+    margin-left: 42px;
 }
 
 

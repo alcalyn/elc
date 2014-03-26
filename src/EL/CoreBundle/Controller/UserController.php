@@ -31,7 +31,6 @@ class UserController extends Controller
     }
     
     /**
-     * )
      * @Route(
      *      "/player/login",
      *      name = "elcore_user_login",
@@ -66,7 +65,7 @@ class UserController extends Controller
                 try {
                     $session->login($login->getPseudo(), $login->getPassword());
                     
-                    return $this->redirect($this->generateUrl('elcore_home', array('ju')));
+                    return $this->redirect($this->generateUrl('elcore_home'));
                 } catch (ELUserException $e) {
                     $e->addFlashMessage($this->get('session'));
                 }

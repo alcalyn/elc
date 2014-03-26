@@ -57,21 +57,17 @@
                     {% if game.gameVariants|length > 0 and game.gameVariants[0].scores|length > 0 %}
                         <span data-qtip-title="{{ 'my.ranking'|trans }}" data-qtip="
                             {% for rankingColumn in game.rankingColumns|split(',') %}
-                                <div class='row score-tip'>
-                                    <div class='col-md-5 value'>
-                                        <p>{{ game.gameVariants[0].scores[0]|displayScore(rankingColumn) }}</p>
-                                    </div>
-                                    <div class='col-md-7 key'>
-                                        <p>{{ rankingColumn|trans }}</p>
-                                    </div>
-                                </div>
+                                <dl class='dl-horizontal score-tip'>
+                                    <dt>{{ game.gameVariants[0].scores[0]|displayScore(rankingColumn) }}</dt>
+                                    <dd>{{ rankingColumn|trans }}</dd>
+                                </dl>
                             {% endfor %}
                         ">
                             {{ game.gameVariants[0].scores[0]|displayScore(game.rankingReference) }}
                             {{ game.rankingReference|trans }}
                         </span>
                     {% else %}
-                        <span>
+                        <span data-qtip-title="{{ 'my.ranking'|trans }}" data-qtip="{{ 'here.is.your.futurerank'|trans }}">
                             <small style="font-size:12px;font-style:italic">{{ 'never.played.yet'|trans }}</small>
                         </span>
                     {% endif %}

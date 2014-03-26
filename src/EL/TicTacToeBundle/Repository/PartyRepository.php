@@ -14,12 +14,14 @@ class PartyRepository extends EntityRepository
 {
     public function findOneByCoreParty($coreParty)
     {
-        $query = $this->_em->createQuery('
-            select p, cp
-            from TicTacToeBundle:Party p
-            join p.party cp
-            where cp.id = :core_party_id
-        ')
+        $query = $this->_em->createQuery(
+            '
+                select p, cp
+                from TicTacToeBundle:Party p
+                join p.party cp
+                where cp.id = :core_party_id
+            '
+        )
         ->setParameters(array(
             'core_party_id' => $coreParty->getId(),
         ));
@@ -29,12 +31,14 @@ class PartyRepository extends EntityRepository
     
     public function findOneBySlugParty($slugParty)
     {
-        $query = $this->_em->createQuery('
-            select p, cp
-            from TicTacToeBundle:Party p
-            join p.party cp
-            where cp.slug = :corePartySlug
-        ')
+        $query = $this->_em->createQuery(
+            '
+                select p, cp
+                from TicTacToeBundle:Party p
+                join p.party cp
+                where cp.slug = :corePartySlug
+            '
+        )
         ->setParameters(array(
             'corePartySlug' => $slugParty,
         ));
@@ -44,14 +48,16 @@ class PartyRepository extends EntityRepository
     
     public function findOneByExtendedPartyId($extendedPartyId)
     {
-        $query = $this->_em->createQuery('
-            select p, cp, s, pl
-            from TicTacToeBundle:Party p
-            left join p.party cp
-            left join cp.slots s
-            left join s.player pl
-            where p.id = :extendedPartyId
-        ')
+        $query = $this->_em->createQuery(
+            '
+                select p, cp, s, pl
+                from TicTacToeBundle:Party p
+                left join p.party cp
+                left join cp.slots s
+                left join s.player pl
+                where p.id = :extendedPartyId
+            '
+        )
         ->setParameters(array(
             'extendedPartyId' => $extendedPartyId,
         ));

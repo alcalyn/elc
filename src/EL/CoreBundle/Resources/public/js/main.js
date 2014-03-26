@@ -64,6 +64,9 @@ function qTipInit() {
             content: {
                 text:   $item.data('qtip'),
                 title:  $item.data('qtipTitle')
+            },
+            style: {
+                classes: 'qtip-rounded qtip-shadow'
             }
         });
     });

@@ -23,6 +23,8 @@ $(function () {
     jQuery.each(phaxLoadControllers, function (index, controller) {
     	phax.load_controller(controller);
     });
+    
+    qTipInit();
 });
 
 
@@ -53,3 +55,16 @@ function on(boolean, string_true, string_false) {
 }
 
 
+function qTipInit() {
+    $('[data-qtip]').each(function () {
+        
+        var $item = $(this);
+        
+        $(this).qtip({
+            content: {
+                text:   $item.data('qtip'),
+                title:  $item.data('qtipTitle')
+            }
+        });
+    });
+}

@@ -330,6 +330,17 @@ footer > * {
 .jeu-item .game-desc p {
 	font-size: 12px;
 }
+.score-tip {
+}
+.score-tip [class^='col-'] {
+    padding: 0 4px !important;
+}
+.score-tip p {
+    font-size: 10px;
+}
+.score-tip .value p {
+    text-align: right;
+}
 
 
 /*----------------preparation----------------*/

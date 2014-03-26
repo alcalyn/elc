@@ -55,7 +55,13 @@
 				<h3>
                     {{ game.title }}
                     {% if game.gameVariants|length > 0 and game.gameVariants[0].scores|length > 0 %}
-                        <span>
+                        <span data-qtip-title="{{ 'my.ranking'|trans }}" data-qtip="
+                            {% for rankingColumn in game.rankingColumns|split(',') %}
+                                {{ attribute(game.gameVariants[0].scores[0], rankingColumn) }}
+                                {{ rankingColumn|trans }}
+                                <br />
+                            {% endfor %}
+                        ">
                             {{ attribute(game.gameVariants[0].scores[0], game.rankingReference) }}
                             {{ game.rankingReference|trans }}
                         </span>

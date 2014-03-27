@@ -2,6 +2,15 @@
 
 {% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+        <li><a href="{{ path('elcore_game_home', {slug: game.slug}) }}">{{ game.title }}</a></li>
+        <li class="active">{{ coreParty.title|trans }}</li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <h2>{{ game.title }}</h2>
 <p class="partie-title">{{ coreParty.title }}</p>

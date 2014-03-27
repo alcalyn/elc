@@ -1,5 +1,13 @@
 {% extends "CoreBundle:Games:games.layout.html.twig" %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+        <li class="active">{{ game.title }}</li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 {{ parent() }}
 <div class="row-game row">

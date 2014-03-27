@@ -2,6 +2,13 @@
 
 {% block title %}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li class="active">{{ 'about'|trans }}</li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <p>A propos fr</p>
 {% endblock %}

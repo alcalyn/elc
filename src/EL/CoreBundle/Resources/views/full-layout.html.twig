@@ -91,11 +91,11 @@
                         {% endif %}
                         <div id="breadcrumb-container" class="row">
                             <div class="col-md-12">
-                                <ol class="breadcrumb">
-                                    <li><a href="#">{{ 'home'|trans }}</a></li>
-                                    <li><a href="#">{{ 'games'|trans }}</a></li>
-                                    <li class="active">Echecs</li>
-                                </ol>
+                                {% block breadcrumb %}
+                                    <ol class="breadcrumb">
+                                        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+                                    </ol>
+                                {% endblock %}
                             </div>
                         </div>
                         <div id="main-content" class="row">

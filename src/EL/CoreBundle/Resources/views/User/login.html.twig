@@ -2,6 +2,13 @@
 
 {% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li class="active">{{ 'login'|trans }}</li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <h2>{{ 'login'|trans }}</h2>
 {% if error %}

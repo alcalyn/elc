@@ -2,6 +2,13 @@
 
 {% block title %}{{ parent() }} - FAQ{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li class="active">{{ 'faq'|trans }}</li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <h1>Welcome to the FAQ page</h1>
 {% endblock %}

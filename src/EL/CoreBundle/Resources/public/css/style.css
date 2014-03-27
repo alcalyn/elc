@@ -177,6 +177,7 @@ nav.navbar form input {
 }
 #content {
     padding: 0 15px;
+    margin: 16px 0 32px 0;
 }
 #sidebar {
     padding: 0 15px;
@@ -188,6 +189,7 @@ nav.navbar form input {
 .breadcrumb {
     border-radius: 0;
     background-color: transparent;
+    margin-bottom: 8px;
 }
 
 #content {

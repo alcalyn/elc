@@ -44,6 +44,7 @@ disallow:
     observers: Disallow observers
 
 draws: Draws
+elo: Elo
 endafter: End game after
 faq: FAQ
 
@@ -74,6 +75,7 @@ let:
 
 login: Log in
 logout: Log out
+losses: Losses
 
 my:
     account: My account
@@ -123,6 +125,7 @@ public:
     party: Public party
 
 ranking: Ranking
+ratio: Ratio
 ready: Ready
 remake: Remake
 

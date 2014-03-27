@@ -289,7 +289,7 @@ var tictactoe = {
             clearInterval(tictactoe.thread);
         }
         
-        tictactoe.thread = setInterval(tictactoe.refresh, 2000);
+        tictactoe.thread = setInterval(tictactoe.refresh, 1600);
     },
     
     /**

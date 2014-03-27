@@ -12,10 +12,10 @@ cancel: Annuler
 cannot:
     join:
         party:
-            full: Il n''y a plus de place
+            full: Il n'y a plus de place
 
     start:
-        youarenothost: Vous ne pouvez pas lancer la partie, vous n''êtes pas l''hôte
+        youarenothost: Vous ne pouvez pas lancer la partie, vous n'êtes pas l'hôte
 
 change:
     slot: Changer de slot
@@ -44,6 +44,7 @@ disallow:
     observers: Désactiver les observateurs
 
 draws: Nulles
+elo: Élo
 endafter: Terminer le jeu après
 faq: FAQ
 
@@ -70,10 +71,11 @@ join.party.amongthislist: Rejoindre une partie de cette liste
 leave: Partir
 
 let:
-    cpufindgametoplay: Laisser l''ordinateur me trouver une partie de mon niveau
+    cpufindgametoplay: Laisser l'ordinateur me trouver une partie de mon niveau
 
 login: Se connecter
 logout: Déconnexion
+losses: Défaites
 
 my:
     account: Mon compte
@@ -91,7 +93,7 @@ never:
 
 no:
     current:
-        parties: Vous n''avez pas de parties en cours
+        parties: Vous n'avez pas de parties en cours
 
     rankingyet:
         bethefirst: Pas encore de classement. Jouez et soyez le premier !
@@ -123,6 +125,7 @@ public:
     party: Partie publique
 
 ranking: Classement
+ratio: Ratio
 ready: Prêt
 remake: Recommencer
 

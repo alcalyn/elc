@@ -91,19 +91,22 @@ class PartyController extends Controller
     {
         $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale, $this->container);
+                ->setPartyBySlug($slugParty, $_locale, $this->container)
+        ;
         
-        $party = $partyService->getParty();
+        $party              = $partyService->getParty();
         
         if (!in_array($party->getState(), array(Party::PREPARATION, Party::STARTING))) {
             return $this->redirectParty($_locale, $slugGame, $slugParty);
         }
         
-        $player         = $this->get('el_core.session')->getPlayer();
-        $canJoin        = true === $partyService->canJoin();
-        $isHost         = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
-        $inParty        = $partyService->inParty();
-        $extendedGame   = $partyService->getExtendedGame();
+        $player             = $this->get('el_core.session')->getPlayer();
+        $canJoin            = true === $partyService->canJoin();
+        $isHost             = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
+        $inParty            = $partyService->inParty();
+        $extendedGame       = $partyService->getExtendedGame();
+        $extendedOptions    = $extendedGame->loadParty($party);
+        $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions)['parameters'];
         
         $this->get('el_core.js_vars')
                 ->initPhaxController('slot')
@@ -127,8 +130,9 @@ class PartyController extends Controller
         return $this->render('CoreBundle:Party:preparation.html.twig', array(
             'player'                    => $player,
             'coreParty'                 => $party,
-            'extendedOptions'           => $extendedGame->loadParty($party),
+            'extendedOptions'           => $extendedOptions,
             'extendedOptionsTemplate'   => $extendedGame->getDisplayOptionsTemplate(),
+            'slotsConfiguration'        => $slotsConfiguration,
             'game'                      => $party->getGame(),
             'slots'                     => $party->getSlots(),
             'inParty'                   => $inParty,
@@ -272,7 +276,7 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
         }
         
-        $extendedGame  = $this->get($partyService->getGameServiceName());
+        $extendedGame   = $this->get($partyService->getGameServiceName());
         $jsVars         = $this->get('el_core.js_vars');
         
         $jsVars
@@ -309,7 +313,18 @@ class PartyController extends Controller
         return $extendedGame->endedAction($_locale, $partyService);
     }
     
-    
+    /**
+     * Return the redirect response to the good game screen (prepare, active, ended)
+     * 
+     * @param string $_locale
+     * @param string $slugGame
+     * @param string $slugParty
+     * @param \EL\CoreBundle\Entity\Party $party
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
+     * @throws ELCoreException
+     */
     private function redirectParty($_locale, $slugGame, $slugParty, Party $party = null)
     {
         $parameters = array(

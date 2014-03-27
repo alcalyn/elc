@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
-	<head>
-		<title>{% block title %}Electron Libre{% endblock %}</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <title>{% block title %}Electron Libre{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css">
+        {#
+            Load css from CDN
+        #}
+        {% for cssUri in [
+            'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css',
+            'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css',
+            'http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css',
+        ] %}
+            <link rel="stylesheet" href="{{ cssUri }}">
+        {% endfor %}
         
+        {#
+            Load application css
+        #}
         {% stylesheets
             '@CoreBundle/Resources/public/css/*'
             '@TicTacToeBundle/Resources/public/css/*'
@@ -16,22 +26,25 @@
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
         {% endstylesheets %}
         
-		<!--[if IE 6]>
+        {#
+            Load application css for fucking ie 6
+        #}
+        <!--[if IE 6]>
         {% stylesheets
             '@CoreBundle/Resources/public/css/iecss.css'
             filter='cssrewrite'
         %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
         {% endstylesheets %}
-		<![endif]-->
-		
+        <![endif]-->
+        
         {% block htmlhead %}
         {% endblock %}
-	</head>
-	<body>
-		<div id="body-container">
-			<div id="body">
-				<header>
+    </head>
+    <body>
+        <div id="body-container">
+            <div id="body">
+                <header>
                     <a href="{{ path('elcore_home') }}">
                         {#
                         <div id="top-illustration" style="cursor:pointer">
@@ -40,54 +53,54 @@
                         #}
                     </a>
                     {{ render(controller('CoreBundle:User:index')) }}
-				</header>
-				<div id="main-page-container">
-					<nav class="navbar navbar-default" role="navigation">
-					  <div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-						  <span class="sr-only">Toggle navigation</span>
-						  <span class="icon-bar"></span>
-						  <span class="icon-bar"></span>
-						  <span class="icon-bar"></span>
-						</button>
-					  </div>
-					  <div class="collapse navbar-collapse navbar-ex1-collapse">
-						<form action="#" class="navbar-form navbar-right" role="search">
-							<div class="row">
-							  <div class="col-lg-6">
-								<div class="input-group">
-								  <input type="text" class="form-control" placeholder="{{ 'search'|trans }}">
-								  <span class="input-group-btn">
-									<button class="btn btn-default" type="button">{{ 'go'|trans }}</button>
-								  </span>
-								</div>
-							  </div>
-							</div>
-						</form>
-						<ul class="nav navbar-nav navbar-right">
-						  <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
-						  <li><a href="#">{{ 'community'|trans }}</a></li>
-						  <li><a href="{{ path('elcore_about') }}">{{ 'about'|trans }}</a></li>
-						  <li><a href="{{ path('elcore_faq') }}">{{ 'faq'|trans }}</a></li>
-						</ul>
-					  </div>
-					</nav>
-					<div id="main-content-container">
+                </header>
+                <div id="main-page-container">
+                    <nav class="navbar navbar-default" role="navigation">
+                      <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                          <span class="sr-only">Toggle navigation</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                        </button>
+                      </div>
+                      <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <form action="#" class="navbar-form navbar-right" role="search">
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="{{ 'search'|trans }}">
+                                  <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">{{ 'go'|trans }}</button>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                          <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+                          <li><a href="#">{{ 'community'|trans }}</a></li>
+                          <li><a href="{{ path('elcore_about') }}">{{ 'about'|trans }}</a></li>
+                          <li><a href="{{ path('elcore_faq') }}">{{ 'faq'|trans }}</a></li>
+                        </ul>
+                      </div>
+                    </nav>
+                    <div id="main-content-container">
                         {% if slideshow|default(false) %}
                             {{ render(controller('CoreBundle:Slideshow:index')) }}
                         {% endif %}
-						<div id="breadcrumb-container" class="row">
-							<div class="col-md-12">
-								<ol class="breadcrumb">
-									<li><a href="#">{{ 'home'|trans }}</a></li>
-									<li><a href="#">{{ 'games'|trans }}</a></li>
-									<li class="active">Echecs</li>
-								</ol>
-							</div>
-						</div>
-						<div id="main-content" class="row">
-							<div class="col-md-9">
-								<div id="content" class="inner">
+                        <div id="breadcrumb-container" class="row">
+                            <div class="col-md-12">
+                                <ol class="breadcrumb">
+                                    <li><a href="#">{{ 'home'|trans }}</a></li>
+                                    <li><a href="#">{{ 'games'|trans }}</a></li>
+                                    <li class="active">Echecs</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div id="main-content" class="row">
+                            <div class="col-md-9">
+                                <div id="content" class="inner">
                                     <div id="errors">
                                         {% for type, flashMessages in app.session.flashbag.all() %}
                                             {% for flashMessage in flashMessages %}
@@ -99,59 +112,61 @@
                                         {% endfor %}
                                     </div>
                                     <div id="block-body">
-										{% block body %}
-	                                    {% endblock %}
+                                        {% block body %}
+                                        {% endblock %}
                                     </div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div id="sidebar">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div id="sidebar">
                                     {% for widget in widgets.all %}
                                         {{ render(controller(widget.controller, widget.parameters)) }}
                                         <hr />
                                     {% endfor %}
-									<div class="widget my-buddies">
-									  <div class="widget-head">
-										<h3 class="widget-title"><span class="glyphicon glyphicon-user"></span> Mes adversaires</h3>
-									  </div>
-									  <div class="widget-body">
-										<form action="#" class="form-inline">
-											<label><input type="checkbox" name="my-tour" /> En ligne seulement</label>
-										</form>
-										<div class="list-group-container scrollin">
-											<div class="list-group">
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">fabien</h4>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">fabien</h4>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">fabien</h4>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">fabien</h4>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">fabien</h4>
-											  </a>
-											  <a href="#" class="list-group-item">
-												<h4 class="list-group-item-heading">fabien</h4>
-											  </a>
-											</div>
-										</div>
-									  </div>
-									</div>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<footer class="inner">
-						<div class="row">
-							<div class="col-md-12">
-								<p class="text-center">
-                                    © Electron Libre 2013-2014
+                                    {# Hide my friends for now
+                                    <div class="widget my-buddies">
+                                      <div class="widget-head">
+                                        <h3 class="widget-title"><span class="glyphicon glyphicon-user"></span> Mes adversaires</h3>
+                                      </div>
+                                      <div class="widget-body">
+                                        <form action="#" class="form-inline">
+                                            <label><input type="checkbox" name="my-tour" /> En ligne seulement</label>
+                                        </form>
+                                        <div class="list-group-container scrollin">
+                                            <div class="list-group">
+                                              <a href="#" class="list-group-item">
+                                                <h4 class="list-group-item-heading">fabien</h4>
+                                              </a>
+                                              <a href="#" class="list-group-item">
+                                                <h4 class="list-group-item-heading">fabien</h4>
+                                              </a>
+                                              <a href="#" class="list-group-item">
+                                                <h4 class="list-group-item-heading">fabien</h4>
+                                              </a>
+                                              <a href="#" class="list-group-item">
+                                                <h4 class="list-group-item-heading">fabien</h4>
+                                              </a>
+                                              <a href="#" class="list-group-item">
+                                                <h4 class="list-group-item-heading">fabien</h4>
+                                              </a>
+                                              <a href="#" class="list-group-item">
+                                                <h4 class="list-group-item-heading">fabien</h4>
+                                              </a>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    #}
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <footer class="inner">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-center">
+                                    © <a href="{{ url('elcore_home') }}">Electron Libre</a> 2013-2014
                                     -
                                     <a href="#">{{ 'contacts'|trans }}</a>
                                     {#
@@ -159,40 +174,46 @@
                                     <a href="http://glyphicons.com/">Thanks to Glyphicons</a>
                                     #}
                                 </p>
-							</div>
-						</div>
-					</footer>
-				</div>
-			</div>
-		</div>
-		<div id="elcore_js_vars">
-	        {% for type, values in js_vars.export %}
-	        	<div id="{{ type }}"
-	        		{% for key, value in values %}
-	        			{% if value is iterable %}
-	        				data-{{ key }}='{{ value|json_encode()|raw }}'
-	        			{% else %}
-	        				data-{{ key }}="{{ value|raw }}"
-	        			{% endif %}
-	        		{% endfor %}
-	        	></div>
-	        {% endfor %}
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <div id="elcore_js_vars">
+            {% for type, values in js_vars.export %}
+                <div id="{{ type }}"
+                    {% for key, value in values %}
+                        {% if value is iterable %}
+                            data-{{ key }}='{{ value|json_encode()|raw }}'
+                        {% else %}
+                            data-{{ key }}="{{ value|raw }}"
+                        {% endif %}
+                    {% endfor %}
+                ></div>
+            {% endfor %}
         </div>
         
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
+        {% for jsUri in [
+            'http://code.jquery.com/jquery-1.11.0.min.js',
+            'http://code.jquery.com/ui/1.10.3/jquery-ui.min.js',
+            'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
+            'http://cdn.jsdelivr.net/jquery.sortable/0.1/jquery.sortable.js',
+            'http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js',
+        ] %}
+            <script type="text/javascript" src="{{ jsUri }}"></script>
+        {% endfor %}
         
         {% javascripts
-		    '@CoreBundle/Resources/public/js/*'
-		    '@PhaxCoreBundle/Resources/public/js/*'
+            '@CoreBundle/Resources/public/js/*'
+            '@PhaxCoreBundle/Resources/public/js/*'
         %}
-		        <script src="{{ asset_url }}" type="text/javascript"></script>
-		{% endjavascripts %}
-		
-		<div id="html-end">
-			{% block htmlend %}
-	        {% endblock %}
-		</div>
-	</body>
+                <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+        
+        <div id="html-end">
+            {% block htmlend %}
+            {% endblock %}
+        </div>
+    </body>
 </html>

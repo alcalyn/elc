@@ -1,13 +1,10 @@
-'Log out': 'Log out'
-'Remember me on this computer': 'Remember me on this computer'
-
 _:
     players: players
 
 about: About
 
 all:
-    games: 'All games'
+    games: All games
 
 ban: Ban
 cancel: Cancel
@@ -15,81 +12,78 @@ cancel: Cancel
 cannot:
     join:
         party:
-            full: 'Cannot join, party is full'
+            full: Cannot join, party is full
 
     start:
-        youarenothost: 'Cannot start, you are not the host of this game'
+        youarenothost: Cannot start, you are not the host of this game
 
 change:
-    slot: 'Change slot'
+    slot: Change slot
 
 chat:
-    disabled: 'Chat disabled'
+    disabled: Chat disabled
 
 close: Close
 community: Community
-contact: Contact
 contacts: Contacts
 
 create:
-    account: 'Create account'
+    account: Create account
 
     customized:
-        game: 'Create a customized game'
+        game: Create a customized game
 
-    game: 'Create a game'
-    game.%gametitle%: 'Create a %gametitle% game'
+    game: Create a game
+    game.%gametitle%: Create a %gametitle% game
 
 delete:
-    slot: 'Delete slot'
+    slot: Delete slot
 
 disallow:
-    chat: 'Disallow chat'
-    observers: 'Disallow observers'
+    chat: Disallow chat
+    observers: Disallow observers
 
 draws: Draws
-elo: Elo
-endafter: 'End game after'
+endafter: End game after
 faq: FAQ
 
-filter:
-    by: 'Filter by'
-
 game:
-    endafter: 'Tic Tac Toe will terminate after'
-    name: 'Game name'
+    endafter: Tic Tac Toe will terminate after
 
 games: Games
 go: Go
+
+here:
+    is:
+        your:
+            futurerank: Play and find here is you future rank
+
 home: Home
 
 invite:
-    cpu: 'Invite computer'
-    player: 'Invite player'
+    cpu: Invite computer
+    player: Invite player
 
 join: Join
-join.party: 'Join this party'
-join.party.amongthislist: 'Join a game among this list'
+join.party: Join this party
+join.party.amongthislist: Join a game among this list
 leave: Leave
 
 let:
-    cpufindgametoplay: 'Let computer to find me a suitable game to play'
+    cpufindgametoplay: Let computer to find me a suitable game to play
 
-login: 'Log in'
+login: Log in
 logout: Log out
-losses: Losses
 
 my:
-    account: 'My account'
+    account: My account
 
     current:
-        parties: 'My current games'
+        parties: My current games
 
-    favorites: 'My favorites'
-    page: 'My page'
-    turn: 'My turn to play'
-
-name: Name
+    page: My page
+    ranking: My ranking
+    turn: My turn to play
 
 never:
     played:
@@ -97,59 +91,61 @@ never:
 
 no:
     current:
-        parties: 'You have no current games'
+        parties: You have no current games
+
+    rankingyet:
+        bethefirst: No ranking yet. Play now and then be the first !
 
 number:
     of:
         parties: Number
 
 observers:
-    disallowed: 'Observers disallowed'
+    disallowed: Observers disallowed
 
 open: Open
-
-opponents:
-    note: 'Opponents note'
-
 parties: Games
 party: Game
-party.title: 'Party Title'
+party.title: Party Title
 
 play:
-    now: 'Play now'
+    now: Play now
 
 player: Player
 
 private:
     only:
-        invitation: 'Private (only on invitation)'
+        invitation: Private (only on invitation)
 
-    party: 'Private party'
+    party: Private party
 
 public:
-    party: 'Public party'
+    party: Public party
 
 ranking: Ranking
-ratio: Ratio
 ready: Ready
 remake: Remake
-remember.me: Remember me
+
+remember:
+    me: Remember me
+
 rules: Rules
 
 run:
-    party: 'Run party'
+    party: Run party
 
 score: Score
 scores: Scores
 search: Search
-signup: 'Sign up'
+signup: Sign up
 
 slot:
-    closed: 'Slot closed'
-    open: 'Slot open'
+    closed: Slot closed
+    open: Slot open
 
 tictactoe:
-    options: 'Tic Tac Toe options'
+    options: Tic Tac Toe options
 
-victorycondition: 'Number of ...'
+top: Top
+victorycondition: Number of ...
 wins: Wins

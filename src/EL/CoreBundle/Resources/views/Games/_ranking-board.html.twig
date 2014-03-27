@@ -1,17 +1,17 @@
 <div class="row-rank row">
-	<div class="col-md-12">
-		<div class="panel panel-default">
-			<table class="ranking table table-striped table-condensed table-hover text-center">
-				<thead><tr>
-					<th>#</th>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <table class="ranking table table-striped table-condensed table-hover text-center">
+                <thead><tr>
+                    <th>#</th>
                     <th>{{ 'player'|trans }}</th>
                     {% for rankingColumn in game.rankingColumns|split(',') %}
                         {% if rankingColumn in rankingColumns %}
                             <th>{{ rankingColumn|trans }}</th>
                         {% endif %}
                     {% endfor %}
-				</tr></thead>
-				<tbody>
+                </tr></thead>
+                <tbody>
                     {% for rank in ranking %}
                         <tr class="rank-gold">
                             <td>{{ loop.index }}</td>
@@ -23,8 +23,8 @@
                             {% endfor %}
                         </tr>
                     {% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

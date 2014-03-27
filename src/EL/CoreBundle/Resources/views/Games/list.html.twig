@@ -5,35 +5,35 @@
 {% block body %}
 {# Games filter, don't need while there is no at least a few games.
 <div class="jeux-filtre">
-	<form action="#" class="form-inline">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="input-group">
+    <form action="#" class="form-inline">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
                     <span class="input-group-addon">{{ 'keywords'|trans }}</span>
-					<input type="text" class="form-control input-sm" placeholder="{{ 'keywords'|trans }}">
-				</div>
-			</div>
-			<div class="col-md-5">
-				<div class="input-group">
+                    <input type="text" class="form-control input-sm" placeholder="{{ 'keywords'|trans }}">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group">
                     <span class="input-group-addon">{{ 'filter.by'|trans }}</span>
                     <select class="form-control input-sm">
                         <option selected="selected">{{ 'game.name'|trans }}</option>
                         <option>{{ 'opponents.note'|trans }}</option>
                         <option>{{ 'my.favorites'|trans }}</option>
                     </select>
-				</div>
-			</div>
+                </div>
+            </div>
         </div>
         <div class="row">
-			<div class="col-md-3">
-				<div class="input-group">
-					<input type="text" class="form-control input-sm" placeholder="2 - 4">
-					<span class="input-group-addon input-sm">{{ '_.players'|trans }}</span>
-				</div>
-			</div>
-			<div class="col-md-5">
-				<div class="input-group">
-					<span class="input-group-addon input-sm">{{ 'category'|trans }}</span>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" placeholder="2 - 4">
+                    <span class="input-group-addon input-sm">{{ '_.players'|trans }}</span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <span class="input-group-addon input-sm">{{ 'category'|trans }}</span>
                     <select class="form-control input-sm">
                         <option value="0" selected="selected">{{ 'all.categories'|trans }}</option>
                         {% for category in categories %}
@@ -41,18 +41,18 @@
                         {% endfor %}
                     </select>
                 </div>
-			</div>
-		</div>
-	</form>
+            </div>
+        </div>
+    </form>
 </div>
 <hr />
 #}
 <div class="row jeux-list">
     {% for game in games %}
     <div class="col-md-6">
-		<a href="{{ path('elcore_game_home', {'slug': game.slug}) }}" class="block">
-			<div class="jeu-item">
-				<h3>
+        <a href="{{ path('elcore_game_home', {'slug': game.slug}) }}" class="block">
+            <div class="jeu-item">
+                <h3>
                     {{ game.title }}
                     {% if game.gameVariants|length > 0 and game.gameVariants[0].scores|length > 0 %}
                         <span data-qtip-title="{{ 'my.ranking'|trans }}" data-qtip="
@@ -72,15 +72,15 @@
                         </span>
                     {% endif %}
                 </h3>
-				<small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
-				<div class="game-desc">
-					<p>
+                <small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
+                <div class="game-desc">
+                    <p>
                         {{ game.shortdesc }}
-					</p>
-				</div>
-			</div>
-		</a>
-	</div>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

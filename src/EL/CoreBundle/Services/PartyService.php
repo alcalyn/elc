@@ -552,14 +552,14 @@ class PartyService extends GameService
             return $remake;
         }
         
-        $cloneCoreParty       = $party->createRemake();
+        $cloneCoreParty     = $party->createRemake();
         
         $party->setRemake($cloneCoreParty);
         $cloneCoreParty->setHost($player);
         $this->addSlug($cloneCoreParty);
         
-        $options                = $extendedPartyService->loadParty($this->getParty());
-        $slotsConfiguration    = $extendedPartyService->getSlotsConfiguration($options);
+        $options            = $extendedPartyService->loadParty($party);
+        $slotsConfiguration = $extendedPartyService->getSlotsConfiguration($options);
         
         $this->createSlots($slotsConfiguration, $cloneCoreParty);
         

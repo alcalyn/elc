@@ -1,6 +1,8 @@
-<h3>{{ 'tictactoe.options'|trans }}</h3>
-<p>
-    {{ 'endafter'|trans }}
-    {{ form_widget(optionsForm.extendedOptions.numberOfParties) }}
-    {{ form_widget(optionsForm.extendedOptions.victoryCondition) }}
-</p>
+<h3 class="tictactoe-title">{{ 'tictactoe.options'|trans }}</h3>
+<div class="tictactoe-creation">
+    <p>
+        {{ 'endafter'|trans }}
+        {{ form_widget(optionsForm.extendedOptions.numberOfParties) }}
+        {{ form_widget(optionsForm.extendedOptions.victoryCondition) }}
+    </p>
+</div>

@@ -5,168 +5,168 @@ http://colorschemedesigner.com/#3B31OnKtduDwe
 
 
 body {
-	background: #A2BDE2;
-	padding: 0;
-	margin: 0px auto auto auto;
+    background: #A2BDE2;
+    padding: 0;
+    margin: 0px auto auto auto;
 }
 p, h1, h2, h3, h4, h5, h6, ul, li {
-	margin: 0;
+    margin: 0;
 }
 p {
-	font-size: 13px;
+    font-size: 13px;
 }
 ul, li {
-	padding: 0;
-	list-style: none;
+    padding: 0;
+    list-style: none;
 }
 
 #body-container {
-	border-top: 7px solid #7198CD;
+    border-top: 7px solid #7198CD;
 }
 #body {
-	max-width: 1000px;
-	height: auto;
-	margin: auto;
-	padding: 0px;
-	position: relative;
+    max-width: 1000px;
+    height: auto;
+    margin: auto;
+    padding: 0px;
+    position: relative;
 }
 h2, h3, h4, h5, h6 {
-	color: #306198;
+    color: #306198;
 }
 header {
-	margin-top: -7px;
-	height: 128px;
+    margin-top: -7px;
+    height: 128px;
 }
 header h1 {
-	position: absolute;
-	z-index: 1002
+    position: absolute;
+    z-index: 1002
 }
 header #top-illustration {
-	position: absolute;
-	left: -90px;
-	padding-left: 90px;
-	padding-top: 75px;
-	z-index: 1001;
-	width: 300px;
-	height: 160px;
-	background: url(../img/nuage.png) no-repeat transparent;
+    position: absolute;
+    left: -90px;
+    padding-left: 90px;
+    padding-top: 75px;
+    z-index: 1001;
+    width: 300px;
+    height: 160px;
+    background: url(../img/nuage.png) no-repeat transparent;
 }
 header #top-illustration h1 {
-	font-size: 28px;
-	font-family: cursive; /* temporaire bien sur */
-	text-shadow: 4px 12px 4px #ddd;
+    font-size: 28px;
+    font-family: cursive; /* temporaire bien sur */
+    text-shadow: 4px 12px 4px #ddd;
 }
 header #login-container {
-	position: absolute;
-	z-index: 1003;
-	right: 0;
-	width: 300px;
-	height: 120px;
+    position: absolute;
+    z-index: 1003;
+    right: 0;
+    width: 300px;
+    height: 120px;
 }
 header #login {
-	position: relative;
-	width: 300px;
-	height: 90px;
-	/*background-image: url(../img/bg-login.png);*/
-	background-color: #6495CC;
-	border-radius: 12px;
-	margin: 18px 0 0 0;
+    position: relative;
+    width: 300px;
+    height: 90px;
+    /*background-image: url(../img/bg-login.png);*/
+    background-color: #6495CC;
+    border-radius: 12px;
+    margin: 18px 0 0 0;
 }
 header #login .user-info {
-	text-align: right;
-	float: left;
-	width: 180px;
+    text-align: right;
+    float: left;
+    width: 180px;
 }
 header #login .user-info-container {
-	padding: 6px;
+    padding: 6px;
 }
 header #login .user-info .pseudo {
-	background-color: #F4B991;
-	color: black;
-	font-size: 12px;
-	padding: 2px 8px;
-	border-radius: 20px;
-	margin-bottom: 6px;
+    background-color: #F4B991;
+    color: black;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 6px;
 }
 header #login .user-avatar {
-	width: 120px;
-	height: 90px;
-	float: left;
+    width: 120px;
+    height: 90px;
+    float: left;
 }
 header #login .user-avatar img.avatar {
-	border-radius: 0 12px 12px 0;
+    border-radius: 0 12px 12px 0;
 }
 header #login .shadow {
-	border-radius: 0 12px 12px 0;
-	box-shadow: 0 0 27px #7C7C7C inset;
-	float: right;
-	position: absolute;
-	right: 0;
-	z-index: 999;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 0 27px #7C7C7C inset;
+    float: right;
+    position: absolute;
+    right: 0;
+    z-index: 999;
 }
 /*---------------- main page container----------------------*/
 #main-page-container {
-	box-shadow: 0 2px 4px;
-	border-radius: 8px 8px 0 0;
+    box-shadow: 0 2px 4px;
+    border-radius: 8px 8px 0 0;
 }
 
 
 /*---------------- menu tab----------------------*/
 nav .collapse {
-	height: 35px !important;
-	padding-right: 0px;
+    height: 35px !important;
+    padding-right: 0px;
 }
 nav.navbar {
-	border-radius: 8px 8px 0 0;
-	margin: 0;
-	background: #6495CC;
-	border-bottom: 5px solid #306198;
-	height: 41px;
-	min-height: 0;
+    border-radius: 8px 8px 0 0;
+    margin: 0;
+    background: #6495CC;
+    border-bottom: 5px solid #306198;
+    height: 41px;
+    min-height: 0;
 }
 nav.navbar > div > ul {
-	margin-right: 0px !important;
+    margin-right: 0px !important;
 }
 nav.navbar > div > ul > li {
-	height: 40px;
-	border-bottom: 5px solid #306198;
+    height: 40px;
+    border-bottom: 5px solid #306198;
 }
 nav.navbar > div > ul > li:hover {
-	background-color: #306198;
-	color: #222 !important;
-	border-bottom: 5px solid #749FD0;
+    background-color: #306198;
+    color: #222 !important;
+    border-bottom: 5px solid #749FD0;
 }
 nav.navbar > div > ul > li > a {
-	font-size: 14px;
-	font-weight: bold;
-	color: #222 !important;
-	padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #222 !important;
+    padding: 8px 20px;
 }
 nav.navbar > div > ul > li:hover > a {
-	color: #FFF !important;
+    color: #FFF !important;
 }
 nav.navbar form {
-	margin: 3px 0;
-	padding-right: 4px;
+    margin: 3px 0;
+    padding-right: 4px;
 }
 nav.navbar form button,
 nav.navbar form input {
-	font-size: 12px;
-	padding: 2px 6px;
-	height: 30px;
+    font-size: 12px;
+    padding: 2px 6px;
+    height: 30px;
 }
 nav.navbar form input {
-	width: 190px !important;
+    width: 190px !important;
 }
 /*---------------- carousel ----------------------*/
 #carousel-example-generic a {
-	outline: none;
+    outline: none;
 }
 
 /*----------------main_content----------------*/
 #main-content-container {
-	background-color: #fff;
-	min-height: 256px;
+    background-color: #fff;
+    min-height: 256px;
 }
 
 #carousel-container {
@@ -176,43 +176,46 @@ nav.navbar form input {
 #main-content {
 }
 #content {
-	padding: 0 15px;
+    padding: 0 15px;
 }
 #sidebar {
-	padding: 0 15px;
+    padding: 0 15px;
+}
+#sidebar hr:last-child {
+    display: none;
 }
 
 .breadcrumb {
-	border-radius: 0;
-	background-color: transparent;
+    border-radius: 0;
+    background-color: transparent;
 }
 
 #content {
-	min-height: 300px;
+    min-height: 300px;
 }
 .row-game h2.game-title {
-	margin-bottom: 0px;
-	font-size: 26px;
+    margin-bottom: 0px;
+    font-size: 26px;
 }
 .row-game .nb-player {
-	font-size: 12px;
-	color: #113965;
+    font-size: 12px;
+    color: #113965;
 }
 .row-game .game-desc {
-	margin: 16px 0;
+    margin: 16px 0;
 }
 .row-game .game-desc p {
-	text-align: justify;
-	font-size: 18px;
+    text-align: justify;
+    font-size: 18px;
     
 }
 .row-action {
-	margin: 32px 0;
-	text-align: center;
+    margin: 32px 0;
+    text-align: center;
 }
 .row-action button {
-	font-size: 14px;
-	padding: 4px 12px;
+    font-size: 14px;
+    padding: 4px 12px;
 }
 .row-action h4 {
     
@@ -229,7 +232,7 @@ table.ranking thead th {
     text-align: center;
 }
 .ranking a {
-	color: #000;
+    color: #000;
 }
 .ranking tr.rank-gold td {
 }
@@ -238,28 +241,27 @@ table.ranking thead th {
 .ranking tr.rank-bronze td {
 }
 .ranking tr.rank-you td {
-	background-color: #eef !important;
+    background-color: #eef !important;
 }
 
 
 /*----------------widgets----------------*/
 .widget {
-	margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 .widget form {
-	margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 .widget .widget-head {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 .widget h3.widget-title {
-	font-size: 16px;
-	font-weight: bold;
+    font-size: 16px;
+    font-weight: bold;
 }
 .widget .widget-body {
-	padding: 6px;
+    padding: 6px;
 }
-
 
 .my-games {
 }
@@ -270,7 +272,8 @@ table.ranking thead th {
     display: none;
 }
 .my-games select {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
+    width: 100% !important;
 }
 
 
@@ -278,60 +281,60 @@ table.ranking thead th {
 
 /*----------------footer----------------*/
 footer {
-	min-height: 80px;
-	background-color: #113965;
+    min-height: 80px;
+    background-color: #113965;
 }
 footer h3,
 footer h4,
 footer p,
 footer li,
 footer a {
-	color: white;
+    color: white;
 }
 footer > * {
-	margin-bottom: 18px;
+    margin-bottom: 18px;
 }
 
 
 /*----------------jeux----------------*/
 .jeux-filtre {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 .jeux-filtre .row {
-	margin-top: 6px;
-	margin-bottom: 6px;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 .jeux-list {
 
 }
 .jeu-item {
-	margin: 6px;
-	padding: 4px;
+    margin: 6px;
+    padding: 4px;
 }
 .jeu-item:hover {
 }
 .jeu-item h3 {
-	font-size: 16px;
-	font-weight: bold;
-	border-bottom: 1px solid #80A4CC;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #80A4CC;
 }
 .jeu-item h3 span {
-	float: right;
-	font-weight: 400;
-	font-size: 14px;
-	color: #306198;
+    float: right;
+    font-weight: 400;
+    font-size: 14px;
+    color: #306198;
 }
 .jeu-item:hover h3 {
-	color: #113965;
+    color: #113965;
 }
 .jeu-item .nb-player {
-	font-size: 11px;
+    font-size: 11px;
 }
 .jeu-item .nb-player span {
-	font-weight: bold;
+    font-weight: bold;
 }
 .jeu-item .game-desc p {
-	font-size: 12px;
+    font-size: 12px;
 }
 .score-tip {
     font-size: 10px;
@@ -345,21 +348,27 @@ footer > * {
     margin-left: 42px;
 }
 
+/*-------------jeux-preparation--------------*/
+.jeux-preparation {
+}
+.jeux-preparation h1 {
+    margin-bottom: 16px;
+}
 
 /*----------------preparation----------------*/
 .slots {
 }
 .slots .slot {
-	margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 .slots .slot .btn-default,
 .more-slot .btn-default {
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.30) 0px, rgba(200, 200, 200, 0.00) 100%);
 }
 .slots .slot button.player-pseudo {
-	cursor: move;
-	text-align: left;
-	font-size: 14px;
+    cursor: move;
+    text-align: left;
+    font-size: 14px;
 }
 .slots .slot button.btn-slot-1 {
     width: 28px;
@@ -380,112 +389,117 @@ footer > * {
     width: 340px;
 }
 .slots .slot button {
-	height: 32px;
-	padding: 0 12px;
+    height: 32px;
+    padding: 0 12px;
 }
 
 .slots .slot.joueur button {
-	background-color: #D0E0F2;
-	border-color: #96C1F2;
+    background-color: #D0E0F2;
+    border-color: #96C1F2;
 }
 .slots .slot.me button {
-	font-weight: bold;
+    font-weight: bold;
 }
 .slots .slot.host button {
-	background-color: #96C1F2;
-	border-color: #749FD0;
+    background-color: #96C1F2;
+    border-color: #749FD0;
 }
 .slots .slot.ordi button {
-	background-color: #F4DB91;
-	border-color: #AF964D;
+    background-color: #F4DB91;
+    border-color: #AF964D;
 }
 .slots .slot.slot-open button {
 }
 .slots .slot.slot-closed button {
-	background-color: #ccc;
-	border-color: #999;
+    background-color: #ccc;
+    border-color: #999;
 }
 .slots .slot .dropdown-menu {
-	margin-left: 300px;
+    margin-left: 300px;
 }
 .more-slot button {
-	width: 340px;
-	border-style: dashed;
-	outline: none;
+    width: 340px;
+    border-style: dashed;
+    outline: none;
 }
 
 
 
 /*----------------tools----------------*/
 .scrollin {
-	max-height: 200px;
-	overflow-y: auto;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 0px solid #CCC;
+    border-width: 1px 0;
+}
+.scrollin .list-group {
+    margin: -1px 0;
 }
 img.avatar {
-	border-radius: 4px;
+    border-radius: 4px;
 }
 .inner {
-	padding: 12px;
+    padding: 12px;
 }
 .inner-L {
-	padding: 12px 0 12px 12px;
+    padding: 12px 0 12px 12px;
 }
 .inner-R {
-	padding: 12px 12px 12px 0;
+    padding: 12px 12px 12px 0;
 }
 .block {
-	display:block;
-	color: inherit;
+    display:block;
+    color: inherit;
 }
 .block:hover {
-	color: inherit;
-	text-decoration: inherit;
+    color: inherit;
+    text-decoration: inherit;
 }
 select.form-control.smaller {
-	padding: 4px;
-	height: 28px;
+    padding: 4px;
+    height: 28px;
 }
 .list-group-container {
 }
 .list-group-container .list-group-item {
-	padding: 4px 8px;
-	font-size: 12px;
+    padding: 4px 8px;
+    font-size: 12px;
 }
 .list-group-container .list-group-item h4 {
-	font-size: 14px;
-	margin: 0 0 0 0;
+    font-size: 14px;
+    margin: 0 0 0 0;
 }
 .list-group {
 }
 .panel {
 }
 .panel-heading {
-	padding: 6px 16px;
+    padding: 6px 16px;
 }
 
 /*----------------chat panel----------------*/
 .panel.chat {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .panel.chat .panel-body {
-	padding: 0;
-	overflow-y: auto;
-	height: 200px;
+    padding: 0;
+    overflow-y: auto;
+    height: 200px;
 }
 .panel.chat .panel-body ul {
 }
 .panel.chat .panel-body ul li {
-	padding: 4px 8px;
-	font-size: 13px;
+    padding: 4px 8px;
+    font-size: 13px;
 }
 .panel.chat .panel-body ul li .pseudo {
-	font-weight: bold;
+    font-weight: bold;
 }
 .panel.chat .panel-body ul li:nth-child(even) {
-	background-color: #DFECF9;
+    background-color: #DFECF9;
 }
 .panel.chat .panel-footer {
-	padding: 2px;
+    padding: 2px;
 }
 
 

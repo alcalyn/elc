@@ -1,5 +1,16 @@
 
+/**
+ * Creation page
+ */
+.tictactoe-creation p {
+    text-align: center;
+    font-size: 18px;
+    margin: 32px;
+}
 
+/**
+ * Game page, grid and score
+ */
 #grid {
     width: 420px;
     margin: 24px auto 0 auto;

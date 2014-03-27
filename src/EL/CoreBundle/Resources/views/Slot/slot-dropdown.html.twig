@@ -1,10 +1,10 @@
 {% set menus = {
-	'open':			not slot.player and not slot.open,
-	'close':		not slot.player and slot.open,
-	'remove':		not slot.player,
-	'ban':			slot.player,
-	'inviteplayer':	not slot.player,
-	'invitecpu':	not slot.player
+    'open':         not slot.player and not slot.open,
+    'close':        not slot.player and slot.open,
+    'remove':       not slot.player,
+    'ban':          slot.player,
+    'inviteplayer': not slot.player,
+    'invitecpu':    not slot.player
 } %}
 
 <ul class="dropdown-menu" role="menu">

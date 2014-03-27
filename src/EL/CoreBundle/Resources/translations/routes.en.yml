@@ -40,11 +40,17 @@ elcore_party_preparation_action: '/games/{slugGame}/{slugParty}/preparation/acti
 # Desc: /player/login
 elcore_user_login: /player/login
 
+# Desc: /player/login
+elcore_user_login_post: /player/login
+
 # Desc: /player/logout
 elcore_user_logout: /player/logout
 
 # Desc: /player/signup
 elcore_user_signup: /player/signup
+
+# Desc: /player/signup
+elcore_user_signup_post: /player/signup
 
 # Desc: /login_check
 login_check: /login_check

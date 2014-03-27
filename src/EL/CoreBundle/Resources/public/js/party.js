@@ -1,7 +1,7 @@
  
 
 var party = {
-	
+    
     PREPARATION:    1,
     STARTING:       2,
     ACTIVE:         3,

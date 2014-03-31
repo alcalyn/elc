@@ -5,15 +5,14 @@ namespace EL\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use EL\CoreBundle\Model\ELCoreException;
-use EL\CoreBundle\Model\ELUserException;
+use EL\CoreBundle\Exception\ELCoreException;
+use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Entity\Game;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Form\Type\PartyType;
 use EL\CoreBundle\Form\Entity\Options;
 use EL\CoreBundle\Form\Type\OptionsType;
-use EL\CoreBundle\Model\Slug;
 
 class PartyController extends Controller
 {
@@ -47,13 +46,9 @@ class PartyController extends Controller
                 
                 $coreParty
                         ->setDateCreate(new \DateTime())
-                        ->setSlug(Slug::slug($coreParty->getTitle()))
                 ;
                 
                 $em->persist($coreParty);
-                
-                // create unique party slug
-                $partyService->addSlug($coreParty);
                 
                 // notify extended game that party has been created with $extendedOptions options
                 $extendedGame->saveParty($coreParty, $extendedOptions);
@@ -64,11 +59,18 @@ class PartyController extends Controller
                 // create slots from given slots configuration
                 $partyService->createSlots($slotsConfiguration);
                 
+                $em->flush();
+                
+                if (empty($coreParty->getSlug())) {
+                    $coreParty->setSlug($partyService->generateRandomTitle($_locale));
+                    $em->flush();
+                }
+                
                 // redirect to preparation page
                 return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                    '_locale'       => $_locale,
-                    'slugGame'     => $slug,
-                    'slugParty'    => $coreParty->getSlug(),
+                    '_locale'   => $_locale,
+                    'slugGame'  => $slug,
+                    'slugParty' => $coreParty->getSlug(),
                 )));
             }
         }

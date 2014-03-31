@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use EL\CoreBundle\Model\ELUserException;
+use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Services\SessionService;
 use EL\CoreBundle\Form\Entity\Signup;
 use EL\CoreBundle\Form\Entity\Login;

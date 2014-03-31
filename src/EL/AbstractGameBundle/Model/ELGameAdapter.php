@@ -5,7 +5,7 @@ namespace EL\AbstractGameBundle\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Entity\Party as CoreParty;
-use EL\CoreBundle\Model\ELUserException;
+use EL\CoreBundle\Exception\ELUserException;
 use EL\AbstractGameBundle\Form\Entity\AdapterOptions;
 use EL\AbstractGameBundle\Form\Type\AdapterOptionsType;
 

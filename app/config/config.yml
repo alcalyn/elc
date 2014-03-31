@@ -63,6 +63,11 @@ doctrine:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
 
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+
 # Jms i18n Configuration
 jms_i18n_routing:
     default_locale: en

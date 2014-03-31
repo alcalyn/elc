@@ -9,9 +9,8 @@ use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Entity\Slot;
 use EL\CoreBundle\Entity\Player;
 use EL\CoreBundle\Services\SessionService;
-use EL\CoreBundle\Model\Slug;
-use EL\CoreBundle\Model\ELCoreException;
-use EL\CoreBundle\Model\ELUserException;
+use EL\CoreBundle\Exception\ELCoreException;
+use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Form\Entity\PartyOptions;
 
 class PartyService extends GameService
@@ -116,25 +115,6 @@ class PartyService extends GameService
         
         return $party;
     }
-    
-    
-    public function addSlug($party)
-    {
-        $slug = Slug::slug($party->getTitle());
-        $party->setSlug($slug);
-        
-        $countSlug = $this->em
-                ->getRepository('CoreBundle:Party')
-                ->countSlug($slug)
-        ;
-        
-        if (intval($countSlug) > 0) {
-            $this->em->persist($party);
-            $this->em->flush();
-            $party->setSlug($slug.'-'.$party->getId());
-        }
-    }
-    
     
     public function createSlots(array $slotsConfiguration, Party $party = null)
     {
@@ -556,7 +536,6 @@ class PartyService extends GameService
         
         $party->setRemake($cloneCoreParty);
         $cloneCoreParty->setHost($player);
-        $this->addSlug($cloneCoreParty);
         
         $options            = $extendedPartyService->loadParty($party);
         $slotsConfiguration = $extendedPartyService->getSlotsConfiguration($options);

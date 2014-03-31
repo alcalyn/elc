@@ -26,7 +26,8 @@ class WidgetService
     /**
      * Add a widget to display
      * 
-     * @param \EL\CoreBundle\Model\WidgetInterface $widget
+     * @param string $controller name
+     * @param array $parameters
      */
     public function add($controller, array $parameters = array())
     {
@@ -39,7 +40,7 @@ class WidgetService
     /**
      * Return all widgets
      * 
-     * @return array of WidgetInterface
+     * @return array
      */
     public function getAll()
     {

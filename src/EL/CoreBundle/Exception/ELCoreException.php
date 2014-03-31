@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\Model;
+namespace EL\CoreBundle\Exception;
 
 class ELCoreException extends \Exception
 {

@@ -3,7 +3,7 @@
 namespace EL\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use EL\CoreBundle\Model\ELCoreException;
+use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Entity\Player;
 use EL\CoreBundle\Entity\Elo;
 use EL\CoreBundle\Entity\Game;

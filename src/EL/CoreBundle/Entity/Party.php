@@ -3,6 +3,7 @@
 namespace EL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use EL\CoreBundle\Entity\Slot;
 
 /**
@@ -80,7 +81,8 @@ class Party implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="slug", type="string", length=63)
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(name="slug", type="string", length=63, nullable=true)
      */
     private $slug;
 

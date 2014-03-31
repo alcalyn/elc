@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\Model;
+namespace EL\CoreBundle\Exception;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 

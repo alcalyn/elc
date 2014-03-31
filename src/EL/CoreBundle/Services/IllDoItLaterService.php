@@ -18,7 +18,7 @@ class IllDoItLaterService
      * 
      * Attention, some debugs may be uncatched if true
      */
-    const ENABLED = false;
+    const ENABLED = true;
     
     
     /**

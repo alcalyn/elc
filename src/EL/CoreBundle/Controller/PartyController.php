@@ -5,6 +5,7 @@ namespace EL\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Entity\Party;
@@ -26,10 +27,9 @@ class PartyController extends Controller
      *      name = "elcore_party_creation"
      * )
      */
-    public function createAction($_locale, $slug)
+    public function createAction($_locale, $slug, Request $request)
     {
         $em                     = $this->getDoctrine()->getManager();
-        $request                = $this->getRequest();
         $partyService           = $this->get('el_core.party')->setGameBySlug($slug, $_locale, $this->container);
         $extendedGame           = $partyService->getExtendedGame();
         $coreParty              = $partyService->createParty($_locale);
@@ -164,7 +164,7 @@ class PartyController extends Controller
      *      name = "elcore_party_preparation_action"
      * )
      */
-    public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService)
+    public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService, Request $request)
     {
         $player     = $this->get('el_core.session')->getPlayer();
         $party      = $partyService->getParty();
@@ -172,7 +172,6 @@ class PartyController extends Controller
         $t          = $this->get('translator');
         $session    = $this->get('session');
         $flashbag   = $session->getFlashBag();
-        $request    = $this->get('request');
         $action     = $request->request->get('action');
         
         switch ($action) {

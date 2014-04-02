@@ -3,6 +3,7 @@
 namespace EL\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -49,9 +50,8 @@ class UserController extends Controller
      * )
      * @Template
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        $request    = $this->getRequest();
         $login      = new Login();
         $formAction = $this->generateUrl('elcore_user_login_post');
         $loginForm  = $this->createForm(new LoginType(), $login, array('action' => $formAction));
@@ -97,9 +97,8 @@ class UserController extends Controller
      * )
      * @Template
      */
-    public function signupAction()
+    public function signupAction(Request $request)
     {
-        $request        = $this->getRequest();
         $signup         = new Signup();
         $formAction     = $this->generateUrl('elcore_user_signup_post');
         $signupForm     = $this->createForm(new SignupType(), $signup, array('action' => $formAction));

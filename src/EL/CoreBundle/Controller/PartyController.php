@@ -26,6 +26,7 @@ class PartyController extends Controller
      *      "/games/{slug}/creation",
      *      name = "elcore_party_creation"
      * )
+     * @Template
      */
     public function createAction($_locale, $slug, Request $request)
     {
@@ -75,11 +76,11 @@ class PartyController extends Controller
             }
         }
         
-        return $this->render('CoreBundle:Party:creation.html.twig', array(
+        return array(
             'game'                  => $partyService->getGame(),
             'optionsForm'           => $optionsForm->createView(),
             'creationFormTemplate'  => $extendedGame->getCreationFormTemplate(),
-        ));
+        );
     }
     
     
@@ -88,6 +89,7 @@ class PartyController extends Controller
      *      "/games/{slugGame}/{slugParty}/preparation",
      *      name = "elcore_party_preparation"
      * )
+     * @Template
      */
     public function prepareAction($_locale, $slugGame, $slugParty, PartyService $partyService)
     {
@@ -124,7 +126,7 @@ class PartyController extends Controller
                 ->useTrans('invite.cpu')
         ;
         
-        return $this->render('CoreBundle:Party:preparation.html.twig', array(
+        return array(
             'player'                    => $player,
             'coreParty'                 => $party,
             'extendedOptions'           => $extendedOptions,
@@ -135,7 +137,7 @@ class PartyController extends Controller
             'inParty'                   => $inParty,
             'canJoin'                   => $canJoin,
             'isHost'                    => $isHost,
-        ));
+        );
     }
     
     /**

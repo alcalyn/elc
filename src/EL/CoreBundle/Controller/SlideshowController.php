@@ -8,7 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class SlideshowController extends Controller
 {
-    
+    /**
+     * Initialize slideshow
+     * 
+     * @return array
+     * 
+     * @Template
+     */
     public function indexAction()
     {
         $slides = array(
@@ -24,8 +30,8 @@ class SlideshowController extends Controller
             'CoreBundle:Slideshow:slide1.html.twig',
         );
         
-        return $this->render('CoreBundle:Slideshow:slideshow.html.twig', array(
+        return array(
             'slides'    => $slides,
-        ));
+        );
     }
 }

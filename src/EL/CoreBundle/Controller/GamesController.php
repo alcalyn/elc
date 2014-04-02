@@ -18,6 +18,7 @@ class GamesController extends Controller
      *      "/games",
      *      name = "elcore_games_list"
      * )
+     * @Template
      */
     public function listAction($_locale)
     {
@@ -34,10 +35,10 @@ class GamesController extends Controller
                 ->findAllByLang($_locale, $sessionService->getPlayer())
         ;
 
-        return $this->render('CoreBundle:Games:list.html.twig', array(
+        return array(
             'games'         => $games,
             'categories'    => $categories,
-        ));
+        );
     }
 
 
@@ -48,6 +49,7 @@ class GamesController extends Controller
      *      "/games/{slug}",
      *      name = "elcore_game_home"
      * )
+     * @Template
      */
     public function homeAction($_locale, GameService $gameService)
     {
@@ -60,11 +62,11 @@ class GamesController extends Controller
         
         $rankingColumns = explode(',', $game->getRankingColumns());
         
-        return $this->render('CoreBundle:Games:home.html.twig', array(
+        return array(
             'game'              => $game,
             'ranking'           => $ranking,
             'rankingColumns'    => $rankingColumns,
-        ));
+        );
     }
     
     
@@ -75,6 +77,7 @@ class GamesController extends Controller
      *      "/games/{slug}/ranking",
      *      name = "elcore_game_ranking"
      * )
+     * @Template
      */
     public function rankingAction($_locale, GameService $gameService)
     {
@@ -87,11 +90,11 @@ class GamesController extends Controller
         
         $rankingColumns = explode(',', $game->getRankingColumns());
         
-        return $this->render('CoreBundle:Games:ranking.html.twig', array(
+        return array(
             'game'              => $game,
             'ranking'           => $ranking,
             'rankingColumns'    => $rankingColumns,
-        ));
+        );
     }
     
     
@@ -103,13 +106,14 @@ class GamesController extends Controller
      *      "/games/{slug}/rules",
      *      name = "elcore_game_rules"
      * )
+     * @Template
      */
     public function rulesAction($_locale, GameService $gameService)
     {
         $game = $gameService->getGame();
         
-        return $this->render('CoreBundle:Games:rank.html.twig', array(
+        return array(
             'game' => $game,
-        ));
+        );
     }
 }

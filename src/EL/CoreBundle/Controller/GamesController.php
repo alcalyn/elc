@@ -5,6 +5,9 @@ namespace EL\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use EL\CoreBundle\Entity\Game;
+use EL\CoreBundle\Services\GameService;
 
 class GamesController extends Controller
 {
@@ -46,15 +49,10 @@ class GamesController extends Controller
      *      name = "elcore_game_home"
      * )
      */
-    public function homeAction($_locale, $slug)
+    public function homeAction($_locale, GameService $gameService)
     {
-        $gameService    = $this->get('el_core.game');
+        $game           = $gameService->getGame();
         $scoreService   = $this->get('el_core.score');
-        
-        $game = $gameService
-                ->setGameBySlug($slug, $_locale)
-                ->getGame()
-        ;
         
         $ranking = $scoreService
                 ->getRanking($game, 10)
@@ -78,15 +76,10 @@ class GamesController extends Controller
      *      name = "elcore_game_ranking"
      * )
      */
-    public function rankingAction($_locale, $slug)
+    public function rankingAction($_locale, GameService $gameService)
     {
-        $gameService    = $this->get('el_core.game');
         $scoreService   = $this->get('el_core.score');
-        
-        $game = $gameService
-                ->setGameBySlug($slug, $_locale)
-                ->getGame()
-        ;
+        $game           = $gameService->getGame();
         
         $ranking = $scoreService
                 ->getRanking($game, 100)
@@ -111,13 +104,9 @@ class GamesController extends Controller
      *      name = "elcore_game_rules"
      * )
      */
-    public function rulesAction($_locale, $slug)
+    public function rulesAction($_locale, GameService $gameService)
     {
-        $gameService= $this->get('el_core.game');
-        
-        $game = $gameService
-                ->setGameBySlug($slug, $_locale)
-                ->getGame();
+        $game = $gameService->getGame();
         
         return $this->render('CoreBundle:Games:rank.html.twig', array(
             'game' => $game,

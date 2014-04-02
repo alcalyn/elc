@@ -89,13 +89,8 @@ class PartyController extends Controller
      *      name = "elcore_party_preparation"
      * )
      */
-    public function prepareAction($_locale, $slugGame, $slugParty)
+    public function prepareAction($_locale, $slugGame, $slugParty, PartyService $partyService)
     {
-        $partyService = $this
-                ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale, $this->container)
-        ;
-        
         $party              = $partyService->getParty();
         
         if (!in_array($party->getState(), array(Party::PREPARATION, Party::STARTING))) {
@@ -151,13 +146,8 @@ class PartyController extends Controller
      *      name = "elcore_party_join"
      * )
      */
-    public function joinAction($_locale, $slugGame, $slugParty)
+    public function joinAction($_locale, $slugGame, $slugParty, PartyService $partyService)
     {
-        $partyService = $this
-                ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
-        ;
-        
         try {
             $partyService->join();
         } catch (ELUserException $e) {
@@ -174,13 +164,8 @@ class PartyController extends Controller
      *      name = "elcore_party_preparation_action"
      * )
      */
-    public function prepareActionAction($_locale, $slugGame, $slugParty)
+    public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService)
     {
-        $partyService = $this
-                ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale, $this->container)
-        ;
-        
         $player     = $this->get('el_core.session')->getPlayer();
         $party      = $partyService->getParty();
         $isHost     = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
@@ -232,22 +217,13 @@ class PartyController extends Controller
                     break;
                 }
                 
-                $extendedGame = $this
-                        ->get($partyService->getGameServiceName())
-                ;
-                
-                $remakeParty = $this
-                        ->get('el_core.party')
-                        ->setPartyBySlug($slugParty, $_locale)
-                        ->remake($extendedGame)
-                ;
+                $remakeParty = $partyService->remake();
                 
                 return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                    '_locale'       => $_locale,
-                    'slugGame'     => $remakeParty->getGame()->getSlug(),
-                    'slugParty'    => $remakeParty->getSlug(),
+                    '_locale'   => $_locale,
+                    'slugGame'  => $remakeParty->getGame()->getSlug(),
+                    'slugParty' => $remakeParty->getSlug(),
                 )));
-                break;
             
             default:
                 throw new ELCoreException('Unknown action : "'.$action.'"');
@@ -265,13 +241,8 @@ class PartyController extends Controller
      *      name = "elcore_party"
      * )
      */
-    public function activeAction($_locale, $slugGame, $slugParty)
+    public function activeAction($_locale, $slugGame, $slugParty, PartyService $partyService)
     {
-        $partyService = $this
-                ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
-        ;
-        
         $party = $partyService->getParty();
         
         if ($party->getState() !== Party::ACTIVE) {
@@ -297,13 +268,8 @@ class PartyController extends Controller
      *      name = "elcore_party_ended"
      * )
      */
-    public function endedAction($_locale, $slugGame, $slugParty)
+    public function endedAction($_locale, $slugGame, $slugParty, PartyService $partyService)
     {
-        $partyService = $this
-                ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
-        ;
-        
         $party = $partyService->getParty();
         
         if ($party->getState() !== Party::ENDED) {
@@ -338,7 +304,7 @@ class PartyController extends Controller
         if (is_null($party)) {
             $party = $this
                     ->get('el_core.party')
-                    ->setPartyBySlug($slugParty, $_locale)
+                    ->setPartyBySlug($slugParty, $slugGame, $_locale)
                     ->getParty()
             ;
         }

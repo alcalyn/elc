@@ -32,7 +32,7 @@ var slot = {
         });
         
         setInterval(function () {
-            phax.action('slot', 'refresh', jsContext);
+            phax.action('slot', 'refresh', slot.context());
         }, 3000);
         
         return true;
@@ -212,7 +212,7 @@ var slot = {
                 return false;
             }
             var currentIndex = $(this).closest('.slot').index();
-            phax.action('slot', 'open', $.extend({}, jsContext, {slotIndex: currentIndex, slotOpen: true}));
+            phax.action('slot', 'open', $.extend({}, slot.context(), {slotIndex: currentIndex, slotOpen: true}));
             slot.update(currentIndex, {open: true});
             $(this).hide();
             return false;
@@ -223,7 +223,7 @@ var slot = {
                 return false;
             }
             var currentIndex = $(this).closest('.slot').index();
-            phax.action('slot', 'open', $.extend({}, jsContext, {slotIndex: currentIndex, slotOpen: false}));
+            phax.action('slot', 'open', $.extend({}, slot.context(), {slotIndex: currentIndex, slotOpen: false}));
             slot.update(currentIndex, {open: false});
             $(this).hide();
             return false;
@@ -234,7 +234,7 @@ var slot = {
                 return false;
             }
             var currentIndex = $(this).closest('.slot').index();
-            phax.action('slot', 'ban', $.extend({}, jsContext, {playerId: $(this).closest('.slot').data('playerid')}));
+            phax.action('slot', 'ban', $.extend({}, slot.context(), {playerId: $(this).closest('.slot').data('playerid')}));
             slot.update(currentIndex, {open: true});
             $(this).hide();
             return false;
@@ -254,7 +254,7 @@ var slot = {
         if ($joinButton.size() > 0) {
             $joinButton.click(function () {
                 var currentIndex = $(this).closest('.slot').index();
-                phax.action('slot', 'ajaxJoin', $.extend({}, jsContext, {slotIndex: currentIndex}));
+                phax.action('slot', 'ajaxJoin', $.extend({}, slot.context(), {slotIndex: currentIndex}));
                 var currentIndex = slot.getIndexWhere(function ($slot) {
                     return parseInt($slot.data('playerid')) === jsContext.player.id;
                 });
@@ -357,7 +357,7 @@ var slot = {
      */
     reoder: function (newOrder)
     {
-        phax.action('slot', 'reorder', $.extend({}, jsContext, {newOrder: newOrder}));
+        phax.action('slot', 'reorder', $.extend({}, slot.context(), {newOrder: newOrder}));
     },
     
     /**
@@ -369,8 +369,15 @@ var slot = {
     reorderReaction: function (r)
     {
         slot.refreshReaction(r);
-    }
+    },
     
+    context: function ()
+    {
+        return {
+            slugGame:  jsContext.coreParty.game.slug,
+            slugParty: jsContext.coreParty.slug
+        };
+    }
 };
 
 

@@ -2,8 +2,9 @@
 
 namespace EL\CoreBundle\Services;
 
-use EL\CoreBundle\Entity\Game;
 use Symfony\Component\DependencyInjection\Container;
+use EL\CoreBundle\Entity\Game;
+use EL\CoreBundle\Exception\ELCoreException;
 
 class GameService
 {
@@ -41,7 +42,7 @@ class GameService
         $this->game = $game;
         
         if (!is_null($container)) {
-            $this->extendedGame = $container->get($this->getGameServiceName());
+            $this->loadExtendedGame($container);
         }
         
         return $this;
@@ -54,10 +55,14 @@ class GameService
      */
     public function setGameBySlug($slug, $locale, Container $container = null)
     {
-        $game = $this->em
-                ->getRepository('CoreBundle:Game')
-                ->findByLang($locale, $slug)
-        ;
+        try {
+            $game = $this->em
+                    ->getRepository('CoreBundle:Game')
+                    ->findByLang($locale, $slug)
+            ;
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            throw new ELCoreException('Game "'.$slug.'" unknown');
+        }
         
         $this->setGame($game, $container);
         
@@ -84,6 +89,17 @@ class GameService
         return $this->extendedGame;
     }
     
+    /**
+     * Return extended game service
+     * 
+     * @return \EL\AbstractGameBundle\Model\ELGameInterface
+     */
+    public function loadExtendedGame(Container $container)
+    {
+        $this->needGame();
+        $this->extendedGame = $container->get($this->getGameServiceName());
+        return $this;
+    }
     
     /**
      * @return string

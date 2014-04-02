@@ -14,7 +14,7 @@ use EL\CoreBundle\Entity\Player;
  */
 class PartyRepository extends EntityRepository
 {
-    public function findByLang($locale, $slug)
+    public function findByLang($locale, $slugParty, $slugGame)
     {
         $query = $this->_em->createQuery(
             '
@@ -26,12 +26,14 @@ class PartyRepository extends EntityRepository
                 left join g.langs gl
                 left join gl.lang l
                 where l.locale = :locale
-                and p.slug = :slug
+                and  p.slug = :slugParty
+                and gl.slug = :slugGame
                 order by s.position
             '
         )->setParameters(array(
             'locale'    => $locale,
-            'slug'      => $slug,
+            'slugParty' => $slugParty,
+            'slugGame'  => $slugGame,
         ));
         
         return $query->getSingleResult();

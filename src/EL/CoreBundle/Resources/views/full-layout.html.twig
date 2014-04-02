@@ -11,6 +11,7 @@
         {% for cssUri in [
             'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css',
             'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css',
             'http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css',
         ] %}
             <link rel="stylesheet" href="{{ cssUri }}">
@@ -196,9 +197,8 @@
         
         {% for jsUri in [
             'http://code.jquery.com/jquery-1.11.0.min.js',
-            'http://code.jquery.com/ui/1.10.3/jquery-ui.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js',
             'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
-            'http://cdn.jsdelivr.net/jquery.sortable/0.1/jquery.sortable.js',
             'http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js',
         ] %}
             <script type="text/javascript" src="{{ jsUri }}"></script>

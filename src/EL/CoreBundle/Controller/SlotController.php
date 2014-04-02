@@ -24,11 +24,12 @@ class SlotController extends Controller
     public function refreshAction(PhaxAction $phaxAction)
     {
         $slugParty  = $phaxAction->slugParty;
+        $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
         
         $party = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
+                ->setPartyBySlug($slugParty, $slugGame, $_locale)
                 ->getParty()
         ;
         
@@ -39,13 +40,14 @@ class SlotController extends Controller
     public function openAction(PhaxAction $phaxAction)
     {
         $slugParty  = $phaxAction->slugParty;
+        $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
         $slotIndex  = $phaxAction->slotIndex;
         $slotOpen   = $phaxAction->slotOpen === 'true';
         
         $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
+                ->setPartyBySlug($slugParty, $slugGame, $_locale)
                 ->openSlot($slotIndex, $slotOpen)
         ;
         
@@ -56,12 +58,13 @@ class SlotController extends Controller
     public function ajaxJoinAction(PhaxAction $phaxAction)
     {
         $slugParty  = $phaxAction->slugParty;
+        $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
         $slotIndex  = isset($phaxAction->slotIndex) ? intval($phaxAction->slotIndex) : -1 ;
         
         $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
+                ->setPartyBySlug($slugParty, $slugGame, $_locale)
                 ->join(null, $slotIndex)
         ;
         
@@ -72,12 +75,13 @@ class SlotController extends Controller
     public function banAction(PhaxAction $phaxAction)
     {
         $slugParty  = $phaxAction->slugParty;
+        $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
         $playerId   = $phaxAction->playerId;
         
         $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
+                ->setPartyBySlug($slugParty, $slugGame, $_locale)
                 ->ban($playerId)
         ;
         
@@ -88,12 +92,13 @@ class SlotController extends Controller
     public function reorderAction(PhaxAction $phaxAction)
     {
         $slugParty  = $phaxAction->slugParty;
+        $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
         $indexes    = $phaxAction->newOrder;
         
         $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $_locale)
+                ->setPartyBySlug($slugParty, $slugGame, $_locale)
                 ->reorderSlots($indexes)
         ;
         

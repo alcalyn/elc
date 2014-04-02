@@ -15,7 +15,8 @@ var party = {
         setInterval(function () {
             var data = {
                 locale:     jsContext.locale,
-                slugParty: jsContext.coreParty.slug
+                slugGame:   jsContext.coreParty.game.slug,
+                slugParty:  jsContext.coreParty.slug
             };
             
             phax.action('party', 'refresh', data);
@@ -61,5 +62,4 @@ var party = {
         //console.log('reload !');
         window.location.reload();
     }
-    
 };

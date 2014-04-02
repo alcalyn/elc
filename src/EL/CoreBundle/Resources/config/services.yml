@@ -81,3 +81,16 @@ services:
         class: %el_core.controller.widget.class%
         calls:
             - [setContainer, ["@service_container"]]
+        
+    el_core.paramconverter_gameservice:
+        class: EL\CoreBundle\Request\ParamConverter\GameServiceConverter
+        arguments: [@service_container]
+        tags:
+            - { name: request.param_converter, priority: 20 }
+        
+    el_core.paramconverter_partyservice:
+        class: EL\CoreBundle\Request\ParamConverter\PartyServiceConverter
+        arguments: [@service_container]
+        tags:
+            - { name: request.param_converter, priority: 20 }
+        

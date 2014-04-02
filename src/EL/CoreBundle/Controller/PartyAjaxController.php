@@ -30,6 +30,7 @@ class PartyAjaxController extends Controller
     public function refreshAction(PhaxAction $phaxAction)
     {
         $locale     = $phaxAction->get('locale');
+        $slugGame   = $phaxAction->get('slugGame');
         $slugParty  = $phaxAction->get('slugParty');
         
         if (is_null($locale)) {
@@ -46,7 +47,7 @@ class PartyAjaxController extends Controller
         
         $partyService = $this
                 ->get('el_core.party')
-                ->setPartyBySlug($slugParty, $locale)
+                ->setPartyBySlug($slugParty, $slugGame, $locale)
         ;
         
         return $this->get('phax')->reaction(array(

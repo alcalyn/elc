@@ -77,15 +77,21 @@ class PartyService extends GameService
     
     
     /**
-     * @param string $slug
+     * @param string $slugParty
+     * @param string $slugGame
      * @param string $locale
      * @return \EL\CoreBundle\Services\PartyService
      */
-    public function setPartyBySlug($slug, $locale, Container $container = null)
+    public function setPartyBySlug($slugParty, $slugGame, $locale, Container $container = null)
     {
-        $party = $this->em
-                ->getRepository('CoreBundle:Party')
-                ->findByLang($locale, $slug);
+        try {
+            $party = $this->em
+                    ->getRepository('CoreBundle:Party')
+                    ->findByLang($locale, $slugParty, $slugGame)
+            ;
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            throw new ELCoreException('No party "'.$slugParty.'" for game "'.$slugGame.'"');
+        }
         
         $this->setParty($party, $container);
         return $this;
@@ -518,11 +524,12 @@ class PartyService extends GameService
      * Remake the current party by creating core party
      * and call extended party createRemake with new core party as argument
      * 
-     * @param ELGameInterface $extendedPartyService
      * @return Party
      */
-    public function remake($extendedPartyService)
+    public function remake()
     {
+        $this->needExtendedGame();
+        
         $player = $this->session->getPlayer();
         $party  = $this->getParty();
         $remake = $party->getRemake();
@@ -537,8 +544,8 @@ class PartyService extends GameService
         $party->setRemake($cloneCoreParty);
         $cloneCoreParty->setHost($player);
         
-        $options            = $extendedPartyService->loadParty($party);
-        $slotsConfiguration = $extendedPartyService->getSlotsConfiguration($options);
+        $options            = $this->getExtendedGame()->loadParty($party);
+        $slotsConfiguration = $this->getExtendedGame()->getSlotsConfiguration($options);
         
         $this->createSlots($slotsConfiguration, $cloneCoreParty);
         
@@ -546,7 +553,7 @@ class PartyService extends GameService
         $this->illflushitlater->persist($party);
         $this->illflushitlater->flush();
         
-        $extendedPartyService->createRemake($party->getSlug(), $cloneCoreParty);
+        $this->getExtendedGame()->createRemake($party->getSlug(), $cloneCoreParty);
         
         return $cloneCoreParty;
     }

@@ -529,20 +529,20 @@ class Party implements \JsonSerializable
         }
         
         return array(
-            'id'                    => $this->getId(),
-            'slug'                  => $this->getSlug(),
-            'disallowChat'         => $this->getDisallowChat(),
-            'disallowObservers'    => $this->getDisallowObservers(),
-            'title'                 => $this->getTitle(),
-            'state'                 => $this->getState(),
-            'private'               => $this->getPrivate(),
-            'room'                  => $this->getRoom(),
-            'host'                  => is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
-            'game'                  => $this->getGame()->jsonSerialize(),
-            'slots'                 => $slots,
-            'dateCreate'           => $this->getDateCreate(),
-            'dateStarted'          => $this->getDateStarted(),
-            'dateEnded'            => $this->getDateEnded(),
+            'id'                => $this->getId(),
+            'slug'              => $this->getSlug(),
+            'disallowChat'      => $this->getDisallowChat(),
+            'disallowObservers' => $this->getDisallowObservers(),
+            'title'             => $this->getTitle(),
+            'state'             => $this->getState(),
+            'private'           => $this->getPrivate(),
+            'room'              => $this->getRoom(),
+            'host'              => is_null($this->getHost()) ? null : $this->getHost()->jsonSerialize(),
+            'game'              => $this->getGame()->jsonSerialize(),
+            'slots'             => $slots,
+            'dateCreate'        => $this->getDateCreate(),
+            'dateStarted'       => $this->getDateStarted(),
+            'dateEnded'         => $this->getDateEnded(),
         );
     }
     

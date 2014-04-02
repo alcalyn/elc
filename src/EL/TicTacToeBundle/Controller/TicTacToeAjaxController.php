@@ -130,6 +130,13 @@ class TicTacToeAjaxController extends Controller
         }
         
         /**
+         * Check if party is still active
+         */
+        if ($baseParty->getState() !== CoreParty::ACTIVE) {
+            return $phax->error('party.has.ended');
+        }
+        
+        /**
          * Check if we are waiting for next grid
          */
         if (null !== $extendedParty->getLastPartyEnd()) {
@@ -139,7 +146,7 @@ class TicTacToeAjaxController extends Controller
         /**
          * Check for player turn
          */
-        if ($slot->getPlayer()->getId() !== $player->getId()) {
+        if ($slot->getPlayer() !== $player) {
             return $phax->error('not your turn');
         }
         

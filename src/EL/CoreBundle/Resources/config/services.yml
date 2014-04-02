@@ -1,9 +1,6 @@
 parameters:
     el_core.session.class:              EL\CoreBundle\Services\SessionService
-    el_core.illdoitlater.class:         EL\CoreBundle\Services\IllDoItLaterService
-    el_core.illflushitlater.class:      EL\CoreBundle\Services\IllFlushItLaterService
     el_core.js_vars.class:              EL\CoreBundle\Services\JsVarsService
-    el_core.base_controller.class:      EL\CoreBundle\Services\ELCoreController
     el_core.party.class:                EL\CoreBundle\Services\PartyService
     el_core.game.class:                 EL\CoreBundle\Services\GameService
     el_core.widget.class:               EL\CoreBundle\Services\WidgetService
@@ -18,16 +15,7 @@ parameters:
 services:
     el_core.session:
         class: %el_core.session.class%
-        arguments: [@session, @el_core.illflushitlater, @doctrine.orm.entity_manager]
-        
-    el_core.illdoitlater:
-        class: %el_core.illdoitlater.class%
-        tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
-        
-    el_core.illflushitlater:
-        class: %el_core.illflushitlater.class%
-        arguments: [@doctrine.orm.entity_manager, @el_core.illdoitlater]
+        arguments: [@session, @doctrine.orm.entity_manager]
         
     el_core.js_vars:
         class: %el_core.js_vars.class%
@@ -39,7 +27,7 @@ services:
         
     el_core.party:
         class: %el_core.party.class%
-        arguments: [@doctrine.orm.entity_manager, @el_core.illflushitlater, @el_core.session]
+        arguments: [@doctrine.orm.entity_manager, @el_core.session]
         
     el_core.widgets:
         class: %el_core.widget.class%

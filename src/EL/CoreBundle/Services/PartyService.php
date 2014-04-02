@@ -34,11 +34,6 @@ class PartyService extends GameService
     
     
     /**
-     * @var IllFlushItLaterService
-     */
-    private $illflushitlater;
-    
-    /**
      * @var SessionService
      */
     private $session;
@@ -50,11 +45,10 @@ class PartyService extends GameService
     
     
     
-    public function __construct(EntityManager $em, IllFlushItLaterService $illflushitlater, SessionService $session)
+    public function __construct(EntityManager $em, SessionService $session)
     {
         parent::__construct($em);
         
-        $this->illflushitlater  = $illflushitlater;
         $this->session          = $session;
     }
     
@@ -236,13 +230,13 @@ class PartyService extends GameService
         // Assign player to nextFreeSlot
         if ($join) {
             $nextFreeSlot->setPlayer($player);
-            $this->illflushitlater->persist($nextFreeSlot);
-            $this->illflushitlater->flush();
+            $this->em->persist($nextFreeSlot);
+            $this->em->flush();
             
             if ($alreadyJoinSlot) {
                 $alreadyJoinSlot->setPlayer(null);
-                $this->illflushitlater->persist($alreadyJoinSlot);
-                $this->illflushitlater->flush();
+                $this->em->persist($alreadyJoinSlot);
+                $this->em->flush();
             }
         }
         
@@ -338,8 +332,8 @@ class PartyService extends GameService
         
         if ($slot) {
             $slot->setPlayer(null);
-            $this->illflushitlater->persist($slot);
-            $this->illflushitlater->flush($slot);
+            $this->em->persist($slot);
+            $this->em->flush($slot);
             return true;
         } else {
             return false;
@@ -365,7 +359,7 @@ class PartyService extends GameService
         
         if ($slot->getOpen() !== $open) {
             $slot->setOpen($open);
-            $this->illflushitlater->flush();
+            $this->em->flush();
         }
         
         return $this;
@@ -393,11 +387,11 @@ class PartyService extends GameService
             
             if ($newPosition !== $oldPosition) {
                 $slot->setPosition($newPosition);
-                $this->illflushitlater->persist($slot);
+                $this->em->persist($slot);
             }
         }
         
-        $this->illflushitlater->flush();
+        $this->em->flush();
         
         return $this;
     }
@@ -448,8 +442,8 @@ class PartyService extends GameService
                     $party->setState(Party::ACTIVE);
                 }
                 
-                $this->illflushitlater->persist($party);
-                $this->illflushitlater->flush();
+                $this->em->persist($party);
+                $this->em->flush();
             }
             
             return true;
@@ -493,8 +487,8 @@ class PartyService extends GameService
                     ->setDateStarted($startDate)
                 ;
                 
-                $this->illflushitlater->persist($party);
-                $this->illflushitlater->flush();
+                $this->em->persist($party);
+                $this->em->flush();
             }
         }
     }
@@ -549,9 +543,9 @@ class PartyService extends GameService
         
         $this->createSlots($slotsConfiguration, $cloneCoreParty);
         
-        $this->illflushitlater->persist($cloneCoreParty);
-        $this->illflushitlater->persist($party);
-        $this->illflushitlater->flush();
+        $this->em->persist($cloneCoreParty);
+        $this->em->persist($party);
+        $this->em->flush();
         
         $this->getExtendedGame()->createRemake($party->getSlug(), $cloneCoreParty);
         

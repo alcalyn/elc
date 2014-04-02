@@ -19,12 +19,6 @@ class SessionService
     private $session;
     
     /**
-     * 
-     * @var IllFlushItLaterService
-     */
-    private $illflushitlater;
-    
-    /**
      *
      * @var \Doctrine\ORM\EntityManager
      */
@@ -32,10 +26,9 @@ class SessionService
     
     
     
-    public function __construct(Session $session, IllFlushItLaterService $illflushitlater, EntityManager $em)
+    public function __construct(Session $session, EntityManager $em)
     {
         $this->session          = $session;
-        $this->illflushitlater  = $illflushitlater;
         $this->em               = $em;
         
         $this->start();

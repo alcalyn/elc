@@ -48,19 +48,23 @@
     <form action="{{ path('elcore_party_preparation_action', { 'slugGame': game.slug, 'slugParty': coreParty.slug }) }}" method="post">
         {% if inParty %}
             {% if isHost %}
+                {# Hide button Cancel for now
                 <div class="col-md-4">
                     <button type="submit" name="action" value="cancel" class="btn btn-warning">{{ 'cancel'|trans }}</button>
                 </div>
+                #}
                 <div class="col-md-4">
                     <button type="submit" name="action" value="run" class="btn btn-primary">{{ 'run.party'|trans }}</button>
                 </div>
             {% else %}
+                {# Hide buttons Leave and Ready for now
                 <div class="col-md-4">
                     <button type="submit" name="action" value="leave" class="btn btn-warning">{{ 'leave'|trans }}</button>
                 </div>
                 <div class="col-md-4">
                     <button type="submit" name="action" value="ready" class="btn btn-success">{{ 'ready'|trans }}</button>
                 </div>
+                #}
             {% endif %}
         {% else %}
             {% if canJoin %}

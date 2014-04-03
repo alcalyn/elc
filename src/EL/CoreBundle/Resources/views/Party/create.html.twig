@@ -13,7 +13,7 @@
 
 {% block body %}
 <div class="jeux-preparation">
-    <h1>{{ 'create.game.%gametitle%'|trans({'%gametitle%': game.title}) }}</h1>
+    <h2>{{ 'create.game.%gametitle%'|trans({'%gametitle%': game.title}) }}</h2>
     {{ form_start(optionsForm) }}
     {{ form_row(optionsForm.coreParty) }}
     {% include creationFormTemplate %}

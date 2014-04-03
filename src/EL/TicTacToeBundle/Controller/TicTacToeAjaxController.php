@@ -228,10 +228,8 @@ class TicTacToeAjaxController extends Controller
         /**
          * Save the grid
          */
-        $this->get('el_core.illflushitlater')
-            ->persist($extendedParty)
-            ->flush()
-        ;
+        $em->persist($extendedParty);
+        $em->flush();
         
         return $phax->reaction(array(
             'party'     => $extendedParty->jsonSerialize(),

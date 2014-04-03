@@ -15,6 +15,8 @@ cannot:
             full: 'Cannot join, party is full'
 
     start:
+        notenoughplayer: 'Cannot start, there is not enough players'
+        toomanyplayer: 'Cannot start, there is too much players.'
         youarenothost: 'Cannot start, you are not the host of this game'
 
 change:
@@ -103,8 +105,8 @@ observers:
 
 open: Open
 parties: Games
-parties.%game%: Games of %game%
-parties.list: Games list
+parties.%game%: 'Games of %game%'
+parties.list: 'Games list'
 party: Game
 party.title: 'Party Title'
 

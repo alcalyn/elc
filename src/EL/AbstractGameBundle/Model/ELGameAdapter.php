@@ -102,16 +102,17 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function canStart(PartyService $partyService)
     {
-        $nbPlayerMin  = $partyService->getGame()->getNbplayerMin();
-        $nbPlayerMax  = $partyService->getGame()->getNbplayerMax();
-        $nbPlayer     = $partyService->getNbPlayer();
+        $nbPlayerMin    = $partyService->getGame()->getNbplayerMin();
+        $nbPlayerMax    = $partyService->getGame()->getNbplayerMax();
+        $nbPlayer       = $partyService->getNbPlayer();
+        $t              = $this->get('translator');
         
         if ($nbPlayer < $nbPlayerMin) {
-            throw new ELUserException('cannot.start.notenoughplayer', ELUserException::TYPE_WARNING);
+            throw new ELUserException($t->trans('cannot.start.notenoughplayer'), ELUserException::TYPE_WARNING);
         }
         
         if ($nbPlayer > $nbPlayerMax) {
-            throw new ELUserException('cannot.start.toomanyplayer', ELUserException::TYPE_WARNING);
+            throw new ELUserException($t->trans('cannot.start.toomanyplayer'), ELUserException::TYPE_WARNING);
         }
         
         return true;

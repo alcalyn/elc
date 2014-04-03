@@ -27,10 +27,11 @@
 <div class="row-action row">
     <div class="col-md-4">
         <p class="lead">{{ 'let.cpufindgametoplay'|trans }}</p>
-        <p><a href="#" class="btn btn-primary btn-lg">{{ 'play.now'|trans }}</a></p>
+        <p><a href="#" class="btn btn-primary btn-lg disabled">{{ 'play.now'|trans }}</a></p>
     </div>
     <div class="col-md-4">
         <p class="lead">{{ 'join.party.amongthislist'|trans }}</p>
+        {#
         <div class="list-group-container">
           <a href="#" class="list-group-item">partie_de_machin<span class="badge">1548 élo</span></a>
           <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
@@ -38,6 +39,18 @@
           <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
           <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
         </div>
+        #}
+        {% if app.request.locale == 'fr' %}
+        <p>
+            Vous trouverez ici quelques parties séléctionnées par l'ordinateur
+            correspondant à votre niveau, ou les parties de vos adversaires.
+        </p>
+        {% else %}
+        <p>
+            Find here a few games you can join that the computer selected for you
+            matching your level, or your opponents game.
+        </p>
+        {% endif %}
     </div>
     <div class="col-md-4">
         <p class="lead">{{ 'create.customized.game'|trans }}</p>

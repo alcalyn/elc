@@ -1,4 +1,6 @@
-{% extends "CoreBundle::layout.html.twig" %}
+{% extends "AbstractGameBundle:Adapter:active.html.twig" %}
+
+{% set coreParty = party %}
 
 {% block title %}{{ parent() }} - Active{% endblock %}
 

@@ -1,10 +1,10 @@
 _:
     players: joueurs
 
-about: À propos
+about: 'À propos'
 
 all:
-    games: Tous les jeux
+    games: 'Tous les jeux'
 
 ban: Exclure
 cancel: Annuler
@@ -12,117 +12,117 @@ cancel: Annuler
 cannot:
     join:
         party:
-            full: Il n'y a plus de place
+            full: 'Il n''y a plus de place'
 
     start:
-        youarenothost: Vous ne pouvez pas lancer la partie, vous n'êtes pas l'hôte
+        youarenothost: 'Vous ne pouvez pas lancer la partie, vous n''êtes pas l''hôte'
 
 change:
-    slot: Changer de slot
+    slot: 'Changer de slot'
 
 chat:
-    disabled: Chat désactivé
+    disabled: 'Chat désactivé'
 
 close: Fermer
 community: Communauté
 contacts: Contacts
 
 create:
-    account: Créer un compte
+    account: 'Créer un compte'
 
     customized:
-        game: Créer une partie personnalisée
+        game: 'Créer une partie personnalisée'
 
-    game: Créer une partie
+    game: 'Créer une partie'
     game.%gametitle%: 'Créer une partie : %gametitle%'
 
 delete:
-    slot: Supprimer le slot
+    slot: 'Supprimer le slot'
 
 disallow:
-    chat: Désactiver le chat
-    observers: Désactiver les observateurs
+    chat: 'Désactiver le chat'
+    observers: 'Désactiver les observateurs'
 
 draws: Nulles
-elo: Élo
-endafter: Terminer le jeu après
+endafter: 'Terminer le jeu après'
 faq: FAQ
-
-game:
-    endafter: Le Morpion se terminera après
-
+game: Jeu
+game.endafter: 'Le Morpion se terminera après'
 games: Jeux
 go: Go
 
 here:
     is:
         your:
-            futurerank: Jouez pour être classé et voir vos scores ici
+            futurerank: 'Jouez pour être classé et voir vos scores ici'
 
 home: Accueil
+host: Hôte
 
 invite:
-    cpu: Inviter un ordinateur
-    player: Inviter un joueur
+    cpu: 'Inviter un ordinateur'
+    player: 'Inviter un joueur'
 
 join: Rejoindre
-join.party: Rejoindre la partie
-join.party.amongthislist: Rejoindre une partie de cette liste
-leave: Partir
+join.party: 'Rejoindre la partie'
+join.party.amongthislist: 'Rejoindre une partie de cette liste'
 
 let:
-    cpufindgametoplay: Laisser l'ordinateur me trouver une partie de mon niveau
+    cpufindgametoplay: 'Laisser l''ordinateur me trouver une partie de mon niveau'
 
-login: Se connecter
+login: 'Se connecter'
 logout: Déconnexion
 losses: Défaites
 
 my:
-    account: Mon compte
+    account: 'Mon compte'
 
     current:
-        parties: Mes parties en cours
+        parties: 'Mes parties en cours'
 
-    page: Ma page
-    ranking: Mon classement
-    turn: À moi de jouer
+    page: 'Ma page'
+    ranking: 'Mon classement'
+    turn: 'À moi de jouer'
 
 never:
     played:
-        yet: Pas encore joué
+        yet: 'Pas encore joué'
 
 no:
     current:
-        parties: Vous n'avez pas de parties en cours
+        parties: 'Vous n''avez pas de parties en cours'
 
     rankingyet:
-        bethefirst: Pas encore de classement. Jouez et soyez le premier !
+        bethefirst: 'Pas encore de classement. Jouez et soyez le premier !'
 
 number:
     of:
         parties: Nombre
 
 observers:
-    disallowed: Visiteurs désactivés
+    disallowed: 'Visiteurs désactivés'
 
 open: Ouvrir
 parties: Parties
+parties.%game%: '%game% : Toutes les parties'
+parties.list: Liste des parties
 party: Partie
-party.title: Titre de la partie
+party.title: 'Titre de la partie'
 
 play:
-    now: Jouer maintenant
+    now: 'Jouer maintenant'
 
 player: Joueur
+players: Joueurs
 
 private:
     only:
-        invitation: Privée (seulement sur invitation)
+        invitation: 'Privée (seulement sur invitation)'
 
-    party: Partie privée
+    party: 'Partie privée'
 
 public:
-    party: Partie publique
+    party: 'Partie publique'
 
 ranking: Classement
 ratio: Ratio
@@ -130,25 +130,28 @@ ready: Prêt
 remake: Recommencer
 
 remember:
-    me: Se souvenir de moi
+    me: 'Se souvenir de moi'
 
 rules: Règles
 
 run:
-    party: Lancer la partie
+    party: 'Lancer la partie'
 
 score: Score
 scores: Scores
 search: Rechercher
-signup: Créer un compte
+signup: 'Créer un compte'
 
 slot:
-    closed: Slot fermé
-    open: Slot ouvert
+    closed: 'Slot fermé'
+    open: 'Slot ouvert'
+
+state: État
 
 tictactoe:
-    options: Options du morpion
+    options: 'Options du morpion'
 
 top: Top
-victorycondition: Nombre de ...
+victorycondition: 'Nombre de ...'
+watch: Regarder
 wins: Victoires

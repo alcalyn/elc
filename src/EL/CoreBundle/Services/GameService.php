@@ -79,6 +79,31 @@ class GameService
     }
     
     /**
+     * Find all parties for this game
+     * 
+     * @param integer $state of parties, let blank for all parties.
+     * 
+     * @return array
+     */
+    public function getParties($state = null)
+    {
+        $criteria = array(
+            'game'  => $this->getGame(),
+        );
+        
+        if (null !== $state) {
+            $criteria['state'] = $state;
+        }
+        
+        $parties = $this->em
+                ->getRepository('CoreBundle:Party')
+                ->findBy($criteria)
+        ;
+        
+        return $parties;
+    }
+    
+    /**
      * Return extended game service
      * 
      * @return \EL\AbstractGameBundle\Model\ELGameInterface

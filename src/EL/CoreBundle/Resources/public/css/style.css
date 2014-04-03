@@ -233,9 +233,6 @@ table.ranking {
 table.ranking thead th {
     text-align: center;
 }
-.ranking a {
-    color: #000;
-}
 .ranking tr.rank-gold td {
 }
 .ranking tr.rank-silver td {

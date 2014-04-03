@@ -13,7 +13,7 @@
                 </tr></thead>
                 <tbody>
                     {% for rank in ranking %}
-                        <tr class="rank-gold">
+                        <tr>
                             <td>{{ loop.index }}</td>
                             <td><a href="#">{{ rank.player.pseudo }}</a></td>
                             {% for rankingColumn in game.rankingColumns|split(',') %}

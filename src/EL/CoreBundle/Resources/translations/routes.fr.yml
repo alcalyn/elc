@@ -7,6 +7,9 @@ elcore_faq: /faq
 # Desc: /games/{slug}
 elcore_game_home: '/jeux/{slug}'
 
+# Desc: /games/{slug}/games-list
+elcore_game_parties_list: '/jeux/{slug}/parties'
+
 # Desc: /games/{slug}/ranking
 elcore_game_ranking: '/jeux/{slug}/classement'
 

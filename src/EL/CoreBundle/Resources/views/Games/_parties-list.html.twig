@@ -1,0 +1,53 @@
+<div class="row-rank row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <table class="ranking table table-striped table-condensed table-hover text-center">
+                <thead><tr>
+                    {% if colGame is not defined or colGame %}
+                        <th>{{ 'game'|trans }}</th>
+                    {% endif %}
+                    {% if colHost is not defined or colHost %}
+                        <th>{{ 'host'|trans }}</th>
+                    {% endif %}
+                    {% if colState is not defined or colState %}
+                        <th>{{ 'state'|trans }}</th>
+                    {% endif %}
+                    <th>{{ 'players'|trans }}
+                    <th></th>
+                </tr></thead>
+                <tbody>
+                    {% for party in parties %}
+                        <tr>
+                            {% if colGame is not defined or colGame %}
+                                <td>{{ party.game.title }}</td>
+                            {% endif %}
+                            {% if colHost is not defined or colHost %}
+                                <td>{{ party.host.pseudo }}</td>
+                            {% endif %}
+                            {% if colState is not defined or colState %}
+                                <td>{{ party.state }}</td>
+                            {% endif %}
+                            <td>1 / 2</td>
+                            <td>
+                                <a
+                                    class="btn btn-xs btn-default"
+                                    href="{{ path('elcore_party', {'slugGame': party.game.slug, 'slugParty': party.slug}) }}"
+                                    role="button"
+                                >
+                                    {{ 'watch'|trans }}
+                                </a>
+                                <a
+                                    class="btn btn-xs btn-primary"
+                                    href="{{ path('elcore_party_join', {'slugGame': party.game.slug, 'slugParty': party.slug}) }}"
+                                    role="button"
+                                >
+                                    {{ 'join'|trans }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

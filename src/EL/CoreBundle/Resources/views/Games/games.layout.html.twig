@@ -15,6 +15,9 @@
         <li class="{{ 'active'|onpath('elcore_game_home') }}">
             <a href="{{ path('elcore_game_home', {'slug': game.slug}) }}">{{ game.title }}</a>
         </li>
+        <li class="{{ 'active'|onpath('elcore_game_parties_list') }}">
+            <a href="{{ path('elcore_game_parties_list', {'slug': game.slug}) }}">{{ 'parties.list'|trans }}</a>
+        </li>
         <li class="{{ 'active'|onpath('elcore_game_ranking') }}">
             <a href="{{ path('elcore_game_ranking', {'slug': game.slug}) }}">{{ 'ranking'|trans }}</a>
         </li>

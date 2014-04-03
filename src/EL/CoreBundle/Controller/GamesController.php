@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use EL\CoreBundle\Entity\Game;
+use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\GameService;
 
 class GamesController extends Controller
@@ -66,6 +67,27 @@ class GamesController extends Controller
             'game'              => $game,
             'ranking'           => $ranking,
             'rankingColumns'    => $rankingColumns,
+        );
+    }
+    
+    
+    /**
+     * List of parties for this game
+     * 
+     * @Route(
+     *      "/games/{slug}/games-list",
+     *      name = "elcore_game_parties_list"
+     * )
+     * @Template
+     */
+    public function partiesListAction($_locale, GameService $gameService)
+    {
+        $game           = $gameService->getGame();
+        $parties        = $gameService->getParties();
+        
+        return array(
+            'game'      => $game,
+            'parties'   => $parties,
         );
     }
     

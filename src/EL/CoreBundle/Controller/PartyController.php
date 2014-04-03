@@ -62,7 +62,7 @@ class PartyController extends Controller
                 
                 $em->flush();
                 
-                if (empty($coreParty->getSlug())) {
+                if (0 === strlen($coreParty->getSlug())) {
                     $coreParty->setSlug($partyService->generateRandomTitle($_locale));
                     $em->flush();
                 }

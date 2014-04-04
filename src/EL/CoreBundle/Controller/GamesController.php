@@ -83,7 +83,7 @@ class GamesController extends Controller
     public function partiesListAction($_locale, GameService $gameService)
     {
         $game           = $gameService->getGame();
-        $parties        = $gameService->getParties();
+        $parties        = $gameService->getParties(Party::PREPARATION);
         
         return array(
             'game'      => $game,

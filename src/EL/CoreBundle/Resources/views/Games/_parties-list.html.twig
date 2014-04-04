@@ -12,7 +12,9 @@
                     {% if colState is not defined or colState %}
                         <th>{{ 'state'|trans }}</th>
                     {% endif %}
-                    <th>{{ 'players'|trans }}
+                    {% if colPlayers is not defined or colPlayers %}
+                        <th>{{ 'players'|trans }}
+                    {% endif %}
                     <th></th>
                 </tr></thead>
                 <tbody>
@@ -22,12 +24,14 @@
                                 <td>{{ party.game.title }}</td>
                             {% endif %}
                             {% if colHost is not defined or colHost %}
-                                <td>{{ party.host.pseudo }}</td>
+                                <td><a href="#">{{ party.host.pseudo }}</a></td>
                             {% endif %}
                             {% if colState is not defined or colState %}
                                 <td>{{ party.state }}</td>
                             {% endif %}
-                            <td>1 / 2</td>
+                            {% if colPlayers is not defined or colPlayers %}
+                                <td>1 / 2</td>
+                            {% endif %}
                             <td>
                                 <a
                                     class="btn btn-xs btn-default"

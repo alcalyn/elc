@@ -148,6 +148,7 @@ nav.navbar > div > ul > li:hover > a {
 nav.navbar form {
     margin: 3px 0;
     padding-right: 4px;
+    width: 237px;
 }
 nav.navbar form button,
 nav.navbar form input {
@@ -501,7 +502,9 @@ select.form-control.smaller {
     padding: 2px;
 }
 
-
+.alert {
+    padding: 6px 30px;
+}
 
 
 

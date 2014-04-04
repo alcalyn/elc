@@ -45,7 +45,7 @@ class UserController extends Controller
      *      name = "elcore_user_login_post",
      *      requirements = {
      *          "_method" = "POST",
-     *          "_scheme" = "https"
+     *          "_scheme" = "http"
      *      }
      * )
      * @Template
@@ -92,7 +92,7 @@ class UserController extends Controller
      *      name = "elcore_user_signup_post",
      *      requirements = {
      *          "_method" = "POST",
-     *          "_scheme" = "https"
+     *          "_scheme" = "http"
      *      }
      * )
      * @Template

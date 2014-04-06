@@ -1,0 +1,15 @@
+<div id="lang-switcher">
+    <p>
+        {% for lang in langs %}
+            <a
+                href="{{ url('elcore_home', {'_locale': lang.locale}) }}"
+                class="flag flag-{{ lang.locale }}"
+            >
+                <img
+                    src="{{ asset('bundles/core/img/flag/' ~ lang.locale ~ '.png') }}"
+                    alt="{{ lang.title }}"
+                />
+            </a>
+        {% endfor %}
+    </p>
+</div>

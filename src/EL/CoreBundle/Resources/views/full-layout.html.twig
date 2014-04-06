@@ -47,13 +47,12 @@
             <div id="body">
                 <header>
                     <a href="{{ path('elcore_home') }}">
-                        {#
-                        <div id="top-illustration" style="cursor:pointer">
+                        <div id="head-title" style="cursor:pointer">
                             <h1>Electron Libre</h1>
                         </div>
-                        #}
                     </a>
                     {{ render(controller('CoreBundle:User:index')) }}
+                    {{ render(controller('CoreBundle:Lang:switcher')) }}
                 </header>
                 <div id="main-page-container">
                     <nav class="navbar navbar-default" role="navigation">
@@ -80,7 +79,9 @@
                             </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+                                {# Community page hidden for now
                                 <li><a href="#">{{ 'community'|trans }}</a></li>
+                                #}
                                 <li><a href="{{ path('elcore_about') }}">{{ 'about'|trans }}</a></li>
                                 <li><a href="{{ path('elcore_faq') }}">{{ 'faq'|trans }}</a></li>
                             </ul>

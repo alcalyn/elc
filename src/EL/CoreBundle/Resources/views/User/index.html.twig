@@ -9,9 +9,11 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
+                        {# User page hidden for now
                         <li><a href="#">{{ 'my.account'|trans }}</a></li>
                         <li><a href="#">{{ 'my.page'|trans }}</a></li>
                         <li class="divider"></li>
+                        #}
                         {% if player.invited %}
                             <li><a href="{{ path('elcore_user_login') }}">{{ 'login'|trans }}</a></li>
                             <li class="divider"></li>
@@ -24,9 +26,13 @@
             </div>
         </div>
         <div class="user-avatar">
-            <img src="http://dummyimage.com/120x90.png" class="avatar" alt="{{ player.pseudo }}" />
-        </div>
-        <div class="user-avatar shadow">
+            <img
+                src="http://dummyimage.com/120x90.png"
+                width="120"
+                height="90"
+                class="avatar"
+                alt="{{ player.pseudo }}"
+            />
         </div>
     </div>
 </div>

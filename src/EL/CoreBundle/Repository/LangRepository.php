@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class LangRepository extends EntityRepository
 {
+    public function findAllExcept($locale)
+    {
+        return $this->_em->createQueryBuilder()
+                ->select('l')
+                ->from('CoreBundle:Lang', 'l')
+                ->where('l.locale != :locale')
+                ->setParameter(':locale', $locale)
+                ->getQuery()
+                ->getResult()
+        ;
+    }
 }

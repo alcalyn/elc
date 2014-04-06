@@ -1,5 +1,6 @@
 /*
 http://colorschemedesigner.com/#3B31OnKtduDwe
+cloud opacity: 197/255
 */
 
 
@@ -38,71 +39,67 @@ header {
     height: 128px;
 }
 header h1 {
-    position: absolute;
-    z-index: 1002
+    font-size: 32px;
+    text-shadow: 0 2px 1px rgba(255, 255, 255, 0.75);
 }
-header #top-illustration {
+header #head-title {
     position: absolute;
-    left: -90px;
-    padding-left: 90px;
-    padding-top: 75px;
-    z-index: 1001;
-    width: 300px;
+    top: 10px;
+    left: -42px;
+    padding-left: 64px;
+    padding-top: 56px;
+    width: 325px;
     height: 160px;
-    background: url(../img/nuage.png) no-repeat transparent;
-}
-header #top-illustration h1 {
-    font-size: 28px;
-    font-family: cursive; /* temporaire bien sur */
-    text-shadow: 4px 12px 4px #ddd;
+    background: url(../../bundles/core/img/cloud-title.png) no-repeat transparent;
 }
 header #login-container {
+    background: url(../../bundles/core/img/cloud-user.png) no-repeat transparent;
     position: absolute;
-    z-index: 1003;
-    right: 0;
-    width: 300px;
-    height: 120px;
+    right: -34px;
+    width: 430px;
+    height: 200px;
+    padding-left: 83px;
+    padding-top: 28px;
 }
 header #login {
-    position: relative;
-    width: 300px;
-    height: 90px;
-    /*background-image: url(../img/bg-login.png);*/
-    background-color: #6495CC;
-    border-radius: 12px;
-    margin: 18px 0 0 0;
 }
 header #login .user-info {
-    text-align: right;
     float: left;
-    width: 180px;
+    margin-right: 8px;
 }
-header #login .user-info-container {
-    padding: 6px;
+header #login .btn-group {
+    float: right;
 }
-header #login .user-info .pseudo {
-    background-color: #F4B991;
-    color: black;
-    font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-bottom: 6px;
+header #login .pseudo {
+    font-size: 18px;
+    margin-bottom: 8px;
+    width: 155px;
+    text-align: right;
+    text-shadow: 0 1px 0 #FFF;
 }
 header #login .user-avatar {
-    width: 120px;
-    height: 90px;
-    float: left;
 }
-header #login .user-avatar img.avatar {
-    border-radius: 0 12px 12px 0;
+header #login .avatar {
 }
-header #login .shadow {
-    border-radius: 0 12px 12px 0;
-    box-shadow: 0 0 27px #7C7C7C inset;
-    float: right;
+header #lang-switcher {
+    left: 400px;
     position: absolute;
-    right: 0;
-    z-index: 999;
+    text-align: right;
+    top: 10px;
+    width: 280px;
+}
+header #lang-switcher a.flag {
+    margin: 0 2px;
+    height: 50px;
+    text-decoration: none;
+    outline: none;
+}
+header #lang-switcher a.flag img {
+    width: 32px;
+    opacity: 0.75;
+}
+header #lang-switcher a.flag:hover img {
+    opacity: 1;
 }
 /*---------------- main page container----------------------*/
 #main-page-container {

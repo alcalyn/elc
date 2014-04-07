@@ -50,10 +50,10 @@ header #head-title {
     padding-top: 56px;
     width: 325px;
     height: 160px;
-    background: url(../../bundles/core/img/cloud-title.png) no-repeat transparent;
+    background: url(../img/cloud-title.png) no-repeat transparent;
 }
 header #login-container {
-    background: url(../../bundles/core/img/cloud-user.png) no-repeat transparent;
+    background: url(../img/cloud-user.png) no-repeat transparent;
     position: absolute;
     right: -34px;
     width: 430px;

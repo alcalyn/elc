@@ -65,7 +65,7 @@ class TicTacToeAjaxController extends Controller
                         if ($victoriesCount >= $extendedParty->getNumberOfParties()) {
                             $partyService->end();
                         }
-                    } else if (Party::END_ON_DRAWS_NUMBER === $extendedParty->getVictoryCondition()) {
+                    } elseif (Party::END_ON_DRAWS_NUMBER === $extendedParty->getVictoryCondition()) {
                         $drawsCount = $extendedParty->getPartyNumber() - $victoriesCount;
                         
                         if ($drawsCount >= $extendedParty->getNumberOfParties()) {

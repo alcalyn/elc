@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  * Used for score
  *
- * @ORM\Table(name="el_core_gamevariant")
+ * @ORM\Table(name="el_core_game_variant")
  * @ORM\Entity(repositoryClass="EL\CoreBundle\Repository\GameVariantRepository")
  */
 class GameVariant extends AbstractLangEntity

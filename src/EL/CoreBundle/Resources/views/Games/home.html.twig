@@ -11,10 +11,16 @@
 {% block body %}
 {{ parent() }}
 <div class="row-game row">
+    {% if game.pictureHome %}
     <div class="col-md-4">
-        <img src="http://www.centresocial-lorette.fr/wp-content/uploads/2010/09/17954-Tatice-EchecsJeux.png" alt="echecs" />
+        {% if game.pictureHome matches '/^http/' %}
+            <img src="{{ game.pictureHome }}" alt="{{ game.title }}" />
+        {% else %}
+            <img src="{{ asset(game.pictureHome) }}" alt="{{ game.title }}" />
+        {% endif %}
     </div>
-    <div class="col-md-8">
+    {% endif %}
+    <div class="col-md-{{ game.pictureHome ? '8' : '12' }}">
         <h2 class="game-title">{{ game.title }}</h2>
         <small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
         <div class="game-desc">

@@ -93,6 +93,8 @@ no:
     current:
         parties: 'You have no current games'
 
+    party: 'There is actually no game.'
+
     rankingyet:
         bethefirst: 'No ranking yet. Play now and then be the first !'
 

@@ -3,7 +3,6 @@
 namespace EL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * GameLang
@@ -48,7 +47,6 @@ class GameLang
     /**
      * @var string
      * 
-     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=31)
      */
     private $slug;
@@ -66,8 +64,18 @@ class GameLang
      * @ORM\Column(name="long_desc", type="string", length=1023)
      */
     private $longDesc;
-
-
+    
+    /**
+     * Url or ressource of game picture displayed in game home page.
+     * Can be "http://..." or "bundles/tictactoe/img/home.jpg"
+     * 
+     * @var string
+     * 
+     * @ORM\Column(name="picture_home", type="string", length=255, nullable=true)
+     */
+    private $pictureHome;
+    
+    
     /**
      * Get id
      *
@@ -214,5 +222,28 @@ class GameLang
     public function getLang()
     {
         return $this->lang;
+    }
+
+    /**
+     * Set pictureHome
+     *
+     * @param string $pictureHome
+     * @return GameLang
+     */
+    public function setPictureHome($pictureHome)
+    {
+        $this->pictureHome = $pictureHome;
+    
+        return $this;
+    }
+
+    /**
+     * Get pictureHome
+     *
+     * @return string 
+     */
+    public function getPictureHome()
+    {
+        return $this->pictureHome;
     }
 }

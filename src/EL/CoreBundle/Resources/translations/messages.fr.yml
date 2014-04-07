@@ -94,6 +94,8 @@ no:
     current:
         parties: 'Vous n''avez pas de parties en cours'
 
+    party: 'Il n''y a actuellement pas de partie.'
+
     rankingyet:
         bethefirst: 'Pas encore de classement. Jouez et soyez le premier !'
 

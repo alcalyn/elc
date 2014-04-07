@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GameVariantLang
  *
- * @ORM\Table(name="el_core_gamevariant_lang")
+ * @ORM\Table(name="el_core_game_variant_lang")
  * @ORM\Entity(repositoryClass="EL\CoreBundle\Repository\GameVariantLangRepository")
  */
 class GameVariantLang

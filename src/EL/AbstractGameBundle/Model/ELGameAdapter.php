@@ -124,8 +124,8 @@ class ELGameAdapter extends Controller implements ELGameInterface
     public function activeAction($_locale, PartyService $partyService)
     {
         return $this->render('AbstractGameBundle:Adapter:active.html.twig', array(
-            'game'          => $partyService->getGame(),
-            'coreParty'    => $partyService->getParty(),
+            'game'      => $partyService->getGame(),
+            'coreParty' => $partyService->getParty(),
         ));
     }
     
@@ -135,8 +135,8 @@ class ELGameAdapter extends Controller implements ELGameInterface
     public function endedAction($_locale, PartyService $partyService)
     {
         return $this->render('AbstractGameBundle:Adapter:ended.html.twig', array(
-            'game'          => $partyService->getGame(),
-            'coreParty'    => $partyService->getParty(),
+            'game'      => $partyService->getGame(),
+            'coreParty' => $partyService->getParty(),
         ));
     }
     

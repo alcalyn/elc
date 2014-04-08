@@ -82,7 +82,7 @@ header #login .user-avatar {
 header #login .avatar {
 }
 header #lang-switcher {
-    left: 400px;
+    right: 318px;
     position: absolute;
     text-align: right;
     top: 10px;

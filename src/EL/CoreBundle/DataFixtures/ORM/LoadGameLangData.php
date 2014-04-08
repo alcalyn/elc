@@ -38,7 +38,7 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
                 'shortdesc' => "Pas envie de réfléchir\xC2\xA0? Faîtes quelques parties de Morpion\xC2\xA0!",
                 'longdesc'  => 'Sûrement le jeu le plus basique du monde, alignez 3 symboles avant votre adversaire'
                                 . ' et remportez la partie.',
-                'picHome'   => 'http://timvandevall.com/wp-content/uploads/2014/01/Tic-Tac-Toe-Fi.jpg',
+                'picHome'   => 'bundles/tictactoe/img/pictureHome.jpg',
             ),
             array(
                 'game'      => 'tictactoe',
@@ -48,7 +48,7 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
                 'shortdesc' => "Don't want to take your head\xC2\xA0? Make some Tic tac toe games\xC2\xA0!",
                 'longdesc'  => 'Certainly the most basic game of the world, align 3 symbols before your opponent'
                                 . ' and win the game.',
-                'picHome'   => 'http://freeology.com/wp-content/files/tictactoe-thumb.png',
+                'picHome'   => 'bundles/tictactoe/img/pictureHome.jpg',
             ),
             array(
                 'game'      => 'awale',

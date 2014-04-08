@@ -21,8 +21,9 @@
             Load application css
         #}
         {% stylesheets
-            '@CoreBundle/Resources/public/css/*'
-            '@TicTacToeBundle/Resources/public/css/*'
+            'bundles/core/css/*'
+            'bundles/tictactoe/css/*'
+            filter='cssrewrite'
         %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
         {% endstylesheets %}

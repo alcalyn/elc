@@ -22,15 +22,33 @@
 
 {% block form_row %}
 {% spaceless %}
-    <div class="form-group">
-        {{ form_errors(form) }}
+    <div class="form-group has-feedback{% if form.vars.submitted %} has-{{ form.vars.valid ? 'success' : 'error' }}{% endif %}">
         <label for="{{ id }}" class="col-sm-4 control-label">{{ form_label(form) }}</label>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
             {{ form_widget(form) }}
         </div>
+        {{ form_errors(form) }}
     </div>
 {% endspaceless %}
 {% endblock form_row %}
+
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+        <div class="col-sm-4 form-errors">
+            {% for error in errors %}
+                <span class="label label-danger">{{
+                    error.messagePluralization is null
+                        ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                        : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+                }}</span>
+                {% if not loop.last %}<br />{% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
 
 
 {% block form_widget_simple %}
@@ -38,6 +56,9 @@
     {% set type = type|default('text') %}
     {% set attr = attr|merge({'class':'form-control'}) %}
     <input type="{{ type }}" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% if form.vars.submitted %}
+        <span class="glyphicon glyphicon-{{ form.vars.valid ? 'ok' : 'remove' }} form-control-feedback"></span>
+    {% endif %}
 {% endspaceless %}
 {% endblock form_widget_simple %}
 

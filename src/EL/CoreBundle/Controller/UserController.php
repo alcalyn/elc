@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Services\SessionService;
 use EL\CoreBundle\Form\Entity\Signup;
@@ -58,16 +59,22 @@ class UserController extends Controller
         
         $loginForm->handleRequest($request);
         
-        if ($loginForm->isSubmitted()) {
-            if ($loginForm->isValid()) {
-                $session = $this->get('el_core.session');
-                
-                try {
-                    $session->login($login->getPseudo(), $login->getPassword());
-                    
-                    return $this->redirect($this->generateUrl('elcore_home'));
-                } catch (ELUserException $e) {
-                    $e->addFlashMessage($this->get('session'));
+        if ($loginForm->isValid()) {
+            $session = $this->get('el_core.session');
+
+            try {
+                $session->login($login->getPseudo(), $login->getPassword());
+
+                return $this->redirect($this->generateUrl('elcore_home'));
+            } catch (ELUserException $e) {
+                $e->addFlashMessage($this->get('session'));
+
+                if ($e->getCode() === ELCoreException::LOGIN_PSEUDO_NOT_FOUND) {
+                    $loginForm->get('pseudo')->addError(new FormError('pseudo.not.found'));
+                }
+
+                if ($e->getCode() === ELCoreException::LOGIN_PASSWORD_INVALID) {
+                    $loginForm->get('password')->addError(new FormError('pseudo.exists.password.invalid'));
                 }
             }
         }
@@ -105,16 +112,18 @@ class UserController extends Controller
         
         $signupForm->handleRequest($request);
         
-        if ($signupForm->isSubmitted()) {
-            if ($signupForm->isValid()) {
-                $session = $this->get('el_core.session');
+        if ($signupForm->isValid()) {
+            $session = $this->get('el_core.session');
+
+            try {
+                $session->signup($signup->getPseudo(), $signup->getPassword());
+
+                return $this->redirect($this->generateUrl('elcore_home'));
+            } catch (ELUserException $e) {
+                $e->addFlashMessage($this->get('session'));
                 
-                try {
-                    $session->signup($signup->getPseudo(), $signup->getPassword());
-                    
-                    return $this->redirect($this->generateUrl('elcore_home'));
-                } catch (ELUserException $e) {
-                    $e->addFlashMessage($this->get('session'));
+                if ($e->getCode() === ELCoreException::LOGIN_PSEUDO_UNAVAILABLE) {
+                    $signupForm->get('pseudo')->addError(new FormError('pseudo.unavailable'));
                 }
             }
         }

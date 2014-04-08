@@ -4,6 +4,7 @@ namespace EL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 use EL\CoreBundle\Entity\Slot;
 
 /**
@@ -73,6 +74,8 @@ class Party implements \JsonSerializable
 
     /**
      * @var string
+     * 
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="title", type="string", length=63)
      */

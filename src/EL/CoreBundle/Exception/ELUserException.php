@@ -15,9 +15,10 @@ class ELUserException extends ELCoreException
     private $type;
     
     
-    public function __construct($message, $type = self::TYPE_DANGER)
+    public function __construct($message, $code = -1, $type = self::TYPE_DANGER)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
+        
         $this->setType($type);
     }
     

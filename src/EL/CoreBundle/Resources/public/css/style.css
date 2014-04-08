@@ -503,9 +503,16 @@ select.form-control.smaller {
     padding: 6px 30px;
 }
 
+.form-errors {
+    padding-top: 4px;
+}
+.form-errors .label {
+    margin-right: 6px;
+}
+.form-errors br {
+    margin-bottom: 2px;
+}
 
-
-
-
-
-
+.page-title {
+    margin: 8px 0 16px 0;
+}

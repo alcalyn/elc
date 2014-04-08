@@ -41,39 +41,37 @@ class PartyController extends Controller
         
         $optionsForm->handleRequest($request);
         
-        if ($optionsForm->isSubmitted()) {
-            if ($optionsForm->isValid()) {
-                $partyService->setParty($coreParty);
-                
-                $coreParty
-                        ->setDateCreate(new \DateTime())
-                ;
-                
-                $em->persist($coreParty);
-                
-                // notify extended game that party has been created with $extendedOptions options
-                $extendedGame->saveParty($coreParty, $extendedOptions);
-                
-                // get slots configuration from extended party depending of options
-                $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions);
-                
-                // create slots from given slots configuration
-                $partyService->createSlots($slotsConfiguration);
-                
+        if ($optionsForm->isValid()) {
+            $partyService->setParty($coreParty);
+
+            $coreParty
+                    ->setDateCreate(new \DateTime())
+            ;
+
+            $em->persist($coreParty);
+
+            // notify extended game that party has been created with $extendedOptions options
+            $extendedGame->saveParty($coreParty, $extendedOptions);
+
+            // get slots configuration from extended party depending of options
+            $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions);
+
+            // create slots from given slots configuration
+            $partyService->createSlots($slotsConfiguration);
+
+            $em->flush();
+
+            if (0 === strlen($coreParty->getSlug())) {
+                $coreParty->setSlug($partyService->generateRandomTitle($_locale));
                 $em->flush();
-                
-                if (0 === strlen($coreParty->getSlug())) {
-                    $coreParty->setSlug($partyService->generateRandomTitle($_locale));
-                    $em->flush();
-                }
-                
-                // redirect to preparation page
-                return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                    '_locale'   => $_locale,
-                    'slugGame'  => $slug,
-                    'slugParty' => $coreParty->getSlug(),
-                )));
             }
+
+            // redirect to preparation page
+            return $this->redirect($this->generateUrl('elcore_party_preparation', array(
+                '_locale'   => $_locale,
+                'slugGame'  => $slug,
+                'slugParty' => $coreParty->getSlug(),
+            )));
         }
         
         return array(

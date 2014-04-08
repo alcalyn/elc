@@ -4,15 +4,12 @@ namespace EL\CoreBundle\Services;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManager;
+use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Entity\Player;
 
 class SessionService
 {
-    const PSEUDO_UNAVAILABLE = -1;
-    const ALREADY_LOGGED = -2;
-    
-    
     /**
      * @var \Symfony\Component\HttpFoundation\Session\Session
      */
@@ -59,22 +56,33 @@ class SessionService
      * 
      * @param string $pseudo
      * @param string $password plain
+     * 
+     * @return boolean
+     * 
+     * @throws ELUserException
      */
     public function login($pseudo, $password)
     {
-        $passwordHash = $this->hashPassword($password);
-        
-        $results = $this->em
+        $player = $this->em
                 ->getRepository('CoreBundle:Player')
-                ->loginQuery($pseudo, $passwordHash);
+                ->findOneBy(array(
+                    'pseudo'    => $pseudo,
+                    'invited'   => false,
+                    'bot'       => false,
+                ))
+        ;
         
-        if (count($results) == 1) {
-            $this->setPlayer($results[0]);
-            
-            return true;
-        } else {
-            throw new ELUserException('login.error');
+        if (null === $player) {
+            throw new ELUserException('login.error', ELCoreException::LOGIN_PSEUDO_NOT_FOUND);
         }
+        
+        if ($player->getPasswordHash() !== $this->hashPassword($password)) {
+            throw new ELUserException('login.error', ELCoreException::LOGIN_PASSWORD_INVALID);
+        }
+        
+        $this->setPlayer($player);
+
+        return true;
     }
     
     /**
@@ -105,18 +113,19 @@ class SessionService
     public function signup($pseudo, $password)
     {
         if ($this->isLogged()) {
-            throw new ELCoreException('already.logged');
+            throw new ELCoreException('signup.error', ELCoreException::LOGIN_ALREADY_LOGGED);
         }
         
         if ($this->pseudoExists($pseudo)) {
-            throw new ELUserException('pseudo.unavailable');
+            throw new ELUserException('signup.error', ELCoreException::LOGIN_PSEUDO_UNAVAILABLE);
         }
         
         $player = $this->getPlayer();
         $player
                 ->setPseudo($pseudo)
                 ->setPasswordHash($this->hashPassword($password))
-                ->setInvited(false);
+                ->setInvited(false)
+        ;
         
         $this->savePlayer();
         
@@ -133,7 +142,8 @@ class SessionService
     {
         $count = $this->em
                 ->getRepository('CoreBundle:Player')
-                ->pseudoCount($pseudo);
+                ->pseudoCount($pseudo)
+        ;
         
         return intval($count) > 0;
     }

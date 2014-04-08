@@ -50,6 +50,14 @@ interface ELGameInterface
     public function loadParty(CoreParty $coreParty);
     
     /**
+     * Get game layout path, such as 'AbstractGameBundle:Adapter:game-layout.html.twig'.
+     * Used to extends htmlhead and htmlend to add assets
+     * 
+     * @return string
+     */
+    public function getGameLayout();
+    
+    /**
      * Return a form template for your options
      * 
      * @return string template path, such as 'AbstractGameBundle:Adapter:optionsForm.html.twig'

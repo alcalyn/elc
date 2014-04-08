@@ -88,6 +88,11 @@ class DefaultController extends ELGameAdapter
         );
     }
     
+    public function getGameLayout()
+    {
+        return 'TicTacToeBundle::layout.html.twig';
+    }
+    
     public function activeAction($_locale, PartyService $partyService)
     {
         $em = $this->getDoctrine()->getManager();
@@ -108,6 +113,7 @@ class DefaultController extends ELGameAdapter
             'game'          => $game,
             'party'         => $coreParty,
             'extendedParty' => $party,
+            'gameLayout'    => $this->getGameLayout(),
         ));
     }
     

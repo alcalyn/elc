@@ -78,6 +78,7 @@ class PartyController extends Controller
             'game'                  => $partyService->getGame(),
             'optionsForm'           => $optionsForm->createView(),
             'creationFormTemplate'  => $extendedGame->getCreationFormTemplate(),
+            'gameLayout'            => $extendedGame->getGameLayout(),
         );
     }
     
@@ -135,6 +136,7 @@ class PartyController extends Controller
             'inParty'                   => $inParty,
             'canJoin'                   => $canJoin,
             'isHost'                    => $isHost,
+            'gameLayout'                => $extendedGame->getGameLayout(),
         );
     }
     

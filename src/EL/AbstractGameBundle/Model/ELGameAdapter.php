@@ -31,6 +31,14 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
+    public function getGameLayout()
+    {
+        return 'CoreBundle::layout.html.twig';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
     public function getCreationFormTemplate()
     {
         return 'AbstractGameBundle:Adapter:optionsForm.html.twig';
@@ -125,7 +133,8 @@ class ELGameAdapter extends Controller implements ELGameInterface
     {
         return $this->render('AbstractGameBundle:Adapter:active.html.twig', array(
             'game'          => $partyService->getGame(),
-            'coreParty'    => $partyService->getParty(),
+            'coreParty'     => $partyService->getParty(),
+            'gameLayout'    => $this->getGameLayout(),
         ));
     }
     
@@ -136,7 +145,8 @@ class ELGameAdapter extends Controller implements ELGameInterface
     {
         return $this->render('AbstractGameBundle:Adapter:ended.html.twig', array(
             'game'          => $partyService->getGame(),
-            'coreParty'    => $partyService->getParty(),
+            'coreParty'     => $partyService->getParty(),
+            'gameLayout'    => $this->getGameLayout(),
         ));
     }
     

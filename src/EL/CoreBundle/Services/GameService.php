@@ -4,6 +4,7 @@ namespace EL\CoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use EL\CoreBundle\Entity\Game;
+use EL\AbstractGameBundle\Model\ELGameInterface;
 use EL\CoreBundle\Exception\ELCoreException;
 
 class GameService
@@ -122,20 +123,13 @@ class GameService
     public function loadExtendedGame(Container $container)
     {
         $this->needGame();
-        $this->extendedGame = $container->get($this->getGameServiceName());
-        return $this;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getGameServiceName(Game $game = null)
-    {
-        if (is_null($game)) {
-            $this->needGame();
-            return 'el_games.'.$this->game->getName();
+        $extendedGame = $container->get('el_games.'.$this->game->getName());
+        
+        if ($extendedGame instanceof ELGameInterface) {
+            $this->extendedGame = $extendedGame;
+            return $this;
         } else {
-            return 'el_games.'.$game->getName();
+            throw new ELCoreException('Your game service must implement EL\AbstractGameBundle\Model\ELGameInterface');
         }
     }
     

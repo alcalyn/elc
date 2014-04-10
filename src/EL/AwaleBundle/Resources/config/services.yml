@@ -1,0 +1,5 @@
+services:
+    el_games.awale:
+        class: EL\AwaleBundle\Services\Awale
+        calls:
+            - [setContainer, ["@service_container"]]

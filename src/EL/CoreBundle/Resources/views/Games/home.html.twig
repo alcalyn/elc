@@ -12,7 +12,7 @@
 {{ parent() }}
 <div class="row-game row">
     {% if game.pictureHome %}
-    <div class="col-md-4">
+    <div class="col-md-4 row-picture-home">
         {% if game.pictureHome matches '/^http/' %}
             <img src="{{ game.pictureHome }}" alt="{{ game.title }}" />
         {% else %}

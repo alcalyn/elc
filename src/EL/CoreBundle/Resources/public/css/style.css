@@ -193,6 +193,9 @@ nav.navbar form input {
 #content {
     min-height: 300px;
 }
+.row-game .row-picture-home img {
+    max-width: 220px;
+}
 .row-game h2.game-title {
     margin-bottom: 0px;
     font-size: 26px;

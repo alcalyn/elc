@@ -55,18 +55,34 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
                 'lang'      => 'fr',
                 'title'     => 'Awalé',
                 'slug'      => 'awale',
-                'shortdesc' => 'Awalé desc courte',
-                'longdesc'  => 'Awalé desc longue',
-                'picHome'   => null,
+                'shortdesc' => 'Jeu Africain consistant à stocker vos graines et les graines de l\'adversaire'
+                                . ' dans votre grenier le plus rapidement.',
+                'longdesc'  => 'Vous et votre adversaire disposez de compartiments contenant chacun des graines.'
+                                . ' Vous jouez tour par tour, et quand c\'est votre tour,'
+                                . ' vous devez choisir un de vos compartiment, y prendre les graines,'
+                                . ' et les déposer une à une dans les autres compartiments,'
+                                . ' y compris ceux de l\'adversaire.'
+                                . ' Lorsque vous déposez la dernière graine chez votre adversaire'
+                                . ' et qu\'il en reste un certain nombre,'
+                                . ' vous prenez les graines de son compartiment et les stockez dans votre grenier.',
+                'picHome'   => 'http://a397.idata.over-blog.com/390x500/5/36/54/50/OEUVRES-ART/JEUX-TRADITIONNELS/awale2b.jpg',
             ),
             array(
                 'game'      => 'awale',
                 'lang'      => 'en',
                 'title'     => 'Awale',
                 'slug'      => 'awale',
-                'shortdesc' => 'Awale short desc',
-                'longdesc'  => 'Awale long desc',
-                'picHome'   => null,
+                'shortdesc' => 'African game of storing your seeds and your opponent\'s seeds'
+                                . ' in your attic, the faster you can.',
+                'longdesc'  => 'You and your opponent have slots each containing seeds.'
+                                . ' This is a turn-based game, and then it is your turn,'
+                                . ' you have to choose a slot, take seeds,'
+                                . ' and drop them one by one into the other slots,'
+                                . ' including those of your opponent.'
+                                . ' When you drop the last seed in one of your opponent slot'
+                                . ' and it remains a defined number,'
+                                . ' you take seeds out of this compartiment and store them in your appic.',
+                'picHome'   => 'http://a397.idata.over-blog.com/390x500/5/36/54/50/OEUVRES-ART/JEUX-TRADITIONNELS/awale2b.jpg',
             ),
         );
         

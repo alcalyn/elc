@@ -250,7 +250,7 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
         }
         
-        $extendedGame   = $this->get($partyService->getGameServiceName());
+        $extendedGame   = $partyService->loadExtendedGame($this->container)->getExtendedGame();
         $jsVars         = $this->get('el_core.js_vars');
         
         $jsVars
@@ -277,7 +277,7 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
         }
         
-        $extendedGame = $this->get($partyService->getGameServiceName());
+        $extendedGame   = $partyService->loadExtendedGame($this->container)->getExtendedGame();
         
         return $extendedGame->endedAction($_locale, $partyService);
     }

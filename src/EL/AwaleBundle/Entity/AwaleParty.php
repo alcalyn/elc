@@ -8,7 +8,7 @@ use EL\CoreBundle\Entity\Party;
 /**
  * AwaleParty
  *
- * @ORM\Table(name="el_games_awale")
+ * @ORM\Table(name="el_games_awale_party")
  * @ORM\Entity(repositoryClass="EL\AwaleBundle\Repository\AwalePartyRepository")
  */
 class AwaleParty implements \JsonSerializable
@@ -32,7 +32,7 @@ class AwaleParty implements \JsonSerializable
     /**
      * @var integer
      *
-     * @ORM\Column(name="seeds_per_Container", type="smallint")
+     * @ORM\Column(name="seeds_per_container", type="smallint")
      */
     private $seedsPerContainer;
     

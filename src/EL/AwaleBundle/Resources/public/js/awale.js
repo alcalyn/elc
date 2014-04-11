@@ -1,0 +1,8 @@
+
+var awale = {
+    
+    init: function ()
+    {
+        
+    }
+};

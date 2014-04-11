@@ -251,12 +251,19 @@ class PartyController extends Controller
         }
         
         $extendedGame   = $partyService->loadExtendedGame($this->container)->getExtendedGame();
+        $extendedParty  = $extendedGame->loadParty($party);
         $jsVars         = $this->get('el_core.js_vars');
+        
+        if (!($extendedParty instanceof \JsonSerializable)) {
+            throw new ELCoreException(
+                    'Your class ('.get_class($extendedParty).') must implement JsonSerializable'
+            );
+        }
         
         $jsVars
             ->initPhaxController('party')
             ->addContext('core-party', $party->jsonSerialize())
-            ->addContext('extended-party', $extendedGame->loadParty($party)->jsonSerialize())
+            ->addContext('extended-party', $extendedParty->jsonSerialize())
         ;
         
         return $extendedGame->activeAction($_locale, $partyService);

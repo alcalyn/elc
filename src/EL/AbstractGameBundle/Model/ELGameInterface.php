@@ -45,7 +45,7 @@ interface ELGameInterface
      * 
      * @param CoreParty $coreParty
      * 
-     * @return stdClass
+     * @return \JsonSerializable
      */
     public function loadParty(CoreParty $coreParty);
     

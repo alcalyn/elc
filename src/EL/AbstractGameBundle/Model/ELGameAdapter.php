@@ -24,7 +24,6 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function createParty()
     {
-        // can we delete this and return a new stdClass ?
         return new AdapterOptions();
     }
     

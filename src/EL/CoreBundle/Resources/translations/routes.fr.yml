@@ -1,0 +1,65 @@
+# Desc: /about
+elcore_about: /a-propos
+
+# Desc: /faq
+elcore_faq: /faq
+
+# Desc: /games/{slug}
+elcore_game_home: '/jeux/{slug}'
+
+# Desc: /games/{slug}/games-list
+elcore_game_parties_list: '/jeux/{slug}/parties'
+
+# Desc: /games/{slug}/ranking
+elcore_game_ranking: '/jeux/{slug}/classement'
+
+# Desc: /games/{slug}/rules
+elcore_game_rules: '/jeux/{slug}/regles'
+
+# Desc: /games
+elcore_games_list: /jeux
+
+# Desc: /
+elcore_home: /
+
+# Desc: /games/{slugGame}/{slugParty}
+elcore_party: '/jeux/{slugGame}/{slugParty}'
+
+# Desc: /games/{slug}/creation
+elcore_party_creation: '/jeux/{slug}/creer-une-partie'
+
+# Desc: /games/{slugGame}/{slugParty}/results
+elcore_party_ended: '/jeux/{slugGame}/{slugParty}/resultats'
+
+# Desc: /games/{slugGame}/{slugParty}/join
+elcore_party_join: '/jeux/{slugGame}/{slugParty}/rejoindre'
+
+# Desc: /games/{slugGame}/{slugParty}/preparation
+elcore_party_preparation: '/jeux/{slugGame}/{slugParty}/preparation'
+
+# Desc: /games/{slugGame}/{slugParty}/preparation/action
+elcore_party_preparation_action: '/jeux/{slugGame}/{slugParty}/preparation/action'
+
+# Desc: /player/login
+elcore_user_login: /joueur/connexion
+
+# Desc: /player/login
+elcore_user_login_post: /joueur/connexion
+
+# Desc: /player/logout
+elcore_user_logout: /joueur/deconnexion
+
+# Desc: /player/signup
+elcore_user_signup: /joueur/creer-un-compte
+
+# Desc: /player/signup
+elcore_user_signup_post: /joueur/creer-un-compte
+
+# Desc: /login_check
+login_check: /login_check
+
+# Desc: /player/logout
+logout: /joueur/deconnexion
+
+# Desc: /phax
+phax_script: /phax

@@ -1,0 +1,22 @@
+{% extends "CoreBundle:Games:games.layout.html.twig" %}
+
+{% block title %}{{ parent() }} - {{ 'ranking'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+        <li><a href="{{ path('elcore_game_home', {slug: game.slug}) }}">{{ game.title }}</a></li>
+        <li class="active">{{ 'ranking'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+{% if ranking|length > 0 %}
+    {% include 'CoreBundle:Games:_ranking-board.html.twig' %}
+{% else %}
+    <p>{{ 'no.rankingyet.bethefirst'|trans }}</p>
+{% endif %}
+{% endblock %}

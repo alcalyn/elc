@@ -1,0 +1,31 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+    </ol>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>What is Electron Libre ?</h2>
+        <br />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 text-justify">
+        <p class="lead">
+            Electron libre allows you to play any kind of games
+            as Poker, Chess, RISK, Checkers... with others players
+            simple way:
+            you don't need account, play as guest now,
+            and beat your opponents scores !
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p class="lead">
+            <a href="{{ path('elcore_game_home', {'slug': 'tictactoe'}) }}">Play Tic Tac Toe</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

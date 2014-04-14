@@ -1,0 +1,13 @@
+{%
+    set conditions = {
+        1: 'parties',
+        2: 'wins',
+        3: 'draws',
+    }
+%}
+
+<p>
+    {{ 'game.endafter'|trans }}
+    {{ extendedOptions.numberOfParties | trans }}
+    {{ conditions[extendedOptions.victoryCondition] | trans }}.
+</p>

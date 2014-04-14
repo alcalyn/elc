@@ -1,0 +1,76 @@
+{% extends "AbstractGameBundle:Adapter:active.html.twig" %}
+
+{% set coreParty = party %}
+
+{% block title %}{{ parent() }} - Active{% endblock %}
+
+{% block htmlhead %}
+    {% stylesheets
+        '@TicTacToeBundle/Resources/public/css/*'
+        filter='cssrewrite'
+    %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+<div class="jeux-actif">
+    {#
+        Grid
+    #}
+    <div id="grid">
+        {% for line in 0..2 %}
+            {% for col in 0..2 %}
+                <div id="grid-{{ line }}-{{ col }}" class="grid-item grid-{{ cycle(['odd', 'even'], (line+col)) }} grid-value_{{ extendedParty.grid[line*3+col : 1] }}"></div>
+            {% endfor %}
+        {% endfor %}
+        <div style="clear:both"></div>
+    </div>
+    
+    {#
+        Scores and party info
+    #}
+    <div id="players">
+        {# Scores #}
+        <div class="row scores">
+            <div class="p1 col-md-6">
+                <p>
+                    <span class="pseudo">{{ party.slots[0].player.pseudo|default('?') }}</span>
+                    <span class="score">{{ party.slots[0].score|default('?') }}</span>
+                </p>
+            </div>
+            <div class="p2 col-md-6">
+                <p>
+                    <span class="score">{{ party.slots[1].score|default('?') }}</span>
+                    <span class="pseudo">{{ party.slots[1].player.pseudo|default('?') }}</span>
+                </p>
+            </div>
+        </div>
+        
+        {# Party number #}
+        <div class="row party">
+            <p class="col-md-12">
+                {{ 'party'|trans }} <span>{{ extendedParty.partyNumber }}</span>.
+            </p>
+        </div>
+        
+        {# Victory condition #}
+        <div class="row victory">
+            {% set conditions = {1: 'parties', 2: 'wins', 3: 'draws'} %}
+            <p class="col-md-12">
+                {{ 'game.endafter'|trans }}
+                {{ extendedParty.numberOfParties | trans }}
+                {{ conditions[extendedParty.victoryCondition] | trans }}.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block htmlend %}
+    {% javascripts
+        '@TicTacToeBundle/Resources/public/js/*'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}

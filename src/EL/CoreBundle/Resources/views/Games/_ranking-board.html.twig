@@ -1,0 +1,30 @@
+<div class="row-rank row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <table class="ranking table table-striped table-condensed table-hover text-center">
+                <thead><tr>
+                    <th>#</th>
+                    <th>{{ 'player'|trans }}</th>
+                    {% for rankingColumn in game.rankingColumns|split(',') %}
+                        {% if rankingColumn in rankingColumns %}
+                            <th>{{ rankingColumn|trans }}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr></thead>
+                <tbody>
+                    {% for rank in ranking %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="#">{{ rank.player.pseudo }}</a></td>
+                            {% for rankingColumn in game.rankingColumns|split(',') %}
+                                {% if rankingColumn in rankingColumns %}
+                                    <td>{{ rank|displayScore(rankingColumn) }}</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

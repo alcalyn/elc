@@ -1,0 +1,45 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+        <li><a href="{{ path('elcore_game_home', {slug: game.slug}) }}">{{ game.title }}</a></li>
+        <li class="active">{{ coreParty.title|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block title %}{{ parent() }} - {{ game.title }} - {{ 'scores'|trans }}{% endblock %}
+
+{% block body %}
+<div class="jeux-termine">
+    <h2>{{ game.title }} - {{ 'scores'|trans }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'player'|trans }}</th>
+                <th>{{ 'score'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot in coreParty.slots %}
+                <tr>
+                    <td>{{ slot.position }}</td>
+                    <td>
+                        {% if slot.player %}
+                            {{ slot.player.pseudo }}
+                        {% else %}
+                            No player
+                        {% endif %}
+                    </td>
+                    <td>{{ slot.score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="{{ path('elcore_party_preparation_action', { 'slugGame': game.slug, 'slugParty': coreParty.slug }) }}" method="post">
+        <button type="submit" name="action" value="remake" class="btn btn-primary">{{ 'remake'|trans }}</button>
+    </form>
+</div>
+{% endblock %}

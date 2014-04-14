@@ -1,0 +1,15 @@
+el_abstract_game:
+    resource: "@AbstractGameBundle/Resources/config/routing.yml"
+    prefix:   /
+
+phax:
+    resource: "@PhaxCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+el_core:
+    resource: "@CoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+el_tic_tac_toe:
+    resource: "@TicTacToeBundle/Resources/config/routing.yml"
+    prefix:   /

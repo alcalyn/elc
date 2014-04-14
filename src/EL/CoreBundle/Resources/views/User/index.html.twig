@@ -1,0 +1,38 @@
+<div id="login-container">
+    <div id="login">
+        <div class="user-info">
+            <div class="user-info-container">
+            <p class="pseudo">{{ player.pseudo }}</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-xs">{{ 'my.account'|trans }}</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        {# User page hidden for now
+                        <li><a href="#">{{ 'my.account'|trans }}</a></li>
+                        <li><a href="#">{{ 'my.page'|trans }}</a></li>
+                        <li class="divider"></li>
+                        #}
+                        {% if player.invited %}
+                            <li><a href="{{ path('elcore_user_login') }}">{{ 'login'|trans }}</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('elcore_user_signup') }}">{{ 'signup'|trans }}</a></li>
+                        {% else %}
+                            <li><a href="{{ path('elcore_user_logout') }}">{{ 'logout'|trans }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="user-avatar">
+            <img
+                src="http://dummyimage.com/120x90.png"
+                width="120"
+                height="90"
+                class="avatar"
+                alt="{{ player.pseudo }}"
+            />
+        </div>
+    </div>
+</div>

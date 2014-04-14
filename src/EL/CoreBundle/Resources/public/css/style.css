@@ -1,0 +1,511 @@
+/*
+http://colorschemedesigner.com/#3B31OnKtduDwe
+cloud opacity: 197/255
+*/
+
+
+
+body {
+    background: #A2BDE2;
+    padding: 0;
+    margin: 0px auto auto auto;
+}
+p, h1, h2, h3, h4, h5, h6, ul, li {
+    margin: 0;
+}
+p {
+    font-size: 13px;
+}
+ul, li {
+    padding: 0;
+    list-style: none;
+}
+
+#body-container {
+    border-top: 7px solid #7198CD;
+}
+#body {
+    max-width: 1000px;
+    height: auto;
+    margin: auto;
+    padding: 0px;
+    position: relative;
+}
+h2, h3, h4, h5, h6 {
+    color: #306198;
+}
+header {
+    margin-top: -7px;
+    height: 128px;
+}
+header h1 {
+    font-size: 32px;
+    text-shadow: 0 2px 1px rgba(255, 255, 255, 0.75);
+}
+header #head-title {
+    position: absolute;
+    top: 10px;
+    left: -42px;
+    padding-left: 64px;
+    padding-top: 56px;
+    width: 325px;
+    height: 160px;
+    background: url(../img/cloud-title.png) no-repeat transparent;
+}
+header #login-container {
+    background: url(../img/cloud-user.png) no-repeat transparent;
+    position: absolute;
+    right: -34px;
+    width: 430px;
+    height: 200px;
+    padding-left: 83px;
+    padding-top: 28px;
+}
+header #login {
+}
+header #login .user-info {
+    float: left;
+    margin-right: 8px;
+}
+header #login .btn-group {
+    float: right;
+}
+header #login .pseudo {
+    font-size: 18px;
+    margin-bottom: 8px;
+    width: 155px;
+    text-align: right;
+    text-shadow: 0 1px 0 #FFF;
+}
+header #login .user-avatar {
+}
+header #login .avatar {
+}
+header #lang-switcher {
+    left: 400px;
+    position: absolute;
+    text-align: right;
+    top: 10px;
+    width: 280px;
+}
+header #lang-switcher a.flag {
+    margin: 0 2px;
+    height: 50px;
+    text-decoration: none;
+    outline: none;
+}
+header #lang-switcher a.flag img {
+    width: 32px;
+    opacity: 0.75;
+}
+header #lang-switcher a.flag:hover img {
+    opacity: 1;
+}
+/*---------------- main page container----------------------*/
+#main-page-container {
+    box-shadow: 0 2px 4px;
+    border-radius: 8px 8px 0 0;
+}
+
+
+/*---------------- menu tab----------------------*/
+nav .collapse {
+    height: 35px !important;
+    padding-right: 0px;
+}
+nav.navbar {
+    border-radius: 8px 8px 0 0;
+    margin: 0;
+    background: #6495CC;
+    border-bottom: 5px solid #306198;
+    height: 41px;
+    min-height: 0;
+}
+nav.navbar > div > ul {
+    margin-right: 0px !important;
+}
+nav.navbar > div > ul > li {
+    height: 40px;
+    border-bottom: 5px solid #306198;
+}
+nav.navbar > div > ul > li:hover {
+    background-color: #306198;
+    color: #222 !important;
+    border-bottom: 5px solid #749FD0;
+}
+nav.navbar > div > ul > li > a {
+    font-size: 14px;
+    font-weight: bold;
+    color: #222 !important;
+    padding: 8px 20px;
+}
+nav.navbar > div > ul > li:hover > a {
+    color: #FFF !important;
+}
+nav.navbar form {
+    margin: 3px 0;
+    padding-right: 4px;
+    width: 237px;
+}
+nav.navbar form button,
+nav.navbar form input {
+    font-size: 12px;
+    padding: 2px 6px;
+    height: 30px;
+}
+nav.navbar form input {
+    width: 190px !important;
+}
+/*---------------- carousel ----------------------*/
+#carousel-example-generic a {
+    outline: none;
+}
+
+/*----------------main_content----------------*/
+#main-content-container {
+    background-color: #fff;
+    min-height: 256px;
+}
+
+#carousel-container {
+}
+#breadcrumb-container {
+}
+#main-content {
+}
+#content {
+    padding: 0 15px;
+    margin: 16px 0 32px 0;
+}
+#sidebar {
+    padding: 0 15px;
+}
+#sidebar hr:last-child {
+    display: none;
+}
+
+.breadcrumb {
+    border-radius: 0;
+    background-color: transparent;
+    margin-bottom: 8px;
+}
+
+#content {
+    min-height: 300px;
+}
+.row-game h2.game-title {
+    margin-bottom: 0px;
+    font-size: 26px;
+}
+.row-game .nb-player {
+    font-size: 12px;
+    color: #113965;
+}
+.row-game .game-desc {
+    margin: 16px 0;
+}
+.row-game .game-desc p {
+    text-align: justify;
+    font-size: 18px;
+    
+}
+.row-action {
+    margin: 32px 0;
+    text-align: center;
+}
+.row-action button {
+    font-size: 14px;
+    padding: 4px 12px;
+}
+.row-action h4 {
+    
+}
+#games-nav {
+    margin-bottom: 16px;
+}
+.ranking-title {
+    margin: 12px 18px;
+}
+table.ranking {
+}
+table.ranking thead th {
+    text-align: center;
+}
+.ranking tr.rank-gold td {
+}
+.ranking tr.rank-silver td {
+}
+.ranking tr.rank-bronze td {
+}
+.ranking tr.rank-you td {
+    background-color: #eef !important;
+}
+
+
+/*----------------widgets----------------*/
+.widget {
+    margin-bottom: 16px;
+}
+.widget form {
+    margin-bottom: 12px;
+}
+.widget .widget-head {
+    margin-bottom: 8px;
+}
+.widget h3.widget-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.widget .widget-body {
+    padding: 6px;
+}
+
+.my-games {
+}
+.my-games .my-turn {
+    background-color: #F8EFC0;
+}
+.my-games .hide-if-not-my-turn:not(.my-turn) {
+    display: none;
+}
+.my-games select {
+    margin-bottom: 8px;
+    width: 100% !important;
+}
+
+
+
+
+/*----------------footer----------------*/
+footer {
+    min-height: 80px;
+    background-color: #113965;
+}
+footer h3,
+footer h4,
+footer p,
+footer li,
+footer a {
+    color: white;
+}
+footer > * {
+    margin-bottom: 18px;
+}
+
+
+/*----------------jeux----------------*/
+.jeux-filtre {
+    margin-bottom: 20px;
+}
+.jeux-filtre .row {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+.jeux-list {
+
+}
+.jeu-item {
+    margin: 6px;
+    padding: 4px;
+}
+.jeu-item:hover {
+}
+.jeu-item h3 {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #80A4CC;
+}
+.jeu-item h3 span {
+    float: right;
+    font-weight: 400;
+    font-size: 14px;
+    color: #306198;
+}
+.jeu-item:hover h3 {
+    color: #113965;
+}
+.jeu-item .nb-player {
+    font-size: 11px;
+}
+.jeu-item .nb-player span {
+    font-weight: bold;
+}
+.jeu-item .game-desc p {
+    font-size: 12px;
+}
+.score-tip {
+    font-size: 10px;
+    margin: 2px 0;
+}
+.score-tip dt {
+    text-align: right;
+    width: 36px;
+}
+.score-tip dd {
+    margin-left: 42px;
+}
+
+/*-------------jeux-preparation--------------*/
+.jeux-preparation {
+}
+.jeux-preparation h1 {
+    margin-bottom: 16px;
+}
+
+/*----------------preparation----------------*/
+.slots {
+}
+.slots .slot {
+    margin-bottom: 12px;
+}
+.slots .slot .btn-default,
+.more-slot .btn-default {
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.30) 0px, rgba(200, 200, 200, 0.00) 100%);
+}
+.slots .slot button.player-pseudo {
+    cursor: move;
+    text-align: left;
+    font-size: 14px;
+}
+.slots .slot button.btn-slot-1 {
+    width: 28px;
+}
+.slots .slot button.btn-slot-5 {
+    width: 140px;
+}
+.slots .slot button.btn-slot-6 {
+    width: 174px;
+}
+.slots .slot button.btn-slot-7 {
+    width: 201px;
+}
+.slots .slot button.btn-slot-11 {
+    width: 313px;
+}
+.slots .slot button.btn-slot-12 {
+    width: 340px;
+}
+.slots .slot button {
+    height: 32px;
+    padding: 0 12px;
+}
+
+.slots .slot.joueur button {
+    background-color: #D0E0F2;
+    border-color: #96C1F2;
+}
+.slots .slot.me button {
+    font-weight: bold;
+}
+.slots .slot.host button {
+    background-color: #96C1F2;
+    border-color: #749FD0;
+}
+.slots .slot.ordi button {
+    background-color: #F4DB91;
+    border-color: #AF964D;
+}
+.slots .slot.slot-open button {
+}
+.slots .slot.slot-closed button {
+    background-color: #ccc;
+    border-color: #999;
+}
+.slots .slot .dropdown-menu {
+    margin-left: 300px;
+}
+.more-slot button {
+    width: 340px;
+    border-style: dashed;
+    outline: none;
+}
+
+
+
+/*----------------tools----------------*/
+.scrollin {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 0px solid #CCC;
+    border-width: 1px 0;
+}
+.scrollin .list-group {
+    margin: 0;
+}
+img.avatar {
+    border-radius: 4px;
+}
+.inner {
+    padding: 12px;
+}
+.inner-L {
+    padding: 12px 0 12px 12px;
+}
+.inner-R {
+    padding: 12px 12px 12px 0;
+}
+.block {
+    display:block;
+    color: inherit;
+}
+.block:hover {
+    color: inherit;
+    text-decoration: inherit;
+}
+select.form-control.smaller {
+    padding: 4px;
+    height: 28px;
+}
+.list-group-container {
+}
+.list-group-container .list-group-item {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+.list-group-container .list-group-item h4 {
+    font-size: 14px;
+    margin: 0 0 0 0;
+}
+.list-group {
+}
+.panel {
+}
+.panel-heading {
+    padding: 6px 16px;
+}
+
+/*----------------chat panel----------------*/
+.panel.chat {
+    margin-bottom: 0;
+}
+.panel.chat .panel-body {
+    padding: 0;
+    overflow-y: auto;
+    height: 200px;
+}
+.panel.chat .panel-body ul {
+}
+.panel.chat .panel-body ul li {
+    padding: 4px 8px;
+    font-size: 13px;
+}
+.panel.chat .panel-body ul li .pseudo {
+    font-weight: bold;
+}
+.panel.chat .panel-body ul li:nth-child(even) {
+    background-color: #DFECF9;
+}
+.panel.chat .panel-footer {
+    padding: 2px;
+}
+
+.alert {
+    padding: 6px 30px;
+}
+
+
+
+
+
+
+

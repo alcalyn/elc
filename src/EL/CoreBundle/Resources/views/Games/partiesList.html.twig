@@ -1,0 +1,24 @@
+{% extends "CoreBundle:Games:games.layout.html.twig" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+        <li><a href="{{ path('elcore_game_home', {slug: game.slug}) }}">{{ game.title }}</a></li>
+        <li class="active">{{ 'parties.list'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<h3>{{ 'parties.%game%'|trans({'%game%': game.title}) }}</h3>
+<br />
+
+{% if parties|length > 0 %}
+{% include 'CoreBundle:Games:_parties-list.html.twig' with {'colGame': false, 'colPlayers': false, 'colState': false} %}
+{% else %}
+<p>{{ 'no.party'|trans }}</p>
+{% endif %}
+
+{% endblock %}

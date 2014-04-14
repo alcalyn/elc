@@ -1,0 +1,160 @@
+_:
+    players: players
+
+about: About
+
+all:
+    games: 'All games'
+
+ban: Ban
+cancel: Cancel
+
+cannot:
+    join:
+        party:
+            full: 'Cannot join, party is full'
+
+    start:
+        notenoughplayer: 'Cannot start, there is not enough players'
+        toomanyplayer: 'Cannot start, there is too much players.'
+        youarenothost: 'Cannot start, you are not the host of this game'
+
+change:
+    slot: 'Change slot'
+
+chat:
+    disabled: 'Chat disabled'
+
+close: Close
+community: Community
+contacts: Contacts
+
+create:
+    account: 'Create account'
+
+    customized:
+        game: 'Create a customized game'
+
+    game: 'Create a game'
+    game.%gametitle%: 'Create a %gametitle% game'
+
+delete:
+    slot: 'Delete slot'
+
+disallow:
+    chat: 'Disallow chat'
+    observers: 'Disallow observers'
+
+draws: Draws
+endafter: 'End game after'
+faq: FAQ
+game: Game
+game.endafter: 'Tic Tac Toe will terminate after'
+games: Games
+go: Go
+
+here:
+    is:
+        your:
+            futurerank: 'Play and find here is you future rank'
+
+home: Home
+host: Host
+
+invite:
+    cpu: 'Invite computer'
+    player: 'Invite player'
+
+join: Join
+join.party: 'Join this party'
+join.party.amongthislist: 'Join a game among this list'
+
+let:
+    cpufindgametoplay: 'Let computer to find me a suitable game to play'
+
+login: 'Log in'
+logout: 'Log out'
+
+my:
+    account: 'My account'
+
+    current:
+        parties: 'My current games'
+
+    page: 'My page'
+    ranking: 'My ranking'
+    turn: 'My turn to play'
+
+never:
+    played:
+        yet: 'Never played yet'
+
+no:
+    current:
+        parties: 'You have no current games'
+
+    party: 'There is actually no game.'
+
+    rankingyet:
+        bethefirst: 'No ranking yet. Play now and then be the first !'
+
+number:
+    of:
+        parties: Number
+
+observers:
+    disallowed: 'Observers disallowed'
+
+open: Open
+parties: Games
+parties.%game%: 'Games of %game%'
+parties.list: 'Games list'
+party: Game
+party.title: 'Party Title'
+
+play:
+    now: 'Play now'
+
+player: Player
+players: Players
+
+private:
+    only:
+        invitation: 'Private (only on invitation)'
+
+    party: 'Private party'
+
+public:
+    party: 'Public party'
+
+ranking: Ranking
+ratio: Ratio
+ready: Ready
+remake: Remake
+
+remember:
+    me: 'Remember me'
+
+rules: Rules
+
+run:
+    party: 'Run party'
+
+score: Score
+scores: Scores
+search: Search
+signup: 'Sign up'
+
+slot:
+    closed: 'Slot closed'
+    open: 'Slot open'
+
+state: State
+
+tictactoe:
+    options: 'Tic Tac Toe options'
+
+top: Top
+victorycondition: 'Number of ...'
+watch: Watch
+wins: Wins

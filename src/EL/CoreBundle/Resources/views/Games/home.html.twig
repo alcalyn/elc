@@ -1,0 +1,72 @@
+{% extends "CoreBundle:Games:games.layout.html.twig" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li><a href="{{ path('elcore_games_list') }}">{{ 'games'|trans }}</a></li>
+        <li class="active">{{ game.title }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<div class="row-game row">
+    {% if game.pictureHome %}
+    <div class="col-md-4">
+        {% if game.pictureHome matches '/^http/' %}
+            <img src="{{ game.pictureHome }}" alt="{{ game.title }}" />
+        {% else %}
+            <img src="{{ asset(game.pictureHome) }}" alt="{{ game.title }}" />
+        {% endif %}
+    </div>
+    {% endif %}
+    <div class="col-md-{{ game.pictureHome ? '8' : '12' }}">
+        <h2 class="game-title">{{ game.title }}</h2>
+        <small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
+        <div class="game-desc">
+            <p>
+                {{ game.longdesc }}
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row-action row">
+    <div class="col-md-4">
+        <p class="lead">{{ 'let.cpufindgametoplay'|trans }}</p>
+        <p><a href="#" class="btn btn-primary btn-lg disabled">{{ 'play.now'|trans }}</a></p>
+    </div>
+    <div class="col-md-4">
+        <p class="lead">{{ 'join.party.amongthislist'|trans }}</p>
+        {#
+        <div class="list-group-container">
+          <a href="#" class="list-group-item">partie_de_machin<span class="badge">1548 élo</span></a>
+          <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+          <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+          <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+          <a href="#" class="list-group-item">partie1654141<span class="badge">1548 élo</span></a>
+        </div>
+        #}
+        {% if app.request.locale == 'fr' %}
+        <p>
+            Vous trouverez ici quelques parties séléctionnées par l'ordinateur
+            correspondant à votre niveau, ou les parties de vos adversaires.
+        </p>
+        {% else %}
+        <p>
+            Find here a few games you can join that the computer selected for you
+            matching your level, or your opponents game.
+        </p>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <p class="lead">{{ 'create.customized.game'|trans }}</p>
+        <p><a href="{{ path('elcore_party_creation', {'slug': game.slug}) }}" class="btn btn-primary btn-lg">{{ 'create.game'|trans }}</a></p>
+    </div>
+</div>
+
+{% if ranking|length > 0 %}
+    <h3 class="ranking-title"><span class="glyphicon glyphicon-list-alt"></span> {{ 'ranking'|trans }} - {{ 'top'|trans }} 10</h3>
+    {% include 'CoreBundle:Games:_ranking-board.html.twig' %}
+{% endif %}
+
+{% endblock %}

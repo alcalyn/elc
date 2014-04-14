@@ -1,0 +1,31 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+    </ol>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Qu'est ce que Electron Libre ?</h2>
+        <br />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 text-justify">
+        <p class="lead">
+            Electron libre permet de jouer à tout type de jeu
+            comme le Poker, Echecs, RISK, Dames... avec d'autres joueurs
+            de façon simple et immédiate :
+            pas besoin de compte, jouez en tant qu'invité à partir de maintenant,
+            et battez les scores de vos adversaires !
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p class="lead">
+            <a href="{{ path('elcore_game_home', {'slug': 'morpion'}) }}">Jouer au Morpion</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

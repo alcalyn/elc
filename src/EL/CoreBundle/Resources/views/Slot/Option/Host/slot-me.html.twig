@@ -1,0 +1,10 @@
+{# host player me #}
+<div class="btn-group slot joueur host" data-playerId="{{ slot.player.id }}">
+    <button type="button" class="btn btn-default player-pseudo btn-slot-12">
+        {{ slot.player.pseudo }}
+
+        {% if slot.player.badge is defined %}
+            <span class="badge">{{ slot.player.badge }}</span>
+        {% endif %}
+    </button>
+</div>

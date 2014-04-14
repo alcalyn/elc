@@ -1,0 +1,25 @@
+elcore_front_controller:
+    resource: "@CoreBundle/Controller/FrontController.php"
+    type:     annotation
+
+elcore_games_controller:
+    resource: "@CoreBundle/Controller/GamesController.php"
+    type:     annotation
+
+elcore_party_controller:
+    resource: "@CoreBundle/Controller/PartyController.php"
+    type:     annotation
+
+elcore_slot_controller:
+    resource: "@CoreBundle/Controller/SlotController.php"
+    type:     annotation
+
+elcore_user_controller:
+    resource: "@CoreBundle/Controller/UserController.php"
+    type:     annotation
+
+login_check:
+    pattern: /login_check
+
+logout:
+    pattern: /player/logout

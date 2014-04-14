@@ -1,0 +1,7 @@
+parameters:
+#    el_abstract_game.example.class: EL\AbstractGameBundle\Example
+
+services:
+#    el_abstract_game.example:
+#        class: %el_abstract_game.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

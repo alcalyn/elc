@@ -1,0 +1,32 @@
+{% if isHost %}
+    {% if slot.player is not null %}
+        {% if slot.player.id == player.id %}
+            {# host player me #}
+            {% include 'CoreBundle:Slot/Option/Host:slot-me.html.twig' %}
+        {% else %}
+            {# host player not me #}
+            {% include 'CoreBundle:Slot/Option/Host:slot-player.html.twig' %}
+        {% endif %}
+    {% else %}
+        {% if slot.open %}
+            {# host open #}
+            {% include 'CoreBundle:Slot/Option/Host:slot-open.html.twig' %}
+        {% else %}
+            {# host closed #}
+            {% include 'CoreBundle:Slot/Option/Host:slot-closed.html.twig' %}
+        {% endif %}
+    {% endif %}
+{% else %}
+    {% if slot.player is not null %}
+        {# player #}
+        {% include 'CoreBundle:Slot/Option:slot-player.html.twig' %}
+    {% else %}
+        {% if slot.open %}
+            {# open #}
+            {% include 'CoreBundle:Slot/Option:slot-open.html.twig' %}
+        {% else %}
+            {# closed #}
+            {% include 'CoreBundle:Slot/Option:slot-closed.html.twig' %}
+        {% endif %}
+    {% endif %}
+{% endif %}

@@ -1,6 +1,6 @@
 
-var awale = {
-    
+var awale =
+{
     init: function ()
     {
         

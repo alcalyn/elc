@@ -2,55 +2,88 @@
 
 {% block body %}
 <div class="awale-active">
-    <div id="board">
-        <div class="row">
-            <div class="col-md-offset-2 col-md-1">
-                <button type="button" class="btn btn-default"></button>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
+    {% set reverse = reverse|default(false) %}
+    <div id="board" class="row">
+        {#
+            Left attic
+        #}
+        <div class="col-md-offset-1 col-md-2 {{ reverse ? 'p0' : 'p1' }}">
+            <button type="button" class="btn btn-default box attic"></button>
+        </div>
+        {#
+            Containers
+        #}
+        <div class="col-md-6 boxes">
+            {#
+                Top containers
+            #}
+            <div class="row {{ reverse ? 'p0' : 'p1' }}">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box0"></button>
                 </div>
-                <div class="row">
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box1"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box2"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box3"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box4"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box5"></button>
                 </div>
             </div>
-            <div class="col-md-1">
-                <button type="button" class="btn btn-default"></button>
+            {#
+                Bottom containers
+            #}
+            <div class="row {{ reverse ? 'p1' : 'p0' }}">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box0"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box1"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box2"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box3"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box4"></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default box box5"></button>
+                </div>
+            </div>
+        </div>
+        {#
+            Right attic
+        #}
+        <div class="col-md-2 {{ reverse ? 'p1' : 'p0' }}">
+            <button type="button" class="btn btn-default box attic"></button>
+        </div>
+    </div>
+    <div id="players">
+        {#
+            Players pseudos
+        #}
+        <div class="row scores">
+            <div class="p0 col-md-6">
+                <p>
+                    <span class="pseudo">Player 1</span>
+                    <span class="score">12</span>
+                </p>
+            </div>
+            <div class="p1 col-md-6">
+                <p>
+                    <span class="score">14</span>
+                    <span class="pseudo">Player 2</span>
+                </p>
             </div>
         </div>
     </div>

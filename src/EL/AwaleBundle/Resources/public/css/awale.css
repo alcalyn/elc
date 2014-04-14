@@ -1,0 +1,66 @@
+
+
+.p0 .box {
+    background: linear-gradient(to bottom, lightCoral 0px, #FFB1B1 100%);
+}
+.p1 .box {
+    background: linear-gradient(to bottom, lightBlue 0px, #BFEAEE 100%);
+}
+.p0 .box:hover {
+    background: linear-gradient(to bottom, #F58585 0px, #FFB1B1 100%);
+}
+.p1 .box:hover {
+    background: linear-gradient(to bottom, #B0DBE9 0px, #C4EFF3 100%);
+}
+
+.box {
+    border-radius: 1000px;
+    width: 50px;
+    height: 50px;
+    outline: none !important;
+}
+.attic {
+    width: 56px;
+    height: 116px;
+}
+
+.awale-active #board .boxes .row:first-child {
+    margin-bottom: 16px;
+}
+.awale-active #board div:first-child .attic {
+    margin-left: 54px;
+}
+
+
+#players {
+    margin: 24px auto 48px auto;
+}
+#players > div {
+    text-align: center;
+}
+#players .scores {
+}
+#players .scores p {
+    font-size: 22px;
+    text-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+}
+#players .scores .pseudo {
+}
+#players .scores .score {
+    font-weight: bold;
+    font-size: 32px;
+}
+#players .scores .p0 .score {
+    margin-left: 16px;
+}
+#players .scores .p1 .score {
+    margin-right: 16px;
+}
+#players .scores .p0 {
+    color: lightCoral;
+    text-align: right;
+}
+#players .scores .p1 {
+    color: lightBlue;
+    text-align: left;
+}

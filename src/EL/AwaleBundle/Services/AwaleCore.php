@@ -2,6 +2,8 @@
 
 namespace EL\AwaleBundle\Services;
 
+use EL\AwaleBundle\Entity\AwaleParty;
+
 class AwaleCore
 {
     /**
@@ -78,5 +80,85 @@ class AwaleCore
         $row1 = implode(',', $grid[1]['seeds']) . ';' . $grid[1]['attic'] ;
         
         return $row0.'|'.$row1;
+    }
+    
+    /**
+     * Play a grid naively
+     * 
+     * @param array   $grid
+     * @param integer $player
+     * @param integer $move
+     * 
+     * @return array grid played
+     */
+    public function play(array $grid, $player, $move)
+    {
+        // Take seeds in hand
+        $hand = $grid[$player]['seeds'][$move];
+        $grid[$player]['seeds'][$move] = 0;
+        
+        $row = $player;
+        $box = $move;
+        
+        /**
+         * Dispatch seeds
+         */
+        while ($hand > 0) {
+            if (0 === $row) {
+                if (5 === $box) {
+                    $row = 1;
+                } else {
+                    $box++;
+                }
+            } else {
+                if (0 === $box) {
+                    $row = 0;
+                } else {
+                    $box--;
+                }
+            }
+            
+            // Feed box
+            if (($row !== $player) || ($box !== $move)) {
+                $hand--;
+                $grid[$row]['seeds'][$box]++;
+            }
+        }
+        
+        /**
+         * Store opponent seeds
+         */
+        while (($row !== $player) && in_array($grid[$row]['seeds'][$box], array(2, 3))) {
+            // Store his seeds
+            $grid[$player]['attic'] += $grid[$row]['seeds'][$box];
+            $grid[$row]['seeds'][$box] = 0;
+            
+            // Check previous box
+            if (0 === $row) {
+                if (0 === $box) {
+                    $row = 1;
+                } else {
+                    $box--;
+                }
+            } else {
+                if (5 === $box) {
+                    $row = 0;
+                } else {
+                    $box++;
+                }
+            }
+        }
+        
+        return $grid;
+    }
+    
+    public function getUpdatedLastMove(AwaleParty $awaleParty, $box)
+    {
+        $lastMove = explode('|', $awaleParty->getLastMove());
+        
+        return implode('|', array(
+            $lastMove[0]++,
+            $box,
+        ));
     }
 }

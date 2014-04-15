@@ -39,13 +39,6 @@ class AwaleParty implements \JsonSerializable
     /**
      * @var integer
      *
-     * @ORM\Column(name="first_player", type="smallint")
-     */
-    private $firstPlayer;
-    
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="current_player", type="smallint")
      */
     private $currentPlayer;
@@ -62,6 +55,7 @@ class AwaleParty implements \JsonSerializable
      * 
      * Contains last move under the form:
      * [Move number]|[container moved 0..5]
+     * such as "2|1" (move 2, player 2%2 moved his box 1)
      * 
      * @ORM\Column(name="last_move", type="string", length=7)
      */
@@ -108,29 +102,6 @@ class AwaleParty implements \JsonSerializable
     public function getSeedsPerContainer()
     {
         return $this->seedsPerContainer;
-    }
-
-    /**
-     * Set firstPlayer
-     *
-     * @param integer $firstPlayer
-     * @return AwaleParty
-     */
-    public function setFirstPlayer($firstPlayer)
-    {
-        $this->firstPlayer = $firstPlayer;
-    
-        return $this;
-    }
-
-    /**
-     * Get firstPlayer
-     *
-     * @return integer 
-     */
-    public function getFirstPlayer()
-    {
-        return $this->firstPlayer;
     }
 
     /**

@@ -108,6 +108,13 @@ var awale =
      */
     play: function ($box)
     {
+        var data =
+        {
+            slugParty:  jsContext.coreParty.slug,
+            box:        parseInt($box.data('coords').split(':')[1]),
+        };
+        
+        phax.action('awale', 'play', data);
     },
     
     /**
@@ -210,7 +217,7 @@ var awale =
         var currentPlayer   = jsContext.extendedParty.currentPlayer;
         var $attic          = awale.getBox(currentPlayer, 6);
         
-        if (currentPlayer !== row) {
+        if (currentPlayer === row) {
             awale.animation.playing = false;
             return;
         }
@@ -288,15 +295,15 @@ var awale =
          * Refresh containers
          */
         for (var i = 0; i < 6; i++) {
-            $('#board .boxes .box-'+i+' p').html(r.grid[0]['seeds'][i]);
-            $('#board .boxes .box-'+i+' p').html(r.grid[1]['seeds'][i]);
+            $('#board .boxes .row-p0 .box-'+i+' p').html(r.grid[0]['seeds'][i]);
+            $('#board .boxes .row-p1 .box-'+i+' p').html(r.grid[1]['seeds'][i]);
         }
         
         /**
          * Refresh scores
          */
-        $('#players .p0 .score').html(r.grid[0]['attic']);
-        $('#players .p1 .score').html(r.grid[1]['attic']);
+        $('#players .p0 .score').html(jsContext.coreParty.slots[0].score);
+        $('#players .p1 .score').html(jsContext.coreParty.slots[1].score);
     },
     
     /**

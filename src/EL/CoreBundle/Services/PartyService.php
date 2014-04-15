@@ -568,6 +568,15 @@ class PartyService extends GameService
         return $nb;
     }
     
+    /**
+     * Load extended party
+     * 
+     * @return \stdClass
+     */
+    public function loadExtendedParty()
+    {
+        return $this->getExtendedGame()->loadParty($this->getParty());
+    }
     
     public function generateRandomTitle($locale)
     {

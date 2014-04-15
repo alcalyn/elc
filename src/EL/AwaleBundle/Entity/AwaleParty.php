@@ -39,6 +39,13 @@ class AwaleParty implements \JsonSerializable
     /**
      * @var integer
      *
+     * @ORM\Column(name="first_player", type="smallint")
+     */
+    private $firstPlayer;
+    
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="current_player", type="smallint")
      */
     private $currentPlayer;
@@ -46,14 +53,27 @@ class AwaleParty implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="grid", type="string", length=255)
+     * @ORM\Column(name="grid", type="string", length=63)
      */
     private $grid;
+    
+    /**
+     * @var string
+     * 
+     * Contains last move under the form:
+     * [Move number]|[container moved 0..5]
+     * 
+     * @ORM\Column(name="last_move", type="string", length=7)
+     */
+    private $lastMove;
+    
     
     public function __construct()
     {
         $this
-                ->setCurrentPlayer(0)
+                ->setFirstPlayer(rand(0, 1))
+                ->setCurrentPlayer($this->getFirstPlayer())
+                ->setLastMove('0')
         ;
     }
 
@@ -88,6 +108,29 @@ class AwaleParty implements \JsonSerializable
     public function getSeedsPerContainer()
     {
         return $this->seedsPerContainer;
+    }
+
+    /**
+     * Set firstPlayer
+     *
+     * @param integer $firstPlayer
+     * @return AwaleParty
+     */
+    public function setFirstPlayer($firstPlayer)
+    {
+        $this->firstPlayer = $firstPlayer;
+    
+        return $this;
+    }
+
+    /**
+     * Get firstPlayer
+     *
+     * @return integer 
+     */
+    public function getFirstPlayer()
+    {
+        return $this->firstPlayer;
     }
 
     /**
@@ -137,12 +180,35 @@ class AwaleParty implements \JsonSerializable
     }
 
     /**
-     * Set party
+     * Set lastMove
      *
-     * @param Party $party
+     * @param string $lastMove
      * @return AwaleParty
      */
-    public function setParty(Party $party = null)
+    public function setLastMove($lastMove)
+    {
+        $this->lastMove = $lastMove;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastMove
+     *
+     * @return string 
+     */
+    public function getLastMove()
+    {
+        return $this->lastMove;
+    }
+
+    /**
+     * Set party
+     *
+     * @param \EL\CoreBundle\Entity\Party $party
+     * @return AwaleParty
+     */
+    public function setParty(\EL\CoreBundle\Entity\Party $party = null)
     {
         $this->party = $party;
     
@@ -152,7 +218,7 @@ class AwaleParty implements \JsonSerializable
     /**
      * Get party
      *
-     * @return Party 
+     * @return \EL\CoreBundle\Entity\Party 
      */
     public function getParty()
     {
@@ -167,8 +233,10 @@ class AwaleParty implements \JsonSerializable
         return array(
             'id'                => $this->getId(),
             'seedsPerContainer' => $this->getSeedsPerContainer(),
+            'firstPlayer'       => $this->getFirstPlayer(),
             'currentPlayer'     => $this->getCurrentPlayer(),
             'grid'              => $this->getGrid(),
+            'lastMove'          => $this->getLastMove(),
         );
     }
 }

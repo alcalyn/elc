@@ -6,3 +6,8 @@ services:
 
     awale.core:
         class: EL\AwaleBundle\Services\AwaleCore
+
+    phax.awale:
+        class: EL\AwaleBundle\Controller\AwaleController
+        calls:
+            - [setContainer, ["@service_container"]]

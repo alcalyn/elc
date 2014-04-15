@@ -1,16 +1,16 @@
 
 
-.p0 .box {
-    background: linear-gradient(to bottom, lightCoral 0px, #FFB1B1 100%);
+.p0.box {
+    background: linear-gradient(to bottom, #FFB1B1 0px, lightCoral 100%);
 }
-.p1 .box {
-    background: linear-gradient(to bottom, lightBlue 0px, #BFEAEE 100%);
+.p1.box {
+    background: linear-gradient(to bottom, #BFEAEE 0px, lightBlue 100%);
 }
-.p0 .box:hover {
-    background: linear-gradient(to bottom, #F58585 0px, #FFB1B1 100%);
+.p0.box:hover {
+    background: linear-gradient(to bottom, #FFB1B1 0px, #F58585 100%);
 }
-.p1 .box:hover {
-    background: linear-gradient(to bottom, #B0DBE9 0px, #C4EFF3 100%);
+.p1.box:hover {
+    background: linear-gradient(to bottom, #C4EFF3 0px, #B0DBE9 100%);
 }
 
 .box {
@@ -19,15 +19,23 @@
     height: 50px;
     outline: none !important;
 }
+.box[disabled] {
+    opacity: 1;
+}
+.box p {
+    font-size: 14px;
+    margin-top: 20px;
+    font-weight: bold;
+}
 .attic {
     width: 56px;
     height: 116px;
 }
 
-.awale-active #board .boxes .row:first-child {
+.awale-active #board .row:first-child {
     margin-bottom: 16px;
 }
-.awale-active #board div:first-child .attic {
+.awale-active #board .col:first-child .attic {
     margin-left: 54px;
 }
 

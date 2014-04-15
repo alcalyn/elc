@@ -21,7 +21,9 @@ class LoginType extends AbstractType
                     'label'     => 'remember.me',
                     'required'  => false,
                 ))
-                ->add('login', 'submit')
+                ->add('login', 'submit', array(
+                    'label' => 'login',
+                ))
         ;
     }
     

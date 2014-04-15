@@ -2,13 +2,15 @@
 
 {% block body %}
 <div class="awale-active">
-    {% set reverse = reverse|default(false) %}
+    {% set reverse = true %}
     <div id="board" class="row">
         {#
             Left attic
         #}
-        <div class="col-md-offset-1 col-md-2 {{ reverse ? 'p0' : 'p1' }}">
-            <button type="button" class="btn btn-default box attic"></button>
+        <div class="col-md-offset-1 col-md-2 col col-{{ reverse ? 'p0' : 'p1' }}">
+            <button type="button" class="btn btn-default box attic {{ reverse ? 'p0' : 'p1' }} attic-{{ reverse ? 'p0' : 'p1' }}" disabled="disabled">
+                <p>-</p>
+            </button>
         </div>
         {#
             Containers
@@ -17,55 +19,35 @@
             {#
                 Top containers
             #}
-            <div class="row {{ reverse ? 'p0' : 'p1' }}">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box0"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box1"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box2"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box3"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box4"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box5"></button>
-                </div>
+            <div class="row row-{{ reverse ? 'p0' : 'p1' }}">
+                {% for i in 0..5 %}
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-default box {{ reverse ? 'p0' : 'p1' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" disabled="disabled" data-coords="{{ reverse ? '0' : '1' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">
+                            <p>-</p>
+                        </button>
+                    </div>
+                {% endfor %}
             </div>
             {#
                 Bottom containers
             #}
-            <div class="row {{ reverse ? 'p1' : 'p0' }}">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box0"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box1"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box2"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box3"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box4"></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-default box box5"></button>
-                </div>
+            <div class="row row-{{ reverse ? 'p1' : 'p0' }}">
+                {% for i in 0..5 %}
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-default box {{ reverse ? 'p1' : 'p0' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" data-coords="{{ reverse ? '1' : '0' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">
+                            <p>-</p>
+                        </button>
+                    </div>
+                {% endfor %}
             </div>
         </div>
         {#
             Right attic
         #}
-        <div class="col-md-2 {{ reverse ? 'p1' : 'p0' }}">
-            <button type="button" class="btn btn-default box attic"></button>
+        <div class="col-md-2 col col-{{ reverse ? 'p1' : 'p0' }}">
+            <button type="button" class="btn btn-default box attic {{ reverse ? 'p1' : 'p0' }} attic-{{ reverse ? 'p1' : 'p0' }}" disabled="disabled">
+                <p>-</p>
+            </button>
         </div>
     </div>
     <div id="players">
@@ -75,14 +57,14 @@
         <div class="row scores">
             <div class="p0 col-md-6">
                 <p>
-                    <span class="pseudo">Player 1</span>
-                    <span class="score">12</span>
+                    <span class="pseudo">{{ coreParty.slots[0].player.pseudo|default('?') }}</span>
+                    <span class="score">{{ coreParty.slots[0].score|default('?') }}</span>
                 </p>
             </div>
             <div class="p1 col-md-6">
                 <p>
-                    <span class="score">14</span>
-                    <span class="pseudo">Player 2</span>
+                    <span class="score">{{ coreParty.slots[1].score|default('?') }}</span>
+                    <span class="pseudo">{{ coreParty.slots[1].player.pseudo|default('?') }}</span>
                 </p>
             </div>
         </div>

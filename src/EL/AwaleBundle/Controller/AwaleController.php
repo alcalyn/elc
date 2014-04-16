@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
+use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\PartyService;
 use EL\AwaleBundle\Entity\AwaleParty;
 use EL\AwaleBundle\Services\AwaleCore;
@@ -22,16 +23,19 @@ class AwaleController extends Controller
      */
     public function refreshAction(PhaxAction $phaxAction, $slugParty)
     {
-        $awaleCore      = $this->get('awale.core');             /* @var $awaleCore AwaleCore */
-        $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
+        $awaleCore          = $this->get('awale.core');             /* @var $awaleCore    AwaleCore */
+        $partyService       = $this->get('el_core.party');          /* @var $partyService PartyService */
         
         $partyService->setPartyBySlug($slugParty, 'awale', $phaxAction->getLocale(), $this->container);
         
-        $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
-        $grid           = $awaleCore->unserializeGrid($extendedParty->getGrid());
+        $coreParty          = $partyService->getParty();            /* @var $coreParty     Party */
+        $extendedParty      = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
+        $awaleParty         = $extendedParty->jsonSerialize();
+        $awaleParty['grid'] = $awaleCore->unserializeGrid($extendedParty->getGrid());
         
         return $this->get('phax')->reaction(array(
-            'grid' => $grid,
+            'coreParty'     => $coreParty,
+            'awaleParty'    => $awaleParty,
         ));
     }
     
@@ -54,9 +58,8 @@ class AwaleController extends Controller
         $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
         
         // Check value box
-        
         if ($box < 0 || $box > 5) {
-            throw new ELCoreException('bow must be in [0;6[, got '.$box);
+            return $this->get('phax')->error('bow must be in [0;6[, got '.$box);
         }
         
         // Check player turn
@@ -65,7 +68,7 @@ class AwaleController extends Controller
         $sessionPlayer      = $this->get('el_core.session')->getPlayer();
         
         if ($currentPlayer->getId() !== $sessionPlayer->getId()) {
-            throw new ELUserException('not.your.turn');
+            return $this->get('phax')->error('not.your.turn');
         }
         
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore AwaleCore */
@@ -73,24 +76,38 @@ class AwaleController extends Controller
         
         // Check if box is not empty
         if (0 === $grid[$currentPlayerIndex]['seeds'][$box]) {
-            throw new ELUserException('this.container.is.empty');
+            return $this->get('phax')->error('this.container.is.empty');
         }
         
         // Update awale party
         $em         = $this->getDoctrine()->getManager();
-        $newGrid    = $awaleCore->play($grid, $currentPlayerIndex, $box);
+        $newGrid    = $awaleCore->play($grid, intval($currentPlayerIndex), intval($box));
         
         $extendedParty
                 ->setGrid($awaleCore->serializeGrid($newGrid))
-                ->setLastMove($awaleCore->getUpdatedLastMove($extendedParty, $box))
+                ->setLastMove($awaleCore->getUpdatedLastMove($extendedParty->getLastMove(), $box))
                 ->setCurrentPlayer(1 - $extendedParty->getCurrentPlayer())
         ;
         
+        // Update scores
+        $slot0 = $coreParty->getSlots()->get(0);    /* @var $slot0 \EL\CoreBundle\Entity\Slot */
+        $slot1 = $coreParty->getSlots()->get(1);    /* @var $slot1 \EL\CoreBundle\Entity\Slot */
+        
+        $slot0->setScore($newGrid[0]['attic']);
+        $slot1->setScore($newGrid[1]['attic']);
+        
         $em->persist($extendedParty);
+        $em->persist($slot0);
+        $em->persist($slot1);
         $em->flush();
         
+        // Return updated party
+        $jsonExtendedParty          = $extendedParty->jsonSerialize();
+        $jsonExtendedParty['grid']  = $awaleCore->unserializeGrid($extendedParty->getGrid());
+        
         return $this->get('phax')->reaction(array(
-            'awaleParty' => $extendedParty,
+            'coreParty'     => $coreParty,
+            'awaleParty'    => $jsonExtendedParty,
         ));
     }
 }

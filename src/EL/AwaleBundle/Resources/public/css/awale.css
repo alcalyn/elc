@@ -27,6 +27,15 @@
     margin-top: 20px;
     font-weight: bold;
 }
+.box .change {
+    position: relative;
+}
+.box .change.positive {
+    color: #009933;
+}
+.box .change.negative {
+    color: #AA3333;
+}
 .attic {
     width: 56px;
     height: 116px;

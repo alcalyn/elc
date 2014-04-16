@@ -91,11 +91,14 @@ class Awale extends ELGameAdapter
     {
         $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore  */
-        $reverse        = false;
+        $coreParty      = $partyService->getParty();            /* @var $coreParty     Party      */
+        $sessionPlayer  = $this->get('el_core.session')->getPlayer();
+        $slot1Player    = $coreParty->getSlots()->get(1)->getPlayer();
+        $reverse        = $sessionPlayer->getId() === $slot1Player->getId();
         
         return $this->render('AwaleBundle:Awale:active.html.twig', array(
             'game'          => $partyService->getGame(),
-            'coreParty'     => $partyService->getParty(),
+            'coreParty'     => $coreParty,
             'gameLayout'    => $this->getGameLayout(),
             'reverse'       => $reverse,
             'grid'          => $awaleCore->unserializeGrid($extendedParty->getGrid()),

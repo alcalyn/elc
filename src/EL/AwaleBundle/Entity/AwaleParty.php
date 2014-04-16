@@ -65,9 +65,8 @@ class AwaleParty implements \JsonSerializable
     public function __construct()
     {
         $this
-                ->setFirstPlayer(rand(0, 1))
-                ->setCurrentPlayer($this->getFirstPlayer())
-                ->setLastMove('0')
+                ->setCurrentPlayer(0)
+                ->setLastMove('0|0')
         ;
     }
 
@@ -204,7 +203,6 @@ class AwaleParty implements \JsonSerializable
         return array(
             'id'                => $this->getId(),
             'seedsPerContainer' => $this->getSeedsPerContainer(),
-            'firstPlayer'       => $this->getFirstPlayer(),
             'currentPlayer'     => $this->getCurrentPlayer(),
             'grid'              => $this->getGrid(),
             'lastMove'          => $this->getLastMove(),

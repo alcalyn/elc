@@ -152,12 +152,19 @@ class AwaleCore
         return $grid;
     }
     
-    public function getUpdatedLastMove(AwaleParty $awaleParty, $box)
+    /**
+     * Update last move
+     * 
+     * @param string  $lastMove
+     * @param integer $box
+     * @return string
+     */
+    public function getUpdatedLastMove($lastMove, $box)
     {
-        $lastMove = explode('|', $awaleParty->getLastMove());
+        $data = explode('|', $lastMove);
         
         return implode('|', array(
-            $lastMove[0]++,
+            intval($data[0]) + 1,
             $box,
         ));
     }

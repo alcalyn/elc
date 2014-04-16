@@ -12,18 +12,11 @@ var awale =
     initialized: false,
     
     /**
-     * move number, incremented on each move
+     * Thread instance for refreshing
      * 
      * @type integer
      */
-    moveNumber: 0,
-    
-    /**
-     * string representation of last move
-     * 
-     * @type String
-     */
-    lastMove: '',
+    threadCheck: undefined,
     
     /**
      * Animation variables
@@ -33,6 +26,7 @@ var awale =
     animation: {
         playing:    false,
         start:      null,
+        callbacks:  []
     },
     
     
@@ -45,7 +39,12 @@ var awale =
         }
         
         console.log('awale init');
+        
         awale.bindButtons();
+        
+        if (!awale.isMyTurn()) {
+            awale.startChecking();
+        }
     },
     
     /**
@@ -73,32 +72,43 @@ var awale =
     },
     
     /**
+     * Return true if it is my turn to play
+     * 
+     * @returns {Boolean}
+     */
+    isMyTurn: function ()
+    {
+        var currentPlayer   = jsContext.extendedParty.currentPlayer;
+        var playerContextId = jsContext.player.id;
+        var playerCurrentId = jsContext.coreParty.slots[currentPlayer].player.id;
+        
+        return playerContextId === playerCurrentId;
+    },
+    
+    /**
      * Called then player click one of his own container.
      * 
-     * @param {integer} index from 0 to 5
+     * @param {jQuery} $box clicked
      */
     clickListener: function ($box)
     {
         console.log('kik', $box);
         
-        var currentPlayer   = jsContext.extendedParty.currentPlayer;
-        var playerContextId = jsContext.player.id;
-        var playerCurrentId = jsContext.coreParty.slots[currentPlayer].id;
-        
         // Check current player
-        if (playerContextId !== playerCurrentId) {
-            //alert(t('not.your.turn'));
-            //return;
+        if (!awale.isMyTurn()) {
+            alert(t('not.your.turn'));
+            return;
         }
         
         // Check if box is not empty
         if (0 === parseInt($box.find('p').html())) {
-            //alert(t('container.is.empty'));
+            alert(t('container.is.empty'));
             return;
         }
         
         awale.play($box);
         awale.startAnimation($box);
+        awale.startChecking();
     },
     
     /**
@@ -111,7 +121,7 @@ var awale =
         var data =
         {
             slugParty:  jsContext.coreParty.slug,
-            box:        parseInt($box.data('coords').split(':')[1]),
+            box:        parseInt($box.data('coords').split(':')[1])
         };
         
         phax.action('awale', 'play', data);
@@ -124,6 +134,8 @@ var awale =
      */
     playReaction: function (r)
     {
+        jsContext.coreParty     = r.coreParty;
+        jsContext.extendedParty = r.awaleParty;
     },
     
     /**
@@ -157,6 +169,10 @@ var awale =
     
     /**
      * Recursive animation to animate feeding
+     * 
+     * @param {integer} row
+     * @param {integer} container
+     * @param {integer} seeds
      */
     feedAnimation: function (row, container, seeds)
     {
@@ -209,26 +225,36 @@ var awale =
     
     /**
      * Recursive animation to animate storing in attic
+     * 
+     * @param {integer} row
+     * @param {integer} container
      */
     storeAnimation: function (row, container)
     {
         var $box            = awale.getBox(row, container);
         var seeds           = parseInt($box.find('p').html());
-        var currentPlayer   = jsContext.extendedParty.currentPlayer;
+        var currentPlayer   = awale.animation.start.data('coords').split(':')[0];
         var $attic          = awale.getBox(currentPlayer, 6);
         
-        if (currentPlayer === row) {
-            awale.animation.playing = false;
-            return;
-        }
-        
-        if ((2 === seeds) || (3 === seeds)) {
+        if ((row !== currentPlayer) && (2 === seeds || 3 === seeds)) {
             setTimeout(function () {
+                // highlight box
                 awale.highlightContainer($box);
+                
+                // highlight attic
+                awale.highlightContainer($attic);
+                
+                // set box value to 0
                 $box.find('p').html(0);
-                $attic.find('p').html(parseInt($attic.find('p').html()) + seeds);
-                var stop = false;
-        
+                
+                // increment attic
+                var atticValue = parseInt($attic.find('p').html()) + seeds;
+                $attic.find('p').html(atticValue);
+                
+                // update score
+                $('#players .p'+currentPlayer+' .score').html(atticValue);
+                
+                // check previous box
                 if (0 === row) {
                     if (0 === container) {
                         row = 1;
@@ -243,13 +269,31 @@ var awale =
                     }
                 }
 
-                if (!stop) {
-                    awale.storeAnimation(row, container);
-                }
+                awale.storeAnimation(row, container);
+                
             }, awaleConfig.animationTime);
         } else {
-            awale.animation.playing = false;
+            awale.stopAnimation();
         }
+    },
+    
+    callAfterAnimation: function (callback)
+    {
+        awale.animation.callbacks.push(callback);
+    },
+    
+    /**
+     * Says that the animation is ended
+     */
+    stopAnimation: function ()
+    {
+        for (var i = 0; i < awale.animation.callbacks.length; i++) {
+            awale.animation.callbacks[i]();
+        }
+        
+        awale.animation.playing     = false;
+        awale.animation.start       = null;
+        awale.animation.callbacks   = [];
     },
     
     /**
@@ -258,9 +302,10 @@ var awale =
      * 
      * @param {index|Object} row
      * @param {index} container
+     * @param {integer} change (optional) display +n or -n over value
      * @returns jQuery item
      */
-    highlightContainer: function (row, container)
+    highlightContainer: function (row, container, change)
     {
         var $box = awale.getBox(row, container);
         
@@ -268,6 +313,55 @@ var awale =
                 .css({opacity: 0.15})
                 .animate({opacity: 1}, 180)
         ;
+        
+        change = 1;
+        
+        if (change) {
+            var $change = $('<p class="change">');
+            
+            if (change > 0) {
+                $change
+                        .addClass('positive')
+                        .html('+ '+change)
+                ;
+            }
+            if (change < 0) {
+                $change
+                        .addClass('negative')
+                        .html('- '+(-change))
+                ;
+            }
+            
+            $box.find('p').append($change);
+            
+            $change.animate({
+                bottom:     '20px',
+                opacity:    0
+            }, 1000, function () {
+                $change.remove();
+            });
+        }
+    },
+    
+    /**
+     * Start interval refreshing
+     */
+    startChecking: function ()
+    {
+        if (!awale.threadCheck) {
+            awale.threadCheck = setInterval(awale.refresh, awaleConfig.checkInterval);
+        }
+    },
+    
+    /**
+     * Stop interval refreshing
+     */
+    stopChecking: function ()
+    {
+        if (awale.threadCheck) {
+            clearInterval(awale.threadCheck);
+            awale.threadCheck = undefined;
+        }
     },
     
     /**
@@ -285,18 +379,58 @@ var awale =
      */
     refreshReaction: function (r)
     {
+        if (awale.animation.playing) {
+            return;
+        }
+        
+        if (!awale.isMyTurn()) {
+            if (r.awaleParty.lastMove !== jsContext.extendedParty.lastMove) {
+                console.log('opponent played');
+                
+                var nextMove = r.awaleParty.lastMove.split('|');
+                var lastMove = jsContext.extendedParty.lastMove.split('|');
+                
+                if (parseInt(nextMove[0]) !== (parseInt(lastMove[0]) + 1)) {
+                    console.log('check turn weird, not the next: ', lastMove, nextMove);
+                }
+                
+                awale.startAnimation(jsContext.extendedParty.currentPlayer, nextMove[1]);
+                awale.stopChecking();
+                awale.callAfterAnimation(function () {
+                    awale.updateClient(r);
+                });
+                
+                return;
+            }
+        }
+        
+        awale.updateClient(r);
+    },
+    
+    /**
+     * Hard update (no animation) of board values
+     * 
+     * @param {Object} r
+     */
+    updateClient: function (r)
+    {
+        jsContext.coreParty     = r.coreParty;
+        jsContext.extendedParty = r.awaleParty;
+        
+        var grid = r.awaleParty.grid;
+        
         /**
          * Refresh attics
          */
-        $('#board .attic-p0 p').html(r.grid[0]['attic']);
-        $('#board .attic-p1 p').html(r.grid[1]['attic']);
+        $('#board .attic-p0 p').html(grid[0]['attic']);
+        $('#board .attic-p1 p').html(grid[1]['attic']);
         
         /**
          * Refresh containers
          */
         for (var i = 0; i < 6; i++) {
-            $('#board .boxes .row-p0 .box-'+i+' p').html(r.grid[0]['seeds'][i]);
-            $('#board .boxes .row-p1 .box-'+i+' p').html(r.grid[1]['seeds'][i]);
+            $('#board .boxes .row-p0 .box-'+i+' p').html(grid[0]['seeds'][i]);
+            $('#board .boxes .row-p1 .box-'+i+' p').html(grid[1]['seeds'][i]);
         }
         
         /**
@@ -332,4 +466,9 @@ var awaleConfig =
      * @var integer
      */
     animationTime: 200,
+    
+    /**
+     * @var integer
+     */
+    checkInterval: 1500
 };

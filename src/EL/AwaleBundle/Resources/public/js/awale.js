@@ -255,7 +255,7 @@ var awale =
                 
                 // increment attic
                 var atticValue = parseInt($attic.find('.value').html()) + seeds;
-                $attic.find('p').html(atticValue);
+                $attic.find('.value').html(atticValue);
                 
                 // update score
                 $('#players .p'+currentPlayer+' .score').html(atticValue);

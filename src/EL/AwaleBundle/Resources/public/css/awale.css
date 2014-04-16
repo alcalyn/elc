@@ -28,7 +28,8 @@
     font-weight: bold;
 }
 .box .change {
-    position: relative;
+    position: absolute;
+    margin-top: 4px;
 }
 .box .change.positive {
     color: #009933;

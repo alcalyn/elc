@@ -71,10 +71,10 @@ class AwaleController extends Controller
             return $this->get('phax')->error('not.your.turn');
         }
         
+        // Check if box is not empty
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore AwaleCore */
         $grid           = $awaleCore->unserializeGrid($extendedParty->getGrid());
         
-        // Check if box is not empty
         if (0 === $grid[$currentPlayerIndex]['seeds'][$box]) {
             return $this->get('phax')->error('this.container.is.empty');
         }

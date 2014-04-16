@@ -32,6 +32,11 @@ var awale =
     
     init: function ()
     {
+        // Check if we are on active screen
+        if (0 === $('.awale-active').size()) {
+            return;
+        }
+        
         if (awale.initialized) {
             return;
         } else {
@@ -152,7 +157,7 @@ var awale =
         }
         
         var $boxStart   = awale.getBox(row, container);
-        var seeds       = parseInt($boxStart.find('p').html());
+        var seeds       = parseInt($boxStart.find('.value').html());
         
         if (0 === seeds) {
             return;
@@ -161,8 +166,8 @@ var awale =
         awale.animation.playing = true;
         awale.animation.start   = $boxStart;
         
-        awale.highlightContainer($boxStart);
-        $boxStart.find('p').html('0');
+        awale.highlightContainer($boxStart, null, -seeds);
+        $boxStart.find('.value').html('0');
         
         awale.feedAnimation(row, container, seeds);
     },
@@ -207,8 +212,8 @@ var awale =
         // Wait
         setTimeout(function () {
             // highlight and increment next box
-            awale.highlightContainer($box);
-            $box.find('p').html(parseInt($box.find('p').html()) + 1);
+            awale.highlightContainer($box, null, 1);
+            $box.find('.value').html(parseInt($box.find('.value').html()) + 1);
             
             // decrement hand seeds
             seeds--;
@@ -232,23 +237,23 @@ var awale =
     storeAnimation: function (row, container)
     {
         var $box            = awale.getBox(row, container);
-        var seeds           = parseInt($box.find('p').html());
-        var currentPlayer   = awale.animation.start.data('coords').split(':')[0];
+        var seeds           = parseInt($box.find('.value').html());
+        var currentPlayer   = parseInt(awale.animation.start.data('coords').split(':')[0]);
         var $attic          = awale.getBox(currentPlayer, 6);
         
         if ((row !== currentPlayer) && (2 === seeds || 3 === seeds)) {
             setTimeout(function () {
                 // highlight box
-                awale.highlightContainer($box);
+                awale.highlightContainer($box, null, -seeds);
                 
                 // highlight attic
-                awale.highlightContainer($attic);
+                awale.highlightContainer($attic, null, seeds);
                 
                 // set box value to 0
-                $box.find('p').html(0);
+                $box.find('.value').html(0);
                 
                 // increment attic
-                var atticValue = parseInt($attic.find('p').html()) + seeds;
+                var atticValue = parseInt($attic.find('.value').html()) + seeds;
                 $attic.find('p').html(atticValue);
                 
                 // update score
@@ -314,7 +319,7 @@ var awale =
                 .animate({opacity: 1}, 180)
         ;
         
-        change = 1;
+        console.log(row, container, change);
         
         if (change) {
             var $change = $('<p class="change">');
@@ -332,12 +337,12 @@ var awale =
                 ;
             }
             
-            $box.find('p').append($change);
+            $box.prepend($change);
             
             $change.animate({
-                bottom:     '20px',
+                marginTop:  '-24px',
                 opacity:    0
-            }, 1000, function () {
+            }, 1200, function () {
                 $change.remove();
             });
         }
@@ -422,15 +427,15 @@ var awale =
         /**
          * Refresh attics
          */
-        $('#board .attic-p0 p').html(grid[0]['attic']);
-        $('#board .attic-p1 p').html(grid[1]['attic']);
+        $('#board .attic-p0 .value').html(grid[0]['attic']);
+        $('#board .attic-p1 .value').html(grid[1]['attic']);
         
         /**
          * Refresh containers
          */
         for (var i = 0; i < 6; i++) {
-            $('#board .boxes .row-p0 .box-'+i+' p').html(grid[0]['seeds'][i]);
-            $('#board .boxes .row-p1 .box-'+i+' p').html(grid[1]['seeds'][i]);
+            $('#board .boxes .row-p0 .box-'+i+' .value').html(grid[0]['seeds'][i]);
+            $('#board .boxes .row-p1 .box-'+i+' .value').html(grid[1]['seeds'][i]);
         }
         
         /**

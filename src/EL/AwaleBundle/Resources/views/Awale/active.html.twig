@@ -9,7 +9,7 @@
         #}
         <div class="col-md-offset-1 col-md-2 col col-{{ reverse ? 'p0' : 'p1' }}">
             <button type="button" class="btn btn-default box attic {{ reverse ? 'p0' : 'p1' }} attic-{{ reverse ? 'p0' : 'p1' }}" disabled="disabled">
-                <p>{{ grid[reverse ? 0 : 1].attic }}</p>
+                <p class="value">{{ grid[reverse ? 0 : 1].attic }}</p>
             </button>
         </div>
         {#
@@ -23,7 +23,7 @@
                 {% for i in 0..5 %}
                     <div class="col-md-2">
                         <button type="button" class="btn btn-default box {{ reverse ? 'p0' : 'p1' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" disabled="disabled" data-coords="{{ reverse ? '0' : '1' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">
-                            <p>{{ grid[reverse ? 0 : 1].seeds[reverse ? loop.revindex0 : loop.index0] }}</p>
+                            <p class="value">{{ grid[reverse ? 0 : 1].seeds[reverse ? loop.revindex0 : loop.index0] }}</p>
                         </button>
                     </div>
                 {% endfor %}
@@ -35,7 +35,7 @@
                 {% for i in 0..5 %}
                     <div class="col-md-2">
                         <button type="button" class="btn btn-default box {{ reverse ? 'p1' : 'p0' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" data-coords="{{ reverse ? '1' : '0' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">
-                            <p>{{ grid[reverse ? 1 : 0].seeds[reverse ? loop.revindex0 : loop.index0] }}</p>
+                            <p class="value">{{ grid[reverse ? 1 : 0].seeds[reverse ? loop.revindex0 : loop.index0] }}</p>
                         </button>
                     </div>
                 {% endfor %}
@@ -46,7 +46,7 @@
         #}
         <div class="col-md-2 col col-{{ reverse ? 'p1' : 'p0' }}">
             <button type="button" class="btn btn-default box attic {{ reverse ? 'p1' : 'p0' }} attic-{{ reverse ? 'p1' : 'p0' }}" disabled="disabled">
-                <p>{{ grid[reverse ? 1 : 0].attic }}</p>
+                <p class="value">{{ grid[reverse ? 1 : 0].attic }}</p>
             </button>
         </div>
     </div>

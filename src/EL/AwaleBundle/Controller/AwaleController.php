@@ -21,12 +21,12 @@ class AwaleController extends Controller
      * 
      * @return \Phax\CoreBundle\Model\PhaxReaction
      */
-    public function refreshAction(PhaxAction $phaxAction, $slugParty)
+    public function refreshAction(PhaxAction $phaxAction, $slugParty, $slugGame)
     {
         $awaleCore          = $this->get('awale.core');             /* @var $awaleCore    AwaleCore */
         $partyService       = $this->get('el_core.party');          /* @var $partyService PartyService */
         
-        $partyService->setPartyBySlug($slugParty, 'awale', $phaxAction->getLocale(), $this->container);
+        $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
         
         $coreParty          = $partyService->getParty();            /* @var $coreParty     Party */
         $extendedParty      = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
@@ -48,11 +48,11 @@ class AwaleController extends Controller
      * 
      * @return \Phax\CoreBundle\Model\PhaxReaction
      */
-    public function playAction(PhaxAction $phaxAction, $slugParty, $box)
+    public function playAction(PhaxAction $phaxAction, $slugParty, $slugGame, $box)
     {
         $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
         
-        $partyService->setPartyBySlug($slugParty, 'awale', $phaxAction->getLocale(), $this->container);
+        $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
         
         $coreParty      = $partyService->getParty();            /* @var $coreParty \EL\CoreBundle\Entity\Party */
         $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */

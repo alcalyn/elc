@@ -126,6 +126,7 @@ var awale =
         var data =
         {
             slugParty:  jsContext.coreParty.slug,
+            slugGame:   jsContext.coreParty.game.slug,
             box:        parseInt($box.data('coords').split(':')[1])
         };
         
@@ -374,7 +375,13 @@ var awale =
      */
     refresh: function ()
     {
-        phax.action('awale', 'refresh', {slugParty: jsContext.coreParty.slug});
+        var data =
+        {
+            slugParty:  jsContext.coreParty.slug,
+            slugGame:   jsContext.coreParty.game.slug,
+        };
+        
+        phax.action('awale', 'refresh', data);
     },
     
     /**

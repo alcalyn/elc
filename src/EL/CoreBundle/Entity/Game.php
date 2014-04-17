@@ -55,14 +55,14 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbplayer_min", type="integer")
+     * @ORM\Column(name="nbplayer_min", type="smallint")
      */
     private $nbplayerMin;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbplayer_max", type="integer")
+     * @ORM\Column(name="nbplayer_max", type="smallint")
      */
     private $nbplayerMax;
 

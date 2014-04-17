@@ -55,18 +55,36 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
                 'lang'      => 'fr',
                 'title'     => 'Awalé',
                 'slug'      => 'awale',
-                'shortdesc' => 'Awalé desc courte',
-                'longdesc'  => 'Awalé desc longue',
-                'picHome'   => null,
+                'shortdesc' => 'Jeu Africain consistant à capturer le plus de graines, ainsi que celles de votre'
+                                . ' adversaire dans votre grenier.',
+                'longdesc'  => 'Dans l\'Awalé (ou Awélé), vous jouez tour par tour'
+                                . ' et possédez des graines.<br />'
+                                . ' À chaque tour,'
+                                . ' vous prenez les graines d\'un de vos compartiments,'
+                                . ' et les distribuez une à une dans les autres compartiments,'
+                                . ' y compris ceux de l\'adversaire.<br />'
+                                . ' Lorsque vous déposez la dernière chez votre adversaire'
+                                . ' et qu\'il en reste 2 ou 3,'
+                                . ' vous prenez les graines de son compartiment'
+                                . ' et les stockez dans votre grenier.<br />'
+                                . ' Capturez-en le plus !',
+                'picHome'   => 'http://a397.idata.over-blog.com/390x500/5/36/54/50/OEUVRES-ART/JEUX-TRADITIONNELS/awale2b.jpg',
             ),
             array(
                 'game'      => 'awale',
                 'lang'      => 'en',
-                'title'     => 'Awale',
-                'slug'      => 'awale',
-                'shortdesc' => 'Awale short desc',
-                'longdesc'  => 'Awale long desc',
-                'picHome'   => null,
+                'title'     => 'Oware',
+                'slug'      => 'oware',
+                'shortdesc' => 'African game of capturing your seeds and those your opponent'
+                                . ' in your attic, the faster you can.',
+                'longdesc'  => 'Oware game (also named Awale) is a turn-based game.'
+                                . ' You and your opponent have seeds.<br />'
+                                . ' You have to choose a few and distribute them to you and your opponent.<br />'
+                                . ' When you drop the last seed in a container of your opponent'
+                                . ' and remains 2 or 3,'
+                                . ' you capture and store these seeds in your attic.<br />'
+                                . ' Capture them all !',
+                'picHome'   => 'http://a397.idata.over-blog.com/390x500/5/36/54/50/OEUVRES-ART/JEUX-TRADITIONNELS/awale2b.jpg',
             ),
         );
         

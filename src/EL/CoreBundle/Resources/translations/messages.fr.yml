@@ -29,6 +29,10 @@ close: Fermer
 community: Communauté
 contacts: Contacts
 
+container:
+    is:
+        empty: 'Ce compartiment est vide'
+
 create:
     account: 'Créer un compte'
 
@@ -48,6 +52,11 @@ disallow:
 draws: Nulles
 endafter: 'Terminer le jeu après'
 faq: FAQ
+
+feed:
+    the:
+        opponent: 'Vous devez nourrir votre adversaire'
+
 game: Jeu
 game.endafter: 'Le Morpion se terminera après'
 games: Jeux
@@ -99,6 +108,10 @@ no:
     rankingyet:
         bethefirst: 'Pas encore de classement. Jouez et soyez le premier !'
 
+not:
+    your:
+        turn: 'Ce n''est pas à vous de jouer'
+
 number:
     of:
         parties: Nombre
@@ -144,6 +157,11 @@ run:
 score: Score
 scores: Scores
 search: Rechercher
+
+seeds:
+    per:
+        container: 'Graines par compartiment'
+
 signup: 'Créer un compte'
 
 slot:

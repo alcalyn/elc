@@ -1,0 +1,13 @@
+services:
+    el_games.awale:
+        class: EL\AwaleBundle\Services\Awale
+        calls:
+            - [setContainer, ["@service_container"]]
+
+    awale.core:
+        class: EL\AwaleBundle\Services\AwaleCore
+
+    phax.awale:
+        class: EL\AwaleBundle\Controller\AwaleController
+        calls:
+            - [setContainer, ["@service_container"]]

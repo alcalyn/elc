@@ -24,8 +24,8 @@ class SignupType extends AbstractType
                     'label'     => 'remember.me',
                     'required'  => false,
                 ))
-                ->add('login', 'submit', array(
-                    'attr'  => array('class' => 'btn btn-default'),
+                ->add('createAccount', 'submit', array(
+                    'label' => 'create.account',
                 ))
         ;
     }

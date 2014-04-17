@@ -5,6 +5,10 @@ namespace EL\AbstractGameBundle\Form\Entity;
 /**
  *
  */
-class AdapterOptions
+class AdapterOptions implements \JsonSerializable
 {
+    public function jsonSerialize()
+    {
+        return array();
+    }
 }

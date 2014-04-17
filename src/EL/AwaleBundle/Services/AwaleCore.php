@@ -158,6 +158,73 @@ class AwaleCore
     }
     
     /**
+     * Check if there is seeds in row of $array
+     * 
+     * @param array $grid
+     * @param integer $row
+     * 
+     * @return boolean
+     */
+    public function hasSeeds(array $grid, $player)
+    {
+        foreach ($grid[$player]['seeds'] as $box) {
+            if ($box > 0) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Check if $player can do a move which let the opponent play
+     * 
+     * @param array $grid
+     * @param integer $player
+     * 
+     * @return boolean
+     */
+    public function canFeedOpponent(array $grid, $player)
+    {
+        if (0 === $player) {
+            for ($i = 0; $i < 6; $i++) {
+                if ($grid[0]['seeds'][$i] > (5 - $i)) {
+                    return true;
+                }
+            }
+        }
+        
+        if (1 === $player) {
+            for ($i = 0; $i < 6; $i++) {
+                if ($grid[1]['seeds'][$i] > $i) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Store remaining seeds when game stop
+     * by impossibility to
+     * 
+     * @param array $grid
+     */
+    public function storeRemainingSeeds(array $grid)
+    {
+        for ($i = 0; $i < 6; $i++) {
+            $grid[0]['attic'] += $grid[0]['seeds'][$i];
+            $grid[0]['seeds'][$i] = 0;
+            
+            $grid[1]['attic'] += $grid[1]['seeds'][$i];
+            $grid[1]['seeds'][$i] = 0;
+        }
+        
+        return $grid;
+    }
+    
+    /**
      * Update last move
      * 
      * @param string  $lastMove

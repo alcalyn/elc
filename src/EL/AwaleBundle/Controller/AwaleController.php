@@ -50,6 +50,7 @@ class AwaleController extends Controller
      */
     public function playAction(PhaxAction $phaxAction, $slugParty, $slugGame, $box)
     {
+        $box            = intval($box);
         $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
         
         $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
@@ -63,7 +64,7 @@ class AwaleController extends Controller
         }
         
         // Check player turn
-        $currentPlayerIndex = $extendedParty->getCurrentPlayer();
+        $currentPlayerIndex = intval($extendedParty->getCurrentPlayer());
         $currentPlayer      = $coreParty->getSlots()->get($currentPlayerIndex)->getPlayer();
         $sessionPlayer      = $this->get('el_core.session')->getPlayer();
         
@@ -79,14 +80,23 @@ class AwaleController extends Controller
             return $this->get('phax')->error('this.container.is.empty');
         }
         
-        // Update awale party
-        $em         = $this->getDoctrine()->getManager();
-        $newGrid    = $awaleCore->play($grid, intval($currentPlayerIndex), intval($box));
+        // Play turn
+        $newGrid = $awaleCore->play($grid, $currentPlayerIndex, $box);
         
+        // Let the opponent play
+        if (!$awaleCore->hasSeeds($newGrid, 1 - $currentPlayerIndex)) {
+            if ($awaleCore->canFeedOpponent($grid, $currentPlayerIndex)) {
+                return $this->get('phax')->error('feed.the.opponent');
+            } else {
+                $newGrid = $awaleCore->storeRemainingSeeds($newGrid);
+            }
+        }
+        
+        // Update awale party
         $extendedParty
                 ->setGrid($awaleCore->serializeGrid($newGrid))
                 ->setLastMove($awaleCore->getUpdatedLastMove($extendedParty->getLastMove(), $box))
-                ->setCurrentPlayer(1 - $extendedParty->getCurrentPlayer())
+                ->setCurrentPlayer(1 - $currentPlayerIndex)
         ;
         
         // Update scores
@@ -104,6 +114,7 @@ class AwaleController extends Controller
         }
         
         // Persist entities
+        $em = $this->getDoctrine()->getManager();
         $em->persist($extendedParty);
         $em->persist($slot0);
         $em->persist($slot1);

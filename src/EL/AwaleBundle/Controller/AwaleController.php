@@ -65,6 +65,11 @@ class AwaleController extends Controller
             return $this->get('phax')->error('bow must be in [0;6[, got '.$box);
         }
         
+        // Check if party is still active
+        if ($coreParty->getState() !== Party::ACTIVE) {
+            return $this->get('phax')->error($t->trans('party.has.ended'));
+        }
+        
         // Check player turn
         $currentPlayerIndex = intval($extendedParty->getCurrentPlayer());
         $currentPlayer      = $coreParty->getSlots()->get($currentPlayerIndex)->getPlayer();

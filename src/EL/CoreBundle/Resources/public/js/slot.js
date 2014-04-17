@@ -46,10 +46,6 @@ var slot = {
      */
     refreshReaction: function (r)
     {
-        if (party.checkState(r.party.state)) {
-            return;
-        }
-        
         for(var i=0;i<r.party.slots.length;i++) {
             if (slot.hasChanged(i, r)) {
                 slot.update(

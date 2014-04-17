@@ -30,7 +30,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
                 'visible'           => true,
                 'category'          => 'strategy',
                 'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo',
-                'rankingOrder'      => 'wins:d,draws:d',
+                'rankingOrder'      => 'wins:d,losses:a',
                 'rankingReference'  => 'wins',
             ),
             array(
@@ -39,9 +39,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
                 'nbplayermax'       => 2,
                 'visible'           => true,
                 'category'          => 'strategy',
-                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,points',
-                'rankingOrder'      => 'wins:d,draws:d',
-                'rankingReference'  => 'wins',
+                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo',
+                'rankingOrder'      => 'elo:d',
+                'rankingReference'  => 'elo',
             ),
             array(
                 'name'              => 'not.visible',

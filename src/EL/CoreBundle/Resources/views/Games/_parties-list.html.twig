@@ -6,6 +6,9 @@
                     {% if colGame is not defined or colGame %}
                         <th>{{ 'game'|trans }}</th>
                     {% endif %}
+                    {% if colPartyTitle is not defined or colPartyTitle %}
+                        <th>{{ 'party.title'|trans }}</th>
+                    {% endif %}
                     {% if colHost is not defined or colHost %}
                         <th>{{ 'host'|trans }}</th>
                     {% endif %}
@@ -22,6 +25,9 @@
                         <tr>
                             {% if colGame is not defined or colGame %}
                                 <td>{{ party.game.title }}</td>
+                            {% endif %}
+                            {% if colPartyTitle is not defined or colPartyTitle %}
+                                <td>{{ party.title }}</td>
                             {% endif %}
                             {% if colHost is not defined or colHost %}
                                 <td><a href="#">{{ party.host.pseudo }}</a></td>

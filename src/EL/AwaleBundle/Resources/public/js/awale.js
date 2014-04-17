@@ -187,10 +187,16 @@ var awale =
             row         = parseInt(data[0]);
             container   = parseInt(data[1]);
             console.log('parse', row, container);
+        } else {
+            row         = parseInt(row);
+            container   = parseInt(container);
+            seeds       = parseInt(seeds);
         }
         
         // Calculate next box, except start box from
         var $box;
+        
+        console.log('before', row, container);
         
         do {
             if (0 === row) {
@@ -209,6 +215,8 @@ var awale =
             
             $box = awale.getBox(row, container);
         } while ($box.is(awale.animation.start));
+        
+        console.log('after', row, container);
         
         // Wait
         setTimeout(function () {
@@ -465,6 +473,19 @@ var awale =
                 awale.clickListener($box);
             });
         });
+    },
+    
+    partyStateChanged: function (before, now)
+    {
+        console.log('party state changed', before, now);
+        
+        if ((before === party.ACTIVE) && (now === party.ENDED)) {
+            setTimeout(function () {
+                location.reload();
+            }, 3000);
+        } else {
+            location.reload();
+        }
     }
 };
 

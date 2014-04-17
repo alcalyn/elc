@@ -107,6 +107,7 @@ class PartyController extends Controller
         $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions)['parameters'];
         
         $this->get('el_core.js_vars')
+                ->initPhaxController('party')
                 ->initPhaxController('slot')
                 ->addContext('core-party', $party->jsonSerialize())
                 ->addContext('is-host', $isHost)

@@ -50,6 +50,7 @@ disallow:
     observers: 'Désactiver les observateurs'
 
 draws: Nulles
+elo: Élo
 endafter: 'Terminer le jeu après'
 faq: FAQ
 
@@ -124,6 +125,7 @@ parties: Parties
 parties.%game%: '%game% : Toutes les parties'
 parties.list: 'Liste des parties'
 party: Partie
+party.has.ended: 'La partie est terminée'
 party.title: 'Titre de la partie'
 
 play:

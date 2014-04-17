@@ -5,6 +5,7 @@ namespace EL\AbstractGameBundle\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Entity\Party as CoreParty;
+use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\AbstractGameBundle\Form\Entity\AdapterOptions;
 use EL\AbstractGameBundle\Form\Type\AdapterOptionsType;
@@ -187,8 +188,8 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function createRemake($slugParty, CoreParty $corePartyClone)
+    public function createRemake(PartyService $partyService, CoreParty $corePartyClone)
     {
-        return new stdClass();
+        throw new ELCoreException('Remake party must be implemented');
     }
 }

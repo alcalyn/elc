@@ -2,10 +2,15 @@
 
 namespace EL\AwaleBundle\Services;
 
+use EL\CoreBundle\Entity\Party;
 use EL\AwaleBundle\Entity\AwaleParty;
 
 class AwaleCore
 {
+    const WIN_0     = 0;
+    const WIN_1     = 1;
+    const DRAW      = -1;
+    const NO_WIN    = -2;
     /**
      * Return a filled grid of awale
      * under the form:
@@ -167,5 +172,32 @@ class AwaleCore
             intval($data[0]) + 1,
             $box,
         ));
+    }
+    
+    /**
+     * Check if a player of the grid has won
+     * 
+     * @param array $grid
+     * @param integer $seedsPerContainer
+     * 
+     * @return integer
+     */
+    public function hasWinner(array $grid, $seedsPerContainer)
+    {
+        $seedsToWin = $seedsPerContainer * 6;
+        
+        if ($grid[0]['attic'] > $seedsToWin) {
+            return self::WIN_0;
+        }
+        
+        if ($grid[1]['attic'] > $seedsToWin) {
+            return self::WIN_1;
+        }
+        
+        if (($seedsToWin === $grid[0]['attic']) && ($seedsToWin === $grid[1]['attic'])) {
+            return self::DRAW;
+        }
+        
+        return self::NO_WIN;
     }
 }

@@ -72,8 +72,8 @@ class AwaleController extends Controller
         }
         
         // Check if box is not empty
-        $awaleCore      = $this->get('awale.core');             /* @var $awaleCore AwaleCore */
-        $grid           = $awaleCore->unserializeGrid($extendedParty->getGrid());
+        $awaleCore  = $this->get('awale.core');             /* @var $awaleCore AwaleCore */
+        $grid       = $awaleCore->unserializeGrid($extendedParty->getGrid());
         
         if (0 === $grid[$currentPlayerIndex]['seeds'][$box]) {
             return $this->get('phax')->error('this.container.is.empty');
@@ -96,6 +96,14 @@ class AwaleController extends Controller
         $slot0->setScore($newGrid[0]['attic']);
         $slot1->setScore($newGrid[1]['attic']);
         
+        // Check for winner
+        $win = $awaleCore->hasWinner($newGrid, $extendedParty->getSeedsPerContainer());
+        
+        if ($win !== AwaleCore::NO_WIN) {
+            $this->stopAndScoreParty($coreParty);
+        }
+        
+        // Persist entities
         $em->persist($extendedParty);
         $em->persist($slot0);
         $em->persist($slot1);
@@ -109,5 +117,51 @@ class AwaleController extends Controller
             'coreParty'     => $coreParty,
             'awaleParty'    => $jsonExtendedParty,
         ));
+    }
+    
+    /**
+     * Stop $coreParty and add elo and wld score to players
+     * 
+     * @param \EL\CoreBundle\Entity\Party $coreParty
+     */
+    private function stopAndScoreParty(Party $coreParty)
+    {
+        $eloService = $this->get('el_core.score.elo');  /* @var $eloService \EL\CoreBundle\Services\EloService */
+        $wldService = $this->get('el_core.score.wld');  /* @var $wldService \EL\CoreBundle\Services\WLDService */
+        
+        // stop party
+        $coreParty->setState(Party::ENDED);
+        
+        $slot0      = $coreParty->getSlots()->get(0);    /* @var $slot0 \EL\CoreBundle\Entity\Slot */
+        $slot1      = $coreParty->getSlots()->get(1);    /* @var $slot1 \EL\CoreBundle\Entity\Slot */
+        $score0     = $slot0->getScore();
+        $score1     = $slot1->getScore();
+        $player0    = $slot0->getPlayer();
+        $player1    = $slot1->getPlayer();
+        $game       = $coreParty->getGame();
+        
+        // player 0 wins
+        if ($score0 > $score1) {
+            $eloService->win($player0, $player1, $game, $coreParty);
+            
+            $wldService->win($player0, $game, $coreParty);
+            $wldService->lose($player1, $game, $coreParty);
+        }
+        
+        // player 1 wins
+        if ($score0 < $score1) {
+            $eloService->lose($player0, $player1, $game, $coreParty);
+            
+            $wldService->lose($player0, $game, $coreParty);
+            $wldService->win($player1, $game, $coreParty);
+        }
+        
+        // draw
+        if ($score0 === $score1) {
+            $eloService->draw($player0, $player1, $game, $coreParty);
+            
+            $wldService->draw($player0, $game, $coreParty);
+            $wldService->draw($player1, $game, $coreParty);
+        }
     }
 }

@@ -524,32 +524,39 @@ class PartyService extends GameService
     {
         $this->needExtendedGame();
         
-        $player = $this->session->getPlayer();
-        $party  = $this->getParty();
-        $remake = $party->getRemake();
+        $player                 = $this->session->getPlayer();
+        $oldCoreParty           = $this->getParty();
+        $alreadyRemakeCoreParty = $oldCoreParty->getRemake();
         
-        if (null !== $remake) {
-            $this->join($player, -1, true, $remake);
-            return $remake;
+        // Check if party already remade, then join
+        if (null !== $alreadyRemakeCoreParty) {
+            $this->join($player, -1, true, $alreadyRemakeCoreParty);
+            return $alreadyRemakeCoreParty;
         }
         
-        $cloneCoreParty     = $party->createRemake();
+        // Else create a clone core party
+        $remakeCoreParty = $oldCoreParty->createRemake();
         
-        $party->setRemake($cloneCoreParty);
-        $cloneCoreParty->setHost($player);
+        // And link the old party to the remade party, and set new host
+        $oldCoreParty->setRemake($remakeCoreParty);
+        $remakeCoreParty->setHost($player);
         
-        $options            = $this->getExtendedGame()->loadParty($party);
+        // Create new slots for remae party
+        $options            = $this->getExtendedGame()->loadParty($oldCoreParty);
         $slotsConfiguration = $this->getExtendedGame()->getSlotsConfiguration($options);
         
-        $this->createSlots($slotsConfiguration, $cloneCoreParty);
+        $this->createSlots($slotsConfiguration, $remakeCoreParty);
         
-        $this->em->persist($cloneCoreParty);
-        $this->em->persist($party);
+        // Notify the game that party is remaking
+        $this->getExtendedGame()->createRemake($this, $remakeCoreParty);
+        
+        // Persist new party and old party
+        $this->em->persist($remakeCoreParty);
+        $this->em->persist($oldCoreParty);
         $this->em->flush();
         
-        $this->getExtendedGame()->createRemake($party->getSlug(), $cloneCoreParty);
-        
-        return $cloneCoreParty;
+        // Return new party
+        return $remakeCoreParty;
     }
     
     

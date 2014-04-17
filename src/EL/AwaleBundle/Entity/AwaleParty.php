@@ -67,6 +67,7 @@ class AwaleParty implements \JsonSerializable
         $this
                 ->setCurrentPlayer(0)
                 ->setLastMove('0|0')
+                ->setSeedsPerContainer(4)
         ;
     }
 

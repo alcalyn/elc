@@ -132,15 +132,10 @@ class DefaultController extends ELGameAdapter
         return $partyPlayer === $loggedPlayer;
     }
     
-    public function createRemake($slugParty, CoreParty $corePartyClone)
+    public function createRemake(PartyService $partyService, CoreParty $corePartyClone)
     {
-        $em = $this->getDoctrine()->getManager();
-        
-        $extendedParty = $em
-                ->getRepository('TicTacToeBundle:Party')
-                ->findOneBySlugParty($slugParty)
-        ;
-        
+        $em                 = $this->getDoctrine()->getManager();
+        $extendedParty      = $partyService->loadExtendedParty();
         $extendedPartyClone = $extendedParty->createRemake($corePartyClone);
         
         $em->persist($extendedPartyClone);

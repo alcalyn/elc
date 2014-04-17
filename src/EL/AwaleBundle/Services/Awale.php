@@ -104,4 +104,21 @@ class Awale extends ELGameAdapter
             'grid'          => $awaleCore->unserializeGrid($extendedParty->getGrid()),
         ));
     }
+    
+    public function createRemake(PartyService $partyService, Party $corePartyClone)
+    {
+        $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore */
+        $em             = $this->getDoctrine()->getManager();   /* @var $em            \Doctrine\ORM\EntityManager */
+        $oldAwaleParty  = $partyService->loadExtendedParty();   /* @var $oldAwaleParty AwaleParty */
+        
+        $remakeAwaleParty = new AwaleParty();
+        $remakeAwaleParty
+                ->setParty($corePartyClone)
+                ->setSeedsPerContainer($oldAwaleParty->getSeedsPerContainer())
+                ->setGrid($awaleCore->fillGrid($oldAwaleParty->getSeedsPerContainer()))
+        ;
+        
+        $em->persist($remakeAwaleParty);
+        $em->flush();
+    }
 }

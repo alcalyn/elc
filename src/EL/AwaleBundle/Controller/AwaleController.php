@@ -3,6 +3,7 @@
 namespace EL\AwaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Phax\CoreBundle\Model\PhaxAction;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
@@ -51,6 +52,7 @@ class AwaleController extends Controller
     public function playAction(PhaxAction $phaxAction, $slugParty, $slugGame, $box)
     {
         $box            = intval($box);
+        $t              = $this->get('translator');             /* @var $t Translator */
         $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
         
         $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
@@ -69,7 +71,7 @@ class AwaleController extends Controller
         $sessionPlayer      = $this->get('el_core.session')->getPlayer();
         
         if ($currentPlayer->getId() !== $sessionPlayer->getId()) {
-            return $this->get('phax')->error('not.your.turn');
+            return $this->get('phax')->error($t->trans('not.your.turn'));
         }
         
         // Check if box is not empty
@@ -77,7 +79,7 @@ class AwaleController extends Controller
         $grid       = $awaleCore->unserializeGrid($extendedParty->getGrid());
         
         if (0 === $grid[$currentPlayerIndex]['seeds'][$box]) {
-            return $this->get('phax')->error('this.container.is.empty');
+            return $this->get('phax')->error($t->trans('container.is.empty'));
         }
         
         // Play turn
@@ -86,7 +88,7 @@ class AwaleController extends Controller
         // Let the opponent play
         if (!$awaleCore->hasSeeds($newGrid, 1 - $currentPlayerIndex)) {
             if ($awaleCore->canFeedOpponent($grid, $currentPlayerIndex)) {
-                return $this->get('phax')->error('feed.the.opponent');
+                return $this->get('phax')->error($t->trans('feed.the.opponent'));
             } else {
                 $newGrid = $awaleCore->storeRemainingSeeds($newGrid);
             }

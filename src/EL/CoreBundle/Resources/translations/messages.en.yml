@@ -29,6 +29,10 @@ close: Close
 community: Community
 contacts: Contacts
 
+container:
+    is:
+        empty: 'This container is empty'
+
 create:
     account: 'Create account'
 
@@ -48,6 +52,11 @@ disallow:
 draws: Draws
 endafter: 'End game after'
 faq: FAQ
+
+feed:
+    the:
+        opponent: 'You must feed the opponent'
+
 game: Game
 game.endafter: 'Tic Tac Toe will terminate after'
 games: Games
@@ -98,6 +107,10 @@ no:
     rankingyet:
         bethefirst: 'No ranking yet. Play now and then be the first !'
 
+not:
+    your:
+        turn: 'This is not your turn to play'
+
 number:
     of:
         parties: Number
@@ -143,6 +156,11 @@ run:
 score: Score
 scores: Scores
 search: Search
+
+seeds:
+    per:
+        container: 'Seeds per container'
+
 signup: 'Sign up'
 
 slot:

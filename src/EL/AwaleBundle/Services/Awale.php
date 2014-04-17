@@ -96,6 +96,13 @@ class Awale extends ELGameAdapter
         $slot1Player    = $coreParty->getSlots()->get(1)->getPlayer();
         $reverse        = $sessionPlayer->getId() === $slot1Player->getId();
         
+        $this->get('el_core.js_vars')
+                ->useTrans('not.your.turn')
+                ->useTrans('container.is.empty')
+                ->useTrans('seeds.per.container')
+                ->useTrans('feed.the.opponent')
+        ;
+        
         return $this->render('AwaleBundle:Awale:active.html.twig', array(
             'game'          => $partyService->getGame(),
             'coreParty'     => $coreParty,

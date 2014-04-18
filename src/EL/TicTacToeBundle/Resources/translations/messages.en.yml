@@ -1,0 +1,13 @@
+endafter: 'End after'
+
+game:
+    endafter: 'Tic Tac Toe will terminate after'
+
+number:
+    of:
+        parties: 'Number of parties'
+
+tictactoe:
+    options: 'Tic Tac Toe options'
+
+victorycondition: 'Number of ...'

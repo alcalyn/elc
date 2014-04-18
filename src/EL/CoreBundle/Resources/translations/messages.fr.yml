@@ -59,7 +59,6 @@ feed:
         opponent: 'Vous devez nourrir votre adversaire'
 
 game: Jeu
-game.endafter: 'Le Morpion se terminera après'
 games: Jeux
 go: Go
 
@@ -171,11 +170,6 @@ slot:
     open: 'Slot ouvert'
 
 state: État
-
-tictactoe:
-    options: 'Options du morpion'
-
 top: Top
-victorycondition: 'Nombre de ...'
 watch: Regarder
 wins: Victoires

@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\DataFixtures\ORM;
+namespace EL\TicTacToeBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -14,23 +14,13 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
     {
         $items = array(
             array(
-                'name'              => 'chess',
+                'name'              => 'tictactoe',
                 'nbplayermin'       => 2,
                 'nbplayermax'       => 2,
-                'visible'           => false,
+                'visible'           => true,
                 'category'          => 'strategy',
-                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,points',
-                'rankingOrder'      => 'wins:d,draws:d',
-                'rankingReference'  => 'wins',
-            ),
-            array(
-                'name'              => 'not.visible',
-                'nbplayermin'       => 2,
-                'nbplayermax'       => 8,
-                'visible'           => false,
-                'category'          => 'casino',
-                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,points',
-                'rankingOrder'      => 'wins:d,draws:d',
+                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo',
+                'rankingOrder'      => 'wins:d,losses:a',
                 'rankingReference'  => 'wins',
             ),
         );

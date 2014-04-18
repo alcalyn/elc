@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\DataFixtures\ORM;
+namespace EL\TicTacToeBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -13,22 +13,24 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
     {
         $items = array(
             array(
-                'game'      => 'chess',
+                'game'      => 'tictactoe',
                 'lang'      => 'fr',
-                'title'     => 'Echecs',
-                'slug'      => 'echecs',
-                'shortdesc' => 'Echecs desc courte',
-                'longdesc'  => 'Echecs desc longue',
-                'picHome'   => null,
+                'title'     => 'Morpion',
+                'slug'      => 'morpion',
+                'shortdesc' => "Pas envie de réfléchir\xC2\xA0? Faîtes quelques parties de Morpion\xC2\xA0!",
+                'longdesc'  => 'Sûrement le jeu le plus basique du monde, alignez 3 symboles avant votre adversaire'
+                                . ' et remportez la partie.',
+                'picHome'   => 'bundles/tictactoe/img/pictureHome.jpg',
             ),
             array(
-                'game'      => 'chess',
+                'game'      => 'tictactoe',
                 'lang'      => 'en',
-                'title'     => 'Chess',
-                'slug'      => 'chess',
-                'shortdesc' => 'Chess short desc',
-                'longdesc'  => 'Chess long desc',
-                'picHome'   => null,
+                'title'     => 'Tic Tac Toe',
+                'slug'      => 'tictactoe',
+                'shortdesc' => "Don't want to take your head\xC2\xA0? Make some Tic tac toe games\xC2\xA0!",
+                'longdesc'  => 'Certainly the most basic game of the world, align 3 symbols before your opponent'
+                                . ' and win the game.',
+                'picHome'   => 'bundles/tictactoe/img/pictureHome.jpg',
             ),
         );
         

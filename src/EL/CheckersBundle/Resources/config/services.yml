@@ -1,0 +1,13 @@
+services:
+    el_games.checkers:
+        class: EL\CheckersBundle\Services\CheckersInterface
+        calls:
+            - [setContainer, ["@service_container"]]
+
+    checkers.core:
+        class: EL\CheckersBundle\Services\Checkers
+
+    phax.checkers:
+        class: EL\CheckersBundle\Controller\CheckersController
+        calls:
+            - [setContainer, ["@service_container"]]

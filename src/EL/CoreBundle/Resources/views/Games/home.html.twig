@@ -25,7 +25,7 @@
         <small class="nb-player"><span>{{ game.nbplayer }}</span> {{ '_.players'|trans }}</small>
         <div class="game-desc">
             <p>
-                {{ game.longdesc|raw }}
+                {{ game.longdesc|replace({"\n": '<br />'})|raw }}
             </p>
         </div>
     </div>

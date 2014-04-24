@@ -7,6 +7,10 @@ all:
     games: 'Tous les jeux'
 
 ban: Exclure
+black: Noir
+black.e: Noire
+black.es: Noires
+black.s: Noirs
 cancel: Annuler
 
 cannot:
@@ -57,6 +61,9 @@ faq: FAQ
 feed:
     the:
         opponent: 'Vous devez nourrir votre adversaire'
+
+first:
+    player: 'Premier joueur'
 
 game: Jeu
 games: Jeux
@@ -173,3 +180,7 @@ state: État
 top: Top
 watch: Regarder
 wins: Victoires
+white: Blanc
+white.e: Blanche
+white.es: Blanches
+white.s: Blancs

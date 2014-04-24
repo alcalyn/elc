@@ -1,0 +1,47 @@
+backward:
+    capture: 'Prise en arrière'
+
+black: Noir
+black.e: Noire
+black.es: Noires
+black.s: Noirs
+
+blow:
+    up: 'Souffler n''est pas jouer !'
+
+board:
+    size: 'Taille du plateau'
+
+first:
+    player: 'Premier joueur'
+
+force:
+    capture: 'Forcer la prise'
+
+king:
+    passing: 'Dame en passant'
+
+let:
+    do: 'Laisser faire'
+
+long:
+    range:
+        king: 'Prise longue pour les dames'
+
+maximum:
+    capture: 'Prises maximum'
+
+men:
+    jump:
+        king: 'Les pions peuvent prendre les dames'
+
+right:
+    square: 'Couleur de la case à droite du joueur'
+
+square:
+    used: 'Cases utilisées pour jouer'
+
+white: Blanc
+white.e: Blanche
+white.es: Blanches
+white.s: Blancs

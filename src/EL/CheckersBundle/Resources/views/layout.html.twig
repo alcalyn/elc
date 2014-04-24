@@ -1,0 +1,21 @@
+{% extends 'CoreBundle::layout.html.twig' %}
+
+{% block htmlhead %}
+{% stylesheets
+    'bundles/checkers/css/*'
+    filter='cssrewrite'
+%}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block htmlend %}
+{% javascripts
+    '@CheckersBundle/Resources/public/js/*'
+%}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+{% endjavascripts %}
+
+
+
+{% endblock %}

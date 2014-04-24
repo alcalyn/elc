@@ -7,6 +7,10 @@ all:
     games: 'All games'
 
 ban: Ban
+black: Black
+black.e: Black
+black.es: Black
+black.s: Black
 cancel: Cancel
 
 cannot:
@@ -58,6 +62,8 @@ feed:
     the:
         opponent: 'You must feed the opponent'
 
+first:
+    player: 'First player'
 game: Game
 games: Games
 go: Go
@@ -172,3 +178,7 @@ state: State
 top: Top
 watch: Watch
 wins: Wins
+white: White
+white.e: White
+white.es: White
+white.s: White

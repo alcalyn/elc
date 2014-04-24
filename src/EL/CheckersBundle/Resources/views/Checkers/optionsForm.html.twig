@@ -1,0 +1,11 @@
+<h3>{{ 'game.variant'|trans }}</h3>
+
+    <select class="form-control">
+        {% for variantName, variant in js_vars.export['js-context'].variants %}
+            <option value="{{ variant.binaryValue }}">{{ variantName }}</option>
+        {% endfor %}
+    </select>
+
+<h4>{{ 'personalized'|trans }}</h4>
+
+{{ form_widget(optionsForm.extendedOptions) }}

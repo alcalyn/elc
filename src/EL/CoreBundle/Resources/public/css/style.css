@@ -519,3 +519,34 @@ select.form-control.smaller {
 .page-title {
     margin: 8px 0 16px 0;
 }
+
+
+/* checkbox */
+input[type=checkbox].cb-restyle {
+    visibility: hidden;
+    position: absolute;
+}
+input[type=checkbox].cb-restyle ~ .label {
+    text-transform: uppercase;
+    box-shadow: 0 0 2px rgba(180, 180, 180, 1) inset;
+    vertical-align: middle;
+    padding-top: 4px;
+    cursor: pointer;
+    position: relative;
+    top: 6px;
+}
+input[type=checkbox]:checked.cb-restyle ~ .cb-false {
+    display: none;
+}
+input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
+    display: none;
+}
+
+.cb-blackwhite ~ .cb-false {
+    background-color: black;
+    color: white;
+}
+.cb-blackwhite ~ .cb-true {
+    background-color: white;
+    color: black;
+}

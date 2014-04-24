@@ -1,0 +1,47 @@
+backward:
+    capture: 'Backward capture'
+
+black:
+    e: Black
+    es: Black
+    s: Black
+
+blow:
+    up: 'huffing isn''t a real move !'
+
+board:
+    size: 'Board size'
+
+first:
+    player: 'First player'
+
+force:
+    capture: 'Force capture'
+
+king:
+    passing: 'King passing'
+
+let:
+    do: 'Let do'
+
+long:
+    range:
+        king: 'Long range capture for king'
+
+maximum:
+    capture: 'Must capture the maximum'
+
+men:
+    jump:
+        king: 'Men can jump kings'
+
+right:
+    square: 'Right square color'
+
+square:
+    used: 'Squares used to play'
+
+white: White
+white.e: White
+white.es: White
+white.s: White

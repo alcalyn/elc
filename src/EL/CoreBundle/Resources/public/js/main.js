@@ -25,6 +25,7 @@ $(function () {
     });
     
     qTipInit();
+    cbRestyle();
 });
 
 
@@ -71,3 +72,28 @@ function qTipInit() {
         });
     });
 }
+
+function cbRestyle() {
+    $('.cb-restyle').each(function () {
+        var $cb     = $(this);
+        
+        var trueValue   = $cb.data('cbTrue')  || 'On';
+        var falseValue  = $cb.data('cbFalse') || 'Off';
+        
+        var $true   = $('<span class="label cb-true">'+trueValue+'</span>');
+        var $false  = $('<span class="label cb-false">'+falseValue+'</span>');
+        
+        $cb.after($true);
+        $cb.after($false);
+        
+        $true.click(function () {
+            $cb.prop('checked', false);
+        });
+        
+        $false.click(function () {
+            $cb.prop('checked', true);
+        });
+    });
+}
+
+

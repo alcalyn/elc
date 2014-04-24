@@ -12,11 +12,15 @@ blow:
 board:
     size: 'Taille du plateau'
 
+english: Anglaise
+
 first:
     player: 'Premier joueur'
 
 force:
     capture: 'Forcer la prise'
+
+french: Française
 
 king:
     passing: 'Dame en passant'
@@ -34,6 +38,8 @@ maximum:
 men:
     jump:
         king: 'Les pions peuvent prendre les dames'
+
+personalized: Personalisée
 
 right:
     square: 'Couleur de la case à droite du joueur'

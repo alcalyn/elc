@@ -30,7 +30,7 @@ class CheckersOptionsType extends AbstractType
             ->add('boardSize', 'integer', array(
                 'label' => 'board.size',
                 'attr' => array(
-                    'placeholder' => '8, 10, 12'
+                    'placeholder'   => '8, 10, 12',
                 ),
             ))
             ->add('squareUsed', 'checkbox', array(

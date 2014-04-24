@@ -88,10 +88,12 @@ function cbRestyle() {
         
         $true.click(function () {
             $cb.prop('checked', false);
+            $cb.change();
         });
         
         $false.click(function () {
             $cb.prop('checked', true);
+            $cb.change();
         });
     });
 }

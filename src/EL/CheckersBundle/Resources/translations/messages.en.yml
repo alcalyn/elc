@@ -12,11 +12,15 @@ blow:
 board:
     size: 'Board size'
 
+english: English
+
 first:
     player: 'First player'
 
 force:
     capture: 'Force capture'
+
+french: French
 
 king:
     passing: 'King passing'
@@ -34,6 +38,8 @@ maximum:
 men:
     jump:
         king: 'Men can jump kings'
+
+personalized: Personalized
 
 right:
     square: 'Right square color'

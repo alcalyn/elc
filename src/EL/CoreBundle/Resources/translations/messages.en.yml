@@ -65,6 +65,7 @@ feed:
 first:
     player: 'First player'
 game: Game
+game.variant: 'Game variant'
 games: Games
 go: Go
 

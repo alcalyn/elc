@@ -66,6 +66,7 @@ first:
     player: 'Premier joueur'
 
 game: Jeu
+game.variant: 'Variante'
 games: Jeux
 go: Go
 

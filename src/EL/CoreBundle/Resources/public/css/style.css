@@ -550,3 +550,27 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
     background-color: white;
     color: black;
 }
+
+
+/* ----------- grid ------------- */
+#grid {
+}
+#grid .grid-item {
+    display: block;
+    float: left;
+}
+#grid .grid-item:hover {
+}
+#grid .grid-odd {
+    background-color: #EEE;
+}
+#grid .grid-odd:hover {
+    background-color: #CCC;
+}
+#grid .grid-even {
+    background-color: #DDD;
+}
+#grid .grid-even:hover {
+    background-color: #BBB;
+}
+

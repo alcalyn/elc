@@ -105,6 +105,9 @@ class PartyController extends Controller
         $extendedGame       = $partyService->getExtendedGame();
         $extendedOptions    = $extendedGame->loadParty($party);
         $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions)['parameters'];
+        $options            = $extendedGame->getDisplayOptionsTemplate($party, $extendedOptions);
+        $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
+        $optionsVars        = is_array($options) ? $options['vars'] : array() ;
         
         $this->get('el_core.js_vars')
                 ->initPhaxController('party')
@@ -130,7 +133,7 @@ class PartyController extends Controller
             'player'                    => $player,
             'coreParty'                 => $party,
             'extendedOptions'           => $extendedOptions,
-            'extendedOptionsTemplate'   => $extendedGame->getDisplayOptionsTemplate(),
+            'extendedOptionsTemplate'   => $optionsTemplate,
             'slotsConfiguration'        => $slotsConfiguration,
             'game'                      => $party->getGame(),
             'slots'                     => $party->getSlots(),
@@ -138,7 +141,7 @@ class PartyController extends Controller
             'canJoin'                   => $canJoin,
             'isHost'                    => $isHost,
             'gameLayout'                => $extendedGame->getGameLayout(),
-        );
+        ) + $optionsVars;
     }
     
     /**

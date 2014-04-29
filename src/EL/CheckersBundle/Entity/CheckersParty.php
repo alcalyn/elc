@@ -11,7 +11,7 @@ use EL\CoreBundle\Entity\Party;
  * @ORM\Table(name="el_games_checkers_party")
  * @ORM\Entity
  */
-class CheckersParty
+class CheckersParty implements \JsonSerializable
 {
     /**
      * @var integer
@@ -156,5 +156,20 @@ class CheckersParty
     public function getParty()
     {
         return $this->party;
+    }
+    
+    /**
+     * Implements JsonSerializable
+     * 
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id'            => $this->getId(),
+            'currentPlayer' => $this->getCurrentPlayer(),
+            'lastMove'      => $this->getLastMove(),
+            'parameters'    => $this->getParameters(),
+        );
     }
 }

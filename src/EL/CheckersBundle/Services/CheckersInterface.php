@@ -29,13 +29,33 @@ class CheckersInterface extends ELGameAdapter
     {
         $jsVars     = $this->get('el_core.js_vars');    /* @var $jsVars \EL\CoreBundle\Services\JsVarsService */
         $checkers   = $this->get('checkers.core');      /* @var $checkers Checkers */
-        $variants   = array();
         
         $jsVars
                 ->addContext('variants', $checkers->getVariants())
         ;
         
         return 'CheckersBundle:Checkers:optionsForm.html.twig';
+    }
+    
+    /**
+     * @param Party $coreParty
+     * @param CheckersParty $extendedParty
+     * 
+     * @return array
+     */
+    public function getDisplayOptionsTemplate(Party $coreParty, $extendedParty)
+    {
+        $checkers       = $this->get('checkers.core');                              /* @var $checkers Checkers */
+        $variant        = new CheckersVariant($extendedParty->getParameters());
+        $variantName    = $checkers->getVariantName($variant);
+        
+        return array(
+            'template'  => 'CheckersBundle:Checkers:displayOptions.html.twig',
+            'vars'      => array(
+                'variant'       => $variant,
+                'variantName'   => $variantName,
+            ),
+        );
     }
     
     /**

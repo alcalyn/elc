@@ -68,9 +68,12 @@ interface ELGameInterface
      * Return infomations about extended options of current party.
      * Your options are accessible in twig though variable 'extendedOptions'
      * 
+     * @param CoreParty $coreParty
+     * @param stdClass $extendedParty
+     * 
      * @return string template path, such as 'AbstractGameBundle:Adapter:displayOptions.html.twig'
      */
-    public function getDisplayOptionsTemplate();
+    public function getDisplayOptionsTemplate(CoreParty $coreParty, $extendedParty);
     
     /**
      * Return a default slots configuration

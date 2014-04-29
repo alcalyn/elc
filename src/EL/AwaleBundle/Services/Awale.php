@@ -77,7 +77,7 @@ class Awale extends ELGameAdapter
         );
     }
     
-    public function getDisplayOptionsTemplate()
+    public function getDisplayOptionsTemplate(Party $coreParty, $extendedParty)
     {
         return 'AwaleBundle:Awale:displayOptions.html.twig';
     }

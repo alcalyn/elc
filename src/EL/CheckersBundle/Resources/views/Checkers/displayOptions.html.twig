@@ -1,0 +1,6 @@
+{{ '<b>%variantName%</b>.variant'|trans({'%variantName%': variantName|trans})|raw }}
+
+{% if variantName == 'personalized' %}
+    <hr />
+    {{ 'board.size'|trans }} <b>{{ variant.boardSize }}</b>
+{% endif %}

@@ -51,3 +51,5 @@ white: Blanc
 white.e: Blanche
 white.es: Blanches
 white.s: Blancs
+
+<b>%variantName%</b>.variant: 'Variante <b>%variantName%</b>'

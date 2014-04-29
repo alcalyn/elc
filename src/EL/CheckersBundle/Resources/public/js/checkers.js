@@ -2,6 +2,7 @@
 $(function () {
     bindVariantSelect();
     bindVariantPersonalization();
+    initOptions();
 });
 
 
@@ -425,4 +426,11 @@ function getVariantFromForm() {
             .setLetDo($('#el_core_options_type_extendedOptions_letDo').prop('checked'))
             .setFirstPlayer($('#el_core_options_type_extendedOptions_firstPlayer').prop('checked'))
     ;
+}
+
+/**
+ * Init checkboxes to represent select first value
+ */
+function initOptions() {
+    $('select#variant-select').change();
 }

@@ -29,7 +29,7 @@ class DefaultController extends ELGameAdapter
         ));
     }
     
-    public function getDisplayOptionsTemplate()
+    public function getDisplayOptionsTemplate(CoreParty $coreParty, $extendedParty)
     {
         return implode(':', array(
             'TicTacToeBundle',

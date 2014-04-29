@@ -47,9 +47,12 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function getDisplayOptionsTemplate()
+    public function getDisplayOptionsTemplate(CoreParty $coreParty, $extendedParty)
     {
-        return 'AbstractGameBundle:Adapter:displayOptions.html.twig';
+        return array(
+            'template'  => 'AbstractGameBundle:Adapter:displayOptions.html.twig',
+            'vars'      => array(),
+        );
     }
     
     /**

@@ -87,23 +87,42 @@ interface ELGameInterface
      * Can define customs rules to start party.
      * Return an ELUserException if cannot start, true otherwise
      * 
-     * @return mixed true or ELUserException
+     * @param PartyService $partyService
+     * 
+     * @return boolean true
+     * 
+     * @throws ELUserException if cannot start
      */
     public function canStart(PartyService $partyService);
     
     /**
+     * Party has just started. Init your party here
+     * 
+     * @param PartyService $partyService
+     */
+    public function started(PartyService $partyService);
+    
+    /**
      * Controller of active party screen
+     * 
+     * @param string $_locale
+     * @param PartyService $partyService
+     * @param \stdClass $extendedParty
      * 
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function activeAction($_locale, PartyService $partyService);
+    public function activeAction($_locale, PartyService $partyService, $extendedParty);
     
     /**
      * Controller of ended party screen (scores)
      * 
+     * @param string $_locale
+     * @param PartyService $partyService
+     * @param \stdClass $extendedParty
+     * 
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function endedAction($_locale, PartyService $partyService);
+    public function endedAction($_locale, PartyService $partyService, $extendedParty);
     
     /**
      * Return short message which will be displayed

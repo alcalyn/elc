@@ -87,9 +87,8 @@ class Awale extends ELGameAdapter
         return 'AwaleBundle::layout.html.twig';
     }
     
-    public function activeAction($_locale, PartyService $partyService)
+    public function activeAction($_locale, PartyService $partyService, $extendedParty)
     {
-        $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore  */
         $coreParty      = $partyService->getParty();            /* @var $coreParty     Party      */
         $sessionPlayer  = $this->get('el_core.session')->getPlayer();

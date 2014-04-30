@@ -3,10 +3,12 @@
 namespace EL\CheckersBundle\Services;
 
 use EL\CoreBundle\Entity\Party;
+use EL\CoreBundle\Services\PartyService;
+use EL\CoreBundle\Services\SessionService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Form\Type\CheckersOptionsType;
-use EL\CheckersBundle\Util\CheckersVariant;
+use EL\CheckersBundle\Checkers\Variant;
 
 class CheckersInterface extends ELGameAdapter
 {
@@ -17,7 +19,7 @@ class CheckersInterface extends ELGameAdapter
     
     public function createParty()
     {
-        return new CheckersVariant();
+        return new Variant();
     }
     
     public function getGameLayout()
@@ -46,7 +48,7 @@ class CheckersInterface extends ELGameAdapter
     public function getDisplayOptionsTemplate(Party $coreParty, $extendedParty)
     {
         $checkers       = $this->get('checkers.core');                              /* @var $checkers Checkers */
-        $variant        = new CheckersVariant($extendedParty->getParameters());
+        $variant        = new Variant($extendedParty->getParameters());
         $variantName    = $checkers->getVariantName($variant);
         
         return array(
@@ -60,7 +62,7 @@ class CheckersInterface extends ELGameAdapter
     
     /**
      * @param \EL\CoreBundle\Entity\Party $coreParty
-     * @param CheckersVariant $checkersVariant
+     * @param Variant $checkersVariant
      * 
      * @return boolean
      */
@@ -118,5 +120,46 @@ class CheckersInterface extends ELGameAdapter
                 ),
             ),
         );
+    }
+    
+    public function started(PartyService $partyService)
+    {
+        $em             = $this->getDoctrine()->getManager();
+        $checkers       = $this->get('checkers.core');          /* @var $checkers Checkers */
+        $checkersParty  = $partyService->loadExtendedParty();   /* @var $checkersParty CheckersParty */
+        $variant        = new Variant($checkersParty->getParameters());
+        $grid           = $checkers->initGrid($variant);
+        
+        $checkersParty
+                ->setGrid($grid)
+                ->setCurrentPlayer($variant->getFirstPlayer())
+                ->setLastMove(null)
+        ;
+        
+        $em->persist($checkersParty);
+    }
+    
+    /**
+     * 
+     * @param string $_locale
+     * @param \EL\CoreBundle\Services\PartyService $partyService
+     * @param CheckersParty $extendedParty
+     * 
+     * @return type
+     */
+    public function activeAction($_locale, PartyService $partyService, $extendedParty)
+    {
+        $sessionService = $this->get('el_core.session'); /* @var $sessionService SessionService */
+        
+        return $this->render('CheckersBundle:Checkers:active.html.twig', array(
+            'reverse'           => false,
+            'gameLayout'        => $this->getGameLayout(),
+            'coreParty'         => $coreParty = $partyService->getParty(),
+            'cherchersParty'    => $extendedParty,
+            'variant'           => new Variant($extendedParty->getParameters()),
+            'slots'             => $coreParty->getSlots(),
+            'player'            => $sessionService->getPlayer(),
+            'grid'              => $extendedParty->getGrid(),
+        ));
     }
 }

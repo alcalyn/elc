@@ -1,11 +1,11 @@
 <?php
 
-namespace EL\CheckersBundle\Util;
+namespace EL\CheckersBundle\Checkers;
 
 use EL\CoreBundle\Util\BitwiseValue;
 use EL\CoreBundle\Exception\ELCoreException;
 
-class CheckersVariant extends BitwiseValue implements \JsonSerializable
+class Variant extends BitwiseValue implements \JsonSerializable
 {
     const PERSONALIZED  = 'personalized';
     const ENGLISH       = 'english';
@@ -28,11 +28,11 @@ class CheckersVariant extends BitwiseValue implements \JsonSerializable
     /**
      * Create a new
      * 
-     * @return CheckersVariant
+     * @return Variant
      */
     public static function createNewVariant()
     {
-        return new CheckersVariant();
+        return new Variant();
     }
     
     /**
@@ -301,11 +301,11 @@ class CheckersVariant extends BitwiseValue implements \JsonSerializable
     /**
      * Check if this variant is equals to an other
      * 
-     * @param \EL\CheckersBundle\Util\CheckersVariant $checkerVariant
+     * @param \EL\CheckersBundle\Checkers\Variant $checkerVariant
      * 
      * @return boolean
      */
-    public function equals(CheckersVariant $checkerVariant)
+    public function equals(Variant $checkerVariant)
     {
         return $this->getBinaryValue() === $checkerVariant->getBinaryValue();
     }
@@ -314,7 +314,7 @@ class CheckersVariant extends BitwiseValue implements \JsonSerializable
      * @param integer $criteria
      * @param boolean $boolean
      * 
-     * @return CheckersVariant
+     * @return Variant
      */
     public function set($criteria, $boolean)
     {

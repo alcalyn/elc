@@ -2,7 +2,9 @@
 
 namespace EL\CheckersBundle\Services;
 
-use EL\CheckersBundle\Util\CheckersVariant;
+use EL\CoreBundle\Exception\ELCoreException;
+use EL\CheckersBundle\Checkers\Variant;
+use EL\CheckersBundle\Checkers\Piece;
 
 class Checkers
 {
@@ -18,7 +20,7 @@ class Checkers
     
     
     /**
-     * @return array of CheckersVariant
+     * @return array of Variant
      */
     public function getVariants()
     {
@@ -26,7 +28,7 @@ class Checkers
             $this->variants = array();
             
             // English
-            $this->variants[CheckersVariant::ENGLISH] = CheckersVariant
+            $this->variants[Variant::ENGLISH] = Variant
                     ::createNewVariant()
                     ->setBoardSize(8)
                     ->setFirstPlayer(self::WHITE)
@@ -34,7 +36,7 @@ class Checkers
             ;
             
             // French
-            $this->variants[CheckersVariant::FRENCH] = CheckersVariant
+            $this->variants[Variant::FRENCH] = Variant
                     ::createNewVariant()
                     ->setBoardSize(10)
                     ->setFirstPlayer(self::WHITE)
@@ -51,11 +53,11 @@ class Checkers
      * Return variant name from $checkersVariant.
      * If not exists, return 'personalized'
      * 
-     * @param CheckersVariant $checkersVariant
+     * @param Variant $checkersVariant
      * 
      * @return string
      */
-    public function getVariantName(CheckersVariant $checkersVariant)
+    public function getVariantName(Variant $checkersVariant)
     {
         foreach ($this->getVariants() as $name => $variant) {
             if ($checkersVariant->equals($variant)) {
@@ -63,6 +65,39 @@ class Checkers
             }
         }
         
-        return CheckersVariant::PERSONALIZED;
+        return Variant::PERSONALIZED;
+    }
+    
+    /**
+     * Create a new grid and fill it following $checkersVariant
+     * 
+     * @param \EL\CheckersBundle\Checkers\Variant $checkersVariant
+     * 
+     * @return array
+     * 
+     * @throws ELCoreException if $boardSize not in 4, 6, 8, 10, 12, 14
+     */
+    public function initGrid(Variant $checkersVariant)
+    {
+        $boardSize = $checkersVariant->getBoardSize();
+        
+        if (!in_array($boardSize, array(4, 6, 8, 10, 12, 14))) {
+            throw new ELCoreException('$boardSize must be in 4, 6, 8, 10, 12, 14, got "'.$boardSize.'"');
+        }
+        
+        $squareUsed     = $checkersVariant->getSquareUsed();
+        $rightSquare    = $checkersVariant->getRightSquare();
+        $grid           = array_fill(0, $boardSize, array_fill(0, $boardSize, Piece::FREE));
+        $middle         = floor($boardSize / 2) - 1;
+        $shift          = $squareUsed === $rightSquare ? 0 : 1 ;
+        
+        for ($i = 0; $i < $middle; $i++) {
+            for ($j = 0; $j < $boardSize; $j += 2) {
+                $grid[$i][$j + (($i + $shift) % 2)] = Piece::BLACK;
+                $grid[$boardSize - $i - 1][$j + 1 - (($i + $shift) % 2)] = Piece::WHITE;
+            }
+        }
+        
+        return $grid;
     }
 }

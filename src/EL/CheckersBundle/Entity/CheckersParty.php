@@ -37,6 +37,15 @@ class CheckersParty implements \JsonSerializable
      * @ORM\Column(name="parameters", type="smallint")
      */
     private $parameters;
+    
+    /**
+     * Json serialized array containing pieces
+     * 
+     * @var string
+     *
+     * @ORM\Column(name="grid", type="json_array", nullable=true)
+     */
+    private $grid;
 
     /**
      * Current player, Checkers::WHITE or Checkers::BLACK
@@ -87,6 +96,29 @@ class CheckersParty implements \JsonSerializable
     public function getParameters()
     {
         return $this->parameters;
+    }
+
+    /**
+     * Set grid
+     *
+     * @param array $grid
+     * @return CheckersParty
+     */
+    public function setGrid(array $grid)
+    {
+        $this->grid = $grid;
+    
+        return $this;
+    }
+
+    /**
+     * Get grid
+     *
+     * @return array 
+     */
+    public function getGrid()
+    {
+        return $this->grid;
     }
 
     /**

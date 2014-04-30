@@ -270,7 +270,7 @@ class PartyController extends Controller
             ->addContext('extended-party', $extendedParty->jsonSerialize())
         ;
         
-        return $extendedGame->activeAction($_locale, $partyService);
+        return $extendedGame->activeAction($_locale, $partyService, $extendedParty);
     }
     
     

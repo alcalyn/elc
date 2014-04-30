@@ -13,3 +13,28 @@ h4 {
 .checkers-personalization label.col-sm-4 {
     width: 64%;
 }
+
+#grid {
+    margin: 24px auto 48px auto;
+}
+#grid .grid-item {
+    width: 64px;
+    height: 64px;
+}
+
+.piece {
+    width: 46px;
+    height: 46px;
+    margin: 9px;
+    border-radius: 999px;
+    background-color: white;
+}
+.piece-white {
+    background-color: lightcoral;
+}
+.piece-black {
+    background-color: lightblue;
+}
+.piece-controlled {
+    cursor: pointer;
+}

@@ -261,23 +261,50 @@ class PartyService extends GameService
     }
     
     
-    public function inParty(Player $player = null, Party $party = null)
+    /**
+     * Return the position index of $player (default is current) in $party (default is current)
+     * 
+     * @param \EL\CoreBundle\Entity\Player $player
+     * @param \EL\CoreBundle\Entity\Party $party
+     * 
+     * @return int
+     */
+    public function position(Player $player = null, Party $party = null)
     {
-        if (is_null($player)) {
+        if (null === $player) {
             $player = $this->session->getPlayer();
         }
         
-        $party  = is_null($party) ? $this->getParty() : $party ;
+        if (null === $party) {
+            $party = $this->getParty();
+        }
+        
+        $i = 0;
         
         foreach ($party->getSlots() as $slot) {
             if ($slot->hasPlayer() && ($slot->getPlayer()->getId() === $player->getId())) {
-                return true;
+                return $i;
+            } else {
+                $i++;
             }
         }
         
-        return false;
+        return -1;
     }
     
+    
+    /**
+     * Return if $player (default is current) is in $party (default is current)
+     * 
+     * @param \EL\CoreBundle\Entity\Player $player
+     * @param \EL\CoreBundle\Entity\Party $party
+     * 
+     * @return boolean
+     */
+    public function inParty(Player $player = null, Party $party = null)
+    {
+        return $this->position($player, $party) >= 0;
+    }
     
     
     /**
@@ -440,6 +467,7 @@ class PartyService extends GameService
                 
                 if (self::DELAY_BEFORE_START <= 0) {
                     $party->setState(Party::ACTIVE);
+                    $this->getExtendedGame()->started($this);
                 }
                 
                 $this->em->persist($party);

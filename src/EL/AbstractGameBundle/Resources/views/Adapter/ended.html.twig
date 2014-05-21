@@ -20,11 +20,12 @@
                 <th>#</th>
                 <th>{{ 'player'|trans }}</th>
                 <th>{{ 'score'|trans }}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for slot in coreParty.slots %}
-                <tr>
+                <tr class="player-row player-{{ slot.player.id }}{{ (slot.player.id in playersInRemake) ? ' success' : '' }}">
                     <td>{{ slot.position }}</td>
                     <td>
                         {% if slot.player %}
@@ -34,6 +35,11 @@
                         {% endif %}
                     </td>
                     <td>{{ slot.score }}</td>
+                    <td class="comment">
+                        {% if slot.player.id in playersInRemake %}
+                            <p class="text-success">{{ 'has.remake'|trans }}</p>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

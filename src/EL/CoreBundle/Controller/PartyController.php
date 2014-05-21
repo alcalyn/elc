@@ -285,6 +285,12 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
         }
         
+        $this->get('el_core.js_vars')
+            ->initPhaxController('party')
+            ->addContext('core-party', $party->jsonSerialize())
+            ->useTrans('has.remake')
+        ;
+        
         $extendedGame   = $partyService->loadExtendedGame($this->container)->getExtendedGame();
         
         return $extendedGame->endedAction($_locale, $partyService);

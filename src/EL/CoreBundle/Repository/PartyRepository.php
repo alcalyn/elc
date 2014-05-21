@@ -75,6 +75,24 @@ class PartyRepository extends EntityRepository
         ))->getResult();
     }
     
+    public function findPlayersInRemakeParty($oldParty)
+    {
+        return $this->_em->createQueryBuilder()
+                ->select('p, pr, s, pl')
+                ->from('CoreBundle:Party', 'p')
+                ->leftJoin('p.remake', 'pr')
+                ->leftJoin('pr.slots', 's')
+                ->leftJoin('s.player', 'pl')
+                ->where('p = :oldParty')
+                ->setParameters(array(
+                    ':oldParty' => $oldParty,
+                ))
+                ->getQuery()
+                ->getOneOrNullResult()
+        ;
+                
+    }
+    
     public function countSlug($slug)
     {
         $query = $this->_em->createQuery(

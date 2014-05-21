@@ -541,7 +541,7 @@ class PartyService extends GameService
         $oldCoreParty->setRemake($remakeCoreParty);
         $remakeCoreParty->setHost($player);
         
-        // Create new slots for remae party
+        // Create new slots for remake party
         $options            = $this->getExtendedGame()->loadParty($oldCoreParty);
         $slotsConfiguration = $this->getExtendedGame()->getSlotsConfiguration($options);
         
@@ -559,7 +559,44 @@ class PartyService extends GameService
         return $remakeCoreParty;
     }
     
+    /**
+     * Return a list of player who are in remake party
+     * 
+     * @return array
+     */
+    public function getPlayersInRemakeParty()
+    {
+        $this->needParty();
+        
+        $party = $this->em
+                ->getRepository('CoreBundle:Party')
+                ->findPlayersInRemakeParty($this->getParty())
+        ;
+        
+        $players = array();
+        
+        if (null === $party) {
+            return $players;
+        }
+        
+        if (null === $party->getRemake()) {
+            return $players;
+        }
+        
+        foreach ($party->getRemake()->getSlots() as $slot) {
+            if ($slot->hasPlayer()) {
+                $players []= $slot->getPlayer()->getId();
+            }
+        }
+        
+        return $players;
+    }
     
+    /**
+     * Return the number of player in this party
+     * 
+     * @return int
+     */
     public function getNbPlayer()
     {
         $this->needParty();

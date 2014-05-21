@@ -5,21 +5,33 @@
     {% set reverse = reverse|default(false) %}
     
     <div id="grid" style="width:{{ variant.boardSize * 64 }}px">
+        {#
+            Grid
+        #}
         {% for line in 0..(variant.boardSize - 1) %}
             {% for col in 0..(variant.boardSize - 1) %}
                 <div
                     id="grid-{{ line }}-{{ col }}"
                     class="grid-item grid-{{ cycle(['odd', 'even'], (line+col)) }}"
-                >
-                    {% if grid[line][col] %}
-                        <div class="
-                             piece
-                             piece-{{ grid[line][col] is odd ? 'white' : 'black' }}
-                             {{ grid[line][col] > 2 ? 'piece-king' }}
-                             {{ player.id == slots[(grid[line][col] - 1) % 2].player.id ? 'piece-controlled' }}
-                        "></div>
-                    {% endif %}
-                </div>
+                ></div>
+            {% endfor %}
+        {% endfor %}
+        {#
+            Pieces
+        #}
+        {% for line in 0..(variant.boardSize - 1) %}
+            {% for col in 0..(variant.boardSize - 1) %}
+                {% if grid[line][col] %}
+                    <div
+                        class="
+                            piece
+                            piece-{{ grid[line][col] is odd ? 'white' : 'black' }}
+                            {{ grid[line][col] > 2 ? 'piece-king' }}
+                            {{ player.id == slots[(grid[line][col] - 1) % 2].player.id ? 'piece-controlled' }}
+                        "
+                        style="left:{{ col * 64 }}px;top:{{ line * 64 }}px"
+                    ></div>
+                {% endif %}
             {% endfor %}
         {% endfor %}
         <div class="clearfix"></div>

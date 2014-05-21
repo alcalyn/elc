@@ -3,7 +3,97 @@ $(function () {
     bindVariantSelect();
     bindVariantPersonalization();
     initOptions();
+    checkers.init();
+    checkersControls.init();
 });
+
+
+var checkers =
+{
+    init: function ()
+    {
+    },
+    
+    /**
+     * Move a piece from coords to coords
+     * 
+     * @param {Array} coordsFrom
+     * @param {Array} coordsTo
+     */
+    move: function (coordsFrom, coordsTo)
+    {
+        console.log(coordsFrom, coordsTo);
+        
+        if ((coordsFrom[0] === coordsTo[0]) && (coordsFrom[1] === coordsTo[1])) {
+            return;
+        }
+    },
+    
+    moveReaction: function (r)
+    {
+        
+    }
+};
+
+var checkersControls =
+{
+    squareSize: 64,
+    
+    $squareFrom: undefined,
+    
+    init: function ()
+    {
+        checkersControls.enableDragAndDrop();
+    },
+    
+    enableDragAndDrop: function ()
+    {
+        $('.piece-controlled').draggable({
+            revert: 'invalid'
+        });
+        
+        $('.grid-item').droppable({
+            hoverClass: 'piece-over',
+            over: function() {
+                if (!checkersControls.$squareFrom) {
+                    checkersControls.$squareFrom = $(this);
+                }
+            },
+            drop: function(event, ui) {
+                if (checkersControls.$squareFrom) {
+                    checkersControls.moveDetected(
+                            checkersControls.$squareFrom,
+                            $(this),
+                            $(ui.draggable)
+                    );
+                    checkersControls.$squareFrom = undefined;
+                }
+            }
+        });
+    },
+    
+    moveDetected: function ($squareFrom, $squareTo, $piece)
+    {
+        var from = $squareFrom.attr('id').split('-');
+        var to   = $squareTo  .attr('id').split('-');
+        
+        var coordsFrom = [
+            parseInt(from[1]),
+            parseInt(from[2])
+        ];
+        var coordsTo = [
+            parseInt(to[1]),
+            parseInt(to[2])
+        ];
+        
+        checkers.move(coordsFrom, coordsTo);
+        
+        $piece.animate({
+            top:  checkersControls.squareSize * coordsTo[0],
+            left: checkersControls.squareSize * coordsTo[1]
+        });
+    }
+};
 
 
 function CheckersVariant(binaryValue) {

@@ -15,6 +15,7 @@ h4 {
 }
 
 #grid {
+    position: relative;
     margin: 24px auto 48px auto;
 }
 #grid .grid-item {
@@ -23,6 +24,7 @@ h4 {
 }
 
 .piece {
+    position: absolute;
     width: 46px;
     height: 46px;
     margin: 9px;
@@ -37,4 +39,7 @@ h4 {
 }
 .piece-controlled {
     cursor: pointer;
+}
+.piece-over {
+    background-color: red !important;
 }

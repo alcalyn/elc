@@ -62,6 +62,9 @@ game: Jeu
 games: Jeux
 go: Go
 
+has:
+    remake: 'Recommence'
+
 here:
     is:
         your:

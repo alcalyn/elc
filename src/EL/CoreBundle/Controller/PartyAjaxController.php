@@ -29,21 +29,11 @@ class PartyAjaxController extends Controller
      */
     public function refreshAction(PhaxAction $phaxAction)
     {
+        self::checkAction($phaxAction);
+        
         $locale     = $phaxAction->get('locale');
         $slugGame   = $phaxAction->get('slugGame');
         $slugParty  = $phaxAction->get('slugParty');
-        
-        if (is_null($locale)) {
-            throw new ELCoreException(
-                'partyAjax::refreshAction : locale must be defined'
-            );
-        }
-        
-        if (is_null($slugParty)) {
-            throw new ELCoreException(
-                'partyAjax::refreshAction : slugParty must be defined'
-            );
-        }
         
         $partyService = $this
                 ->get('el_core.party')
@@ -53,5 +43,83 @@ class PartyAjaxController extends Controller
         return $this->get('phax')->reaction(array(
             'coreParty' => $partyService->getParty()->jsonSerialize(),
         ));
+    }
+    
+    /**
+     * Return party instance from slug
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
+    public function refreshPreparationAction(PhaxAction $phaxAction)
+    {
+        return $this->refreshAction($phaxAction);
+    }
+    
+    /**
+     * Return party instance from slug
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
+    public function refreshStartingAction(PhaxAction $phaxAction)
+    {
+        return $this->refreshAction($phaxAction);
+    }
+    
+    /**
+     * Return party instance from slug
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
+    public function refreshActiveAction(PhaxAction $phaxAction)
+    {
+        return $this->refreshAction($phaxAction);
+    }
+    
+    /**
+     * Return party instance from slug,
+     * and players who are either gone or remake the party
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
+    public function refreshEndedAction(PhaxAction $phaxAction)
+    {
+        self::checkAction($phaxAction);
+        
+        $locale     = $phaxAction->get('locale');
+        $slugGame   = $phaxAction->get('slugGame');
+        $slugParty  = $phaxAction->get('slugParty');
+        
+        $partyService = $this
+                ->get('el_core.party')
+                ->setPartyBySlug($slugParty, $slugGame, $locale)
+        ;
+        
+        $playersInRemake = $partyService->getPlayersInRemakeParty();
+        
+        return $this->get('phax')->reaction(array(
+            'coreParty'         => $partyService->getParty()->jsonSerialize(),
+            'playersInRemake'   => $playersInRemake,
+        ));
+    }
+    
+    /**
+     * Check if needed request parameters are defined
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * @throws ELCoreException
+     */
+    private static function checkAction(PhaxAction $phaxAction)
+    {
+        foreach (array('locale', 'slugGame', 'slugParty') as $parameter) {
+            if (!$phaxAction->has($parameter)) {
+                throw new ELCoreException(
+                    "partyAjax::refreshAction : $parameter must be defined"
+                );
+            }
+        }
     }
 }

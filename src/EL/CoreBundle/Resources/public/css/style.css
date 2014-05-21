@@ -424,6 +424,12 @@ footer > * {
 }
 
 
+/*----------------ended----------------*/
+.player-row .comment {
+    width: 180px;
+    text-align: center;
+}
+
 
 /*----------------tools----------------*/
 .scrollin {

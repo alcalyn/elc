@@ -144,9 +144,10 @@ class ELGameAdapter extends Controller implements ELGameInterface
     public function endedAction($_locale, PartyService $partyService)
     {
         return $this->render('AbstractGameBundle:Adapter:ended.html.twig', array(
-            'game'          => $partyService->getGame(),
-            'coreParty'     => $partyService->getParty(),
-            'gameLayout'    => $this->getGameLayout(),
+            'game'              => $partyService->getGame(),
+            'coreParty'         => $partyService->getParty(),
+            'playersInRemake'   => $partyService->getPlayersInRemakeParty(),
+            'gameLayout'        => $this->getGameLayout(),
         ));
     }
     

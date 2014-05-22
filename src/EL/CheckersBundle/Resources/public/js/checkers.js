@@ -8,6 +8,11 @@ $(function () {
 });
 
 
+/**
+ * Model checkers
+ * 
+ * @type {Object}
+ */
 var checkers =
 {
     init: function ()
@@ -35,6 +40,12 @@ var checkers =
     }
 };
 
+
+/**
+ * Layer between model and dom
+ * 
+ * @type {Object}
+ */
 var checkersControls =
 {
     squareSize: 64,
@@ -72,6 +83,13 @@ var checkersControls =
         });
     },
     
+    /**
+     * Called then a piece has been moved between 2 squares
+     * 
+     * @param {jQuery} $squareFrom
+     * @param {jQuery} $squareTo
+     * @param {jQuery} $piece
+     */
     moveDetected: function ($squareFrom, $squareTo, $piece)
     {
         var from = $squareFrom.attr('id').split('-');
@@ -86,12 +104,48 @@ var checkersControls =
             parseInt(to[2])
         ];
         
+        // notify model from move
         checkers.move(coordsFrom, coordsTo);
         
+        // move piece to the center of its square
+        checkersControls.move($piece, coordsTo);
+    },
+    
+    /**
+     * Get piece at coords [line, col]
+     * 
+     * @param {Array} coords [line, col]
+     * 
+     * @returns {jQuery}
+     */
+    getPieceAt: function (coords)
+    {
+        return $('.piece[data-line='+coords[0]+'][data-col='+coords[1]+']');
+    },
+    
+    /**
+     * Move a piece on the board
+     * 
+     * @param {Array|jQuery} mixed $piece or coords from [line, col]
+     * @param {Array} to coords [line, col]
+     * 
+     * @returns {jQuery} $piece moved
+     */
+    move: function (mixed, to)
+    {
+        var $piece = 'Array' === mixed.constructor.name ?
+            checkersControls.getPieceAt(mixed) :
+            mixed ;
+        
         $piece.animate({
-            top:  checkersControls.squareSize * coordsTo[0],
-            left: checkersControls.squareSize * coordsTo[1]
+            top:  checkersControls.squareSize * to[0],
+            left: checkersControls.squareSize * to[1]
         });
+
+        $piece.attr('data-line', to[0]);
+        $piece.attr('data-col',  to[1]);
+        
+        return $piece;
     }
 };
 

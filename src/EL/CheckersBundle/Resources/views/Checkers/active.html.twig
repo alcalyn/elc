@@ -29,6 +29,8 @@
                             {{ grid[line][col] > 2 ? 'piece-king' }}
                             {{ player.id == slots[(grid[line][col] - 1) % 2].player.id ? 'piece-controlled' }}
                         "
+                        data-line="{{ line }}"
+                        data-col="{{ col }}"
                         style="left:{{ col * 64 }}px;top:{{ line * 64 }}px"
                     ></div>
                 {% endif %}

@@ -19,11 +19,11 @@ class CheckersController extends Controller
         
         $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
         
+        $loggedPlayer   = $this->get('el_core.session')->getPlayer();
         $coreParty      = $partyService->getParty();            /* @var $coreParty Party */
         $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty CheckersParty */
         $from           = new Coords($phaxAction->from['line'], $phaxAction->from['col']);
         $to             = new Coords($phaxAction->to['line'], $phaxAction->to['col']);
-        $position       = $partyService->position();
         
         // Check if party is still active
         if ($coreParty->getState() !== Party::ACTIVE) {
@@ -34,7 +34,7 @@ class CheckersController extends Controller
         
         try {
             // Perform move
-            $checkersService->move($extendedParty, $position, $from, $to);
+            $checkersService->move($extendedParty, $from, $to, $loggedPlayer);
             
             // Update party in database
             $this->getDoctrine()->getManager()->flush();

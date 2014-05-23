@@ -262,15 +262,18 @@ class PartyService extends GameService
     
     
     /**
-     * Return the position index of $player (default is current) in $party (default is current)
+     * Return the position index of $player (default is current)
+     * in $party (default is current)
      * 
      * @param \EL\CoreBundle\Entity\Player $player
      * @param \EL\CoreBundle\Entity\Party $party
      * 
-     * @return int
+     * @return integer
      */
     public function position(Player $player = null, Party $party = null)
     {
+        $this->needParty();
+        
         if (null === $player) {
             $player = $this->session->getPlayer();
         }

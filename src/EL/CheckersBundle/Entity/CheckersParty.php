@@ -41,7 +41,7 @@ class CheckersParty implements \JsonSerializable
     /**
      * Json serialized array containing pieces
      * 
-     * @var string
+     * @var array
      *
      * @ORM\Column(name="grid", type="json_array", nullable=true)
      */
@@ -50,7 +50,7 @@ class CheckersParty implements \JsonSerializable
     /**
      * Current player, Checkers::WHITE or Checkers::BLACK
      * 
-     * @var integer
+     * @var boolean
      *
      * @ORM\Column(name="currentPlayer", type="boolean")
      */

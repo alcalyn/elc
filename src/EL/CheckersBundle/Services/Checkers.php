@@ -2,14 +2,16 @@
 
 namespace EL\CheckersBundle\Services;
 
-use EL\CoreBundle\Exception\ELCoreException;
+use EL\CoreBundle\Util\Coords;
+use EL\CheckersBundle\Checkers\CheckersIllegalMoveException;
 use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Piece;
+use EL\CheckersBundle\Entity\CheckersParty;
 
 class Checkers
 {
-    const WHITE = true;
-    const BLACK = false;
+    const WHITE = false;
+    const BLACK = true;
     
     /**
      * Array containing variants
@@ -99,5 +101,77 @@ class Checkers
         }
         
         return $grid;
+    }
+    
+    /**
+     * Perform a piece move on $checkersParty, by $playerPosition,
+     * from square $from to $to.
+     * 
+     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param integer $playerPosition 0 or 1
+     * @param \EL\CoreBundle\Util\Coords $from
+     * @param \EL\CoreBundle\Util\Coords $to
+     * 
+     * @return boolean true
+     * 
+     * @throws CheckersIllegalMoveException
+     */
+    public function move(CheckersParty $checkersParty, $playerPosition, Coords $from, Coords $to)
+    {
+        $variant        = new Variant($checkersParty->getParameters());
+        $boardSize      = $variant->getBoardSize();
+        $grid           = $checkersParty->getGrid();
+        
+        // Check player turn (compare a boolean to an integer)
+        if ($playerPosition == $checkersParty->getCurrentPlayer()) {
+            throw new CheckersIllegalMoveException('not.your.turn');
+        }
+        
+        // Check if movement is inside board
+        if (!$from->isInsideBoard($boardSize)) {
+            throw new CheckersIllegalMoveException('$from must be in board size '.$boardSize.', got '.$from);
+        }
+        
+        if (!$to->isInsideBoard($boardSize)) {
+            throw new CheckersIllegalMoveException('$to must be in board size '.$boardSize.', got '.$to);
+        }
+        
+        $pieceFrom      = self::pieceAt($grid, $from);
+        $pieceTo        = self::pieceAt($grid, $to);
+        $playerPieces   = $playerPosition ? Piece::BLACK : Piece::WHITE ;
+        
+        // Check if there is a piece on from square
+        if (Piece::FREE === $pieceFrom) {
+            throw new CheckersIllegalMoveException('there is no piece in from: '.$from);
+        }
+        
+        // Check if we move a piece we own
+        if ((($pieceFrom - 1) % 2) === $playerPieces) {
+            throw new CheckersIllegalMoveException('you cannot move pieces of your opponent');
+        }
+        
+        // Check if destination square is not already occupied
+        if (Piece::FREE !== $pieceTo) {
+            throw new CheckersIllegalMoveException('you cannot move on a not empty square');
+        }
+        
+        self::pieceAt($grid, $to, $pieceFrom);
+        self::pieceAt($grid, $from, Piece::FREE);
+        
+        $checkersParty
+                ->setGrid($grid)
+                ->setCurrentPlayer(!$checkersParty->getCurrentPlayer())
+        ;
+        
+        return true;
+    }
+    
+    private static function pieceAt(array &$grid, Coords $square, $set = null)
+    {
+        if (null === $set) {
+            return $grid[$square->line][$square->col];
+        } else {
+            return $grid[$square->line][$square->col] = $set;
+        }
     }
 }

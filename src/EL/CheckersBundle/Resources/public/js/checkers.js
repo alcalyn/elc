@@ -32,6 +32,21 @@ var checkers =
         if ((coordsFrom[0] === coordsTo[0]) && (coordsFrom[1] === coordsTo[1])) {
             return;
         }
+        
+        var data = {
+            slugParty:  jsContext.coreParty.slug,
+            slugGame:   jsContext.coreParty.game.slug,
+            from: {
+                line: coordsFrom[0],
+                col:  coordsFrom[1]
+            },
+            to: {
+                line: coordsTo[0],
+                col:  coordsTo[1]
+            }
+        };
+        
+        phax.action('checkers', 'move', data);
     },
     
     moveReaction: function (r)

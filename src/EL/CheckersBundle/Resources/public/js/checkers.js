@@ -29,7 +29,7 @@ var checkers =
     {
         console.log(coordsFrom, coordsTo);
         
-        if ((coordsFrom[0] === coordsTo[0]) && (coordsFrom[1] === coordsTo[1])) {
+        if (!checkers.checkMove(coordsFrom, coordsTo)) {
             return;
         }
         
@@ -49,9 +49,43 @@ var checkers =
         phax.action('checkers', 'move', data);
     },
     
+    /**
+     * Naive checks for a move
+     * 
+     * @param {type} from
+     * @param {type} to
+     * 
+     * @returns {boolean}
+     */
+    checkMove: function (from, to)
+    {
+        // Check for diagonally move
+        if (Math.abs(to[0] - from[0]) !== Math.abs(to[1] - from[1])) {
+            console.log('move is not diagonal', from, to);
+            return false;
+        }
+        
+        return true;
+    },
+    
     moveReaction: function (r)
     {
+        checkersControls.moveReaction(r);
+    },
+    
+    getLastMove: function ()
+    {
+        var data = {
+            slugParty:  jsContext.coreParty.slug,
+            slugGame:   jsContext.coreParty.game.slug
+        };
         
+        phax.action('checkers', 'getLastMove', data);
+    },
+    
+    getLastMoveReaction: function (r)
+    {
+        checkersControls.getLastMoveReaction(r.lastMove);
     }
 };
 
@@ -67,6 +101,8 @@ var checkersControls =
     
     $squareFrom: undefined,
     
+    lastMove: {'number': 0},
+    
     init: function ()
     {
         checkersControls.enableDragAndDrop();
@@ -78,7 +114,10 @@ var checkersControls =
             revert: 'invalid'
         });
         
-        $('.grid-item').droppable({
+        var variant = new CheckersVariant(jsContext.extendedParty.parameters);
+        var squareUsed = variant.getSquareUsed() ? 'even' : 'odd' ;
+        
+        $('.grid-'+squareUsed).droppable({
             hoverClass: 'piece-over',
             over: function() {
                 if (!checkersControls.$squareFrom) {
@@ -95,6 +134,13 @@ var checkersControls =
                     checkersControls.$squareFrom = undefined;
                 }
             }
+        });
+    },
+    
+    getCasesCoordsOnClick: function ()
+    {
+        $('.grid-item').click(function () {
+            console.log($(this).attr('id').split('-').slice(1));
         });
     },
     
@@ -148,9 +194,7 @@ var checkersControls =
      */
     move: function (mixed, to)
     {
-        var $piece = 'Array' === mixed.constructor.name ?
-            checkersControls.getPieceAt(mixed) :
-            mixed ;
+        var $piece = checkersControls.getPieceFromMixed(mixed);
         
         $piece.animate({
             top:  checkersControls.squareSize * to[0],
@@ -161,6 +205,59 @@ var checkersControls =
         $piece.attr('data-col',  to[1]);
         
         return $piece;
+    },
+    
+    eat: function (mixed)
+    {
+        var $piece = checkersControls.getPieceFromMixed(mixed);
+        
+        $piece.animate({
+            opacity: 0
+        }, 400, function () {
+            $piece.remove();
+        });
+    },
+    
+    moveReaction: function (r)
+    {
+        if (r.valid) {
+            
+        } else {
+            console.log(r.error);
+        }
+    },
+    
+    getLastMoveReaction: function (move)
+    {
+        if (move.number <= checkersControls.lastMove.number) {
+            return;
+        }
+        
+        checkersControls.move(
+                [move.path[0].line, move.path[0].col],
+                [move.path[1].line, move.path[1].col]
+        );
+        
+        if (move.jumpedPieces.length > 0) {
+            checkersControls.eat(
+                    [move.jumpedPieces[0].line, move.jumpedPieces[0].col]
+            );
+        }
+        
+        checkersControls.lastMove = move;
+    },
+    
+    getPieceFromMixed: function (mixed)
+    {
+        if ('Array' === mixed.constructor.name) {
+            return checkersControls.getPieceAt(mixed);
+        }
+        
+        if (mixed.line && mixed.col) {
+            return checkersControls.getPieceAt([mixed.line, mixed.col]);
+        }
+        
+        return mixed;
     }
 };
 

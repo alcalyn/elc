@@ -2,7 +2,7 @@
 
 namespace EL\CoreBundle\Util;
 
-class Coords
+class Coords implements \JsonSerializable
 {
     /**
      * @var integer
@@ -86,6 +86,25 @@ class Coords
     }
     
     /**
+     * Return the discret middle Coords between this and $to
+     * 
+     * @param \EL\CoreBundle\Util\Coords $to
+     * 
+     * @return \EL\CoreBundle\Util\Coords, or null if there is no discret middle
+     */
+    public function middle(Coords $to)
+    {
+        $line = $to->line - $this->line;
+        $col  = $to->col  - $this->col;
+        
+        if (($line % 2) + ($col % 2)) {
+            return null;
+        } else {
+            return new Coords($this->line + $line / 2, $this->col + $col / 2);
+        }
+    }
+    
+    /**
      * Return line distance to $to
      * 
      * @param \EL\CoreBundle\Util\Coords $to
@@ -150,5 +169,16 @@ class Coords
     public function __toString()
     {
         return "Coords ( $this->line ; $this->col )\n";
+    }
+    
+    /**
+     * Implementation of JsonSerializable
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'line'  => $this->line,
+            'col'   => $this->col,
+        );
     }
 }

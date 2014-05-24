@@ -61,7 +61,7 @@ class CheckersParty implements \JsonSerializable
      * 
      * @var string
      *
-     * @ORM\Column(name="lastMove", type="string", length=31, nullable=true)
+     * @ORM\Column(name="lastMove", type="string", length=255, nullable=true)
      */
     private $lastMove;
 

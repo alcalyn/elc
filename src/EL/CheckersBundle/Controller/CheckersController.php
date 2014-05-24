@@ -10,9 +10,19 @@ use EL\CoreBundle\Util\Coords;
 use EL\CoreBundle\Services\PartyService;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Checkers\CheckersIllegalMoveException;
+use EL\CheckersBundle\Checkers\Move;
 
 class CheckersController extends Controller
 {
+    /**
+     * A player moved a piece
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * @param string $slugParty
+     * @param string $slugGame
+     * 
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
     public function moveAction(PhaxAction $phaxAction, $slugParty, $slugGame)
     {
         $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
@@ -30,17 +40,55 @@ class CheckersController extends Controller
             return $this->get('phax')->error('party.has.ended');
         }
         
+        // Check if the move come from the good player turn
+        $playerTurn = $coreParty
+                ->getSlots()
+                ->get($extendedParty->getCurrentPlayer() ? 0 : 1)
+                ->getPlayer()
+        ;
+        
+        if ($playerTurn->getId() !== $loggedPlayer->getId()) {
+            return $this->get('phax')->error('not.your.turn');
+        }
+        
         $checkersService = $this->get('checkers.core'); /* @var $checkersService \EL\CheckersBundle\Services\Checkers */
         
         try {
             // Perform move
-            $checkersService->move($extendedParty, $from, $to, $loggedPlayer);
+            $move = $checkersService->move($extendedParty, $from, $to, $loggedPlayer);
             
             // Update party in database
             $this->getDoctrine()->getManager()->flush();
             
+            return $this->get('phax')->reaction(array(
+                'valid' => true,
+                'move'  => $move,
+            ));
         } catch (CheckersIllegalMoveException $e) {
-            return $this->get('phax')->error($e->getMessage());
+            return $this->get('phax')->reaction(array(
+                'valid' => false,
+                'error' => $e->getMessage(),
+            ));
         }
+    }
+    
+    /**
+     * get last move
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * 
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
+    public function getLastMoveAction(PhaxAction $phaxAction, $slugParty, $slugGame)
+    {
+        $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
+        
+        $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
+        
+        $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty CheckersParty */
+        
+        return $this->get('phax')->reaction(array(
+            'lastMove' => Move::jsonDeserialize(json_decode($extendedParty->getLastMove())),
+        ));
     }
 }

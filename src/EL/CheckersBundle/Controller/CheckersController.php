@@ -37,7 +37,10 @@ class CheckersController extends Controller
         
         // Check if party is still active
         if ($coreParty->getState() !== Party::ACTIVE) {
-            return $this->get('phax')->error('party.has.ended');
+            return $this->get('phax')->reaction(array(
+                'valid' => false,
+                'error' => 'party has ended',
+            ));
         }
         
         // Check if the move come from the good player turn
@@ -48,21 +51,24 @@ class CheckersController extends Controller
         ;
         
         if ($playerTurn->getId() !== $loggedPlayer->getId()) {
-            return $this->get('phax')->error('not.your.turn');
+            return $this->get('phax')->reaction(array(
+                'valid' => false,
+                'error' => 'not your turn',
+            ));
         }
         
         $checkersService = $this->get('checkers.core'); /* @var $checkersService \EL\CheckersBundle\Services\Checkers */
         
         try {
             // Perform move
-            $move = $checkersService->move($extendedParty, $from, $to, $loggedPlayer);
+            $checkersService->move($extendedParty, $from, $to, $loggedPlayer);
             
             // Update party in database
             $this->getDoctrine()->getManager()->flush();
             
             return $this->get('phax')->reaction(array(
                 'valid' => true,
-                'move'  => $move,
+                'party' => $extendedParty,
             ));
         } catch (CheckersIllegalMoveException $e) {
             return $this->get('phax')->reaction(array(
@@ -88,7 +94,7 @@ class CheckersController extends Controller
         $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty CheckersParty */
         
         return $this->get('phax')->reaction(array(
-            'lastMove' => Move::jsonDeserialize(json_decode($extendedParty->getLastMove())),
+            'party' => $extendedParty->jsonSerialize(),
         ));
     }
 }

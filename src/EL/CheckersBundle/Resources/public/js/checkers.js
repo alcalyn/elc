@@ -15,8 +15,14 @@ $(function () {
  */
 var checkers =
 {
+    party: undefined,
+    
+    refreshInterval: undefined,
+    
     init: function ()
     {
+        checkers.party = jsContext.extendedParty;
+        checkers.startRefreshing();
     },
     
     /**
@@ -27,12 +33,6 @@ var checkers =
      */
     move: function (coordsFrom, coordsTo)
     {
-        console.log(coordsFrom, coordsTo);
-        
-        if (!checkers.checkMove(coordsFrom, coordsTo)) {
-            return;
-        }
-        
         var data = {
             slugParty:  jsContext.coreParty.slug,
             slugGame:   jsContext.coreParty.game.slug,
@@ -55,24 +55,72 @@ var checkers =
      * @param {type} from
      * @param {type} to
      * 
-     * @returns {boolean}
+     * @returns {Move|null} Move
      */
     checkMove: function (from, to)
     {
-        // Check for diagonally move
-        if (Math.abs(to[0] - from[0]) !== Math.abs(to[1] - from[1])) {
-            console.log('move is not diagonal', from, to);
-            return false;
+        // Check if from and to are the same
+        if ((from[0] === to[0]) && (from[1] === to[1])) {
+            console.log('from = to');
+            return null;
         }
         
-        return true;
+        var pieceFrom = checkers.pieceAt(from);
+        var pieceTo = checkers.pieceAt(to);
+        
+        // Check if to is empty
+        if (!pieceTo.isFree()) {
+            console.log('destination occupied');
+            return null;
+        }
+        
+        // Check if move is diagonal
+        if (Math.abs(to[0] - from[0]) !== Math.abs(to[1] - from[1])) {
+            console.log('move not diagonal');
+            return null;
+        }
+        
+        var jumpedPieces = [];
+        
+        if (Math.abs(to[0] - from[0]) === 2) {
+            var middle = [
+                (from[0] + to[0]) / 2,
+                (from[1] + to[1]) / 2
+            ];
+            
+            var pieceMiddle = checkers.pieceAt(middle);
+            
+            if (pieceMiddle.isFree()) {
+                console.log('you must jump over one square');
+                return null;
+            } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
+                console.log('cannot jump owned pieces');
+                return null;
+            } else {
+                jumpedPieces.push(middle);
+            }
+        }
+        
+        return new Move([from, to], jumpedPieces);
     },
     
+    /**
+     * Callback for move action
+     * 
+     * @param {Object} r
+     */
     moveReaction: function (r)
     {
+        if (r.valid) {
+            checkers.party = r.party;
+        }
+        
         checkersControls.moveReaction(r);
     },
     
+    /**
+     * getLastMove Action, request checkersParty update during opponent turn
+     */
     getLastMove: function ()
     {
         var data = {
@@ -83,9 +131,57 @@ var checkers =
         phax.action('checkers', 'getLastMove', data);
     },
     
+    /**
+     * Callback for getLastMove action
+     * 
+     * @param {Object} r
+     */
     getLastMoveReaction: function (r)
     {
-        checkersControls.getLastMoveReaction(r.lastMove);
+        if (r.party.lastMove.number > checkers.party.lastMove.number) {
+            checkers.party = r.party;
+            
+            checkersControls.moved(r.party.lastMove);
+        }
+    },
+    
+    /**
+     * Interval refreshing when opponent turn
+     */
+    startRefreshing: function ()
+    {
+        checkers.stopRefreshing();
+        
+        checkers.refreshInterval = setInterval(function () {
+            var turnId      = jsContext.coreParty.slots[checkers.party.currentPlayer ? 1 : 0].player.id;
+            var loggedId    = jsContext.player.id;
+            
+            if (turnId === loggedId) {
+                checkers.getLastMove();
+            }
+        }, 2500);
+    },
+    
+    /**
+     * Stop refreshing interval
+     */
+    stopRefreshing: function ()
+    {
+        if (checkers.refreshInterval) {
+            clearInterval(checkers.refreshInterval);
+            checkers.refreshInterval = undefined;
+        }
+    },
+    
+    /**
+     * Return piece code at coords
+     * 
+     * @param {Object} coords [line, col]
+     * @returns {integer}
+     */
+    pieceAt: function (coords)
+    {
+        return new Piece(checkers.party.grid[coords[0]][coords[1]]);
     }
 };
 
@@ -101,13 +197,19 @@ var checkersControls =
     
     $squareFrom: undefined,
     
-    lastMove: {'number': 0},
+    lastMove: undefined,
     
+    /**
+     * Init
+     */
     init: function ()
     {
         checkersControls.enableDragAndDrop();
     },
     
+    /**
+     * Initialize drag of pieces and drop of used squares
+     */
     enableDragAndDrop: function ()
     {
         $('.piece-controlled').draggable({
@@ -119,12 +221,14 @@ var checkersControls =
         
         $('.grid-'+squareUsed).droppable({
             hoverClass: 'piece-over',
-            over: function() {
+            over: function()
+            {
                 if (!checkersControls.$squareFrom) {
                     checkersControls.$squareFrom = $(this);
                 }
             },
-            drop: function(event, ui) {
+            drop: function(event, ui)
+            {
                 if (checkersControls.$squareFrom) {
                     checkersControls.moveDetected(
                             checkersControls.$squareFrom,
@@ -137,6 +241,9 @@ var checkersControls =
         });
     },
     
+    /**
+     * Debug purpose, log coords of clicked square
+     */
     getCasesCoordsOnClick: function ()
     {
         $('.grid-item').click(function () {
@@ -145,7 +252,8 @@ var checkersControls =
     },
     
     /**
-     * Called then a piece has been moved between 2 squares
+     * Called then a piece has been moved between 2 squares.
+     * Check move and send query, or revert move
      * 
      * @param {jQuery} $squareFrom
      * @param {jQuery} $squareTo
@@ -165,11 +273,60 @@ var checkersControls =
             parseInt(to[2])
         ];
         
-        // notify model from move
-        checkers.move(coordsFrom, coordsTo);
+        var move = checkers.checkMove(coordsFrom, coordsTo);
         
-        // move piece to the center of its square
-        checkersControls.move($piece, coordsTo);
+        if (move) {
+            
+            // move piece to the center of its square
+            checkersControls.move($piece, coordsTo);
+            
+            if (move.jumpedPieces.length > 0) {
+                checkersControls.eat(move.jumpedPieces[0]);
+            }
+            
+            // memorize this move
+            checkersControls.memorizeMove(move);
+            
+            // notify model from move
+            checkers.move(coordsFrom, coordsTo);
+            
+            return true;
+        } else {
+            
+            // cancel piece move, move it on beginning position
+            checkersControls.move($piece, coordsFrom);
+            
+            return false;
+        }
+    },
+    
+    /**
+     * Memorize a move so it can be reverted by calling revertMemorizedMove
+     * 
+     * @param {Object} move
+     */
+    memorizeMove: function (move)
+    {
+        checkersControls.lastMove = move;
+    },
+    
+    /**
+     * Revert memorized move by moving piece on initial square
+     */
+    revertMemorizedMove: function ()
+    {
+        if (checkersControls.lastMove) {
+            checkersControls.move(
+                    checkersControls.lastMove.path[1],
+                    checkersControls.lastMove.path[0]
+            );
+            
+            if (checkersControls.lastMove.jumpedPieces.length > 0) {
+                checkersControls.vomit(checkersControls.lastMove.jumpedPieces[0]);
+            }
+            
+            checkersControls.lastMove = undefined;
+        }
     },
     
     /**
@@ -207,32 +364,56 @@ var checkersControls =
         return $piece;
     },
     
+    /**
+     * Animate a piece eat
+     * 
+     * @param {jQuery|Object} mixed
+     * @returns {undefined}
+     */
     eat: function (mixed)
     {
         var $piece = checkersControls.getPieceFromMixed(mixed);
         
         $piece.animate({
             opacity: 0
-        }, 400, function () {
-            $piece.remove();
-        });
+        }, 400);
     },
     
+    /**
+     * Undo a piece eat
+     * 
+     * @param {Object} coords
+     */
+    vomit: function (coords)
+    {
+        checkersControls.getPieceAt(coords).animate({
+            opacity: 1
+        }, 400);
+    },
+    
+    /**
+     * Called then ajax request result has been received by model.
+     * Check for move validity, and revert if not.
+     * 
+     * @param {Object} r
+     */
     moveReaction: function (r)
     {
         if (r.valid) {
-            
+            console.log('moved successfully')
         } else {
+            checkersControls.revertMemorizedMove();
             console.log(r.error);
         }
     },
     
-    getLastMoveReaction: function (move)
+    /**
+     * Called when opponent played his turn
+     * 
+     * @param {Object} Move instance
+     */
+    moved: function (move)
     {
-        if (move.number <= checkersControls.lastMove.number) {
-            return;
-        }
-        
         checkersControls.move(
                 [move.path[0].line, move.path[0].col],
                 [move.path[1].line, move.path[1].col]
@@ -243,10 +424,14 @@ var checkersControls =
                     [move.jumpedPieces[0].line, move.jumpedPieces[0].col]
             );
         }
-        
-        checkersControls.lastMove = move;
     },
     
+    /**
+     * Returns piece jquery instance from everything
+     * 
+     * @param {jQuery|Object} mixed
+     * @returns {jQuery} piece
+     */
     getPieceFromMixed: function (mixed)
     {
         if ('Array' === mixed.constructor.name) {
@@ -261,432 +446,25 @@ var checkersControls =
     }
 };
 
-
-function CheckersVariant(binaryValue) {
+function Piece(code) {
+    this.code = code;
     
-    /**
-     * @var {integer}
-     */
-    this.binaryValue = binaryValue || 0;
-    
-    
-    /**
-     * @param {integer} criteria
-     * @param {boolean} boolean
-     * 
-     * @return BitwiseValue
-     */
-    this.set = function (criteria, boolean)
+    this.isFree = function ()
     {
-        if (boolean) {
-            this.binaryValue = this.binaryValue | criteria;
-        } else {
-            this.binaryValue = this.binaryValue & (~criteria);
+        return 0 === this.code;
+    };
+    
+    this.getColor = function ()
+    {
+        if (0 === this.code) {
+            return null;
         }
         
-        return this;
+        return ((this.code % 2) === 1) ? 1 : 2 ;
     };
-    
-    /**
-     * @param {integer} criteria
-     * 
-     * @return {boolean}
-     */
-    this.get = function (criteria)
-    {
-        return (this.binaryValue & criteria) > 0;
-    };
-    
-    /**
-     * @param {integer} value
-     * 
-     * @return BitwiseValue
-     */
-    this.setBinaryValue = function (value)
-    {
-        this.binaryValue = value;
-        
-        return this;
-    };
-    
-    /**
-     * @return {integer}
-     */
-    this.getBinaryValue = function ()
-    {
-        return this.binaryValue;
-    };
-    
-    /**
-     * Set boardSize
-     *
-     * @param {integer} boardSize
-     * @return {CheckersVariant}
-     */
-    this.setBoardSize = function (boardSize)
-    {
-        if (boardSize > CheckersVariant.BOARD_SIZE) {
-            throw new Error('Board size must be <= '+CheckersVariant.BOARD_SIZE+', got '+boardSize);
-        }
-        
-        if (boardSize < 0) {
-            throw new Error('Board size must be >= 0, got '+boardSize);
-        }
-        
-        this.binaryValue = this.binaryValue & (~CheckersVariant.BOARD_SIZE);
-        this.binaryValue = this.binaryValue | boardSize;
-        
-        return this;
-    };
-
-    /**
-     * Get boardSize
-     *
-     * @return {integer}
-     */
-    this.getBoardSize = function ()
-    {
-        return this.binaryValue & CheckersVariant.BOARD_SIZE;
-    };
-
-    /**
-     * Set squareUsed
-     *
-     * @param {boolean} squareUsed
-     * @return {CheckersVariant}
-     */
-    this.setSquareUsed = function (squareUsed)
-    {
-        return this.set(CheckersVariant.SQUARE_USED, squareUsed);
-    };
-
-    /**
-     * Get squareUsed
-     *
-     * @return {boolean}
-     */
-    this.getSquareUsed = function ()
-    {
-        return this.get(CheckersVariant.SQUARE_USED);
-    };
-
-    /**
-     * Set rightSquare
-     *
-     * @param {boolean} rightSquare
-     * @return {CheckersVariant}
-     */
-    this.setRightSquare = function (rightSquare)
-    {
-        return this.set(CheckersVariant.RIGHT_SQUARE, rightSquare);
-    };
-
-    /**
-     * Get rightSquare
-     *
-     * @return {boolean}
-     */
-    this.getRightSquare = function ()
-    {
-        return this.get(CheckersVariant.RIGHT_SQUARE);
-    };
-
-    /**
-     * Set backwardCapture
-     *
-     * @param {boolean} backwardCapture
-     * 
-     * @return {CheckersVariant}
-     */
-    this.setBackwardCapture = function (backwardCapture)
-    {
-        return this.set(CheckersVariant.BACKWARD_CAPTURE, backwardCapture);
-    };
-
-    /**
-     * Get backwardCapture
-     *
-     * @return {boolean}
-     */
-    this.getBackwardCapture = function ()
-    {
-        return this.get(CheckersVariant.BACKWARD_CAPTURE);
-    };
-
-    /**
-     * Set longRangeKing
-     *
-     * @param {boolean} longRangeKing
-     * @return {CheckersVariant}
-     */
-    this.setLongRangeKing = function (longRangeKing)
-    {
-        return this.set(CheckersVariant.LONG_RANGE_KING, longRangeKing);
-    };
-
-    /**
-     * Get longRangeKing
-     *
-     * @return {boolean}
-     */
-    this.getLongRangeKing = function ()
-    {
-        return this.get(CheckersVariant.LONG_RANGE_KING);
-    };
-
-    /**
-     * Set menJumpKing
-     *
-     * @param {boolean} menJumpKing
-     * @return {CheckersVariant}
-     */
-    this.setMenJumpKing = function (menJumpKing)
-    {
-        return this.set(CheckersVariant.MEN_JUMP_KING, menJumpKing);
-    };
-
-    /**
-     * Get menJumpKing
-     *
-     * @return {boolean}
-     */
-    this.getMenJumpKing = function ()
-    {
-        return this.get(CheckersVariant.MEN_JUMP_KING);
-    };
-
-    /**
-     * Set kingPassing
-     *
-     * @param {boolean} kingPassing
-     * @return {CheckersVariant}
-     */
-    this.setKingPassing = function (kingPassing)
-    {
-        return this.set(CheckersVariant.KING_PASSING, kingPassing);
-    };
-
-    /**
-     * Get kingPassing
-     *
-     * @return {boolean}
-     */
-    this.getKingPassing = function ()
-    {
-        return this.get(CheckersVariant.KING_PASSING);
-    };
-
-    /**
-     * Set maximumCapture
-     *
-     * @param {boolean} maximumCapture
-     * @return {CheckersVariant}
-     */
-    this.setMaximumCapture = function (maximumCapture)
-    {
-        return this.set(CheckersVariant.MAXIMUM_CAPTURE, maximumCapture);
-    };
-
-    /**
-     * Get maximumCapture
-     *
-     * @return {boolean}
-     */
-    this.getMaximumCapture = function ()
-    {
-        return this.get(CheckersVariant.MAXIMUM_CAPTURE);
-    };
-
-    /**
-     * Set blowUp
-     *
-     * @param {boolean} blowUp
-     * @return {CheckersVariant}
-     */
-    this.setBlowUp = function (blowUp)
-    {
-        return this.set(CheckersVariant.BLOW_UP, blowUp);
-    };
-
-    /**
-     * Get blowUp
-     *
-     * @return {boolean}
-     */
-    this.getBlowUp = function ()
-    {
-        return this.get(CheckersVariant.BLOW_UP);
-    };
-
-    /**
-     * Set forceCapture
-     *
-     * @param {boolean} forceCapture
-     * @return {CheckersVariant}
-     */
-    this.setForceCapture = function (forceCapture)
-    {
-        return this.set(CheckersVariant.FORCE_CAPTURE, forceCapture);
-    };
-
-    /**
-     * Get forceCapture
-     *
-     * @return {boolean}
-     */
-    this.getForceCapture = function ()
-    {
-        return this.get(CheckersVariant.FORCE_CAPTURE);
-    };
-
-    /**
-     * Set letDo
-     *
-     * @param {boolean} letDo
-     * @return {CheckersVariant}
-     */
-    this.setLetDo = function (letDo)
-    {
-        return this.set(CheckersVariant.LET_DO, letDo);
-    };
-
-    /**
-     * Get letDo
-     *
-     * @return {boolean}
-     */
-    this.getLetDo = function ()
-    {
-        return this.get(CheckersVariant.LET_DO);
-    };
-
-    /**
-     * Set firstPlayer
-     *
-     * @param {boolean} firstPlayer
-     * @return {CheckersVariant}
-     */
-    this.setFirstPlayer = function (firstPlayer)
-    {
-        return this.set(CheckersVariant.FIRST_PLAYER, firstPlayer);
-    };
-
-    /**
-     * Get firstPlayer
-     *
-     * @return {boolean}
-     */
-    this.getFirstPlayer = function ()
-    {
-        return this.get(CheckersVariant.FIRST_PLAYER);
-    };
-    
-    /**
-     * Check if this variant is equals to an other
-     * 
-     * @param {CheckersVariant} checkerVariant
-     * 
-     * @return {boolean}
-     */
-    this.equals = function (checkerVariant)
-    {
-        return this.getBinaryValue() === checkerVariant.getBinaryValue();
-    };
-};
-
-CheckersVariant.BOARD_SIZE        = 15;
-CheckersVariant.SQUARE_USED       = 16;
-CheckersVariant.RIGHT_SQUARE      = 32;
-CheckersVariant.BACKWARD_CAPTURE  = 64;
-CheckersVariant.LONG_RANGE_KING   = 128;
-CheckersVariant.MEN_JUMP_KING     = 256;
-CheckersVariant.KING_PASSING      = 512;
-CheckersVariant.MAXIMUM_CAPTURE   = 1024;
-CheckersVariant.BLOW_UP           = 2048;
-CheckersVariant.FORCE_CAPTURE     = 4096;
-CheckersVariant.LET_DO            = 8192;
-CheckersVariant.FIRST_PLAYER      = 16384;
-
-
-/**
- * Bind events related to variant selection
- * (when user change select option)
- */
-function bindVariantSelect() {
-    $('select#variant-select').change(function () {
-        var parameters = parseInt($('select#variant-select option:selected').attr('value'));
-        
-        if (0 === parameters) {
-            return;
-        }
-        
-        var variant = new CheckersVariant(parameters);
-        
-        $('#el_core_options_type_extendedOptions_boardSize').val(variant.getBoardSize());
-        $('#el_core_options_type_extendedOptions_squareUsed').prop('checked', variant.getSquareUsed());
-        $('#el_core_options_type_extendedOptions_rightSquare').prop('checked', variant.getRightSquare());
-        $('#el_core_options_type_extendedOptions_backwardCapture').prop('checked', variant.getBackwardCapture());
-        $('#el_core_options_type_extendedOptions_longRangeKing').prop('checked', variant.getLongRangeKing());
-        $('#el_core_options_type_extendedOptions_menJumpKing').prop('checked', variant.getMenJumpKing());
-        $('#el_core_options_type_extendedOptions_kingPassing').prop('checked', variant.getKingPassing());
-        $('#el_core_options_type_extendedOptions_maximumCapture').prop('checked', variant.getMaximumCapture());
-        $('#el_core_options_type_extendedOptions_blowUp').prop('checked', variant.getBlowUp());
-        $('#el_core_options_type_extendedOptions_forceCapture').prop('checked', variant.getForceCapture());
-        $('#el_core_options_type_extendedOptions_letDo').prop('checked', variant.getLetDo());
-        $('#el_core_options_type_extendedOptions_firstPlayer').prop('checked', variant.getFirstPlayer());
-    });
 }
 
-/**
- * Bind events related to variant personalization
- * (when user click on checkboxes or change input)
- */
-function bindVariantPersonalization() {
-    $('.checkers-personalization input').change(refreshSelectOption);
-}
-
-/**
- * Refresh select option after personalization
- */
-function refreshSelectOption() {
-    var variant = getVariantFromForm();
-    
-    var $option = $('select#variant-select option[value='+variant.getBinaryValue()+']');
-    
-    if ($option.size()) {
-        $('select#variant-select').val(variant.getBinaryValue());
-    } else {
-        $('select#variant-select').val(0);
-    }
-}
-
-/**
- * Return an instance of CheckersVariant from form
- * 
- * @return {CheckersVariant}
- */
-function getVariantFromForm() {
-    var variant = new CheckersVariant();
-    
-    return variant
-            .setBoardSize($('#el_core_options_type_extendedOptions_boardSize').val())
-            .setSquareUsed($('#el_core_options_type_extendedOptions_squareUsed').prop('checked'))
-            .setRightSquare($('#el_core_options_type_extendedOptions_rightSquare').prop('checked'))
-            .setBackwardCapture($('#el_core_options_type_extendedOptions_backwardCapture').prop('checked'))
-            .setLongRangeKing($('#el_core_options_type_extendedOptions_longRangeKing').prop('checked'))
-            .setMenJumpKing($('#el_core_options_type_extendedOptions_menJumpKing').prop('checked'))
-            .setKingPassing($('#el_core_options_type_extendedOptions_kingPassing').prop('checked'))
-            .setMaximumCapture($('#el_core_options_type_extendedOptions_maximumCapture').prop('checked'))
-            .setBlowUp($('#el_core_options_type_extendedOptions_blowUp').prop('checked'))
-            .setForceCapture($('#el_core_options_type_extendedOptions_forceCapture').prop('checked'))
-            .setLetDo($('#el_core_options_type_extendedOptions_letDo').prop('checked'))
-            .setFirstPlayer($('#el_core_options_type_extendedOptions_firstPlayer').prop('checked'))
-    ;
-}
-
-/**
- * Init checkboxes to represent select first value
- */
-function initOptions() {
-    $('select#variant-select').change();
+function Move(path, jumpedPieces) {
+    this.path = path;
+    this.jumpedPieces = jumpedPieces || [];
 }

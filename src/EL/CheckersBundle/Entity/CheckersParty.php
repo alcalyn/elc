@@ -4,6 +4,7 @@ namespace EL\CheckersBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use EL\CoreBundle\Entity\Party;
+use EL\CheckersBundle\Checkers\Move;
 
 /**
  * CheckersParty
@@ -200,8 +201,9 @@ class CheckersParty implements \JsonSerializable
         return array(
             'id'            => $this->getId(),
             'currentPlayer' => $this->getCurrentPlayer(),
-            'lastMove'      => $this->getLastMove(),
+            'lastMove'      => json_decode($this->getLastMove()),
             'parameters'    => $this->getParameters(),
+            'grid'          => $this->getGrid(),
         );
     }
 }

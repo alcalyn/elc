@@ -86,6 +86,42 @@ class Coords implements \JsonSerializable
     }
     
     /**
+     * Add coords to this and return new Coords
+     * 
+     * @param \EL\CoreBundle\Util\Coords $c
+     * 
+     * @return \EL\CoreBundle\Util\Coords
+     */
+    public function add(Coords $c)
+    {
+        return new Coords($this->line + $c->line, $this->col + $c->col);
+    }
+    
+    /**
+     * Substract coords to this and return new Coords
+     * 
+     * @param \EL\CoreBundle\Util\Coords $c
+     * 
+     * @return \EL\CoreBundle\Util\Coords
+     */
+    public function sub(Coords $c)
+    {
+        return new Coords($this->line - $c->line, $this->col - $c->col);
+    }
+    
+    /**
+     * Divide line and col by $n and return new Coords
+     * 
+     * @param integer $n
+     * 
+     * @return \EL\CoreBundle\Util\Coords
+     */
+    public function div($n)
+    {
+        return new Coords($this->line / $n, $this->col / $n);
+    }
+    
+    /**
      * Return the discret middle Coords between this and $to
      * 
      * @param \EL\CoreBundle\Util\Coords $to
@@ -94,13 +130,12 @@ class Coords implements \JsonSerializable
      */
     public function middle(Coords $to)
     {
-        $line = $to->line - $this->line;
-        $col  = $to->col  - $this->col;
+        $sub = $to->sub($this);
         
-        if (($line % 2) + ($col % 2)) {
+        if (($sub->line % 2) + ($sub->col % 2)) {
             return null;
         } else {
-            return new Coords($this->line + $line / 2, $this->col + $col / 2);
+            return $this->add($to)->div(2);
         }
     }
     

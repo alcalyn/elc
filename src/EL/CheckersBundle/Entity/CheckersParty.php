@@ -4,7 +4,6 @@ namespace EL\CheckersBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use EL\CoreBundle\Entity\Party;
-use EL\CheckersBundle\Checkers\Move;
 
 /**
  * CheckersParty

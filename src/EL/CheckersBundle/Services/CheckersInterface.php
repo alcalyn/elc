@@ -9,6 +9,7 @@ use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Form\Type\CheckersOptionsType;
 use EL\CheckersBundle\Checkers\Variant;
+use EL\CheckersBundle\Checkers\Move;
 
 class CheckersInterface extends ELGameAdapter
 {
@@ -77,7 +78,6 @@ class CheckersInterface extends ELGameAdapter
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($checkersParty);
-        $em->flush();
         
         return true;
     }
@@ -129,11 +129,12 @@ class CheckersInterface extends ELGameAdapter
         $checkersParty  = $partyService->loadExtendedParty();   /* @var $checkersParty CheckersParty */
         $variant        = new Variant($checkersParty->getParameters());
         $grid           = $checkers->initGrid($variant);
+        $move           = new Move(0);
         
         $checkersParty
                 ->setGrid($grid)
                 ->setCurrentPlayer($variant->getFirstPlayer())
-                ->setLastMove(null)
+                ->setLastMove(json_encode($move))
         ;
         
         $em->persist($checkersParty);
@@ -152,7 +153,7 @@ class CheckersInterface extends ELGameAdapter
         $sessionService = $this->get('el_core.session'); /* @var $sessionService SessionService */
         
         return $this->render('CheckersBundle:Checkers:active.html.twig', array(
-            'reverse'           => false,
+            'reverse'           => 1 === $partyService->position(),
             'gameLayout'        => $this->getGameLayout(),
             'coreParty'         => $coreParty = $partyService->getParty(),
             'cherchersParty'    => $extendedParty,

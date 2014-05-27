@@ -21,8 +21,10 @@ var checkers =
     
     init: function ()
     {
-        checkers.party = jsContext.extendedParty;
-        checkers.startRefreshing();
+        if ($('.checkers-active').size()) {
+            checkers.party = jsContext.extendedParty;
+            checkers.startRefreshing();
+        }
     },
     
     /**
@@ -204,7 +206,9 @@ var checkersControls =
      */
     init: function ()
     {
-        checkersControls.enableDragAndDrop();
+        if ($('.checkers-active').size()) {
+            checkersControls.enableDragAndDrop();
+        }
     },
     
     /**
@@ -342,6 +346,30 @@ var checkersControls =
     },
     
     /**
+     * Get square at coords [line, col]
+     * 
+     * @param {Array} coords [line, col]
+     * 
+     * @returns {jQuery}
+     */
+    getSquareAt: function (coords)
+    {
+        return $('#grid-'+coords[0]+'-'+coords[1]);
+    },
+    
+    /**
+     * Get square at coords [line, col]
+     * 
+     * @param {Array} coords [line, col]
+     * 
+     * @returns {jQuery}
+     */
+    getSquarePositionAt: function (coords)
+    {
+        return checkersControls.getSquareAt(coords).position();
+    },
+    
+    /**
      * Move a piece on the board
      * 
      * @param {Array|jQuery} mixed $piece or coords from [line, col]
@@ -352,11 +380,9 @@ var checkersControls =
     move: function (mixed, to)
     {
         var $piece = checkersControls.getPieceFromMixed(mixed);
+        var position = checkersControls.getSquarePositionAt(to);
         
-        $piece.animate({
-            top:  checkersControls.squareSize * to[0],
-            left: checkersControls.squareSize * to[1]
-        });
+        $piece.animate(position);
 
         $piece.attr('data-line', to[0]);
         $piece.attr('data-col',  to[1]);

@@ -66,4 +66,9 @@ class Move implements \JsonSerializable
             );
         }
     }
+    
+    public function __clone()
+    {
+        return new self($this->number, $this->path, $this->jumpedPieces);
+    }
 }

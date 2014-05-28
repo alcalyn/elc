@@ -34,7 +34,7 @@ class CheckersParty implements \JsonSerializable
      * 
      * @var integer
      *
-     * @ORM\Column(name="parameters", type="smallint")
+     * @ORM\Column(name="parameters", type="integer")
      */
     private $parameters;
     

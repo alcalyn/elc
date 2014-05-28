@@ -67,16 +67,28 @@ class CheckersOptionsType extends AbstractType
                 'label' => 'king.passing',
                 'required' => false,
             ))
-            ->add('maximumCapture', 'checkbox', array(
-                'label' => 'maximum.capture',
-                'required' => false,
-            ))
             ->add('blowUp', 'checkbox', array(
                 'label' => 'blow.up',
                 'required' => false,
             ))
             ->add('forceCapture', 'checkbox', array(
                 'label' => 'force.capture',
+                'required' => false,
+            ))
+            ->add('forceCaptureQuantity', 'checkbox', array(
+                'label' => 'force.capture.quantity',
+                'required' => false,
+            ))
+            ->add('forceCaptureQuality', 'checkbox', array(
+                'label' => 'force.capture.quality',
+                'required' => false,
+            ))
+            ->add('forceCaptureKingOrder', 'checkbox', array(
+                'label' => 'force.capture.kingorder',
+                'required' => false,
+            ))
+            ->add('forceCapturePreference', 'checkbox', array(
+                'label' => 'force.capture.preference',
                 'required' => false,
             ))
             ->add('letDo', 'checkbox', array(

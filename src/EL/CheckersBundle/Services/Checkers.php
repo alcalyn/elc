@@ -8,6 +8,7 @@ use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Piece;
 use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
+use EL\CheckersBundle\Checkers\CapturesAnticipator;
 
 class Checkers
 {
@@ -166,17 +167,21 @@ class Checkers
         if (!$pieceFrom->isKing()) {
             // If piece is not a king
             
-            // Check if piece goes forward
-            if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
-                throw new CheckersIllegalMoveException('you cannot move back');
-            }
-            
             // Check if piece is jumping squares
             $squareJump = $from->distanceToLine($to);
             
             // Piece jump more than 2 squares
             if ($squareJump > 2) {
                 throw new CheckersIllegalMoveException('you can move over one square, or jump over opponent pieces');
+            }
+            
+            // Check if piece goes forward
+            if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
+                
+                // Check if we variant allows backward capture and player is maybe jumping
+                if ((2 !== $squareJump) || !$variant->getBackwardCapture()) {
+                    throw new CheckersIllegalMoveException('you cannot move back');
+                }
             }
             
             // Piece seems to jump a piece
@@ -194,21 +199,36 @@ class Checkers
                     throw new CheckersIllegalMoveException('you cannot jump over your pieces');
                 }
                 
-                // Jump an opponent piece
-                if ($variant->getMenJumpKing()) {
-                    $this->pieceAt($grid, $middle, Piece::FREE);
-                    $move->jumpedPieces []= $middle;
-                } else {
+                // Check if we are jumping a king while variant disallows
+                if ($pieceMiddle->isKing() && !$variant->getMenJumpKing()) {
                     throw new CheckersIllegalMoveException('you cannot jump over kings in this variant');
+                }
+                
+                // Remove jumped piece
+                $this->pieceAt($grid, $middle, Piece::FREE);
+                $move->jumpedPieces []= $middle;
+            }
+            
+            // Piece made a simple move. Check force capture
+            if ($variant->getForceCapture()) {
+                $capturesAnticipator = new CapturesAnticipator($checkersParty);
+                $captures = $capturesAnticipator->anticipate();
+                
+                print_r($captures); // TODO make it work !
+
+                if (count($captures) > 0) {
+                    throw new CheckersIllegalMoveException('you must capture opponent piece');
                 }
             }
         } else {
             throw new CheckersIllegalMoveException('kings not implemented yet');
         }
         
+        // Perform move
         $this->pieceAt($grid, $to, $pieceFrom);
         $this->pieceAt($grid, $from, Piece::FREE);
         
+        // Update party
         $checkersParty
                 ->setGrid($grid)
                 ->setCurrentPlayer(!$checkersParty->getCurrentPlayer())

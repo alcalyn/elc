@@ -145,6 +145,18 @@ class CheckersParty implements \JsonSerializable
     }
 
     /**
+     * Change current player
+     *
+     * @return \EL\CheckersBundle\Entity\CheckersParty
+     */
+    public function changeCurrentPlayer()
+    {
+        $this->currentPlayer = !$this->currentPlayer;
+        
+        return $this;
+    }
+
+    /**
      * Set lastMove
      *
      * @param string $lastMove

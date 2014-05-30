@@ -46,7 +46,7 @@ class CheckersController extends Controller
         // Check if the move come from the good player turn
         $playerTurn = $coreParty
                 ->getSlots()
-                ->get($extendedParty->getCurrentPlayer() ? 0 : 1)
+                ->get($extendedParty->getCurrentPlayer() ? 1 : 0)
                 ->getPlayer()
         ;
         

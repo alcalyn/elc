@@ -2,9 +2,10 @@
 
 namespace EL\CheckersBundle\Checkers;
 
+use EL\CoreBundle\Exception\ELCoreException;
+use EL\CoreBundle\Util\Coords;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Checkers\Variant;
-use EL\CoreBundle\Util\Coords;
 
 class CapturesAnticipator
 {
@@ -54,32 +55,24 @@ class CapturesAnticipator
     private $moves;
     
     /**
-     * Constructor.
-     * 
-     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
-     */
-    public function __construct(CheckersParty $checkersParty)
-    {
-        $this->checkersParty = $checkersParty;
-        $this->variant = new Variant($checkersParty->getParameters());
-        $this->sideNumber = $this->variant->getBackwardCapture() ? 4 : 2 ;
-        $this->boardSize = $this->variant->getBoardSize();
-        $this->grid = $checkersParty->getGrid();
-    }
-    
-    /**
      * Anticipate all captures move for a player
      * 
+     * @param Coords $coords (if set, anticipate moves only for the piece on $coords)
      * @param boolean $player (default is current player turn)
      * 
      * @return array
      */
-    public function anticipate($player = null)
+    public function anticipate(CheckersParty $checkersParty, Coords $coords = null, $player = null)
     {
-        $this->moves        = array();
-        $this->player       = (null === $player) ? $this->checkersParty->getCurrentPlayer() : $player ;
-        $this->lineForward  = $this->player ? -1 : 1 ;
-        $colorMatch         = $this->player ? array(2, 4) : array(1, 3) ;
+        $this->checkersParty    = $checkersParty;
+        $this->variant          = new Variant($checkersParty->getParameters());
+        $this->sideNumber       = $this->variant->getBackwardCapture() ? 4 : 2 ;
+        $this->boardSize        = $this->variant->getBoardSize();
+        $this->grid             = $checkersParty->getGrid();
+        $this->moves            = array();
+        $this->player           = (null === $player) ? $this->checkersParty->getCurrentPlayer() : $player ;
+        $this->lineForward      = $this->player ? 1 : -1 ;
+        $colorMatch             = $this->player ? array(2, 4) : array(1, 3) ;
         
         $this->coordsPatterns = array(
             array(
@@ -100,12 +93,21 @@ class CapturesAnticipator
             ),
         );
         
-        for ($line = 0; $line < $this->boardSize; $line++) {
-            for ($col = 0; $col < $this->boardSize; $col++) {
-                if (in_array($this->grid[$line][$col], $colorMatch)) {
-                    $coords = new Coords($line, $col);
-                    $this->anticipateRecursive($this->grid, new Move(0, array($coords)));
+        if (null === $coords) {
+            for ($line = 0; $line < $this->boardSize; $line++) {
+                for ($col = 0; $col < $this->boardSize; $col++) {
+                    if (in_array($this->grid[$line][$col], $colorMatch)) {
+                        $coords = new Coords($line, $col);
+
+                        $this->anticipateRecursive($this->grid, new Move(0, array($coords)));
+                    }
                 }
+            }
+        } else {
+            if (in_array($this->grid[$coords->line][$coords->col], $colorMatch)) {
+                $this->anticipateRecursive($this->grid, new Move(0, array($coords)));
+            } else {
+                throw new ELCoreException('piece on $coords is empty or is not owned by player');
             }
         }
         

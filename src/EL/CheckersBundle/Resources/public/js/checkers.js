@@ -140,7 +140,7 @@ var checkers =
      */
     getLastMoveReaction: function (r)
     {
-        if (r.party.lastMove.number > checkers.party.lastMove.number) {
+        if (r.party.lastMove.number >= checkers.party.lastMove.number) {
             checkers.party = r.party;
             
             checkersControls.moved(r.party.lastMove);
@@ -158,7 +158,7 @@ var checkers =
             var turnId      = jsContext.coreParty.slots[checkers.party.currentPlayer ? 1 : 0].player.id;
             var loggedId    = jsContext.player.id;
             
-            if (turnId === loggedId) {
+            if (turnId !== loggedId) {
                 checkers.getLastMove();
             }
         }, 2500);
@@ -440,14 +440,25 @@ var checkersControls =
      */
     moved: function (move)
     {
+        var lastPath = move.path.length - 2;
+        
         checkersControls.move(
-                [move.path[0].line, move.path[0].col],
-                [move.path[1].line, move.path[1].col]
+                [
+                    move.path[lastPath].line,
+                    move.path[lastPath].col
+                ],
+                [
+                    move.path[lastPath + 1].line,
+                    move.path[lastPath + 1].col
+                ]
         );
         
         if (move.jumpedPieces.length > 0) {
             checkersControls.eat(
-                    [move.jumpedPieces[0].line, move.jumpedPieces[0].col]
+                    [
+                        move.jumpedPieces[lastPath].line,
+                        move.jumpedPieces[lastPath].col
+                    ]
             );
         }
     },

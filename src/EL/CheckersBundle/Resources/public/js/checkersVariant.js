@@ -214,27 +214,6 @@ function CheckersVariant(binaryValue) {
     };
 
     /**
-     * Set maximumCapture
-     *
-     * @param {boolean} maximumCapture
-     * @return {CheckersVariant}
-     */
-    this.setMaximumCapture = function (maximumCapture)
-    {
-        return this.set(CheckersVariant.MAXIMUM_CAPTURE, maximumCapture);
-    };
-
-    /**
-     * Get maximumCapture
-     *
-     * @return {boolean}
-     */
-    this.getMaximumCapture = function ()
-    {
-        return this.get(CheckersVariant.MAXIMUM_CAPTURE);
-    };
-
-    /**
      * Set blowUp
      *
      * @param {boolean} blowUp
@@ -274,6 +253,90 @@ function CheckersVariant(binaryValue) {
     this.getForceCapture = function ()
     {
         return this.get(CheckersVariant.FORCE_CAPTURE);
+    };
+
+    /**
+     * Set forceCapture
+     *
+     * @param {boolean} forceCapture
+     * @return {CheckersVariant}
+     */
+    this.setForceCaptureQuantity = function (forceCaptureQuantity)
+    {
+        return this.set(CheckersVariant.CAPT_QUANTITY, forceCaptureQuantity);
+    };
+
+    /**
+     * Get forceCapture
+     *
+     * @return {boolean}
+     */
+    this.getForceCaptureQuantity = function ()
+    {
+        return this.get(CheckersVariant.CAPT_QUANTITY);
+    };
+
+    /**
+     * Set forceCapture
+     *
+     * @param {boolean} forceCapture
+     * @return {CheckersVariant}
+     */
+    this.setForceCaptureQuality = function (forceCaptureQuality)
+    {
+        return this.set(CheckersVariant.CAPT_QUALITY, forceCaptureQuality);
+    };
+
+    /**
+     * Get forceCapture
+     *
+     * @return {boolean}
+     */
+    this.getForceCaptureQuality = function ()
+    {
+        return this.get(CheckersVariant.CAPT_QUALITY);
+    };
+
+    /**
+     * Set forceCapture
+     *
+     * @param {boolean} forceCapture
+     * @return {CheckersVariant}
+     */
+    this.setForceCaptureKingOrder = function (forceCaptureKingOrder)
+    {
+        return this.set(CheckersVariant.CAPT_KING_ORDER, forceCaptureKingOrder);
+    };
+
+    /**
+     * Get forceCapture
+     *
+     * @return {boolean}
+     */
+    this.getForceCaptureKingOrder = function ()
+    {
+        return this.get(CheckersVariant.CAPT_KING_ORDER);
+    };
+
+    /**
+     * Set forceCapture
+     *
+     * @param {boolean} forceCapture
+     * @return {CheckersVariant}
+     */
+    this.setForceCapturePreference = function (forceCapturePreference)
+    {
+        return this.set(CheckersVariant.CAPT_PREFERENCE, forceCapturePreference);
+    };
+
+    /**
+     * Get forceCapture
+     *
+     * @return {boolean}
+     */
+    this.getForceCapturePreference = function ()
+    {
+        return this.get(CheckersVariant.CAPT_PREFERENCE);
     };
 
     /**
@@ -331,20 +394,22 @@ function CheckersVariant(binaryValue) {
     };
 };
 
-CheckersVariant.BOARD_SIZE        = 15;
-CheckersVariant.SQUARE_USED       = 16;
-CheckersVariant.RIGHT_SQUARE      = 32;
-CheckersVariant.BACKWARD_CAPTURE  = 64;
-CheckersVariant.LONG_RANGE_KING   = 128;
-CheckersVariant.MEN_JUMP_KING     = 256;
-CheckersVariant.KING_PASSING      = 512;
-CheckersVariant.MAXIMUM_CAPTURE   = 1024;
+CheckersVariant.BOARD_SIZE        = 31;
+CheckersVariant.SQUARE_USED       = 32;
+CheckersVariant.RIGHT_SQUARE      = 64;
+CheckersVariant.BACKWARD_CAPTURE  = 128;
+CheckersVariant.LONG_RANGE_KING   = 256;
+CheckersVariant.MEN_JUMP_KING     = 512;
+CheckersVariant.KING_PASSING      = 1024;
 CheckersVariant.BLOW_UP           = 2048;
-CheckersVariant.FORCE_CAPTURE     = 4096;
-CheckersVariant.LET_DO            = 8192;
-CheckersVariant.FIRST_PLAYER      = 16384;
-
-
+CheckersVariant.LET_DO            = 4096;
+CheckersVariant.FIRST_PLAYER      = 8192;
+CheckersVariant.FORCE_CAPTURE     = 16384;
+CheckersVariant.CAPT_QUANTITY     = 32768;
+CheckersVariant.CAPT_QUALITY      = 65536;
+CheckersVariant.CAPT_KING_ORDER   = 131072;
+CheckersVariant.CAPT_PREFERENCE   = 262144;
+    
 /**
  * Bind events related to variant selection
  * (when user change select option)
@@ -366,9 +431,12 @@ function bindVariantSelect() {
         $('#el_core_options_type_extendedOptions_longRangeKing').prop('checked', variant.getLongRangeKing());
         $('#el_core_options_type_extendedOptions_menJumpKing').prop('checked', variant.getMenJumpKing());
         $('#el_core_options_type_extendedOptions_kingPassing').prop('checked', variant.getKingPassing());
-        $('#el_core_options_type_extendedOptions_maximumCapture').prop('checked', variant.getMaximumCapture());
         $('#el_core_options_type_extendedOptions_blowUp').prop('checked', variant.getBlowUp());
         $('#el_core_options_type_extendedOptions_forceCapture').prop('checked', variant.getForceCapture());
+        $('#el_core_options_type_extendedOptions_forceCaptureQuantity').prop('checked', variant.getForceCaptureQuantity());
+        $('#el_core_options_type_extendedOptions_forceCaptureQuality').prop('checked', variant.getForceCaptureQuality());
+        $('#el_core_options_type_extendedOptions_forceCaptureKingOrder').prop('checked', variant.getForceCaptureKingOrder());
+        $('#el_core_options_type_extendedOptions_forceCapturePreference').prop('checked', variant.getForceCapturePreference());
         $('#el_core_options_type_extendedOptions_letDo').prop('checked', variant.getLetDo());
         $('#el_core_options_type_extendedOptions_firstPlayer').prop('checked', variant.getFirstPlayer());
     });
@@ -413,9 +481,12 @@ function getVariantFromForm() {
             .setLongRangeKing($('#el_core_options_type_extendedOptions_longRangeKing').prop('checked'))
             .setMenJumpKing($('#el_core_options_type_extendedOptions_menJumpKing').prop('checked'))
             .setKingPassing($('#el_core_options_type_extendedOptions_kingPassing').prop('checked'))
-            .setMaximumCapture($('#el_core_options_type_extendedOptions_maximumCapture').prop('checked'))
             .setBlowUp($('#el_core_options_type_extendedOptions_blowUp').prop('checked'))
             .setForceCapture($('#el_core_options_type_extendedOptions_forceCapture').prop('checked'))
+            .setForceCaptureQuantity($('#el_core_options_type_extendedOptions_forceCaptureQuantity').prop('checked'))
+            .setForceCaptureQuality($('#el_core_options_type_extendedOptions_forceCaptureQuality').prop('checked'))
+            .setForceCaptureKingOrder($('#el_core_options_type_extendedOptions_forceCaptureKingOrder').prop('checked'))
+            .setForceCapturePreference($('#el_core_options_type_extendedOptions_forceCapturePreference').prop('checked'))
             .setLetDo($('#el_core_options_type_extendedOptions_letDo').prop('checked'))
             .setFirstPlayer($('#el_core_options_type_extendedOptions_firstPlayer').prop('checked'))
     ;

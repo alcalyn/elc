@@ -203,7 +203,7 @@ class Coords implements \JsonSerializable
      */
     public function __toString()
     {
-        return "Coords ( $this->line ; $this->col )\n";
+        return "Coords ( $this->line ; $this->col )";
     }
     
     /**

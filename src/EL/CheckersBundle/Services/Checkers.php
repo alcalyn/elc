@@ -8,6 +8,7 @@ use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Piece;
 use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
+use EL\CheckersBundle\Checkers\CapturesAnticipator;
 
 class Checkers
 {
@@ -36,6 +37,7 @@ class Checkers
                     ->setBoardSize(8)
                     ->setFirstPlayer(self::WHITE)
                     ->setMenJumpKing(true)
+                    ->setForceCapture(true)
             ;
             
             // French
@@ -125,8 +127,19 @@ class Checkers
         $pieceFrom      = $this->pieceAt($grid, $from);
         $pieceTo        = $this->pieceAt($grid, $to);
         $playerPieces   = $pieceFrom->getColor();
-        $lastMoveNumber = Move::jsonDeserialize(json_decode($checkersParty->getLastMove()))->number;
-        $move           = new Move($lastMoveNumber + 1, array($from, $to));
+        $lastMove       = Move::jsonDeserialize(json_decode($checkersParty->getLastMove()));
+        
+        // Create new current move, or keep the last if we are in a multiple capture phase
+        if ($lastMove->multipleCapture) {
+            $move = $lastMove;
+            if (end($move->path)->isEqual($from)) {
+                $move->path []= $to;
+            } else {
+                throw new CheckersIllegalMoveException('You must continue your captures with the same piece');
+            }
+        } else {
+            $move = new Move($lastMove->number + 1, array($from, $to));
+        }
         
         // Check if there is a piece on from square
         if ($pieceFrom->isFree()) {
@@ -134,7 +147,7 @@ class Checkers
         }
         
         // Check if piece moved is not owned by the other player
-        if (($playerPieces - 1) == $checkersParty->getCurrentPlayer()) {
+        if (($playerPieces - 1) != $checkersParty->getCurrentPlayer()) {
             throw new CheckersIllegalMoveException('you cannot move pieces of your opponent');
         }
         
@@ -166,11 +179,6 @@ class Checkers
         if (!$pieceFrom->isKing()) {
             // If piece is not a king
             
-            // Check if piece goes forward
-            if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
-                throw new CheckersIllegalMoveException('you cannot move back');
-            }
-            
             // Check if piece is jumping squares
             $squareJump = $from->distanceToLine($to);
             
@@ -179,8 +187,39 @@ class Checkers
                 throw new CheckersIllegalMoveException('you can move over one square, or jump over opponent pieces');
             }
             
+            if (1 === $squareJump) {
+            
+                // Check if piece goes forward
+                if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
+                    throw new CheckersIllegalMoveException('you cannot move back');
+                }
+                
+                // Check if we are in multiple capture phase
+                if ($move->multipleCapture) {
+                    throw new CheckersIllegalMoveException('You must continue your captures with the same piece');
+                }
+                
+                // Piece made a simple move. Check force capture
+                if ($variant->getForceCapture()) {
+                    $capturesAnticipator = new CapturesAnticipator();
+                    $captures = $capturesAnticipator->anticipate($checkersParty);
+
+                    if (count($captures) > 0) {
+                        throw new CheckersIllegalMoveException('you must capture opponent piece');
+                    }
+                }
+            }
+            
             // Piece seems to jump a piece
-            if ($squareJump === 2) {
+            if (2 === $squareJump) {
+                
+                // Check if piece goes forward
+                if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
+                    if (!$variant->getBackwardCapture()) {
+                        throw new CheckersIllegalMoveException('you cannot backward jump in this variant');
+                    }
+                }
+                
                 $middle = $from->middle($to);
                 $pieceMiddle = $this->pieceAt($grid, $middle);
                 
@@ -194,26 +233,50 @@ class Checkers
                     throw new CheckersIllegalMoveException('you cannot jump over your pieces');
                 }
                 
-                // Jump an opponent piece
-                if ($variant->getMenJumpKing()) {
-                    $this->pieceAt($grid, $middle, Piece::FREE);
-                    $move->jumpedPieces []= $middle;
-                } else {
+                // Check if we are jumping a king while variant disallows
+                if ($pieceMiddle->isKing() && !$variant->getMenJumpKing()) {
                     throw new CheckersIllegalMoveException('you cannot jump over kings in this variant');
                 }
+                
+                // Remove jumped piece
+                $this->pieceAt($grid, $middle, Piece::FREE);
+                $move->jumpedPieces []= $middle;
             }
         } else {
             throw new CheckersIllegalMoveException('kings not implemented yet');
+            
+            // See my old implementation: https://code.google.com/p/ascn/source/browse/trunk/www/games/checkers/Plateau.php
+            if ($variant->getLongRangeKing()) {
+                
+            } else {
+                
+            }
         }
         
+        // Perform move
         $this->pieceAt($grid, $to, $pieceFrom);
         $this->pieceAt($grid, $from, Piece::FREE);
         
-        $checkersParty
-                ->setGrid($grid)
-                ->setCurrentPlayer(!$checkersParty->getCurrentPlayer())
-                ->setLastMove(json_encode($move))
-        ;
+        // Update grid
+        $checkersParty->setGrid($grid);
+        
+        // Change player if player cannot jump again
+        if (count($move->jumpedPieces) > 0) {
+            $capturesAnticipator = new CapturesAnticipator();
+            $captures = $capturesAnticipator->anticipate($checkersParty, end($move->path));
+            
+            if (0 === count($captures)) {
+                $move->multipleCapture = false;
+                $checkersParty->changeCurrentPlayer();
+            } else {
+                $move->multipleCapture = true;
+            }
+        } else {
+            $checkersParty->changeCurrentPlayer();
+        }
+        
+        // Update last move
+        $checkersParty->setLastMove(json_encode($move));
         
         return $move;
     }

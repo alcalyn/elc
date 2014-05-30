@@ -34,7 +34,7 @@ class CheckersParty implements \JsonSerializable
      * 
      * @var integer
      *
-     * @ORM\Column(name="parameters", type="smallint")
+     * @ORM\Column(name="parameters", type="integer")
      */
     private $parameters;
     
@@ -142,6 +142,18 @@ class CheckersParty implements \JsonSerializable
     public function getCurrentPlayer()
     {
         return $this->currentPlayer;
+    }
+
+    /**
+     * Change current player
+     *
+     * @return \EL\CheckersBundle\Entity\CheckersParty
+     */
+    public function changeCurrentPlayer()
+    {
+        $this->currentPlayer = !$this->currentPlayer;
+        
+        return $this;
     }
 
     /**

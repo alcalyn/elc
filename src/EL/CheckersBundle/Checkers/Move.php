@@ -23,16 +23,22 @@ class Move implements \JsonSerializable
     public $jumpedPieces;
     
     /**
+     * @var boolean if we are in a multiple capture phase
+     */
+    public $multipleCapture;
+    
+    /**
      * Constructor
      * 
      * @param array $path
      * @param array $jumpedPieces
      */
-    public function __construct($number, array $path = array(), array $jumpedPieces = array())
+    public function __construct($number, array $path = array(), array $jumpedPieces = array(), $multipleCapture = false)
     {
         $this->number = $number;
         $this->path = $path;
         $this->jumpedPieces = $jumpedPieces;
+        $this->multipleCapture = $multipleCapture;
     }
     
     /**
@@ -41,9 +47,10 @@ class Move implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'number'        => $this->number,
-            'path'          => $this->path,
-            'jumpedPieces'  => $this->jumpedPieces,
+            'number'            => $this->number,
+            'path'              => $this->path,
+            'jumpedPieces'      => $this->jumpedPieces,
+            'multipleCapture'   => $this->multipleCapture,
         );
     }
     
@@ -52,18 +59,31 @@ class Move implements \JsonSerializable
      * 
      * @param array $serial
      * 
-     * @return \EL\CheckersBundle\Checkers\Move
+     * @return Move
      */
     public static function jsonDeserialize($serial)
     {
         if (null === $serial) {
             return new Move(0);
         } else {
-            return new Move(
-                    $serial->number,
-                    $serial->path,
-                    $serial->jumpedPieces
-            );
+            $move = new Move($serial->number);
+            
+            foreach ($serial->path as $coord) {
+                $move->path []= new Coords($coord->line, $coord->col);
+            }
+            
+            foreach ($serial->jumpedPieces as $coord) {
+                $move->jumpedPieces []= new Coords($coord->line, $coord->col);
+            }
+            
+            $move->multipleCapture = $serial->multipleCapture;
+            
+            return $move;
         }
+    }
+    
+    public function __clone()
+    {
+        return new self($this->number, $this->path, $this->jumpedPieces, $this->multipleCapture);
     }
 }

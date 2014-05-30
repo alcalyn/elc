@@ -5,24 +5,30 @@ namespace EL\CheckersBundle\Checkers;
 use EL\CoreBundle\Util\BitwiseValue;
 use EL\CoreBundle\Exception\ELCoreException;
 
+/**
+ * @method Variant set($criteria, $boolean)
+ */
 class Variant extends BitwiseValue implements \JsonSerializable
 {
     const PERSONALIZED  = 'personalized';
     const ENGLISH       = 'english';
     const FRENCH        = 'french';
     
-    private static $BOARD_SIZE        = 15;
-    private static $SQUARE_USED       = 16;
-    private static $RIGHT_SQUARE      = 32;
-    private static $BACKWARD_CAPTURE  = 64;
-    private static $LONG_RANGE_KING   = 128;
-    private static $MEN_JUMP_KING     = 256;
-    private static $KING_PASSING      = 512;
-    private static $MAXIMUM_CAPTURE   = 1024;
+    private static $BOARD_SIZE        = 31;
+    private static $SQUARE_USED       = 32;
+    private static $RIGHT_SQUARE      = 64;
+    private static $BACKWARD_CAPTURE  = 128;
+    private static $LONG_RANGE_KING   = 256;
+    private static $MEN_JUMP_KING     = 512;
+    private static $KING_PASSING      = 1024;
     private static $BLOW_UP           = 2048;
-    private static $FORCE_CAPTURE     = 4096;
-    private static $LET_DO            = 8192;
-    private static $FIRST_PLAYER      = 16384;
+    private static $LET_DO            = 4096;
+    private static $FIRST_PLAYER      = 8192;
+    private static $FORCE_CAPTURE     = 16384;
+    private static $CAPT_QUANTITY     = 32768;
+    private static $CAPT_QUALITY      = 65536;
+    private static $CAPT_KING_ORDER   = 131072;
+    private static $CAPT_PREFERENCE   = 262144;
     
     
     /**
@@ -194,27 +200,6 @@ class Variant extends BitwiseValue implements \JsonSerializable
     }
 
     /**
-     * Set maximumCapture
-     *
-     * @param boolean $maximumCapture
-     * @return CheckersParty
-     */
-    public function setMaximumCapture($maximumCapture)
-    {
-        return $this->set(self::$MAXIMUM_CAPTURE, $maximumCapture);
-    }
-
-    /**
-     * Get maximumCapture
-     *
-     * @return boolean 
-     */
-    public function getMaximumCapture()
-    {
-        return $this->get(self::$MAXIMUM_CAPTURE);
-    }
-
-    /**
      * Set blowUp
      *
      * @param boolean $blowUp
@@ -233,27 +218,6 @@ class Variant extends BitwiseValue implements \JsonSerializable
     public function getBlowUp()
     {
         return $this->get(self::$BLOW_UP);
-    }
-
-    /**
-     * Set forceCapture
-     *
-     * @param boolean $forceCapture
-     * @return CheckersParty
-     */
-    public function setForceCapture($forceCapture)
-    {
-        return $this->set(self::$FORCE_CAPTURE, $forceCapture);
-    }
-
-    /**
-     * Get forceCapture
-     *
-     * @return boolean 
-     */
-    public function getForceCapture()
-    {
-        return $this->get(self::$FORCE_CAPTURE);
     }
 
     /**
@@ -297,28 +261,110 @@ class Variant extends BitwiseValue implements \JsonSerializable
     {
         return $this->get(self::$FIRST_PLAYER);
     }
-    
+
     /**
-     * Check if this variant is equals to an other
-     * 
-     * @param \EL\CheckersBundle\Checkers\Variant $checkerVariant
-     * 
-     * @return boolean
+     * Set forceCapture
+     *
+     * @param boolean $forceCapture
+     * @return CheckersParty
      */
-    public function equals(Variant $checkerVariant)
+    public function setForceCapture($forceCapture)
     {
-        return $this->getBinaryValue() === $checkerVariant->getBinaryValue();
+        return $this->set(self::$FORCE_CAPTURE, $forceCapture);
     }
-    
+
     /**
-     * @param integer $criteria
-     * @param boolean $boolean
-     * 
-     * @return Variant
+     * Get forceCapture
+     *
+     * @return boolean 
      */
-    public function set($criteria, $boolean)
+    public function getForceCapture()
     {
-        return parent::set($criteria, $boolean);
+        return $this->get(self::$FORCE_CAPTURE);
+    }
+
+    /**
+     * Set forceCapture by quantity
+     *
+     * @param boolean $forceCapture
+     * @return CheckersParty
+     */
+    public function setForceCaptureQuantity($forceCapture)
+    {
+        return $this->set(self::$CAPT_QUANTITY, $forceCapture);
+    }
+
+    /**
+     * Get forceCapture by quantity
+     *
+     * @return boolean 
+     */
+    public function getForceCaptureQuantity()
+    {
+        return $this->get(self::$CAPT_QUANTITY);
+    }
+
+    /**
+     * Set forceCapture by quality
+     *
+     * @param boolean $forceCapture
+     * @return CheckersParty
+     */
+    public function setForceCaptureQuality($forceCapture)
+    {
+        return $this->set(self::$CAPT_QUALITY, $forceCapture);
+    }
+
+    /**
+     * Get forceCapture by quality
+     *
+     * @return boolean 
+     */
+    public function getForceCaptureQuality()
+    {
+        return $this->get(self::$CAPT_QUALITY);
+    }
+
+    /**
+     * Set forceCapture by KingOrder
+     *
+     * @param boolean $forceCapture
+     * @return CheckersParty
+     */
+    public function setForceCaptureKingOrder($forceCapture)
+    {
+        return $this->set(self::$CAPT_KING_ORDER, $forceCapture);
+    }
+
+    /**
+     * Get forceCapture by KingOrder
+     *
+     * @return boolean 
+     */
+    public function getForceCaptureKingOrder()
+    {
+        return $this->get(self::$CAPT_KING_ORDER);
+    }
+
+    /**
+     * Set forceCapture by Preference
+     *
+     * @param boolean $forceCapture
+     * @return CheckersParty
+     */
+    public function setForceCapturePreference($forceCapture)
+    {
+        return $this->set(self::$CAPT_PREFERENCE, $forceCapture);
+    }
+
+    /**
+     * Get forceCapture by Preference
+     *
+     * @return boolean 
+     */
+    public function getForceCapturePreference()
+    {
+        return $this->get(self::$CAPT_PREFERENCE);
     }
     
     /**

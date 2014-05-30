@@ -67,4 +67,16 @@ class BitwiseValue
     {
         return $this->value;
     }
+    
+    /**
+     * Check if this bitwise value is equals to an other
+     * 
+     * @param BitwiseValue $b
+     * 
+     * @return boolean
+     */
+    public function equals(BitwiseValue $b)
+    {
+        return $this->getBinaryValue() === $b->getBinaryValue();
+    }
 }

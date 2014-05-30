@@ -26,6 +26,13 @@ class Piece
         return $this->code > 2;
     }
     
+    public function promote()
+    {
+        $this->code += 2;
+        
+        return $this;
+    }
+    
     public function getColor()
     {
         if ($this->isFree()) {

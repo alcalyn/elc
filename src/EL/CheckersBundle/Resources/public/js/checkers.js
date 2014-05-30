@@ -17,12 +17,15 @@ var checkers =
 {
     party: undefined,
     
+    variant: undefined,
+    
     refreshInterval: undefined,
     
     init: function ()
     {
         if ($('.checkers-active').size()) {
             checkers.party = jsContext.extendedParty;
+            checkers.variant = new CheckersVariant(jsContext.extendedParty.parameters);
             checkers.startRefreshing();
         }
     },
@@ -140,9 +143,13 @@ var checkers =
      */
     getLastMoveReaction: function (r)
     {
-        if (r.party.lastMove.number >= checkers.party.lastMove.number) {
+        if (r.party.lastMove.number < checkers.party.lastMove.number) {
+            return;
+        } else if (
+                (r.party.lastMove.number > checkers.party.lastMove.number) ||
+                (r.party.lastMove.path.length > checkers.party.lastMove.path.length)
+        ) {
             checkers.party = r.party;
-            
             checkersControls.moved(r.party.lastMove);
         }
     },
@@ -220,8 +227,7 @@ var checkersControls =
             revert: 'invalid'
         });
         
-        var variant = new CheckersVariant(jsContext.extendedParty.parameters);
-        var squareUsed = variant.getSquareUsed() ? 'even' : 'odd' ;
+        var squareUsed = checkers.variant.getSquareUsed() ? 'even' : 'odd' ;
         
         $('.grid-'+squareUsed).droppable({
             hoverClass: 'piece-over',
@@ -415,6 +421,38 @@ var checkersControls =
         checkersControls.getPieceAt(coords).animate({
             opacity: 1
         }, 400);
+    },
+    
+    /**
+     * Promote piece on coords
+     * 
+     * @param {Object} coords
+     */
+    promote: function (coords)
+    {
+        var $piece = checkersControls.getPieceAt(coords);
+        
+        if (!$piece.hasClass('piece-king')) {
+            $piece.addClass('piece-king');
+        }
+    },
+    
+    /**
+     * Check all piece to be promoted
+     */
+    promoteAll: function ()
+    {
+        var boardSize = checkers.variant.getBoardSize();
+        
+        for (var col = 0; col < boardSize; col++) {
+            if (checkers.party.grid[coords[0]][coords[col]] > 2) {
+                checkersControls.promote([0, col]);
+            }
+            
+            if (checkers.party.grid[coords[boardSize - 1]][coords[col]] > 2) {
+                checkersControls.promote([boardSize - 1, col]);
+            }
+        }
     },
     
     /**

@@ -278,6 +278,17 @@ class Checkers
         // Update last move
         $checkersParty->setLastMove(json_encode($move));
         
+        // Check for promotion
+        if (
+                (($playerPieces === Piece::WHITE) && ($to->line === 0)) ||
+                (($playerPieces === Piece::BLACK) && ($to->line === ($boardSize - 1)))
+        ) {
+            if (!$move->multipleCapture || $variant->getKingPassing()) {
+                $this->promoteAt($grid, $to);
+                $checkersParty->setGrid($grid);
+            }
+        }
+        
         return $move;
     }
     
@@ -299,5 +310,30 @@ class Checkers
             $code = ($set instanceof Piece) ? $set->code : $set ;
             return new Piece($grid[$coords->line][$coords->col] = $code);
         }
+    }
+    
+    /**
+     * Promote a piece at $coords on $grid
+     * 
+     * @param array $grid
+     * @param \EL\CoreBundle\Util\Coords $coords
+     * 
+     * @return \EL\CheckersBundle\Checkers\Piece
+     * 
+     * @throws \Exception
+     */
+    public function promoteAt(array &$grid, Coords $coords)
+    {
+        $piece = $this->pieceAt($grid, $coords);
+        
+        if ($piece->isFree()) {
+            throw new \Exception('No piece at '.$coords);
+        }
+        
+        if ($piece->isKing()) {
+            throw new \Exception('Piece at '.$coords.' is already promoted');
+        }
+        
+        return $this->pieceAt($grid, $coords, $piece->promote());
     }
 }

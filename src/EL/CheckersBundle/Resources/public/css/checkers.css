@@ -33,13 +33,20 @@ h4 {
 }
 .piece-white {
     background-color: lightcoral;
+    border-color: lightcoral;
 }
 .piece-black {
     background-color: lightblue;
+    border-color: lightblue;
 }
 .piece-controlled {
     cursor: pointer;
 }
 .piece-over {
     background-color: red !important;
+}
+.piece-king {
+    background-color: transparent;
+    border-width: 12px;
+    border-style: solid;
 }

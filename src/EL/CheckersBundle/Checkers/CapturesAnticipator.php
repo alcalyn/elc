@@ -40,11 +40,15 @@ class CapturesAnticipator
     private $lineForward;
     
     /**
+     * Array of coords of each direction
+     * 
      * @var array
      */
     private $coordsPatterns;
     
     /**
+     * Number of directions piece can move to, 2 or 4
+     * 
      * @var integer
      */
     private $sideNumber;
@@ -124,9 +128,8 @@ class CapturesAnticipator
         $pieceFrom = $this->pieceAt($grid, $coordsFrom);
         $jumpAgain = false;
         
-        // Simple piece
         if (!$pieceFrom->isKing()) {
-            
+            // Simple piece
             for ($i = 0; $i < $this->sideNumber; $i++) {
                 $coordsJump = $coordsFrom->add($this->coordsPatterns[$i][0]);
                 $pieceJump = $this->pieceAt($grid, $coordsJump);
@@ -141,6 +144,35 @@ class CapturesAnticipator
                         $newMove = clone $currentMove;
                         $this->jump($newGrid, $pieceFrom, $coordsFrom, $coordsJump, $coordsTo, $newMove);
                         $this->anticipateRecursive($newGrid, $newMove);
+                    }
+                }
+            }
+        } else {
+            
+            // Kings
+            if ($this->variant->getLongRangeKing()) {
+                
+                // Long range kings
+                // what TODO ?
+                
+            } else {
+                
+                // Normal range kings
+                for ($i = 0; $i < 4; $i++) {
+                    $coordsJump = $coordsFrom->add($this->coordsPatterns[$i][0]);
+                    $pieceJump = $this->pieceAt($grid, $coordsJump);
+
+                    if ((null !== $pieceJump) && !$pieceJump->isFree() && ($pieceJump->getColor() !== $pieceFrom->getColor())) {
+                        $coordsTo = $coordsFrom->add($this->coordsPatterns[$i][1]);
+                        $pieceTo = $this->pieceAt($grid, $coordsTo);
+
+                        if ((null !== $pieceTo) && $pieceTo->isFree()) {
+                            $jumpAgain = true;
+                            $newGrid = $grid;
+                            $newMove = clone $currentMove;
+                            $this->jump($newGrid, $pieceFrom, $coordsFrom, $coordsJump, $coordsTo, $newMove);
+                            $this->anticipateRecursive($newGrid, $newMove);
+                        }
                     }
                 }
             }

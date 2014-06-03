@@ -66,6 +66,17 @@ class Coords implements \JsonSerializable
     }
     
     /**
+     * Return true if coords are in same diagonal
+     * 
+     * @param \EL\CoreBundle\Util\Coords $to
+     * @return boolean
+     */
+    public function isSameDiagonal(Coords $to)
+    {
+        return $this->distanceToLine($to) === $this->distanceToCol($to);
+    }
+    
+    /**
      * Check if coords are odd
      * 
      * @return boolean
@@ -110,6 +121,18 @@ class Coords implements \JsonSerializable
     }
     
     /**
+     * Multiply $n times coords to this and return new Coords
+     * 
+     * @param integer $n
+     * 
+     * @return \EL\CoreBundle\Util\Coords
+     */
+    public function mul($n)
+    {
+        return new Coords($this->line * $n, $this->col * $n);
+    }
+    
+    /**
      * Divide line and col by $n and return new Coords
      * 
      * @param integer $n
@@ -136,6 +159,64 @@ class Coords implements \JsonSerializable
             return null;
         } else {
             return $this->add($to)->div(2);
+        }
+    }
+    
+    /**
+     * Give the direction to $to, mul by $coef
+     * 
+     * @param Coords $to
+     * @param integer $coef
+     * @return Coords or null if to is not in diagonal, line or col
+     */
+    public function direction(Coords $to, $coef = 1)
+    {
+        $add = $to->sub($this);
+        
+        if ((0 === $add->line) || (0 === $add->col) || (abs($add->line) === abs($add->col))) {
+            if ($add->line > 0) {
+                $add->line = $coef;
+            } elseif ($add->line < 0) {
+                $add->line = -$coef;
+            }
+            
+            if ($add->col > 0) {
+                $add->col = $coef;
+            } elseif ($add->col < 0) {
+                $add->col = -$coef;
+            }
+            
+            return $add;
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Return all coords between $this and $to.
+     * Must be same diagonal, line or column
+     * 
+     * @param \EL\CoreBundle\Util\Coords $to
+     * @return array of Coords
+     */
+    public function straightPath(Coords $to)
+    {
+        $add = $this->direction($to);
+        
+        if (null !== $add) {
+            $dCoords = $this;
+            $to = $to->sub($dCoords->mul(-1));
+            $path = array();
+            
+            while (!$dCoords->isEqual($to)) {
+                $dCoords = $dCoords->add($add);
+                
+                $path []= $dCoords;
+            }
+            
+            return $path;
+        } else {
+            return null;
         }
     }
     
@@ -176,17 +257,6 @@ class Coords implements \JsonSerializable
     }
     
     /**
-     * Return true if coords are in same diagonal
-     * 
-     * @param \EL\CoreBundle\Util\Coords $to
-     * @return boolean
-     */
-    public function isDiagonal(Coords $to)
-    {
-        return $this->distanceToLine($to) === $this->distanceToCol($to);
-    }
-    
-    /**
      * Test equality of two Coords
      * 
      * @param Coords $to
@@ -196,6 +266,16 @@ class Coords implements \JsonSerializable
     public function isEqual(Coords $to)
     {
         return $this->isSameLine($to) && $this->isSameCol($to);
+    }
+    
+    /**
+     * Clone
+     * 
+     * @return Coords
+     */
+    public function __clone()
+    {
+        return new self($this->line, $this->col);
     }
     
     /**

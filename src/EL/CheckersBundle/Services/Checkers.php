@@ -172,15 +172,33 @@ class Checkers
         }
 
         // Check for diagonal move
-        if (!$from->isDiagonal($to)) {
+        if (!$from->isSameDiagonal($to)) {
             throw new CheckersIllegalMoveException('you must move diagonnaly');
+        }
+        
+        // Jump distance
+        $squareJump = $from->distanceToLine($to);
+        
+        if (1 === $squareJump) {
+            
+            // Check if we are in multiple capture phase and player is stopping to capture with the piece
+            if ($move->multipleCapture) {
+                throw new CheckersIllegalMoveException('You must continue your captures');
+            }
+
+            // Piece made a simple move. Check force capture
+            if ($variant->getForceCapture()) {
+                $capturesAnticipator = new CapturesAnticipator();
+                $captures = $capturesAnticipator->anticipate($checkersParty);
+
+                if (count($captures) > 0) {
+                    throw new CheckersIllegalMoveException('you must capture opponent piece');
+                }
+            }
         }
         
         if (!$pieceFrom->isKing()) {
             // If piece is not a king
-            
-            // Check if piece is jumping squares
-            $squareJump = $from->distanceToLine($to);
             
             // Piece jump more than 2 squares
             if ($squareJump > 2) {
@@ -192,21 +210,6 @@ class Checkers
                 // Check if piece goes forward
                 if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
                     throw new CheckersIllegalMoveException('you cannot move back');
-                }
-                
-                // Check if we are in multiple capture phase
-                if ($move->multipleCapture) {
-                    throw new CheckersIllegalMoveException('You must continue your captures with the same piece');
-                }
-                
-                // Piece made a simple move. Check force capture
-                if ($variant->getForceCapture()) {
-                    $capturesAnticipator = new CapturesAnticipator();
-                    $captures = $capturesAnticipator->anticipate($checkersParty);
-
-                    if (count($captures) > 0) {
-                        throw new CheckersIllegalMoveException('you must capture opponent piece');
-                    }
                 }
             }
             
@@ -243,13 +246,58 @@ class Checkers
                 $move->jumpedPieces []= $middle;
             }
         } else {
-            throw new CheckersIllegalMoveException('kings not implemented yet');
             
-            // See my old implementation: https://code.google.com/p/ascn/source/browse/trunk/www/games/checkers/Plateau.php
+            // long range king move
             if ($variant->getLongRangeKing()) {
                 
+                // long range king
+                $inters = $from->straightPath($to);
+                $pieceMiddle = null;
+                $middle = null;
+                
+                foreach ($inters as $c) {
+                    $c = $this->pieceAt($grid, $inter);
+                    
+                    if (!$p->isFree()) {
+                        if (null === $pieceMiddle) {
+                            $pieceMiddle = $p;
+                            $middle = $c;
+                        } else {
+                            throw new CheckersIllegalMoveException('you cannot jump two pieces at time');
+                        }
+                    }
+                }
+                
+                if (null !== $pieceMiddle) {
+                    if ($pieceMiddle->getColor() === $playerPieces) {
+                        throw new CheckersIllegalMoveException('you cannot jump your own pieces');
+                    } else {
+                        $this->pieceAt($grid, $middle, Piece::FREE);
+                        $move->jumpedPieces []= $middle;
+                    }
+                }
             } else {
                 
+                // normal range king move
+                $squareJump = $from->distanceToLine($to);
+                
+                if ($squareJump > 2) {
+                    throw new CheckersIllegalMoveException('you cannot make a long range jump in this variant');
+                }
+                
+                if (2 === $squareJump) {
+                    $middle = $from->middle($to);
+                    $pieceMiddle = $this->pieceAt($grid, $middle);
+
+                    // Jump an owned piece
+                    if ($pieceMiddle->getColor() === $playerPieces) {
+                        throw new CheckersIllegalMoveException('you cannot jump over your pieces');
+                    }
+
+                    // Remove jumped piece
+                    $this->pieceAt($grid, $middle, Piece::FREE);
+                    $move->jumpedPieces []= $middle;
+                }
             }
         }
         

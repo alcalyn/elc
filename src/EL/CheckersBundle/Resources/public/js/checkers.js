@@ -445,11 +445,11 @@ var checkersControls =
         var boardSize = checkers.variant.getBoardSize();
         
         for (var col = 0; col < boardSize; col++) {
-            if (checkers.party.grid[coords[0]][coords[col]] > 2) {
+            if (checkers.party.grid[0][col] > 2) {
                 checkersControls.promote([0, col]);
             }
             
-            if (checkers.party.grid[coords[boardSize - 1]][coords[col]] > 2) {
+            if (checkers.party.grid[boardSize - 1][col] > 2) {
                 checkersControls.promote([boardSize - 1, col]);
             }
         }
@@ -469,6 +469,8 @@ var checkersControls =
             checkersControls.revertMemorizedMove();
             console.log(r.error);
         }
+        
+        checkersControls.promoteAll();
     },
     
     /**
@@ -499,6 +501,8 @@ var checkersControls =
                     ]
             );
         }
+        
+        checkersControls.promoteAll();
     },
     
     /**

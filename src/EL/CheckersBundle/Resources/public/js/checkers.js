@@ -480,28 +480,45 @@ var checkersControls =
      */
     moved: function (move)
     {
-        var lastPath = move.path.length - 2;
+        var lastPath = 0;
         
-        checkersControls.move(
-                [
-                    move.path[lastPath].line,
-                    move.path[lastPath].col
-                ],
-                [
-                    move.path[lastPath + 1].line,
-                    move.path[lastPath + 1].col
-                ]
-        );
-        
-        if (move.jumpedPieces.length > 0) {
-            checkersControls.eat(
-                    [
-                        move.jumpedPieces[lastPath].line,
-                        move.jumpedPieces[lastPath].col
-                    ]
-            );
+        // Find where we are in the possible multiple move
+        while (0 === checkersControls.getPieceAt([move.path[lastPath].line, move.path[lastPath].col]).length) {
+            lastPath++;
+            
+            if (lastPath >= pathLength) {
+                console.log('error: multiple move cannot be animated, no piece on path');
+                return;
+            }
         }
         
+        var pathLength = move.path.length;
+        var pathLengthLess1 = pathLength - 1;
+        
+        // Animate all move until now
+        for ( ; lastPath < pathLengthLess1; lastPath++) {
+            checkersControls.move(
+                    [
+                        move.path[lastPath].line,
+                        move.path[lastPath].col
+                    ],
+                    [
+                        move.path[lastPath + 1].line,
+                        move.path[lastPath + 1].col
+                    ]
+            );
+
+            if (move.jumpedPieces.length > 0) {
+                checkersControls.eat(
+                        [
+                            move.jumpedPieces[lastPath].line,
+                            move.jumpedPieces[lastPath].col
+                        ]
+                );
+            }
+        }
+        
+        // Promote pieces at sides
         checkersControls.promoteAll();
     },
     
@@ -531,6 +548,11 @@ function Piece(code) {
     this.isFree = function ()
     {
         return 0 === this.code;
+    };
+    
+    this.isKing = function ()
+    {
+        return this.code > 2;
     };
     
     this.getColor = function ()

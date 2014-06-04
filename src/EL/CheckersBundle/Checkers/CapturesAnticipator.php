@@ -129,6 +129,7 @@ class CapturesAnticipator
         $jumpAgain = false;
         
         if (!$pieceFrom->isKing()) {
+            
             // Simple piece
             for ($i = 0; $i < $this->sideNumber; $i++) {
                 $coordsJump = $coordsFrom->add($this->coordsPatterns[$i][0]);
@@ -152,8 +153,42 @@ class CapturesAnticipator
             // Kings
             if ($this->variant->getLongRangeKing()) {
                 
-                // Long range kings
-                // what TODO ?
+                // Long range kings (no deep anticipation)
+                $jumpAgain = true;
+                
+                for ($i = 0; $i < 4; $i++) {
+                    $coordsJump = null;
+                    $pieceJump = null;
+                    
+                    $generator = $coordsFrom->iterateCoords($this->coordsPatterns[$i][0], $this->boardSize);
+                    $continue = true;
+                    
+                    while ($continue && $generator->valid()) {
+                        $coordsJump = $generator->current();
+                        $pieceJump = $this->pieceAt($grid, $coordsJump);
+
+                        if (!$pieceJump->isFree()) {
+                            if ($pieceJump->getColor() !== $pieceFrom->getColor()) {
+                                $generator->next();
+                                
+                                if ($generator->valid()) {
+                                    $coordsTo = $generator->current();
+
+                                    if ($this->pieceAt($grid, $coordsTo)->isFree()) {
+                                        $newMove = clone $currentMove;
+                                        $newMove->path []= $coordsTo;
+                                        $newMove->jumpedPieces []= $pieceJump;
+                                        $this->moves []= $newMove;
+                                    }
+                                }
+                            }
+
+                            $continue = false;
+                        } else {
+                            $generator->next();
+                        }
+                    }
+                }
                 
             } else {
                 

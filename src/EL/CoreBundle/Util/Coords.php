@@ -197,26 +197,44 @@ class Coords implements \JsonSerializable
      * Must be same diagonal, line or column
      * 
      * @param \EL\CoreBundle\Util\Coords $to
+     * 
      * @return array of Coords
      */
     public function straightPath(Coords $to)
     {
-        $add = $this->direction($to);
+        $iterator = $this->direction($to);
         
-        if (null !== $add) {
-            $dCoords = $this;
-            $to = $to->sub($dCoords->mul(-1));
+        if (null !== $iterator) {
             $path = array();
             
-            while (!$dCoords->isEqual($to)) {
-                $dCoords = $dCoords->add($add);
-                
-                $path []= $dCoords;
+            foreach ($this->iterateCoords($iterator) as $c) {
+                if ($c->isEqual($to)) {
+                    return $path;
+                } else {
+                    $path []= $c;
+                }
             }
-            
-            return $path;
         } else {
             return null;
+        }
+    }
+    
+    /**
+     * Return a generator which iterate every Coords between this
+     * and the board side iterated by $iterator
+     * 
+     * @param \EL\CoreBundle\Util\Coords $iterator
+     * @param integer $boardSize or null to iterate limitless
+     * 
+     * @return \Generator
+     */
+    public function iterateCoords(Coords $iterator, $boardSize = null)
+    {
+        $c = $this->add($iterator);
+        
+        while ((null === $boardSize) || ($c->isInsideBoard($boardSize))) {
+            yield $c;
+            $c = $c->add($iterator);
         }
     }
     

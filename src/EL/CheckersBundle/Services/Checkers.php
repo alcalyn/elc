@@ -251,12 +251,12 @@ class Checkers
             if ($variant->getLongRangeKing()) {
                 
                 // long range king
-                $inters = $from->straightPath($to);
+                $path = $from->straightPath($to);
                 $pieceMiddle = null;
                 $middle = null;
                 
-                foreach ($inters as $c) {
-                    $c = $this->pieceAt($grid, $inter);
+                foreach ($path as $c) {
+                    $p = $this->pieceAt($grid, $c);
                     
                     if (!$p->isFree()) {
                         if (null === $pieceMiddle) {
@@ -327,13 +327,15 @@ class Checkers
         $checkersParty->setLastMove(json_encode($move));
         
         // Check for promotion
-        if (
-                (($playerPieces === Piece::WHITE) && ($to->line === 0)) ||
-                (($playerPieces === Piece::BLACK) && ($to->line === ($boardSize - 1)))
-        ) {
-            if (!$move->multipleCapture || $variant->getKingPassing()) {
-                $this->promoteAt($grid, $to);
-                $checkersParty->setGrid($grid);
+        if (!$pieceFrom->isKing()) {
+            if (
+                    (($playerPieces === Piece::WHITE) && ($to->line === 0)) ||
+                    (($playerPieces === Piece::BLACK) && ($to->line === ($boardSize - 1)))
+            ) {
+                if (!$move->multipleCapture || $variant->getKingPassing()) {
+                    $this->promoteAt($grid, $to);
+                    $checkersParty->setGrid($grid);
+                }
             }
         }
         

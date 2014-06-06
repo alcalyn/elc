@@ -132,14 +132,17 @@ class CapturesAnticipator
             
             // Simple piece
             for ($i = 0; $i < $this->sideNumber; $i++) {
+                
+                // Check jump to direction $i
                 $coordsJump = $coordsFrom->add($this->coordsPatterns[$i][0]);
                 $pieceJump = $this->pieceAt($grid, $coordsJump);
-
-                if ((null !== $pieceJump) && !$pieceJump->isFree() && ($pieceJump->getColor() !== $pieceFrom->getColor())) {
-                    $coordsTo = $coordsFrom->add($this->coordsPatterns[$i][1]);
-                    $pieceTo = $this->pieceAt($grid, $coordsTo);
-
-                    if ((null !== $pieceTo) && $pieceTo->isFree()) {
+                $coordsTo = $coordsFrom->add($this->coordsPatterns[$i][1]);
+                $pieceTo = $this->pieceAt($grid, $coordsTo);
+                
+                if ((null !== $pieceTo) && !$pieceJump->isFree() && $pieceTo->isFree() && ($pieceJump->getColor() !== $pieceFrom->getColor())) {
+                    
+                    // Check men jump kings
+                    if ($this->variant->getMenJumpKing() || (!$pieceJump->isKing())) {
                         $jumpAgain = true;
                         $newGrid = $grid;
                         $newMove = clone $currentMove;

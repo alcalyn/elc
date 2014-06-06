@@ -87,22 +87,24 @@ var checkers =
         
         var jumpedPieces = [];
         
-        if (Math.abs(to[0] - from[0]) === 2) {
-            var middle = [
-                (from[0] + to[0]) / 2,
-                (from[1] + to[1]) / 2
-            ];
-            
-            var pieceMiddle = checkers.pieceAt(middle);
-            
-            if (pieceMiddle.isFree()) {
-                console.log('you must jump over one square');
-                return null;
-            } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
-                console.log('cannot jump owned pieces');
-                return null;
-            } else {
-                jumpedPieces.push(middle);
+        if (!pieceFrom.isKing()) {
+            if (Math.abs(to[0] - from[0]) === 2) {
+                var middle = [
+                    (from[0] + to[0]) / 2,
+                    (from[1] + to[1]) / 2
+                ];
+
+                var pieceMiddle = checkers.pieceAt(middle);
+
+                if (pieceMiddle.isFree()) {
+                    console.log('you must jump over one square');
+                    return null;
+                } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
+                    console.log('cannot jump owned pieces');
+                    return null;
+                } else {
+                    jumpedPieces.push(middle);
+                }
             }
         }
         

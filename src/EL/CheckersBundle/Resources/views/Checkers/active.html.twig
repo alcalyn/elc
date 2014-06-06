@@ -6,6 +6,7 @@
         {#
             Grid
         #}
+        {% set rightSquare = variant.rightSquare ? 1 : 0 %}
         {% if not reverse %}
             {#
                 Normal
@@ -14,7 +15,7 @@
                 {% for col in 0..(variant.boardSize - 1) %}
                     <div
                         id="grid-{{ line }}-{{ col }}"
-                        class="grid-item grid-{{ cycle(['odd', 'even'], (line+col)) }}"
+                        class="grid-item grid-{{ cycle(['odd', 'even'], (line+col+rightSquare)) }}"
                     ></div>
                 {% endfor %}
             {% endfor %}
@@ -26,7 +27,7 @@
                 {% for col in (variant.boardSize - 1)..0 %}
                     <div
                         id="grid-{{ line }}-{{ col }}"
-                        class="grid-item grid-{{ cycle(['odd', 'even'], (line+col)) }}"
+                        class="grid-item grid-{{ cycle(['odd', 'even'], (line+col+rightSquare)) }}"
                     ></div>
                 {% endfor %}
             {% endfor %}

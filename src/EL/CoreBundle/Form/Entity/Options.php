@@ -2,6 +2,8 @@
 
 namespace EL\CoreBundle\Form\Entity;
 
+use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use EL\CoreBundle\Entity\Party as CoreParty;
 
 class Options

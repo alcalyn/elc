@@ -2,6 +2,6 @@
 
 namespace EL\CheckersBundle\Checkers;
 
-class CheckersIllegalMoveException extends \Exception
+class CheckersIllegalMoveException extends CheckersException
 {
 }

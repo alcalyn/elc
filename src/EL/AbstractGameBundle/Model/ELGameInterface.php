@@ -11,7 +11,7 @@ interface ELGameInterface
      * Return an object to hydrate by options form.
      * Can have default values
      * 
-     * @return stdClass
+     * @return \stdClass
      */
     public function createParty();
     
@@ -19,7 +19,7 @@ interface ELGameInterface
      * Return a form type for party
      * at the creation of a personalized party.
      * 
-     * @return AbstractType
+     * @return \Symfony\Component\Form\AbstractType
      */
     public function getPartyType();
     

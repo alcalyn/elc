@@ -3,6 +3,7 @@
 namespace EL\CheckersBundle\Services;
 
 use EL\CoreBundle\Util\Coords;
+use EL\CheckersBundle\Checkers\CheckersException;
 use EL\CheckersBundle\Checkers\CheckersIllegalMoveException;
 use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Piece;
@@ -193,14 +194,14 @@ class Checkers
      * 
      * @return array
      * 
-     * @throws ELCoreException if $boardSize not in 4, 6, 8, 10, 12, 14
+     * @throws CheckersException if $boardSize not in 4, 6, 8, 10, 12, 14
      */
     public function initGrid(Variant $checkersVariant)
     {
         $boardSize = $checkersVariant->getBoardSize();
         
         if (!in_array($boardSize, array(4, 6, 8, 10, 12, 14))) {
-            throw new ELCoreException('$boardSize must be in 4, 6, 8, 10, 12, 14, got "'.$boardSize.'"');
+            throw new CheckersException('$boardSize must be in 4, 6, 8, 10, 12, 14, got "'.$boardSize.'"');
         }
         
         $squareUsed     = $checkersVariant->getSquareUsed();
@@ -373,8 +374,12 @@ class Checkers
                     
                     if (!$p->isFree()) {
                         if (null === $pieceMiddle) {
-                            $pieceMiddle = $p;
-                            $middle = $c;
+                            if ($p->getColor() === $playerPieces) {
+                                throw new CheckersIllegalMoveException('you cannot jump your own pieces');
+                            } else {
+                                $pieceMiddle = $p;
+                                $middle = $c;
+                            }
                         } else {
                             throw new CheckersIllegalMoveException('you cannot jump two pieces at time');
                         }
@@ -382,12 +387,14 @@ class Checkers
                 }
                 
                 if (null !== $pieceMiddle) {
-                    if ($pieceMiddle->getColor() === $playerPieces) {
-                        throw new CheckersIllegalMoveException('you cannot jump your own pieces');
-                    } else {
-                        $this->pieceAt($grid, $middle, Piece::FREE);
-                        $move->jumpedPieces []= $middle;
+                    if ($variant->getKingStopsBehind() && ($middle->distanceToLine($to) !== 1)) {
+                        throw new CheckersIllegalMoveException(
+                                'in this variant, you must stop on the square just behind the piece you capture'
+                        );
                     }
+                    
+                    $this->pieceAt($grid, $middle, Piece::FREE);
+                    $move->jumpedPieces []= $middle;
                 }
             } else {
                 

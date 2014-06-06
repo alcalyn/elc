@@ -2,11 +2,15 @@
 
 namespace EL\CheckersBundle\Checkers;
 
+use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use EL\CoreBundle\Util\BitwiseValue;
 use EL\CoreBundle\Exception\ELCoreException;
 
 /**
  * @method Variant set($criteria, $boolean)
+ * 
+ * @Assert\Callback(methods={"validation"})
  */
 class Variant extends BitwiseValue implements \JsonSerializable
 {
@@ -393,6 +397,13 @@ class Variant extends BitwiseValue implements \JsonSerializable
     public function getKingStopsBehind()
     {
         return $this->get(self::$KING_STOPS_BEHIND);
+    }
+    
+    public function validation(ExecutionContextInterface $context)
+    {
+        if (!in_array($this->getBoardSize(), array(4, 6, 8, 10, 12, 14))) {
+            $context->addViolationAt('boardSize', 'board.size.invalid');
+        }
     }
     
     /**

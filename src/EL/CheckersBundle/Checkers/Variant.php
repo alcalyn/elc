@@ -13,6 +13,12 @@ class Variant extends BitwiseValue implements \JsonSerializable
     const PERSONALIZED  = 'personalized';
     const ENGLISH       = 'english';
     const FRENCH        = 'french';
+    const ITALIAN       = 'italian';
+    const CANADIAN      = 'canadian';
+    const RUSSIAN       = 'russian';
+    const GERMAN        = 'german';
+    const SPANISH       = 'spanish';
+    const NETHERLANDS   = 'netherlands';
     
     private static $BOARD_SIZE        = 31;
     private static $SQUARE_USED       = 32;
@@ -29,6 +35,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     private static $CAPT_QUALITY      = 65536;
     private static $CAPT_KING_ORDER   = 131072;
     private static $CAPT_PREFERENCE   = 262144;
+    private static $KING_STOPS_BEHIND = 524288;
     
     
     /**
@@ -45,7 +52,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set boardSize
      *
      * @param integer $boardSize
-     * @return CheckersParty
+     * @return Variant
      */
     public function setBoardSize($boardSize)
     {
@@ -77,7 +84,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set squareUsed
      *
      * @param boolean $squareUsed
-     * @return CheckersParty
+     * @return Variant
      */
     public function setSquareUsed($squareUsed)
     {
@@ -98,7 +105,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set rightSquare
      *
      * @param boolean $rightSquare
-     * @return CheckersParty
+     * @return Variant
      */
     public function setRightSquare($rightSquare)
     {
@@ -119,7 +126,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set backwardCapture
      *
      * @param boolean $backwardCapture
-     * @return CheckersParty
+     * @return Variant
      */
     public function setBackwardCapture($backwardCapture)
     {
@@ -140,7 +147,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set longRangeKing
      *
      * @param boolean $longRangeKing
-     * @return CheckersParty
+     * @return Variant
      */
     public function setLongRangeKing($longRangeKing)
     {
@@ -161,7 +168,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set menJumpKing
      *
      * @param boolean $menJumpKing
-     * @return CheckersParty
+     * @return Variant
      */
     public function setMenJumpKing($menJumpKing)
     {
@@ -182,7 +189,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set kingPassing
      *
      * @param boolean $kingPassing
-     * @return CheckersParty
+     * @return Variant
      */
     public function setKingPassing($kingPassing)
     {
@@ -203,7 +210,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set blowUp
      *
      * @param boolean $blowUp
-     * @return CheckersParty
+     * @return Variant
      */
     public function setBlowUp($blowUp)
     {
@@ -224,7 +231,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set letDo
      *
      * @param boolean $letDo
-     * @return CheckersParty
+     * @return Variant
      */
     public function setLetDo($letDo)
     {
@@ -245,7 +252,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set firstPlayer
      *
      * @param boolean $firstPlayer
-     * @return CheckersParty
+     * @return Variant
      */
     public function setFirstPlayer($firstPlayer)
     {
@@ -266,7 +273,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set forceCapture
      *
      * @param boolean $forceCapture
-     * @return CheckersParty
+     * @return Variant
      */
     public function setForceCapture($forceCapture)
     {
@@ -287,7 +294,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set forceCapture by quantity
      *
      * @param boolean $forceCapture
-     * @return CheckersParty
+     * @return Variant
      */
     public function setForceCaptureQuantity($forceCapture)
     {
@@ -308,7 +315,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set forceCapture by quality
      *
      * @param boolean $forceCapture
-     * @return CheckersParty
+     * @return Variant
      */
     public function setForceCaptureQuality($forceCapture)
     {
@@ -329,7 +336,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set forceCapture by KingOrder
      *
      * @param boolean $forceCapture
-     * @return CheckersParty
+     * @return Variant
      */
     public function setForceCaptureKingOrder($forceCapture)
     {
@@ -350,7 +357,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
      * Set forceCapture by Preference
      *
      * @param boolean $forceCapture
-     * @return CheckersParty
+     * @return Variant
      */
     public function setForceCapturePreference($forceCapture)
     {
@@ -365,6 +372,27 @@ class Variant extends BitwiseValue implements \JsonSerializable
     public function getForceCapturePreference()
     {
         return $this->get(self::$CAPT_PREFERENCE);
+    }
+
+    /**
+     * Set king Stops Behind
+     *
+     * @param boolean $kingStopsBehind
+     * @return Variant
+     */
+    public function setKingStopsBehind($kingStopsBehind)
+    {
+        return $this->set(self::$KING_STOPS_BEHIND, $kingStopsBehind);
+    }
+
+    /**
+     * Get king Stops Behind
+     *
+     * @return boolean
+     */
+    public function getKingStopsBehind()
+    {
+        return $this->get(self::$KING_STOPS_BEHIND);
     }
     
     /**

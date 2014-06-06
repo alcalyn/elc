@@ -59,6 +59,10 @@ class CheckersOptionsType extends AbstractType
                 'label' => 'long.range.king',
                 'required' => false,
             ))
+            ->add('kingStopsBehind', 'checkbox', array(
+                'label' => 'king.stops.behind',
+                'required' => false,
+            ))
             ->add('menJumpKing', 'checkbox', array(
                 'label' => 'men.jump.king',
                 'required' => false,

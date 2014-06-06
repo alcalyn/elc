@@ -12,6 +12,7 @@ blow:
 board:
     size: 'Taille du plateau'
 
+canadian: Canadienne
 english: Anglaise
 
 first:
@@ -19,11 +20,19 @@ first:
 
 force:
     capture: 'Forcer la prise'
+    capture.kingorder: 'Précédence (capturer une dame d''abord)'
+    capture.preference: 'Préférence (capturer avec une dame plutôt q''un pion)'
+    capture.quality: 'Qualité (capturer le plus de dames)'
+    capture.quantity: 'Quantité (capturer le plus de pions)'
 
 french: Française
+german: Allemande
+italian: Italienne
 
 king:
     passing: 'Dame en passant'
+    stops:
+        behind: 'La dames capture et s''arrête sur la case d''après'
 
 let:
     do: 'Laisser faire'
@@ -39,10 +48,14 @@ men:
     jump:
         king: 'Les pions peuvent prendre les dames'
 
+netherlands: Néerlandaise
 personalized: Personalisée
 
 right:
     square: 'Couleur de la case à droite du joueur'
+
+russian: Russe
+spanish: Espagnole
 
 square:
     used: 'Cases utilisées pour jouer'

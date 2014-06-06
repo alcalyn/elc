@@ -12,6 +12,7 @@ blow:
 board:
     size: 'Board size'
 
+canadian: Canadian
 english: English
 
 first:
@@ -19,11 +20,19 @@ first:
 
 force:
     capture: 'Force capture'
+    capture.kingorder: 'King order (capture king earlier)'
+    capture.preference: 'Preference (capture with king instead of piece)'
+    capture.quality: 'Quality (capture more kings)'
+    capture.quantity: 'Quantity (capture more pieces)'
 
 french: French
+german: German
+italian: Italian
 
 king:
     passing: 'King passing'
+    stops:
+        behind: 'Kings capture and stop on next one square'
 
 let:
     do: 'Let do'
@@ -39,10 +48,14 @@ men:
     jump:
         king: 'Men can jump kings'
 
+netherlands: Netherlands
 personalized: Personalized
 
 right:
     square: 'Right square color'
+
+russian: Russian
+spanish: Spanish
 
 square:
     used: 'Squares used to play'

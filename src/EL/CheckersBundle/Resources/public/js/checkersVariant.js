@@ -380,6 +380,27 @@ function CheckersVariant(binaryValue) {
     {
         return this.get(CheckersVariant.FIRST_PLAYER);
     };
+
+    /**
+     * Set king Stops Behind
+     *
+     * @param {boolean} kingStopsBehind
+     * @return {CheckersVariant}
+     */
+    this.setKingStopsBehind = function (kingStopsBehind)
+    {
+        return this.set(CheckersVariant.KING_STOPS_BEHIND, kingStopsBehind);
+    }
+
+    /**
+     * Get king Stops Behind
+     *
+     * @return {boolean}
+     */
+    this.getKingStopsBehind = function ()
+    {
+        return this.get(CheckersVariant.KING_STOPS_BEHIND);
+    }
     
     /**
      * Check if this variant is equals to an other
@@ -409,6 +430,7 @@ CheckersVariant.CAPT_QUANTITY     = 32768;
 CheckersVariant.CAPT_QUALITY      = 65536;
 CheckersVariant.CAPT_KING_ORDER   = 131072;
 CheckersVariant.CAPT_PREFERENCE   = 262144;
+CheckersVariant.KING_STOPS_BEHIND = 524288;
     
 /**
  * Bind events related to variant selection
@@ -429,6 +451,7 @@ function bindVariantSelect() {
         $('#el_core_options_type_extendedOptions_rightSquare').prop('checked', variant.getRightSquare());
         $('#el_core_options_type_extendedOptions_backwardCapture').prop('checked', variant.getBackwardCapture());
         $('#el_core_options_type_extendedOptions_longRangeKing').prop('checked', variant.getLongRangeKing());
+        $('#el_core_options_type_extendedOptions_kingStopsBehind').prop('checked', variant.getKingStopsBehind());
         $('#el_core_options_type_extendedOptions_menJumpKing').prop('checked', variant.getMenJumpKing());
         $('#el_core_options_type_extendedOptions_kingPassing').prop('checked', variant.getKingPassing());
         $('#el_core_options_type_extendedOptions_blowUp').prop('checked', variant.getBlowUp());
@@ -479,6 +502,7 @@ function getVariantFromForm() {
             .setRightSquare($('#el_core_options_type_extendedOptions_rightSquare').prop('checked'))
             .setBackwardCapture($('#el_core_options_type_extendedOptions_backwardCapture').prop('checked'))
             .setLongRangeKing($('#el_core_options_type_extendedOptions_longRangeKing').prop('checked'))
+            .setKingStopsBehind($('#el_core_options_type_extendedOptions_kingStopsBehind').prop('checked'))
             .setMenJumpKing($('#el_core_options_type_extendedOptions_menJumpKing').prop('checked'))
             .setKingPassing($('#el_core_options_type_extendedOptions_kingPassing').prop('checked'))
             .setBlowUp($('#el_core_options_type_extendedOptions_blowUp').prop('checked'))

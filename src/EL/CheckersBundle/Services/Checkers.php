@@ -9,7 +9,7 @@ use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Piece;
 use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
-use EL\CheckersBundle\Checkers\CapturesAnticipator;
+use EL\CheckersBundle\Checkers\CapturesAnticipatorCache;
 
 class Checkers
 {
@@ -242,6 +242,8 @@ class Checkers
         $pieceTo        = $this->pieceAt($grid, $to);
         $playerPieces   = $pieceFrom->getColor();
         $lastMove       = Move::jsonDeserialize(json_decode($checkersParty->getLastMove()));
+        $middle         = null;
+        $pieceMiddle    = null;
         
         // Create new current move, or keep the last if we are in a multiple capture phase
         if ($lastMove->multipleCapture) {
@@ -290,6 +292,9 @@ class Checkers
             throw new CheckersIllegalMoveException('you must move diagonnaly');
         }
         
+        // Prepare a capture anticipator instance
+        $capturesAnticipator = new CapturesAnticipatorCache();
+        
         // Jump distance
         $squareJump = $from->distanceToLine($to);
         
@@ -302,7 +307,6 @@ class Checkers
 
             // Piece made a simple move. Check force capture
             if ($variant->getForceCapture()) {
-                $capturesAnticipator = new CapturesAnticipator();
                 $captures = $capturesAnticipator->anticipate($checkersParty);
 
                 if (count($captures) > 0) {
@@ -354,10 +358,6 @@ class Checkers
                 if ($pieceMiddle->isKing() && !$variant->getMenJumpKing()) {
                     throw new CheckersIllegalMoveException('you cannot jump over kings in this variant');
                 }
-                
-                // Remove jumped piece
-                $this->pieceAt($grid, $middle, Piece::FREE);
-                $move->jumpedPieces []= $middle;
             }
         } else {
             
@@ -392,9 +392,6 @@ class Checkers
                                 'in this variant, you must stop on the square just behind the piece you capture'
                         );
                     }
-                    
-                    $this->pieceAt($grid, $middle, Piece::FREE);
-                    $move->jumpedPieces []= $middle;
                 }
             } else {
                 
@@ -413,11 +410,29 @@ class Checkers
                     if ($pieceMiddle->getColor() === $playerPieces) {
                         throw new CheckersIllegalMoveException('you cannot jump over your pieces');
                     }
-
-                    // Remove jumped piece
-                    $this->pieceAt($grid, $middle, Piece::FREE);
-                    $move->jumpedPieces []= $middle;
                 }
+            }
+        }
+        
+        // Check captures rules if there is a capture and a rule
+        if (null !== $middle) {
+            if (
+                    $variant->getForceCaptureQuantity() ||
+                    $variant->getForceCaptureQuality() ||
+                    $variant->getForceCaptureKingOrder() ||
+                    $variant->getForceCapturePreference()
+            ) {
+                if ($move->multipleCapture) {
+                    $captures = $capturesAnticipator->anticipate($checkersParty, $from);
+                    
+                    print 'anticipated from ';
+                } else {
+                    $captures = $capturesAnticipator->anticipate($checkersParty);
+                    
+                    print 'anticipated ';
+                }
+                
+                print_r($captures);
             }
         }
         
@@ -425,13 +440,18 @@ class Checkers
         $this->pieceAt($grid, $to, $pieceFrom);
         $this->pieceAt($grid, $from, Piece::FREE);
         
+        // Remove jumped piece if there is one
+        if (null !== $middle) {
+            $this->pieceAt($grid, $middle, Piece::FREE);
+            $move->jumpedPieces []= $middle;
+        }
+        
         // Update grid
         $checkersParty->setGrid($grid);
         
         // Change player if player cannot jump again
         if (count($move->jumpedPieces) > 0) {
-            $capturesAnticipator = new CapturesAnticipator();
-            $captures = $capturesAnticipator->anticipate($checkersParty, end($move->path));
+            $captures = $capturesAnticipator->anticipate($checkersParty, $to);
             
             if (0 === count($captures)) {
                 $move->multipleCapture = false;

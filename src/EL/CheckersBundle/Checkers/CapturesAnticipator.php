@@ -61,6 +61,7 @@ class CapturesAnticipator
     /**
      * Anticipate all captures move for a player
      * 
+     * @param CheckersParty $checkersParty
      * @param Coords $coords (if set, anticipate moves only for the piece on $coords)
      * @param boolean $player (default is current player turn)
      * 

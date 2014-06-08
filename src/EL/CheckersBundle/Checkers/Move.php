@@ -42,6 +42,78 @@ class Move implements \JsonSerializable
     }
     
     /**
+     * Return the count of captured quantity
+     * 
+     * @return int
+     */
+    public function getCapturesQuantity()
+    {
+        return count($this->jumpedPieces);
+    }
+    
+    /**
+     * Return the count of kings in capture sequence
+     * 
+     * @param array $grid board
+     * 
+     * @return int
+     */
+    public function getCapturesQuality(array $grid)
+    {
+        $kingNumber = 0;
+        
+        foreach ($this->jumpedPieces as $c) {
+            if ($grid[$c->line][$c->col] > 2) {
+                $kingNumber++;
+            }
+        }
+        
+        return $kingNumber;
+    }
+    
+    /**
+     * Return the position of the first king, or -1 if no king in captures
+     * 
+     * @param array $grid board
+     * 
+     * @return int
+     */
+    public function getFirstKingPosition(array $grid)
+    {
+        $position = 0;
+        
+        foreach ($this->jumpedPieces as $c) {
+            if ($grid[$c->line][$c->col] > 2) {
+                return $position;
+            } else {
+                $position++;
+            }
+        }
+        
+        return -1;
+    }
+    
+    /**
+     * Check if this move and $move begins with the same path
+     * 
+     * @param Move $move
+     * 
+     * @return boolean
+     */
+    public function isBeginningWithSamePath(Move $move)
+    {
+        $minPath = min(count($this->path), count($move->path));
+        
+        for ($i = 0; $i < $minPath; $i++) {
+            if (!$this->path[$i]->isEqual($move->path[$i])) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
      * Implementation of JsonSerializable
      */
     public function jsonSerialize()

@@ -65,7 +65,7 @@ class CapturesAnticipator
      * @param Coords $coords (if set, anticipate moves only for the piece on $coords)
      * @param boolean $player (default is current player turn)
      * 
-     * @return array
+     * @return array of Move
      */
     public function anticipate(CheckersParty $checkersParty, Coords $coords = null, $player = null)
     {

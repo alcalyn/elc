@@ -39,7 +39,7 @@ class CapturesAnticipatorCache
      * @param CheckersParty $checkersParty
      * @param Coords $coords (if set, anticipate moves only for the piece on $coords)
      * 
-     * @return array
+     * @return array of Move
      */
     public function anticipate(CheckersParty $checkersParty, Coords $coords = null)
     {

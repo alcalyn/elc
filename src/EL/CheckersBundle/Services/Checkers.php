@@ -424,12 +424,25 @@ class Checkers
             ) {
                 if ($move->multipleCapture) {
                     $captures = $capturesAnticipator->anticipate($checkersParty, $from);
-                    
-                    print 'anticipated from ';
                 } else {
                     $captures = $capturesAnticipator->anticipate($checkersParty);
+                }
+                
+                /*
+                 * From wikipedia
+                 * 
+                 * If multiple capture sequences are available,
+                 * one must select the sequence that captures the most pieces.  // Quantity
+                 * If more than one sequence qualifies,
+                 * one must capture with a king instead of a man.               // Preference
+                 * If more than one sequence qualifies,
+                 * one must select the sequence that captures the most number of kings. // Quality
+                 * If there are still more sequences,
+                 * one must select the sequence that captures a king first.     // Precedence
+                 */
+                
+                if (isset($captures[1])) {
                     
-                    print 'anticipated ';
                 }
                 
                 print_r($captures);

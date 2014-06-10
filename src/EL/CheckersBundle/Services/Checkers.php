@@ -10,6 +10,7 @@ use EL\CheckersBundle\Checkers\Piece;
 use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Checkers\CapturesAnticipatorCache;
+use EL\CheckersBundle\Checkers\CapturesEvaluator;
 
 class Checkers
 {
@@ -423,29 +424,43 @@ class Checkers
                     $variant->getForceCapturePreference()
             ) {
                 if ($move->multipleCapture) {
-                    $captures = $capturesAnticipator->anticipate($checkersParty, $from);
-                } else {
-                    $captures = $capturesAnticipator->anticipate($checkersParty);
-                }
-                
-                /*
-                 * From wikipedia
-                 * 
-                 * If multiple capture sequences are available,
-                 * one must select the sequence that captures the most pieces.  // Quantity
-                 * If more than one sequence qualifies,
-                 * one must capture with a king instead of a man.               // Preference
-                 * If more than one sequence qualifies,
-                 * one must select the sequence that captures the most number of kings. // Quality
-                 * If there are still more sequences,
-                 * one must select the sequence that captures a king first.     // Precedence
-                 */
-                
-                if (isset($captures[1])) {
+                    // Player continues captures, check if he follows one of the best already stored
+                    $bestCaptures = $checkersParty->getBestMultipleCaptures();
                     
+                    if (null !== $bestCaptures) {
+                        $capturesEvaluator = CapturesEvaluator::loadFromBestCaptures(
+                                json_decode($bestCaptures),
+                                $variant,
+                                $grid
+                        );
+                        
+                        $isOneOfBest = $capturesEvaluator->isOneOfBestCapture($move);
+                        
+                        if (true !== $isOneOfBest) {
+                            throw new CheckersIllegalMoveException(
+                                    'you must capture a better way. This way fails on: '.$isOneOfBest
+                            );
+                        }
+                    }
+                } else {
+                    // Player starts captures, store all best possible captures, and check if move is on the good way
+                    $captures = $capturesAnticipator->anticipate($checkersParty);
+                    
+                    if (isset($captures[1])) {
+                        $capturesEvaluator = new CapturesEvaluator();
+                        $capturesEvaluator->evaluateAll($captures, $variant, $grid);
+                        $bestCaptures = $capturesEvaluator->getBestCaptures();
+                        $isOneOfBest = $capturesEvaluator->isOneOfBestCapture($move);
+                        
+                        if (true === $isOneOfBest) {
+                            $checkersParty->setBestMultipleCaptures(json_encode($bestCaptures));
+                        } else {
+                            throw new CheckersIllegalMoveException(
+                                    'you must capture a better way. This way fails on: '.$isOneOfBest
+                            );
+                        }
+                    }
                 }
-                
-                print_r($captures);
             }
         }
         

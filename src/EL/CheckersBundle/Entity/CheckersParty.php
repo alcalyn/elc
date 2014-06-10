@@ -66,6 +66,16 @@ class CheckersParty implements \JsonSerializable
     private $lastMove;
 
     /**
+     * For captures rules, best moves are stored here
+     * to check if user follows one of them
+     * 
+     * @var string
+     *
+     * @ORM\Column(name="bestMultipleCaptures", type="string", length=1023, nullable=true)
+     */
+    private $bestMultipleCaptures;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -216,5 +226,28 @@ class CheckersParty implements \JsonSerializable
             'parameters'    => $this->getParameters(),
             'grid'          => $this->getGrid(),
         );
+    }
+
+    /**
+     * Set bestMultipleCaptures
+     *
+     * @param string $bestMultipleCaptures
+     * @return CheckersParty
+     */
+    public function setBestMultipleCaptures($bestMultipleCaptures)
+    {
+        $this->bestMultipleCaptures = $bestMultipleCaptures;
+    
+        return $this;
+    }
+
+    /**
+     * Get bestMultipleCaptures
+     *
+     * @return string 
+     */
+    public function getBestMultipleCaptures()
+    {
+        return $this->bestMultipleCaptures;
     }
 }

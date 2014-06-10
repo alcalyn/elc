@@ -72,7 +72,7 @@ class Move implements \JsonSerializable
     }
     
     /**
-     * Return the position of the first king, or -1 if no king in captures
+     * Return the position of the first king, or 127 if no king in captures
      * 
      * @param array $grid board
      * 
@@ -90,7 +90,7 @@ class Move implements \JsonSerializable
             }
         }
         
-        return -1;
+        return 127;
     }
     
     /**

@@ -11,6 +11,7 @@ use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Checkers\CapturesAnticipatorCache;
 use EL\CheckersBundle\Checkers\CapturesEvaluator;
+use EL\CheckersBundle\Services\CheckersVariants;
 
 class Checkers
 {
@@ -18,155 +19,24 @@ class Checkers
     const BLACK = true;
     
     /**
-     * Array containing variants
-     * 
-     * @var array
+     * @var CheckersVariants 
      */
-    private $variants = null;
-    
+    private $checkersVariants;
     
     /**
-     * @return array of Variant
+     * Constructor.
+     */
+    public function __construct(CheckersVariants $checkersVariants)
+    {
+        $this->checkersVariants = $checkersVariants;
+    }
+    
+    /**
+     * @return array of predefined Variants
      */
     public function getVariants()
     {
-        if (null === $this->variants) {
-            $this->variants = array();
-            
-            // English
-            $this->variants[Variant::ENGLISH] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(8)
-                    ->setSquareUsed(self::BLACK)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(false)
-                    ->setLongRangeKing(false)
-                    ->setMenJumpKing(true)
-                    ->setKingPassing(false)
-                    ->setForceCapture(true)
-                    ->setBlowUp(false)
-                    ->setFirstPlayer(self::BLACK)
-            ;
-            
-            // French / International
-            $this->variants[Variant::FRENCH] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(10)
-                    ->setSquareUsed(self::BLACK)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(true)
-                    ->setLongRangeKing(true)
-                    ->setMenJumpKing(true)
-                    ->setKingPassing(false)
-                    ->setForceCapture(true)
-                    ->setForceCaptureQuantity(true)
-                    ->setBlowUp(false)
-                    ->setFirstPlayer(self::WHITE)
-            ;
-            
-            // Italian
-            $this->variants[Variant::ITALIAN] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(8)
-                    ->setSquareUsed(self::BLACK)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(false)
-                    ->setLongRangeKing(false)
-                    ->setMenJumpKing(false)
-                    ->setKingPassing(false)
-                    ->setForceCapture(true)
-                    ->setForceCaptureQuantity(true)
-                    ->setForceCaptureQuality(true)
-                    ->setForceCaptureKingOrder(true)
-                    ->setForceCapturePreference(true)
-                    ->setBlowUp(false)
-                    ->setFirstPlayer(self::WHITE)
-            ;
-            
-            // Canadian
-            $this->variants[Variant::CANADIAN] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(12)
-                    ->setSquareUsed(self::BLACK)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(true)
-                    ->setLongRangeKing(true)
-                    ->setMenJumpKing(true)
-                    ->setKingPassing(false)
-                    ->setForceCapture(true)
-                    ->setForceCaptureQuantity(true)
-                    ->setBlowUp(false)
-                    ->setFirstPlayer(self::WHITE)
-            ;
-            
-            // Russian
-            $this->variants[Variant::RUSSIAN] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(10)
-                    ->setSquareUsed(self::BLACK)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(true)
-                    ->setLongRangeKing(true)
-                    ->setMenJumpKing(true)
-                    ->setKingPassing(true)
-                    ->setForceCapture(true)
-                    ->setBlowUp(false)
-                    ->setFirstPlayer(self::WHITE)
-            ;
-            
-            // German
-            $this->variants[Variant::GERMAN] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(8)
-                    ->setSquareUsed(self::WHITE)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(false)
-                    ->setLongRangeKing(true)
-                    ->setMenJumpKing(true)
-                    ->setKingPassing(false)
-                    ->setForceCapture(true)
-                    ->setBlowUp(false)
-                    ->setKingStopsBehind(true)
-                    ->setFirstPlayer(self::WHITE)
-            ;
-            
-            // Spanish
-            $this->variants[Variant::SPANISH] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(8)
-                    ->setSquareUsed(self::WHITE)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(false)
-                    ->setLongRangeKing(true)
-                    ->setMenJumpKing(true)
-                    ->setKingPassing(false)
-                    ->setForceCapture(true)
-                    ->setForceCaptureQuantity(true)
-                    ->setForceCaptureQuality(true)
-                    ->setForceCaptureKingOrder(false)
-                    ->setForceCapturePreference(false)
-                    ->setBlowUp(false)
-                    ->setFirstPlayer(self::WHITE)
-            ;
-            
-            // Netherlands
-            $this->variants[Variant::NETHERLANDS] = Variant
-                    ::createNewVariant()
-                    ->setBoardSize(10)
-                    ->setSquareUsed(self::BLACK)
-                    ->setRightSquare(self::WHITE)
-                    ->setBackwardCapture(true)
-                    ->setLongRangeKing(true)
-                    ->setMenJumpKing(true)
-                    ->setKingPassing(false)
-                    ->setForceCapture(true)
-                    ->setForceCaptureQuantity(false)
-                    ->setBlowUp(false)
-                    ->setFirstPlayer(self::WHITE)
-            ;
-        }
-        
-        return $this->variants;
+        return $this->checkersVariants->getVariants();
     }
     
     /**

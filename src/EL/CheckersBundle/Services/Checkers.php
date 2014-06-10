@@ -379,18 +379,6 @@ class Checkers
             }
         }
         
-        // Check if party has ended
-        if (null !== ($winner = $this->hasWinner($grid))) {
-            $this->endParty($checkersParty, $winner);
-        } else {
-            // Check if player can move
-            $moveAnticipator = new MoveAnticipator();
-            
-            if (!$moveAnticipator->canMove($checkersParty)) {
-                $this->endParty($checkersParty, $winner);
-            }
-        }
-        
         return $move;
     }
     
@@ -432,20 +420,6 @@ class Checkers
         }
         
         return $has[self::BLACK];
-    }
-    
-    /**
-     * 
-     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
-     * @param boolean $winner
-     */
-    public function endParty(CheckersParty $checkersParty, $winner)
-    {
-        $coreParty = $checkersParty->getParty();
-        
-        $coreParty->setState(Party::ENDED);
-        
-        // scores
     }
     
     /**

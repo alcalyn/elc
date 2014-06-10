@@ -10,7 +10,8 @@ use EL\CoreBundle\Util\Coords;
 use EL\CoreBundle\Services\PartyService;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Checkers\CheckersIllegalMoveException;
-use EL\CheckersBundle\Checkers\Move;
+use EL\CheckersBundle\Checkers\MoveAnticipator;
+use EL\CheckersBundle\Checkers\Variant;
 
 class CheckersController extends Controller
 {
@@ -57,11 +58,26 @@ class CheckersController extends Controller
             ));
         }
         
-        $checkersService = $this->get('checkers.core'); /* @var $checkersService \EL\CheckersBundle\Services\Checkers */
+        $checkersService    = $this->get('checkers.core');
+        $variantName        = $checkersService->getVariantName(new Variant($extendedParty->getParameters()));
         
         try {
             // Perform move
             $checkersService->move($extendedParty, $from, $to, $loggedPlayer);
+            
+            // Check if party has ended
+            if (null !== ($winner = $checkersService->hasWinner($extendedParty->getGrid()))) {
+                // no longer pieces
+                $this->endParty($extendedParty, $winner, $variantName);
+            } else {
+                // Check if player can move
+                $moveAnticipator = new MoveAnticipator();
+
+                if (!$moveAnticipator->canMove($extendedParty)) {
+                    // blocked
+                    $this->endParty($extendedParty, !$extendedParty->getCurrentPlayer(), $variantName);
+                }
+            }
             
             // Update party in database
             $this->getDoctrine()->getManager()->flush();
@@ -96,5 +112,34 @@ class CheckersController extends Controller
         return $this->get('phax')->reaction(array(
             'party' => $extendedParty->jsonSerialize(),
         ));
+    }
+    
+    private function endParty(CheckersParty $checkersParty, $winner, $variantName)
+    {
+        $coreParty = $checkersParty->getParty();
+        
+        $coreParty->setState(Party::ENDED);
+        $slots = $coreParty->getSlots();
+        
+        $slots->get($winner ? 1 : 0)->addScore(1);
+        
+        $win = $slots->get($winner ? 1 : 0)->getPlayer();
+        $loss = $slots->get($winner ? 0 : 1)->getPlayer();
+        $game = $checkersParty->getParty()->getGame();
+        
+        $eloService = $this->get('el_core.score.elo'); /* @var $eloService \EL\CoreBundle\Services\EloService */
+        $wldService = $this->get('el_core.score.wld'); /* @var $wldService \EL\CoreBundle\Services\WLDService */
+        
+        // Update scores in default_variant
+        $eloService->win($win, $loss, $game, $coreParty);
+        $wldService->win($win, $game, $coreParty);
+        $wldService->lose($loss, $game, $coreParty);
+        
+        $gameVariant = $eloService->getGameVariant($game, $variantName);
+        
+        // Update score in checkers variant
+        $eloService->win($win, $loss, $gameVariant, $coreParty);
+        $wldService->win($win, $gameVariant, $coreParty);
+        $wldService->lose($loss, $gameVariant, $coreParty);
     }
 }

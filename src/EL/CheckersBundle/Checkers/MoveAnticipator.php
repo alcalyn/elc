@@ -7,7 +7,7 @@ use EL\CoreBundle\Util\Coords;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Checkers\Variant;
 
-class CapturesAnticipator
+class MoveAnticipator
 {
     /**
      * @var CheckersParty
@@ -59,6 +59,48 @@ class CapturesAnticipator
     private $moves;
     
     /**
+     * Return true if $player (default is current) can move
+     * 
+     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\CoreBundle\Util\Coords $coords
+     * @param type $player
+     * 
+     * @return boolean
+     */
+    public function canMove(CheckersParty $checkersParty, $player = null)
+    {
+        $this->checkersParty    = $checkersParty;
+        $this->variant          = new Variant($checkersParty->getParameters());
+        $this->boardSize        = $this->variant->getBoardSize();
+        $this->grid             = $checkersParty->getGrid();
+        $this->player           = (null === $player) ? $this->checkersParty->getCurrentPlayer() : $player ;
+        $this->lineForward      = $this->player ? 1 : -1 ;
+        $colorMatch             = $this->player ? array(2, 4) : array(1, 3) ;
+        $this->coordsPatterns   = $this->initCoordsPattern($this->lineForward);
+        
+        for ($line = 0; $line < $this->boardSize; $line++) {
+            for ($col = 0; $col < $this->boardSize; $col++) {
+                if (in_array($this->grid[$line][$col], $colorMatch)) {
+                    $coords = new Coords($line, $col);
+                    $piece = $this->pieceAt($this->grid, $coords);
+                    $sides = $piece->isKing() ? 4 : 2 ;
+                    
+                    for ($i = 0; $i < $sides; $i++) {
+                        $side = $this->pieceAt($this->grid, $coords->add($this->coordsPatterns[$i][0]));
+
+                        if ((null !== $side) && $side->isFree()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // If no simple move can be done, check if at least one capture can be
+        return count($this->anticipateCaptures($checkersParty)) > 0;
+    }
+    
+    /**
      * Anticipate all captures move for a player
      * 
      * @param CheckersParty $checkersParty
@@ -67,7 +109,7 @@ class CapturesAnticipator
      * 
      * @return array of Move
      */
-    public function anticipate(CheckersParty $checkersParty, Coords $coords = null, $player = null)
+    public function anticipateCaptures(CheckersParty $checkersParty, Coords $coords = null, $player = null)
     {
         $this->checkersParty    = $checkersParty;
         $this->variant          = new Variant($checkersParty->getParameters());
@@ -78,39 +120,23 @@ class CapturesAnticipator
         $this->player           = (null === $player) ? $this->checkersParty->getCurrentPlayer() : $player ;
         $this->lineForward      = $this->player ? 1 : -1 ;
         $colorMatch             = $this->player ? array(2, 4) : array(1, 3) ;
-        
-        $this->coordsPatterns = array(
-            array(
-                new Coords($this->lineForward, 1),
-                new Coords($this->lineForward * 2, 2),
-            ),
-            array(
-                new Coords($this->lineForward, - 1),
-                new Coords($this->lineForward * 2, - 2),
-            ),
-            array(
-                new Coords(- $this->lineForward, 1),
-                new Coords(- $this->lineForward * 2, 2),
-            ),
-            array(
-                new Coords(- $this->lineForward, - 1),
-                new Coords(- $this->lineForward * 2, - 2),
-            ),
-        );
+        $this->coordsPatterns   = $this->initCoordsPattern($this->lineForward);
         
         if (null === $coords) {
+            // anticipate for every pieces
             for ($line = 0; $line < $this->boardSize; $line++) {
                 for ($col = 0; $col < $this->boardSize; $col++) {
                     if (in_array($this->grid[$line][$col], $colorMatch)) {
                         $coords = new Coords($line, $col);
 
-                        $this->anticipateRecursive($this->grid, new Move(0, array($coords)));
+                        $this->anticipateCapturesRecursive($this->grid, new Move(0, array($coords)));
                     }
                 }
             }
         } else {
+            // Anticipate only for piece at $coords
             if (in_array($this->grid[$coords->line][$coords->col], $colorMatch)) {
-                $this->anticipateRecursive($this->grid, new Move(0, array($coords)));
+                $this->anticipateCapturesRecursive($this->grid, new Move(0, array($coords)));
             } else {
                 throw new ELCoreException('piece on $coords is empty or is not owned by player');
             }
@@ -123,7 +149,7 @@ class CapturesAnticipator
      * @param array $grid
      * @param \EL\CheckersBundle\Checkers\Move $currentMove
      */
-    private function anticipateRecursive(array $grid, Move $currentMove)
+    private function anticipateCapturesRecursive(array $grid, Move $currentMove)
     {
         $coordsFrom = end($currentMove->path);
         $pieceFrom = $this->pieceAt($grid, $coordsFrom);
@@ -148,7 +174,7 @@ class CapturesAnticipator
                         $newGrid = $grid;
                         $newMove = clone $currentMove;
                         $this->jump($newGrid, $pieceFrom, $coordsFrom, $coordsJump, $coordsTo, $newMove);
-                        $this->anticipateRecursive($newGrid, $newMove);
+                        $this->anticipateCapturesRecursive($newGrid, $newMove);
                     }
                 }
             }
@@ -210,7 +236,7 @@ class CapturesAnticipator
                             $newGrid = $grid;
                             $newMove = clone $currentMove;
                             $this->jump($newGrid, $pieceFrom, $coordsFrom, $coordsJump, $coordsTo, $newMove);
-                            $this->anticipateRecursive($newGrid, $newMove);
+                            $this->anticipateCapturesRecursive($newGrid, $newMove);
                         }
                     }
                 }
@@ -253,5 +279,34 @@ class CapturesAnticipator
             $code = ($set instanceof Piece) ? $set->code : $set ;
             return new Piece($grid[$coords->line][$coords->col] = $code);
         }
+    }
+    
+    /**
+     * Init an array of precalculated move
+     * 
+     * @param integer $lineForward 1 or -1, direction of player
+     * 
+     * @return array
+     */
+    private function initCoordsPattern($lineForward)
+    {
+        return array(
+            array(
+                new Coords($this->lineForward, 1),
+                new Coords($this->lineForward * 2, 2),
+            ),
+            array(
+                new Coords($this->lineForward, - 1),
+                new Coords($this->lineForward * 2, - 2),
+            ),
+            array(
+                new Coords(- $this->lineForward, 1),
+                new Coords(- $this->lineForward * 2, 2),
+            ),
+            array(
+                new Coords(- $this->lineForward, - 1),
+                new Coords(- $this->lineForward * 2, - 2),
+            ),
+        );
     }
 }

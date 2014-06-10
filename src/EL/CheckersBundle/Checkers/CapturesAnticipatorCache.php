@@ -9,9 +9,9 @@ class CapturesAnticipatorCache
 {
     /**
      *
-     * @var CapturesAnticipator
+     * @var MoveAnticipator
      */
-    private $capturesAnticipator;
+    private $moveAnticipator;
     
     /**
      * @var array
@@ -28,7 +28,7 @@ class CapturesAnticipatorCache
      */
     public function __construct()
     {
-        $this->capturesAnticipator = new CapturesAnticipator();
+        $this->moveAnticipator = new MoveAnticipator();
         $this->captures = null;
         $this->capturesFrom = array();
     }
@@ -45,7 +45,7 @@ class CapturesAnticipatorCache
     {
         if (null === $coords) {
             if (null === $this->captures) {
-                $this->captures = $this->capturesAnticipator->anticipate($checkersParty);
+                $this->captures = $this->moveAnticipator->anticipateCaptures($checkersParty);
             }
             
             return $this->captures;
@@ -53,7 +53,7 @@ class CapturesAnticipatorCache
             $index = $coords.'';
             
             if (!isset($this->capturesFrom[$index])) {
-                $this->capturesFrom[$index] = $this->capturesAnticipator->anticipate($checkersParty, $coords);
+                $this->capturesFrom[$index] = $this->moveAnticipator->anticipateCaptures($checkersParty, $coords);
             }
             
             return $this->capturesFrom[$index];

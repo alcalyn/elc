@@ -2,6 +2,7 @@
 
 namespace EL\CheckersBundle\Services;
 
+use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Util\Coords;
 use EL\CheckersBundle\Checkers\CheckersException;
 use EL\CheckersBundle\Checkers\CheckersIllegalMoveException;
@@ -9,6 +10,7 @@ use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Piece;
 use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
+use EL\CheckersBundle\Checkers\MoveAnticipator;
 use EL\CheckersBundle\Checkers\CapturesAnticipatorCache;
 use EL\CheckersBundle\Checkers\CapturesEvaluator;
 use EL\CheckersBundle\Services\CheckersVariants;
@@ -377,7 +379,73 @@ class Checkers
             }
         }
         
+        // Check if party has ended
+        if (null !== ($winner = $this->hasWinner($grid))) {
+            $this->endParty($checkersParty, $winner);
+        } else {
+            // Check if player can move
+            $moveAnticipator = new MoveAnticipator();
+            
+            if (!$moveAnticipator->canMove($checkersParty)) {
+                $this->endParty($checkersParty, $winner);
+            }
+        }
+        
         return $move;
+    }
+    
+    /**
+     * Check if there is a winner or party
+     * 
+     * @param array $grid
+     * @param boolean $player
+     * 
+     * @return mixed
+     *          false   : white wins
+     *          true    : black wins
+     *          null    : party not ended
+     */
+    public function hasWinner(array $grid)
+    {
+        $boardSize = count($grid);
+        
+        // Check if both players still have pieces
+        $has = array(
+            self::WHITE => false,
+            self::BLACK => false,
+        );
+        
+        for ($i = 0; $i < $boardSize; $i++) {
+            for ($j = 0; $j < $boardSize; $j++) {
+                $p = $grid[$i][$j];
+                
+                if ($p > 0) {
+                    $color = (bool) ($p % 2);
+                    
+                    $has[!$color] = true;
+                    
+                    if ($has[$color]) {
+                        return null;
+                    }
+                }
+            }
+        }
+        
+        return $has[self::BLACK];
+    }
+    
+    /**
+     * 
+     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param boolean $winner
+     */
+    public function endParty(CheckersParty $checkersParty, $winner)
+    {
+        $coreParty = $checkersParty->getParty();
+        
+        $coreParty->setState(Party::ENDED);
+        
+        // scores
     }
     
     /**

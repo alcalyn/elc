@@ -11,9 +11,6 @@ services:
     checkers.variants:
         class: EL\CheckersBundle\Services\CheckersVariants
 
-    checkers.captures_anticipator:
-        class: EL\CheckersBundle\Services\CheckersCapturesAnticipator
-
     phax.checkers:
         class: EL\CheckersBundle\Controller\CheckersController
         calls:

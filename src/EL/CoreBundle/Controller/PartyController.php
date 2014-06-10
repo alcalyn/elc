@@ -288,9 +288,9 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
         }
         
-        $extendedGame   = $partyService->loadExtendedGame($this->container)->getExtendedGame();
+        $extendedGame = $partyService->loadExtendedGame($this->container)->getExtendedGame();
         
-        return $extendedGame->endedAction($_locale, $partyService);
+        return $extendedGame->endedAction($_locale, $partyService, $extendedGame);
     }
     
     /**

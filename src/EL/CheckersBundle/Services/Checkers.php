@@ -287,6 +287,11 @@ class Checkers
             }
         }
         
+        // Update $move, add jumpedPiece if there is one
+        if (null !== $middle) {
+            $move->jumpedPieces []= $middle;
+        }
+        
         // Check captures rules if there is a capture and a rule
         if (null !== $middle) {
             if (
@@ -318,7 +323,7 @@ class Checkers
                     // Player starts captures, store all best possible captures, and check if move is on the good way
                     $captures = $capturesAnticipator->anticipate($checkersParty);
                     
-                    if (isset($captures[1])) {
+                    if (count($captures) > 0) {
                         $capturesEvaluator = new CapturesEvaluator();
                         $capturesEvaluator->evaluateAll($captures, $variant, $grid);
                         $bestCaptures = $capturesEvaluator->getBestCaptures();
@@ -343,7 +348,6 @@ class Checkers
         // Remove jumped piece if there is one
         if (null !== $middle) {
             $this->pieceAt($grid, $middle, Piece::FREE);
-            $move->jumpedPieces []= $middle;
         }
         
         // Update grid

@@ -190,7 +190,7 @@ class CapturesEvaluator
             }
         }
         
-        return $this->evaluate($move, $this->variant, $this->grid);
+        return $this->evaluate($move, $this->variant, $this->grid, false);
     }
     
     /**

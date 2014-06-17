@@ -283,6 +283,11 @@ class Checkers
                     if ($pieceMiddle->getColor() === $playerPieces) {
                         throw new CheckersIllegalMoveException('you cannot jump over your pieces');
                     }
+                    
+                    // Jump an empty piece
+                    if ($pieceMiddle->isFree()) {
+                        throw new CheckersIllegalMoveException('you cannot make a long range jump in this variant');
+                    }
                 }
             }
         }

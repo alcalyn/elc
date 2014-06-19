@@ -20,7 +20,7 @@ class Move implements \JsonSerializable
     /**
      * @var array of Coords where pieces were
      */
-    public $jumpedPieces;
+    public $jumpedCoords;
     
     /**
      * @var boolean if we are in a multiple capture phase
@@ -31,13 +31,13 @@ class Move implements \JsonSerializable
      * Constructor
      * 
      * @param array $path
-     * @param array $jumpedPieces
+     * @param array $jumpedCoords
      */
-    public function __construct($number, array $path = array(), array $jumpedPieces = array(), $multipleCapture = false)
+    public function __construct($number, array $path = array(), array $jumpedCoords = array(), $multipleCapture = false)
     {
         $this->number = $number;
         $this->path = $path;
-        $this->jumpedPieces = $jumpedPieces;
+        $this->jumpedCoords = $jumpedCoords;
         $this->multipleCapture = $multipleCapture;
     }
     
@@ -48,7 +48,7 @@ class Move implements \JsonSerializable
      */
     public function getCapturesQuantity()
     {
-        return count($this->jumpedPieces);
+        return count($this->jumpedCoords);
     }
     
     /**
@@ -62,7 +62,7 @@ class Move implements \JsonSerializable
     {
         $kingNumber = 0;
         
-        foreach ($this->jumpedPieces as $c) {
+        foreach ($this->jumpedCoords as $c) {
             if ($grid[$c->line][$c->col] > 2) {
                 $kingNumber++;
             }
@@ -82,7 +82,7 @@ class Move implements \JsonSerializable
     {
         $position = 0;
         
-        foreach ($this->jumpedPieces as $c) {
+        foreach ($this->jumpedCoords as $c) {
             if ($grid[$c->line][$c->col] > 2) {
                 return $position;
             } else {
@@ -121,7 +121,7 @@ class Move implements \JsonSerializable
         return array(
             'number'            => $this->number,
             'path'              => $this->path,
-            'jumpedPieces'      => $this->jumpedPieces,
+            'jumpedCoords'      => $this->jumpedCoords,
             'multipleCapture'   => $this->multipleCapture,
         );
     }
@@ -144,8 +144,8 @@ class Move implements \JsonSerializable
                 $move->path []= new Coords($coord->line, $coord->col);
             }
             
-            foreach ($serial->jumpedPieces as $coord) {
-                $move->jumpedPieces []= new Coords($coord->line, $coord->col);
+            foreach ($serial->jumpedCoords as $coord) {
+                $move->jumpedCoords []= new Coords($coord->line, $coord->col);
             }
             
             $move->multipleCapture = $serial->multipleCapture;
@@ -156,6 +156,6 @@ class Move implements \JsonSerializable
     
     public function __clone()
     {
-        return new self($this->number, $this->path, $this->jumpedPieces, $this->multipleCapture);
+        return new self($this->number, $this->path, $this->jumpedCoords, $this->multipleCapture);
     }
 }

@@ -256,11 +256,7 @@ class Checkers
                         } else {
                             throw new CheckersIllegalMoveException('you cannot jump two pieces at time');
                         }
-                    }
-                }
-                
-                if (null !== $pieceMiddle) {
-                    if ($variant->getKingStopsBehind() && ($middle->distanceToLine($to) !== 1)) {
+                    } elseif ((null === $pieceMiddle) && $variant->getKingStopsBehind()) {
                         throw new CheckersIllegalMoveException(
                                 'in this variant, you must stop on the square just behind the piece you capture'
                         );
@@ -294,7 +290,7 @@ class Checkers
         
         // Update $move, add jumpedPiece if there is one
         if (null !== $middle) {
-            $move->jumpedPieces []= $middle;
+            $move->jumpedCoords []= $middle;
         }
         
         // Check captures rules if there is a capture and a rule
@@ -328,7 +324,7 @@ class Checkers
                     // Player starts captures, store all best possible captures, and check if move is on the good way
                     $captures = $capturesAnticipator->anticipate($checkersParty);
                     
-                    if (count($captures) > 0) {
+                    if (count($captures) > 1) {
                         $capturesEvaluator = new CapturesEvaluator();
                         $capturesEvaluator->evaluateAll($captures, $variant, $grid);
                         $bestCaptures = $capturesEvaluator->getBestCaptures();
@@ -359,7 +355,7 @@ class Checkers
         $checkersParty->setGrid($grid);
         
         // Change player if player cannot jump again
-        if (count($move->jumpedPieces) > 0) {
+        if (count($move->jumpedCoords) > 0) {
             $captures = $capturesAnticipator->anticipate($checkersParty, $to);
             
             if (0 === count($captures)) {

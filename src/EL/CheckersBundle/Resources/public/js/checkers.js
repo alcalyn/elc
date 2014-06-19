@@ -21,12 +21,20 @@ var checkers =
     
     refreshInterval: undefined,
     
+    player: undefined,
+    
     init: function ()
     {
         if ($('.checkers-active').size()) {
             checkers.party = jsContext.extendedParty;
             checkers.variant = new CheckersVariant(jsContext.extendedParty.parameters);
             checkers.startRefreshing();
+            
+            if (checkers.getPlayer(false).id === jsContext.player.id) {
+                checkers.player = false;
+            } else if (checkers.getPlayer(true).id === jsContext.player.id) {
+                checkers.player = true;
+            }
         }
     },
     
@@ -55,7 +63,8 @@ var checkers =
     },
     
     /**
-     * Naive checks for a move
+     * Naive checks for a move.
+     * Return a move instance with jumped pieces if there is.
      * 
      * @param {type} from
      * @param {type} to
@@ -64,6 +73,12 @@ var checkers =
      */
     checkMove: function (from, to)
     {
+        // Check turn
+        if (checkers.player !== checkers.party.currentPlayer) {
+            console.log('not your turn');
+            return null;
+        }
+        
         // Check if from and to are the same
         if ((from[0] === to[0]) && (from[1] === to[1])) {
             console.log('from = to');
@@ -85,10 +100,17 @@ var checkers =
             return null;
         }
         
-        var jumpedPieces = [];
+        var jumpedCoords = [];
+        var distance = Math.abs(to[0] - from[0]);
         
         if (!pieceFrom.isKing()) {
-            if (Math.abs(to[0] - from[0]) === 2) {
+            
+            if (distance > 2) {
+                console.log('you must jump over one square or jump opponent pieces');
+                return null;
+            }
+            
+            if (distance === 2) {
                 var middle = [
                     (from[0] + to[0]) / 2,
                     (from[1] + to[1]) / 2
@@ -102,13 +124,88 @@ var checkers =
                 } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
                     console.log('cannot jump owned pieces');
                     return null;
-                } else {
-                    jumpedPieces.push(middle);
+                }
+                
+                // Check backward capture
+                if (!checkers.variant.getBackwardCapture()) {
+                    if ((pieceFrom.getColor() === 2) ^ ((to[0] - from[0]) > 0)) {
+                        console.log('you cannot make a backward capture in this variant');
+                        return null;
+                    }
+                }
+
+                jumpedCoords.push(middle);
+            }
+            
+            if (distance === 1) {
+                
+                // Check if piece goes forward
+                if ((pieceFrom.getColor() === 2) ^ ((to[0] - from[0]) > 0)) {
+                    console.log('you cannot move back');
+                    return null;
+                }
+            }
+        } else {
+            if (checkers.variant.getLongRangeKing()) {
+                
+                var path = diagonalPath(from, to);
+                var middle = null;
+                var pieceMiddle = null;
+                
+                path.forEach(function (value, key) {
+                    var p = checkers.pieceAt(value);
+                    
+                    if (!p.isFree()) {
+                        if (null === pieceMiddle) {
+                            if (p.getColor() === pieceFrom.getColor()) {
+                                console.log('you cannot jump your own pieces');
+                                return null;
+                            } else {
+                                pieceMiddle = p;
+                                middle = value;
+                            }
+                        } else {
+                            console.log('you cannot jump two pieces at time');
+                            return null;
+                        }
+                    } else if ((null !== pieceMiddle) && (checkers.variant.getKingStopsBehind())) {
+                        console.log('in this variant, you must stop on the square just behind the piece you capture');
+                        return null;
+                    }
+                });
+                
+                if (middle) {
+                    jumpedCoords.push(middle);
+                }
+                
+            } else {
+                if (distance > 2) {
+                    console.log('no long range king in this variant');
+                    return null;
+                }
+                
+                if (distance === 2) {
+                    var middle = [
+                        (from[0] + to[0]) / 2,
+                        (from[1] + to[1]) / 2
+                    ];
+
+                    var pieceMiddle = checkers.pieceAt(middle);
+                    
+                    if (pieceMiddle.isFree()) {
+                        console.log('no long range king in this variant');
+                        return null;
+                    } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
+                        console.log('cannot jump owned pieces');
+                        return null;
+                    } else {
+                        jumpedCoords.push(middle);
+                    }
                 }
             }
         }
         
-        return new Move([from, to], jumpedPieces);
+        return new Move([from, to], jumpedCoords);
     },
     
     /**
@@ -157,6 +254,21 @@ var checkers =
     },
     
     /**
+     * Return player instance from boolean (false: 0, true: 1)
+     * 
+     * @param {boolean} boolean
+     * @returns {Object}
+     */
+    getPlayer: function (boolean)
+    {
+        if (boolean === undefined) {
+            boolean = checkers.party.currentPlayer;
+        }
+        
+        return jsContext.coreParty.slots[boolean ? 1 : 0].player;
+    },
+    
+    /**
      * Interval refreshing when opponent turn
      */
     startRefreshing: function ()
@@ -164,7 +276,7 @@ var checkers =
         checkers.stopRefreshing();
         
         checkers.refreshInterval = setInterval(function () {
-            var turnId      = jsContext.coreParty.slots[checkers.party.currentPlayer ? 1 : 0].player.id;
+            var turnId      = checkers.getPlayer().id;
             var loggedId    = jsContext.player.id;
             
             if (turnId !== loggedId) {
@@ -188,7 +300,7 @@ var checkers =
      * Return piece code at coords
      * 
      * @param {Object} coords [line, col]
-     * @returns {integer}
+     * @returns {Piece}
      */
     pieceAt: function (coords)
     {
@@ -208,27 +320,32 @@ var checkersControls =
     
     $squareFrom: undefined,
     
-    lastMove: undefined,
-    
     /**
      * Init
      */
     init: function ()
     {
         if ($('.checkers-active').size()) {
-            checkersControls.enableDragAndDrop();
+            checkersControls.enableDrag();
+            checkersControls.enableDrop();
         }
     },
     
     /**
-     * Initialize drag of pieces and drop of used squares
+     * Initialize drag of pieces
      */
-    enableDragAndDrop: function ()
+    enableDrag: function ()
     {
         $('.piece-controlled').draggable({
             revert: 'invalid'
         });
-        
+    },
+    
+    /**
+     * Initialize drop of used squares
+     */
+    enableDrop: function ()
+    {
         var squareUsed = checkers.variant.getSquareUsed() ? 'even' : 'odd' ;
         
         $('.grid-'+squareUsed).droppable({
@@ -292,12 +409,9 @@ var checkersControls =
             // move piece to the center of its square
             checkersControls.move($piece, coordsTo);
             
-            if (move.jumpedPieces.length > 0) {
-                checkersControls.eat(move.jumpedPieces[0]);
+            if (move.jumpedCoords.length > 0) {
+                checkersControls.eat(move.jumpedCoords[0]);
             }
-            
-            // memorize this move
-            checkersControls.memorizeMove(move);
             
             // notify model from move
             checkers.move(coordsFrom, coordsTo);
@@ -313,35 +427,6 @@ var checkersControls =
     },
     
     /**
-     * Memorize a move so it can be reverted by calling revertMemorizedMove
-     * 
-     * @param {Object} move
-     */
-    memorizeMove: function (move)
-    {
-        checkersControls.lastMove = move;
-    },
-    
-    /**
-     * Revert memorized move by moving piece on initial square
-     */
-    revertMemorizedMove: function ()
-    {
-        if (checkersControls.lastMove) {
-            checkersControls.move(
-                    checkersControls.lastMove.path[1],
-                    checkersControls.lastMove.path[0]
-            );
-            
-            if (checkersControls.lastMove.jumpedPieces.length > 0) {
-                checkersControls.vomit(checkersControls.lastMove.jumpedPieces[0]);
-            }
-            
-            checkersControls.lastMove = undefined;
-        }
-    },
-    
-    /**
      * Get piece at coords [line, col]
      * 
      * @param {Array} coords [line, col]
@@ -351,6 +436,41 @@ var checkersControls =
     getPieceAt: function (coords)
     {
         return $('.piece[data-line='+coords[0]+'][data-col='+coords[1]+']');
+    },
+    
+    /**
+     * Create a piece at coords [line, col] from code
+     * 
+     * @param {Object} coords
+     */
+    setPieceAt: function (coords, code)
+    {
+        checkersControls.getPieceAt(coords).remove();
+        
+        if (code > 0) {
+            var $piece = jQuery('<div class="piece">');
+            var player = (code % 2) === 0;
+            
+            if (player) {
+                $piece.addClass('piece-black');
+            } else {
+                $piece.addClass('piece-white');
+            }
+            
+            if (player === checkers.player) {
+                $piece.addClass('piece-controlled ui-draggable');
+            }
+            
+            if (code > 2) {
+                $piece.addClass('piece-king');
+            }
+            
+            $piece.attr('data-line', coords[0]);
+            $piece.attr('data-col', coords[1]);
+            $piece.css(checkersControls.getSquarePositionAt(coords));
+            
+            jQuery('#grid').append($piece);
+        }
     },
     
     /**
@@ -395,6 +515,12 @@ var checkersControls =
         $piece.attr('data-line', to[0]);
         $piece.attr('data-col',  to[1]);
         
+        if (!$piece.hasClass('piece-king')) {
+            if ((to[0] === 0) || (to[0] === (checkers.variant.getBoardSize() - 1))) {
+                checkersControls.promote(to);
+            }
+        }
+        
         return $piece;
     },
     
@@ -410,19 +536,9 @@ var checkersControls =
         
         $piece.animate({
             opacity: 0
-        }, 400);
-    },
-    
-    /**
-     * Undo a piece eat
-     * 
-     * @param {Object} coords
-     */
-    vomit: function (coords)
-    {
-        checkersControls.getPieceAt(coords).animate({
-            opacity: 1
-        }, 400);
+        }, 400, function () {
+            $piece.remove();
+        });
     },
     
     /**
@@ -435,26 +551,24 @@ var checkersControls =
         var $piece = checkersControls.getPieceAt(coords);
         
         if (!$piece.hasClass('piece-king')) {
-            $piece.addClass('piece-king');
+            $piece.addClass('piece-king', 400);
         }
     },
     
     /**
-     * Check all piece to be promoted
+     * Refresh pieces without animation
      */
-    promoteAll: function ()
+    hardRefresh: function ()
     {
         var boardSize = checkers.variant.getBoardSize();
         
-        for (var col = 0; col < boardSize; col++) {
-            if (checkers.party.grid[0][col] > 2) {
-                checkersControls.promote([0, col]);
-            }
-            
-            if (checkers.party.grid[boardSize - 1][col] > 2) {
-                checkersControls.promote([boardSize - 1, col]);
+        for (var line = 0; line < boardSize; line++) {
+            for (var col = 0; col < boardSize; col++) {
+                checkersControls.setPieceAt([line, col], checkers.party.grid[line][col]);
             }
         }
+        
+        checkersControls.enableDrag();
     },
     
     /**
@@ -466,13 +580,11 @@ var checkersControls =
     moveReaction: function (r)
     {
         if (r.valid) {
-            console.log('moved successfully')
+            console.log('moved successfully');
         } else {
-            checkersControls.revertMemorizedMove();
+            checkersControls.hardRefresh();
             console.log(r.error);
         }
-        
-        checkersControls.promoteAll();
     },
     
     /**
@@ -510,18 +622,15 @@ var checkersControls =
                     ]
             );
 
-            if (move.jumpedPieces.length > 0) {
+            if (move.jumpedCoords.length > 0) {
                 checkersControls.eat(
                         [
-                            move.jumpedPieces[lastPath].line,
-                            move.jumpedPieces[lastPath].col
+                            move.jumpedCoords[lastPath].line,
+                            move.jumpedCoords[lastPath].col
                         ]
                 );
             }
         }
-        
-        // Promote pieces at sides
-        checkersControls.promoteAll();
     },
     
     /**
@@ -567,7 +676,34 @@ function Piece(code) {
     };
 }
 
-function Move(path, jumpedPieces) {
+function Move(path, jumpedCoords) {
     this.path = path;
-    this.jumpedPieces = jumpedPieces || [];
+    this.jumpedCoords = jumpedCoords || [];
+}
+
+/**
+ * 
+ * @param {Object} from [line, col]
+ * @param {Object} to [line, col]
+ * @returns {Object} array of coords
+ */
+function diagonalPath(from, to) {
+    var path = [];
+    var iterator = [
+        (to[0] > from[0]) ? 1 : -1,
+        (to[1] > from[1]) ? 1 : -1
+    ];
+    
+    var p = [from[0], from[1]];
+    
+    while (p[0] !== to[0]) {
+        p[0] += iterator[0];
+        p[1] += iterator[1];
+        
+        path.push([p[0], p[1]]);
+    }
+    
+    path.pop();
+    
+    return path;
 }

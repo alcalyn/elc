@@ -207,7 +207,7 @@ class MoveAnticipator
                                     if ($this->pieceAt($grid, $coordsTo)->isFree()) {
                                         $newMove = clone $currentMove;
                                         $newMove->path []= $coordsTo;
-                                        $newMove->jumpedPieces []= $pieceJump;
+                                        $newMove->jumpedCoords []= $coordsJump;
                                         $this->moves []= $newMove;
                                     }
                                 }
@@ -243,7 +243,7 @@ class MoveAnticipator
             }
         }
         
-        if (!$jumpAgain && count($currentMove->jumpedPieces)) {
+        if (!$jumpAgain && count($currentMove->jumpedCoords)) {
             $this->moves []= $currentMove;
         }
     }
@@ -254,7 +254,7 @@ class MoveAnticipator
         $this->pieceAt($grid, $jump, Piece::FREE);
         $this->pieceAt($grid, $to, $piece);
         $move->path []= $to;
-        $move->jumpedPieces []= $jump;
+        $move->jumpedCoords []= $jump;
     }
     
     /**

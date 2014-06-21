@@ -409,6 +409,7 @@ var checkersControls =
             // move piece to the center of its square
             checkersControls.move($piece, coordsTo);
             
+            // Remove jumped piece
             if (move.jumpedCoords.length > 0) {
                 checkersControls.eat(move.jumpedCoords[0]);
             }
@@ -516,7 +517,10 @@ var checkersControls =
         $piece.attr('data-col',  to[1]);
         
         if (!$piece.hasClass('piece-king')) {
-            if ((to[0] === 0) || (to[0] === (checkers.variant.getBoardSize() - 1))) {
+            if (
+                    $piece.hasClass('piece-white') && (to[0] === 0) ||
+                    $piece.hasClass('piece-black') && (to[0] === (checkers.variant.getBoardSize() - 1))
+            ) {
                 checkersControls.promote(to);
             }
         }

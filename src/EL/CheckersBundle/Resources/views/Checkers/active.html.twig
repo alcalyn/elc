@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="checkers-active">
-    <div id="grid" style="width:{{ variant.boardSize * 64 }}px">
+    <div class="grid {{ gridSize }}" style="width:{{ variant.boardSize * squareSize }}px">
         {#
             Grid
         #}
@@ -49,9 +49,9 @@
                         data-line="{{ line }}"
                         data-col="{{ col }}"
                         {% if not reverse %}
-                            style="left:{{ col * 64 }}px;top:{{ line * 64 }}px"
+                            style="left:{{ col * squareSize }}px;top:{{ line * squareSize }}px"
                         {% else %}
-                            style="left:{{ ((grid|length - 1) - col) * 64 }}px;top:{{ ((grid|length - 1) - line) * 64 }}px"
+                            style="left:{{ ((grid|length - 1) - col) * squareSize }}px;top:{{ ((grid|length - 1) - line) * squareSize }}px"
                         {% endif %}
                     ></div>
                 {% endif %}

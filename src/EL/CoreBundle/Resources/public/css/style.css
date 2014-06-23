@@ -552,25 +552,59 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
 }
 
 
-/* ----------- grid ------------- */
-#grid {
+/* ----------- grid and default pieces ------------- */
+.grid {
 }
-#grid .grid-item {
+.grid .grid-item {
     display: block;
     float: left;
+    width: 64px;
+    height: 64px;
 }
-#grid .grid-item:hover {
+.grid-small .grid-item {
+    width: 48px;
+    height: 48px;
 }
-#grid .grid-odd {
+.grid-large .grid-item {
+    width: 96px;
+    height: 96px;
+}
+.grid .grid-odd {
     background-color: #DDD;
 }
-#grid .grid-odd:hover {
+.grid .grid-odd:hover {
     background-color: #BBB;
 }
-#grid .grid-even {
+.grid .grid-even {
     background-color: #EEE;
 }
-#grid .grid-even:hover {
+.grid .grid-even:hover {
     background-color: #CCC;
 }
 
+.piece {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    margin: 9px;
+    border-radius: 999px;
+    background-color: white;
+}
+.grid-small .piece {
+    width: 34px;
+    height: 34px;
+    margin: 7px;
+}
+.grid-large .piece {
+    width: 68px;
+    height: 68px;
+    margin: 14px;
+}
+.piece-white {
+    background-color: lightcoral;
+    border-color: lightcoral;
+}
+.piece-black {
+    background-color: lightblue;
+    border-color: lightblue;
+}

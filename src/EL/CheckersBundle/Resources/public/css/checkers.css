@@ -18,30 +18,9 @@ h4 {
     width: 64%;
 }
 
-#grid {
+.grid {
     position: relative;
     margin: 24px auto 48px auto;
-}
-#grid .grid-item {
-    width: 64px;
-    height: 64px;
-}
-
-.piece {
-    position: absolute;
-    width: 46px;
-    height: 46px;
-    margin: 9px;
-    border-radius: 999px;
-    background-color: white;
-}
-.piece-white {
-    background-color: lightcoral;
-    border-color: lightcoral;
-}
-.piece-black {
-    background-color: lightblue;
-    border-color: lightblue;
 }
 .piece-controlled {
     cursor: pointer;
@@ -53,6 +32,12 @@ h4 {
     background-color: transparent;
     border-width: 12px;
     border-style: solid;
+}
+.grid-small .piece-king {
+    border-width: 9px;
+}
+.grid-large .piece-king {
+    border-width: 18px;
 }
 .piece.ui-draggable-dragging {
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);

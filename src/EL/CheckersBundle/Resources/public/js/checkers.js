@@ -326,6 +326,7 @@ var checkersControls =
     init: function ()
     {
         if ($('.checkers-active').size()) {
+            checkersControls.squareSize = jsContext.squareSize;
             checkersControls.enableDrag();
             checkersControls.enableDrop();
         }
@@ -470,7 +471,7 @@ var checkersControls =
             $piece.attr('data-col', coords[1]);
             $piece.css(checkersControls.getSquarePositionAt(coords));
             
-            jQuery('#grid').append($piece);
+            jQuery('.grid').append($piece);
         }
     },
     

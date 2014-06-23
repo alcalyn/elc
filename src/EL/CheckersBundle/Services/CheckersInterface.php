@@ -151,6 +151,21 @@ class CheckersInterface extends ELGameAdapter
     public function activeAction($_locale, PartyService $partyService, $extendedParty)
     {
         $sessionService = $this->get('el_core.session'); /* @var $sessionService SessionService */
+        $variant = new Variant($extendedParty->getParameters());
+        $squareSize = 64;
+        $gridSize = '';
+        
+        if ($variant->getBoardSize() > 10) {
+            $squareSize = 48;
+            $gridSize = 'grid-small';
+        } elseif ($variant->getBoardSize() < 8) {
+            $squareSize = 96;
+            $gridSize = 'grid-large';
+        }
+        
+        $this->get('el_core.js_vars')
+                ->addContext('square-size', $squareSize)
+        ;
         
         return $this->render('CheckersBundle:Checkers:active.html.twig', array(
             'reverse'           => 1 === $partyService->position(),
@@ -158,10 +173,12 @@ class CheckersInterface extends ELGameAdapter
             'game'              => $partyService->getGame(),
             'coreParty'         => $coreParty = $partyService->getParty(),
             'cherchersParty'    => $extendedParty,
-            'variant'           => new Variant($extendedParty->getParameters()),
+            'variant'           => $variant,
             'slots'             => $coreParty->getSlots(),
             'player'            => $sessionService->getPlayer(),
             'grid'              => $extendedParty->getGrid(),
+            'gridSize'          => $gridSize,
+            'squareSize'        => $squareSize,
         ));
     }
 }

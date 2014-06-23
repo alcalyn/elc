@@ -155,6 +155,7 @@ class CheckersInterface extends ELGameAdapter
         return $this->render('CheckersBundle:Checkers:active.html.twig', array(
             'reverse'           => 1 === $partyService->position(),
             'gameLayout'        => $this->getGameLayout(),
+            'game'              => $partyService->getGame(),
             'coreParty'         => $coreParty = $partyService->getParty(),
             'cherchersParty'    => $extendedParty,
             'variant'           => new Variant($extendedParty->getParameters()),

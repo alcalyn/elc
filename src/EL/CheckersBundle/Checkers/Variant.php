@@ -32,14 +32,13 @@ class Variant extends BitwiseValue implements \JsonSerializable
     private static $MEN_JUMP_KING     = 512;
     private static $KING_PASSING      = 1024;
     private static $BLOW_UP           = 2048;
-    private static $LET_DO            = 4096;
-    private static $FIRST_PLAYER      = 8192;
-    private static $FORCE_CAPTURE     = 16384;
-    private static $CAPT_QUANTITY     = 32768;
-    private static $CAPT_QUALITY      = 65536;
-    private static $CAPT_KING_ORDER   = 131072;
-    private static $CAPT_PREFERENCE   = 262144;
-    private static $KING_STOPS_BEHIND = 524288;
+    private static $FIRST_PLAYER      = 4096;
+    private static $FORCE_CAPTURE     = 8192;
+    private static $CAPT_QUANTITY     = 16384;
+    private static $CAPT_QUALITY      = 32768;
+    private static $CAPT_KING_ORDER   = 65536;
+    private static $CAPT_PREFERENCE   = 131072;
+    private static $KING_STOPS_BEHIND = 262144;
     
     
     /**
@@ -229,27 +228,6 @@ class Variant extends BitwiseValue implements \JsonSerializable
     public function getBlowUp()
     {
         return $this->get(self::$BLOW_UP);
-    }
-
-    /**
-     * Set letDo
-     *
-     * @param boolean $letDo
-     * @return Variant
-     */
-    public function setLetDo($letDo)
-    {
-        return $this->set(self::$LET_DO, $letDo);
-    }
-
-    /**
-     * Get letDo
-     *
-     * @return boolean 
-     */
-    public function getLetDo()
-    {
-        return $this->get(self::$LET_DO);
     }
 
     /**

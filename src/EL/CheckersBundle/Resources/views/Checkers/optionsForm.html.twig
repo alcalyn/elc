@@ -18,23 +18,51 @@
 
 <div class="row checkers-personalization">
     <div class="col-md-6">
-        {{ form_row(optionsForm.extendedOptions.boardSize) }}
-        {{ form_row(optionsForm.extendedOptions.squareUsed) }}
-        {{ form_row(optionsForm.extendedOptions.rightSquare) }}
-        {{ form_row(optionsForm.extendedOptions.backwardCapture) }}
-        {{ form_row(optionsForm.extendedOptions.longRangeKing) }}
-        {{ form_row(optionsForm.extendedOptions.kingStopsBehind) }}
-        {{ form_row(optionsForm.extendedOptions.menJumpKing) }}
-        {{ form_row(optionsForm.extendedOptions.kingPassing) }}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'board'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.boardSize) }}
+                {{ form_row(optionsForm.extendedOptions.squareUsed) }}
+                {{ form_row(optionsForm.extendedOptions.rightSquare) }}
+                {{ form_row(optionsForm.extendedOptions.firstPlayer) }}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'king.rules'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.longRangeKing) }}
+                {{ form_row(optionsForm.extendedOptions.kingStopsBehind) }}
+                {{ form_row(optionsForm.extendedOptions.menJumpKing) }}
+                {{ form_row(optionsForm.extendedOptions.kingPassing) }}
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
-        {{ form_row(optionsForm.extendedOptions.blowUp) }}
-        {{ form_row(optionsForm.extendedOptions.letDo) }}
-        {{ form_row(optionsForm.extendedOptions.firstPlayer) }}
-        {{ form_row(optionsForm.extendedOptions.forceCapture) }}
-        {{ form_row(optionsForm.extendedOptions.forceCaptureQuantity) }}
-        {{ form_row(optionsForm.extendedOptions.forceCaptureQuality) }}
-        {{ form_row(optionsForm.extendedOptions.forceCaptureKingOrder) }}
-        {{ form_row(optionsForm.extendedOptions.forceCapturePreference) }}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'captures.rules'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.backwardCapture) }}
+                {{ form_row(optionsForm.extendedOptions.forceCapture) }}
+                {{ form_row(optionsForm.extendedOptions.forceCaptureQuantity) }}
+                {{ form_row(optionsForm.extendedOptions.forceCapturePreference) }}
+                {{ form_row(optionsForm.extendedOptions.forceCaptureQuality) }}
+                {{ form_row(optionsForm.extendedOptions.forceCaptureKingOrder) }}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'blow.up'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.blowUp) }}
+                <i>{{ 'cancels.force.capture'|trans }}</i>
+            </div>
+        </div>
     </div>
 </div>

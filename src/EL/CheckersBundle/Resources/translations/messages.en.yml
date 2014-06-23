@@ -7,12 +7,14 @@ black:
     s: Black
 
 blow:
-    up: 'huffing isn''t a real move !'
+    up: 'Huffing isn''t a real move !'
 
-board:
-    size: 'Board size'
+board: Board
+board.size: 'Board size'
 
 canadian: Canadian
+cancels.force.capture: 'Note: This rule cancels force capture'
+captures.rules: 'Rules about captures'
 english: English
 
 first:
@@ -31,15 +33,13 @@ italian: Italian
 
 king:
     passing: 'King passing'
+    rules: 'Rules about kings'
     stops:
         behind: 'Kings capture and stop on next one square'
 
-let:
-    do: 'Let do'
-
 long:
     range:
-        king: 'Long range capture for king'
+        king: 'Long range king'
 
 maximum:
     capture: 'Must capture the maximum'

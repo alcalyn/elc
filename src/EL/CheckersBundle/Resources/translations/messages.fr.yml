@@ -9,8 +9,10 @@ black.s: Noirs
 blow:
     up: 'Souffler n''est pas jouer !'
 
-board:
-    size: 'Taille du plateau'
+board: Plateau
+cancels.force.capture: 'Note : Cette règle annule la capture forcée'
+captures.rules: 'Règles de capture'
+board.size: 'Taille du plateau'
 
 canadian: Canadienne
 english: Anglaise
@@ -31,15 +33,13 @@ italian: Italienne
 
 king:
     passing: 'Dame en passant'
+    rules: 'Règles sur les dames'
     stops:
-        behind: 'La dames capture et s''arrête sur la case d''après'
-
-let:
-    do: 'Laisser faire'
+        behind: 'La dame capture et s''arrête sur la case juste derrière'
 
 long:
     range:
-        king: 'Prise longue pour les dames'
+        king: 'Déplacements longs de la dame'
 
 maximum:
     capture: 'Prises maximum'

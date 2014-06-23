@@ -95,10 +95,6 @@ class CheckersOptionsType extends AbstractType
                 'label' => 'force.capture.preference',
                 'required' => false,
             ))
-            ->add('letDo', 'checkbox', array(
-                'label' => 'let.do',
-                'required' => false,
-            ))
             ->add('firstPlayer', 'checkbox', array(
                 'label' => 'first.player',
                 'required'  => false,

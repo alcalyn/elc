@@ -1,4 +1,8 @@
 
+#el_core_options_type_extendedOptions_boardSize {
+    padding-right: 25px;
+}
+
 h3.gameVariant {
     margin: 32px 0 16px 0;
 }

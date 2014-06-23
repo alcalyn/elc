@@ -340,27 +340,6 @@ function CheckersVariant(binaryValue) {
     };
 
     /**
-     * Set letDo
-     *
-     * @param {boolean} letDo
-     * @return {CheckersVariant}
-     */
-    this.setLetDo = function (letDo)
-    {
-        return this.set(CheckersVariant.LET_DO, letDo);
-    };
-
-    /**
-     * Get letDo
-     *
-     * @return {boolean}
-     */
-    this.getLetDo = function ()
-    {
-        return this.get(CheckersVariant.LET_DO);
-    };
-
-    /**
      * Set firstPlayer
      *
      * @param {boolean} firstPlayer
@@ -423,14 +402,13 @@ CheckersVariant.LONG_RANGE_KING   = 256;
 CheckersVariant.MEN_JUMP_KING     = 512;
 CheckersVariant.KING_PASSING      = 1024;
 CheckersVariant.BLOW_UP           = 2048;
-CheckersVariant.LET_DO            = 4096;
-CheckersVariant.FIRST_PLAYER      = 8192;
-CheckersVariant.FORCE_CAPTURE     = 16384;
-CheckersVariant.CAPT_QUANTITY     = 32768;
-CheckersVariant.CAPT_QUALITY      = 65536;
-CheckersVariant.CAPT_KING_ORDER   = 131072;
-CheckersVariant.CAPT_PREFERENCE   = 262144;
-CheckersVariant.KING_STOPS_BEHIND = 524288;
+CheckersVariant.FIRST_PLAYER      = 4096;
+CheckersVariant.FORCE_CAPTURE     = 8192;
+CheckersVariant.CAPT_QUANTITY     = 16384;
+CheckersVariant.CAPT_QUALITY      = 32768;
+CheckersVariant.CAPT_KING_ORDER   = 65536;
+CheckersVariant.CAPT_PREFERENCE   = 131072;
+CheckersVariant.KING_STOPS_BEHIND = 262144;
     
 /**
  * Bind events related to variant selection
@@ -460,7 +438,6 @@ function bindVariantSelect() {
         $('#el_core_options_type_extendedOptions_forceCaptureQuality').prop('checked', variant.getForceCaptureQuality());
         $('#el_core_options_type_extendedOptions_forceCaptureKingOrder').prop('checked', variant.getForceCaptureKingOrder());
         $('#el_core_options_type_extendedOptions_forceCapturePreference').prop('checked', variant.getForceCapturePreference());
-        $('#el_core_options_type_extendedOptions_letDo').prop('checked', variant.getLetDo());
         $('#el_core_options_type_extendedOptions_firstPlayer').prop('checked', variant.getFirstPlayer());
     });
 }
@@ -511,7 +488,6 @@ function getVariantFromForm() {
             .setForceCaptureQuality($('#el_core_options_type_extendedOptions_forceCaptureQuality').prop('checked'))
             .setForceCaptureKingOrder($('#el_core_options_type_extendedOptions_forceCaptureKingOrder').prop('checked'))
             .setForceCapturePreference($('#el_core_options_type_extendedOptions_forceCapturePreference').prop('checked'))
-            .setLetDo($('#el_core_options_type_extendedOptions_letDo').prop('checked'))
             .setFirstPlayer($('#el_core_options_type_extendedOptions_firstPlayer').prop('checked'))
     ;
 }

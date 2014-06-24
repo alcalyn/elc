@@ -337,6 +337,7 @@ var checkersControls =
             checkersControls.squareSize = jsContext.squareSize;
             checkersControls.enableDrag();
             checkersControls.enableDrop();
+            checkersControls.highlightMove(checkers.party.lastMove);
             
             if (checkers.isMyTurn()) {
                 checkersControls.myTurn();
@@ -433,6 +434,7 @@ var checkersControls =
             checkers.move(coordsFrom, coordsTo);
             
             checkersControls.notMyTurn();
+            checkersControls.highlightMove();
             
             return true;
         } else {
@@ -590,6 +592,7 @@ var checkersControls =
         }
         
         checkersControls.enableDrag();
+        checkersControls.highlightMove(checkers.party.lastMove);
         
         if (checkers.isMyTurn()) {
             checkersControls.myTurn();
@@ -608,6 +611,7 @@ var checkersControls =
     {
         if (r.valid) {
             console.log('moved successfully');
+            
             if (checkers.isMyTurn()) {
                 checkersControls.myTurn();
             } else {
@@ -664,7 +668,31 @@ var checkersControls =
             }
         }
         
+        checkersControls.highlightMove(move);
         checkersControls.myTurn();
+    },
+    
+    highlightMove: function (move)
+    {
+        jQuery('.grid-item-highlight-1').removeClass('grid-item-highlight-1');
+        jQuery('.grid-item-highlight-2').removeClass('grid-item-highlight-2');
+        
+        if (!move) {
+            return;
+        }
+        
+        var length = move.path.length;
+        
+        for (var i = 0; i < length; i++) {
+            var coords = move.path[i];
+            var $square = checkersControls.getSquareAt([coords.line, coords.col]);
+            
+            if (i !== (length - 1)) {
+                $square.addClass('grid-item-highlight-1');
+            } else {
+                $square.addClass('grid-item-highlight-2');
+            }
+        }
     },
     
     /**

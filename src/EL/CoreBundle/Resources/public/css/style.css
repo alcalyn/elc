@@ -581,6 +581,12 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
 .grid .grid-even:hover {
     background-color: #CCC;
 }
+.grid .grid-item-highlight-1 {
+    border: 2px dashed #AAA;
+}
+.grid .grid-item-highlight-2 {
+    border: 2px solid #BBB;
+}
 
 .piece {
     position: absolute;

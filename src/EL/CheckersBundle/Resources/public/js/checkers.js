@@ -353,7 +353,25 @@ var checkersControls =
     enableDrag: function ()
     {
         $('.piece-controlled').draggable({
-            revert: 'invalid'
+            revert: 'invalid',
+            start: function (event, ui)
+            {
+                var $piece = jQuery(ui.helper);
+                
+                checkersControls
+                        .getSquareAt([$piece.data('line'), $piece.data('col')])
+                        .addClass('grid-item-highlight-1')
+                ;
+            },
+            stop: function (event, ui)
+            {
+                var $piece = jQuery(ui.helper);
+                
+                checkersControls
+                        .getSquareAt([$piece.data('line'), $piece.data('col')])
+                        .removeClass('grid-item-highlight-1')
+                ;
+            }
         });
     },
     

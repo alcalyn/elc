@@ -608,3 +608,19 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
     background-color: lightblue;
     border-color: lightblue;
 }
+/* init jquery ui css */
+.piece.ui-state-disabled {
+    opacity: 1;
+    filter: none;
+    background-image: inherit;
+}
+.piece-draggable {
+    box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.5) inset;
+}
+.piece-draggable:hover {
+    box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.5) inset;
+}
+.piece.ui-draggable-dragging {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 4px;
+}

@@ -276,13 +276,21 @@ var checkers =
         checkers.stopRefreshing();
         
         checkers.refreshInterval = setInterval(function () {
-            var turnId      = checkers.getPlayer().id;
-            var loggedId    = jsContext.player.id;
-            
-            if (turnId !== loggedId) {
+            if (!checkers.isMyTurn()) {
                 checkers.getLastMove();
             }
         }, 2500);
+    },
+    
+    /**
+     * @returns {Boolean}
+     */
+    isMyTurn: function ()
+    {
+        var turnId      = checkers.getPlayer().id;
+        var loggedId    = jsContext.player.id;
+        
+        return turnId === loggedId;
     },
     
     /**
@@ -329,6 +337,12 @@ var checkersControls =
             checkersControls.squareSize = jsContext.squareSize;
             checkersControls.enableDrag();
             checkersControls.enableDrop();
+            
+            if (checkers.isMyTurn()) {
+                checkersControls.myTurn();
+            } else {
+                checkersControls.notMyTurn();
+            }
         }
     },
     
@@ -417,6 +431,8 @@ var checkersControls =
             
             // notify model from move
             checkers.move(coordsFrom, coordsTo);
+            
+            checkersControls.notMyTurn();
             
             return true;
         } else {
@@ -574,6 +590,12 @@ var checkersControls =
         }
         
         checkersControls.enableDrag();
+        
+        if (checkers.isMyTurn()) {
+            checkersControls.myTurn();
+        } else {
+            checkersControls.notMyTurn();
+        }
     },
     
     /**
@@ -586,6 +608,11 @@ var checkersControls =
     {
         if (r.valid) {
             console.log('moved successfully');
+            if (checkers.isMyTurn()) {
+                checkersControls.myTurn();
+            } else {
+                checkersControls.notMyTurn();
+            }
         } else {
             checkersControls.hardRefresh();
             console.log(r.error);
@@ -636,6 +663,8 @@ var checkersControls =
                 );
             }
         }
+        
+        checkersControls.myTurn();
     },
     
     /**
@@ -655,6 +684,35 @@ var checkersControls =
         }
         
         return mixed;
+    },
+    
+    /**
+     * Called when it is my turn
+     */
+    myTurn: function ()
+    {
+        console.log('my turn');
+        
+        jQuery('.piece-controlled')
+                .addClass('piece-draggable')
+                .draggable({disabled: false})
+        ;
+    },
+    
+    /**
+     * Called when it is not longer my turn
+     */
+    notMyTurn: function ()
+    {
+        console.log('not longer my turn');
+        
+        jQuery('.piece-draggable')
+                .removeClass('piece-draggable')
+        ;
+        
+        jQuery('.piece-controlled')
+                .draggable({disabled: true})
+        ;
     }
 };
 

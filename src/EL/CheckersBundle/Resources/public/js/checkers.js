@@ -378,7 +378,7 @@ var checkersControls =
                 var $piece = jQuery(ui.helper);
                 
                 checkersControls
-                        .getSquareAt([$piece.data('line'), $piece.data('col')])
+                        .getSquareAt([$piece.attr('data-line'), $piece.attr('data-col')])
                         .addClass('grid-item-highlight-1')
                 ;
             },
@@ -387,7 +387,7 @@ var checkersControls =
                 var $piece = jQuery(ui.helper);
                 
                 checkersControls
-                        .getSquareAt([$piece.data('line'), $piece.data('col')])
+                        .getSquareAt([$piece.attr('data-line'), $piece.attr('data-col')])
                         .removeClass('grid-item-highlight-1')
                 ;
             }

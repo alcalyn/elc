@@ -81,7 +81,6 @@ var checkers =
         
         // Check if from and to are the same
         if ((from[0] === to[0]) && (from[1] === to[1])) {
-            checkers.invalidMove(t('illegalmove.no.move.detected'));
             return null;
         }
         
@@ -96,7 +95,7 @@ var checkers =
         
         // Check if move is diagonal
         if (Math.abs(to[0] - from[0]) !== Math.abs(to[1] - from[1])) {
-            checkers.invalidMove(t('illegalmove.must.move.diagonally'));
+            checkers.invalidMove(t('illegalmove.must.move.diagonally'), 'simplemove.jpg');
             return null;
         }
         
@@ -106,7 +105,7 @@ var checkers =
         if (!pieceFrom.isKing()) {
             
             if (distance > 2) {
-                checkers.invalidMove(t('illegalmove.cannot.move.too.far'));
+                checkers.invalidMove(t('illegalmove.cannot.move.too.far'), 'move-or-jump.jpg');
                 return null;
             }
             
@@ -119,10 +118,10 @@ var checkers =
                 var pieceMiddle = checkers.pieceAt(middle);
 
                 if (pieceMiddle.isFree()) {
-                    checkers.invalidMove(t('illegalmove.cannot.move.too.far'));
+                    checkers.invalidMove(t('illegalmove.cannot.move.too.far'), 'move-or-jump.jpg');
                     return null;
                 } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
-                    checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'));
+                    checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'), 'jump-own-piece.jpg');
                     return null;
                 }
                 
@@ -158,7 +157,7 @@ var checkers =
                     if (!p.isFree()) {
                         if (null === pieceMiddle) {
                             if (p.getColor() === pieceFrom.getColor()) {
-                                checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'));
+                                checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'), 'jump-own-piece.jpg');
                                 return null;
                             } else {
                                 pieceMiddle = p;
@@ -196,7 +195,7 @@ var checkers =
                         checkers.invalidMove(t('illegalmove.no.long.range.king'));
                         return null;
                     } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
-                        checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'));
+                        checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'), 'jump-own-piece.jpg');
                         return null;
                     } else {
                         jumpedCoords.push(middle);
@@ -320,9 +319,19 @@ var checkers =
      * 
      * @param {String} error reason of why the move is invalid
      */
-    invalidMove: function (error)
+    invalidMove: function (error, img)
     {
-        modal.popSimple(error, t('illegalmove'), 'warning');
+        if (img) {
+            var tag = '<img '+
+                    'class="img-thumbnail illegalmove-illustration" '+
+                    'src="'+jsContext.illustrationsUrl+img+'" '+
+                    'alt="Illustration for '+error.replace('illegalmove.', '').replace('.', ' ').replace('%', '')+'" '+
+            '/>';
+            
+            modal.popSimple('<p class="clearfix lead">'+tag+error+'</p>', t('illegal.move'), 'warning');
+        } else {
+            modal.popSimple('<p class="lead">'+error+'</p>', t('illegal.move'), 'warning');
+        }
     }
 };
 
@@ -648,7 +657,7 @@ var checkersControls =
         } else {
             checkersControls.hardRefresh();
             
-            checkers.invalidMove(r.error);
+            checkers.invalidMove(r.error, r.illus);
         }
     },
     

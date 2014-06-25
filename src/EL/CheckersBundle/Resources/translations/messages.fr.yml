@@ -16,7 +16,7 @@ board.size: 'Taille du plateau'
 
 canadian: Canadienne
 english: Anglaise
-illegalmove: 'Mouvement invalide'
+illegal.move: 'Mouvement invalide'
 
 illegalmove:
     continue.capture: 'Vous devez continuer à capturer avec le même pion'

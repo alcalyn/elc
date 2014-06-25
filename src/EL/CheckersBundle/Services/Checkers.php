@@ -171,7 +171,7 @@ class Checkers
 
         // Check for diagonal move
         if (!$from->isSameDiagonal($to)) {
-            throw new CheckersIllegalMoveException('illegalmove.must.move.diagonally');
+            throw new CheckersIllegalMoveException('illegalmove.must.move.diagonally', array(), 'simplemove.jpg');
         }
         
         // Prepare a capture anticipator instance
@@ -202,7 +202,7 @@ class Checkers
             
             // Piece jump more than 2 squares
             if ($squareJump > 2) {
-                throw new CheckersIllegalMoveException('illegalmove.cannot.move.too.far');
+                throw new CheckersIllegalMoveException('illegalmove.cannot.move.too.far', array(), 'move-or-jump.jpg');
             }
             
             if (1 === $squareJump) {
@@ -228,12 +228,20 @@ class Checkers
                 
                 // Jump an empty square
                 if ($pieceMiddle->isFree()) {
-                    throw new CheckersIllegalMoveException('illegalmove.cannot.move.too.far');
+                    throw new CheckersIllegalMoveException(
+                            'illegalmove.cannot.move.too.far',
+                            array(),
+                            'move-or-jump.jpg'
+                    );
                 }
                 
                 // Jump an owned piece
                 if ($pieceMiddle->getColor() === $playerPieces) {
-                    throw new CheckersIllegalMoveException('illegalmove.cannot.jump.own.pieces');
+                    throw new CheckersIllegalMoveException(
+                            'illegalmove.cannot.jump.own.pieces',
+                            array(),
+                            'jump-own-piece.jpg'
+                    );
                 }
                 
                 // Check if we are jumping a king while variant disallows
@@ -257,7 +265,11 @@ class Checkers
                     if (!$p->isFree()) {
                         if (null === $pieceMiddle) {
                             if ($p->getColor() === $playerPieces) {
-                                throw new CheckersIllegalMoveException('illegalmove.cannot.jump.own.pieces');
+                                throw new CheckersIllegalMoveException(
+                                        'illegalmove.cannot.jump.own.pieces',
+                                        array(),
+                                        'jump-own-piece.jpg'
+                                );
                             } else {
                                 $pieceMiddle = $p;
                                 $middle = $c;
@@ -284,7 +296,11 @@ class Checkers
 
                     // Jump an owned piece
                     if ($pieceMiddle->getColor() === $playerPieces) {
-                        throw new CheckersIllegalMoveException('illegalmove.cannot.jump.own.pieces');
+                        throw new CheckersIllegalMoveException(
+                                'illegalmove.cannot.jump.own.pieces',
+                                array(),
+                                'jump-own-piece.jpg'
+                        );
                     }
                     
                     // Jump an empty piece

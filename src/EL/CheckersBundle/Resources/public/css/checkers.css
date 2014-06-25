@@ -26,7 +26,7 @@ h4 {
     cursor: pointer;
 }
 .piece-over {
-    background-color: red !important;
+    border: 2px solid #BBB !important;
 }
 .piece-king {
     background-color: transparent;
@@ -41,4 +41,9 @@ h4 {
 }
 .piece-king.ui-draggable-dragging {
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 4px 4px rgba(0, 0, 0, 0.25) inset;
+}
+
+.illegalmove-illustration {
+    float: left;
+    margin-right: 1em;
 }

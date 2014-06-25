@@ -614,7 +614,7 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
     background-image: inherit;
 }
 .piece-draggable {
-    box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.5) inset;
 }
 .piece-draggable:hover {
     box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.5) inset;

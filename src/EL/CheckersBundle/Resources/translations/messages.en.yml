@@ -16,7 +16,7 @@ canadian: Canadian
 cancels.force.capture: 'Note: This rule cancels force capture'
 captures.rules: 'Rules about captures'
 english: English
-illegalmove: 'Invalid move'
+illegal.move: 'Invalid move'
 
 illegalmove:
     continue.capture: 'You must continue your captures with the same piece'

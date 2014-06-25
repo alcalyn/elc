@@ -91,6 +91,7 @@ class CheckersController extends Controller
             return $this->get('phax')->reaction(array(
                 'valid' => false,
                 'error' => $t->trans($e->getMessage(), $e->getMsgVars()),
+                'illus' => $e->getIllustration(),
             ));
         }
     }

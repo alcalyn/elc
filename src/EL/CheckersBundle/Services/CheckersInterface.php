@@ -163,10 +163,13 @@ class CheckersInterface extends ELGameAdapter
             $gridSize = 'grid-large';
         }
         
+        $baseIllustrationUrl = 'bundles/checkers/img/illegalmove/';
+        
         $this->get('el_core.js_vars')
                 ->addContext('square-size', $squareSize)
+                ->addContext('illustrations-url', $this->get('templating.helper.assets')->getUrl($baseIllustrationUrl))
                 ->useTrans(array(
-                    'illegalmove',
+                    'illegal.move',
                     'not.your.turn',
                     'illegalmove.no.move.detected',
                     'illegalmove.destination.occupied',

@@ -114,7 +114,6 @@ class Awale extends ELGameAdapter
     public function createRemake(PartyService $partyService, Party $corePartyClone)
     {
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore */
-        $em             = $this->getDoctrine()->getManager();   /* @var $em            \Doctrine\ORM\EntityManager */
         $oldAwaleParty  = $partyService->loadExtendedParty();   /* @var $oldAwaleParty AwaleParty */
         
         $remakeAwaleParty = new AwaleParty();
@@ -124,7 +123,6 @@ class Awale extends ELGameAdapter
                 ->setGrid($awaleCore->fillGrid($oldAwaleParty->getSeedsPerContainer()))
         ;
         
-        $em->persist($remakeAwaleParty);
-        $em->flush();
+        return $remakeAwaleParty;
     }
 }

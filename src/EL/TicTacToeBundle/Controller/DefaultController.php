@@ -127,11 +127,9 @@ class DefaultController extends ELGameAdapter
     
     public function createRemake(PartyService $partyService, CoreParty $corePartyClone)
     {
-        $em                 = $this->getDoctrine()->getManager();
         $extendedParty      = $partyService->loadExtendedParty();
         $extendedPartyClone = $extendedParty->createRemake($corePartyClone);
         
-        $em->persist($extendedPartyClone);
-        $em->flush();
+        return $extendedPartyClone;
     }
 }

@@ -198,4 +198,16 @@ class CheckersInterface extends ELGameAdapter
             'squareSize'        => $squareSize,
         ));
     }
+    
+    public function createRemake(PartyService $partyService, Party $corePartyClone)
+    {
+        $checkers   = $this->get('checkers.core');          /* @var $checkers Checkers */
+        $oldParty   = $partyService->loadExtendedParty();
+        
+        $newParty = $checkers->remake($oldParty);
+        
+        return $newParty
+                ->setParty($corePartyClone)
+        ;
+    }
 }

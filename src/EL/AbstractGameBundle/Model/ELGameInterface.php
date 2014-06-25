@@ -144,11 +144,12 @@ interface ELGameInterface
     public function isMyTurn(PartyService $partyService);
     
     /**
-     * Notify your game that party has been remade.
-     * Persist/flush your new remade party linked to core party.
+     * Return a remake of an extended party
      * 
      * @param PartyService $partyService containing old core party
      * @param CoreParty $cloneCoreParty just cloned
+     * 
+     * @return \stdClass
      */
     public function createRemake(PartyService $partyService, CoreParty $cloneCoreParty);
 }

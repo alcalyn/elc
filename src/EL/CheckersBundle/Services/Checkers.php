@@ -2,8 +2,6 @@
 
 namespace EL\CheckersBundle\Services;
 
-use Symfony\Component\Translation\TranslatorInterface;
-use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Util\Coords;
 use EL\CheckersBundle\Checkers\CheckersException;
 use EL\CheckersBundle\Checkers\CheckersIllegalMoveException;
@@ -11,7 +9,6 @@ use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Piece;
 use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
-use EL\CheckersBundle\Checkers\MoveAnticipator;
 use EL\CheckersBundle\Checkers\CapturesAnticipatorCache;
 use EL\CheckersBundle\Checkers\CapturesEvaluator;
 use EL\CheckersBundle\Services\CheckersVariants;
@@ -489,5 +486,17 @@ class Checkers
         }
         
         return $this->pieceAt($grid, $coords, $piece->promote());
+    }
+    
+    public function remake(CheckersParty $oldParty)
+    {
+        $newParty   = new CheckersParty();
+        $variant    = new Variant($oldParty->getParameters());
+        
+        return $newParty
+                ->setParameters($oldParty->getParameters())
+                ->setGrid($this->initGrid($variant))
+                ->setCurrentPlayer($variant->getFirstPlayer())
+        ;
     }
 }

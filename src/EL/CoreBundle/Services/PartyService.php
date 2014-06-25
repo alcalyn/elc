@@ -579,10 +579,11 @@ class PartyService extends GameService
         $this->createSlots($slotsConfiguration, $remakeCoreParty);
         
         // Notify the game that party is remaking
-        $this->getExtendedGame()->createRemake($this, $remakeCoreParty);
+        $remakeExtendedParty = $this->getExtendedGame()->createRemake($this, $remakeCoreParty);
         
         // Persist new party and old party
         $this->em->persist($remakeCoreParty);
+        $this->em->persist($remakeExtendedParty);
         $this->em->persist($oldCoreParty);
         $this->em->flush();
         

@@ -16,6 +16,30 @@ board.size: 'Taille du plateau'
 
 canadian: Canadienne
 english: Anglaise
+illegalmove: 'Mouvement invalide'
+
+illegalmove:
+    continue.capture: 'Vous devez continuer à capturer avec le même pion'
+    no.piece.from.%coords%: 'Il n''y a pas de pion sur la case initiale (%coords)'
+    cannot.move.opponent.pieces: 'Vous ne pouvez pas déplacer les pions de votre adversaire'
+    no.move.detected: 'Pas de mouvement détecté'
+    %name%.must.be.inboard.%boardsize%.%coords%: '%name% doit être dans le plateau de taille %boardsize%, reçu "%coords%"'
+    destination.occupied: 'Vous ne pouvez pas aller sur une case occupée'
+    must.move.diagonally: 'Vous devez vous déplacer en diagonale'
+    must.capture: 'Vous devez capturer le ou les pions de votre adversaire'
+    cannot.move.too.far: 'Vous pouvez déplacer les pions que d''une case, ou capturer un pion adverse'
+    cannot.move.back: 'Vous ne pouvez pas vous déplacer en arrière'
+    cannot.backward.jump: 'Dans cette variante, vous ne pouvez pas capturer en arrière avec un pion'
+    cannot.jump.own.pieces: 'Vous ne pouvez pas sauter par dessus vos propres pions'
+    cannot.jump.kings.variant: 'Dans cette variante, vous ne pouvez pas manger une dame avec un pion'
+    cannot.jump.two.pieces: 'Vous ne pouvez pas sauter deux pions en même temps'
+    king.must.stop.behind: 'Dans cette variante, la dame doit s''arrêter sur la case juste derrière sa capture'
+    no.long.range.king: 'Dans cette variante, les dames ne peuvent se déplacer que d''une case'
+    capturebetter:
+        quantity:   'Vous devez capturer là où vous prenez le plus de pions'
+        preference: 'Vous devez capturer avec une dame au lieu d''un pion'
+        quality:    'Vous devez capturer là où il y a le plus de dames adverse'
+        precedence: 'Vous devez capturer là où vous prenez une dame le plus tôt dans la séquence de captures'
 
 first:
     player: 'Premier joueur'

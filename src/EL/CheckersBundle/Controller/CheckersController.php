@@ -35,6 +35,7 @@ class CheckersController extends Controller
         $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty CheckersParty */
         $from           = new Coords($phaxAction->from['line'], $phaxAction->from['col']);
         $to             = new Coords($phaxAction->to['line'], $phaxAction->to['col']);
+        $t              = $this->get('translator');
         
         // Check if party is still active
         if ($coreParty->getState() !== Party::ACTIVE) {
@@ -89,7 +90,7 @@ class CheckersController extends Controller
         } catch (CheckersIllegalMoveException $e) {
             return $this->get('phax')->reaction(array(
                 'valid' => false,
-                'error' => $e->getMessage(),
+                'error' => $t->trans($e->getMessage(), $e->getMsgVars()),
             ));
         }
     }

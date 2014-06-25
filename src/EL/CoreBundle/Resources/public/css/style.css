@@ -469,13 +469,6 @@ select.form-control.smaller {
     font-size: 14px;
     margin: 0 0 0 0;
 }
-.list-group {
-}
-.panel {
-}
-.panel-heading {
-    padding: 6px 16px;
-}
 
 /*----------------chat panel----------------*/
 .panel.chat {

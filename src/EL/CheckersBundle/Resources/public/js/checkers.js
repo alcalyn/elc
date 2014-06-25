@@ -75,13 +75,13 @@ var checkers =
     {
         // Check turn
         if (checkers.player !== checkers.party.currentPlayer) {
-            console.log('not your turn');
+            checkers.invalidMove(t('not.your.turn'));
             return null;
         }
         
         // Check if from and to are the same
         if ((from[0] === to[0]) && (from[1] === to[1])) {
-            console.log('from = to');
+            checkers.invalidMove(t('illegalmove.no.move.detected'));
             return null;
         }
         
@@ -90,13 +90,13 @@ var checkers =
         
         // Check if to is empty
         if (!pieceTo.isFree()) {
-            console.log('destination occupied');
+            checkers.invalidMove(t('illegalmove.destination.occupied'));
             return null;
         }
         
         // Check if move is diagonal
         if (Math.abs(to[0] - from[0]) !== Math.abs(to[1] - from[1])) {
-            console.log('move not diagonal');
+            checkers.invalidMove(t('illegalmove.must.move.diagonally'));
             return null;
         }
         
@@ -106,7 +106,7 @@ var checkers =
         if (!pieceFrom.isKing()) {
             
             if (distance > 2) {
-                console.log('you must jump over one square or jump opponent pieces');
+                checkers.invalidMove(t('illegalmove.cannot.move.too.far'));
                 return null;
             }
             
@@ -119,17 +119,17 @@ var checkers =
                 var pieceMiddle = checkers.pieceAt(middle);
 
                 if (pieceMiddle.isFree()) {
-                    console.log('you must jump over one square');
+                    checkers.invalidMove(t('illegalmove.cannot.move.too.far'));
                     return null;
                 } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
-                    console.log('cannot jump owned pieces');
+                    checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'));
                     return null;
                 }
                 
                 // Check backward capture
                 if (!checkers.variant.getBackwardCapture()) {
                     if ((pieceFrom.getColor() === 2) ^ ((to[0] - from[0]) > 0)) {
-                        console.log('you cannot make a backward capture in this variant');
+                        checkers.invalidMove(t('illegalmove.cannot.backward.jump'));
                         return null;
                     }
                 }
@@ -141,7 +141,7 @@ var checkers =
                 
                 // Check if piece goes forward
                 if ((pieceFrom.getColor() === 2) ^ ((to[0] - from[0]) > 0)) {
-                    console.log('you cannot move back');
+                    checkers.invalidMove(t('illegalmove.cannot.move.back'));
                     return null;
                 }
             }
@@ -158,18 +158,18 @@ var checkers =
                     if (!p.isFree()) {
                         if (null === pieceMiddle) {
                             if (p.getColor() === pieceFrom.getColor()) {
-                                console.log('you cannot jump your own pieces');
+                                checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'));
                                 return null;
                             } else {
                                 pieceMiddle = p;
                                 middle = value;
                             }
                         } else {
-                            console.log('you cannot jump two pieces at time');
+                            checkers.invalidMove(t('illegalmove.cannot.jump.two.pieces'));
                             return null;
                         }
                     } else if ((null !== pieceMiddle) && (checkers.variant.getKingStopsBehind())) {
-                        console.log('in this variant, you must stop on the square just behind the piece you capture');
+                        checkers.invalidMove(t('illegalmove.king.must.stop.behind'));
                         return null;
                     }
                 });
@@ -180,7 +180,7 @@ var checkers =
                 
             } else {
                 if (distance > 2) {
-                    console.log('no long range king in this variant');
+                    checkers.invalidMove(t('illegalmove.no.long.range.king'));
                     return null;
                 }
                 
@@ -193,10 +193,10 @@ var checkers =
                     var pieceMiddle = checkers.pieceAt(middle);
                     
                     if (pieceMiddle.isFree()) {
-                        console.log('no long range king in this variant');
+                        checkers.invalidMove(t('illegalmove.no.long.range.king'));
                         return null;
                     } else if (pieceMiddle.getColor() === pieceFrom.getColor()) {
-                        console.log('cannot jump owned pieces');
+                        checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'));
                         return null;
                     } else {
                         jumpedCoords.push(middle);
@@ -313,6 +313,16 @@ var checkers =
     pieceAt: function (coords)
     {
         return new Piece(checkers.party.grid[coords[0]][coords[1]]);
+    },
+    
+    /**
+     * Pop a bootstrap modal to notify an invalid move and the reason
+     * 
+     * @param {String} error reason of why the move is invalid
+     */
+    invalidMove: function (error)
+    {
+        modal.popSimple(error, t('illegalmove'), 'warning');
     }
 };
 
@@ -637,7 +647,8 @@ var checkersControls =
             }
         } else {
             checkersControls.hardRefresh();
-            console.log(r.error);
+            
+            checkers.invalidMove(r.error);
         }
     },
     
@@ -737,8 +748,6 @@ var checkersControls =
      */
     myTurn: function ()
     {
-        console.log('my turn');
-        
         jQuery('.piece-controlled')
                 .addClass('piece-draggable')
                 .draggable({disabled: false})
@@ -750,8 +759,6 @@ var checkersControls =
      */
     notMyTurn: function ()
     {
-        console.log('not longer my turn');
-        
         jQuery('.piece-draggable')
                 .removeClass('piece-draggable')
         ;

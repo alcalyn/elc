@@ -63,6 +63,8 @@ class JsVarsService
         
         $this->addContext('player', $this->session->getPlayer()->jsonSerialize());
         $this->addContext('locale', $this->translator->getLocale());
+        
+        $this->useTrans('close');
     }
     
     
@@ -114,7 +116,14 @@ class JsVarsService
     
     public function useTrans($s)
     {
-        $this->set(self::TYPE_TRANSLATION, $s, $this->translator->trans(/** @Ignore */ $s));
+        if (is_array($s)) {
+            foreach ($s as $t) {
+                $this->useTrans($t);
+            }
+        } else {
+            $this->set(self::TYPE_TRANSLATION, $s, $this->translator->trans(/** @Ignore */ $s));
+        }
+        
         return $this;
     }
 }

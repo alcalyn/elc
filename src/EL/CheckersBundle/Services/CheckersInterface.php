@@ -165,6 +165,20 @@ class CheckersInterface extends ELGameAdapter
         
         $this->get('el_core.js_vars')
                 ->addContext('square-size', $squareSize)
+                ->useTrans(array(
+                    'illegalmove',
+                    'not.your.turn',
+                    'illegalmove.no.move.detected',
+                    'illegalmove.destination.occupied',
+                    'illegalmove.must.move.diagonally',
+                    'illegalmove.cannot.move.too.far',
+                    'illegalmove.cannot.backward.jump',
+                    'illegalmove.cannot.move.back',
+                    'illegalmove.cannot.jump.own.pieces',
+                    'illegalmove.cannot.jump.two.pieces',
+                    'illegalmove.king.must.stop.behind',
+                    'illegalmove.no.long.range.king',
+                ))
         ;
         
         return $this->render('CheckersBundle:Checkers:active.html.twig', array(

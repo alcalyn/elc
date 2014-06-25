@@ -2,6 +2,7 @@
 
 namespace EL\CheckersBundle\Services;
 
+use Symfony\Component\Translation\TranslatorInterface;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Util\Coords;
 use EL\CheckersBundle\Checkers\CheckersException;
@@ -124,7 +125,7 @@ class Checkers
             if (end($move->path)->isEqual($from)) {
                 $move->path []= $to;
             } else {
-                throw new CheckersIllegalMoveException('You must continue your captures with the same piece');
+                throw new CheckersIllegalMoveException('illegalmove.continue.capture');
             }
         } else {
             $move = new Move($lastMove->number + 1, array($from, $to));
@@ -132,37 +133,45 @@ class Checkers
         
         // Check if there is a piece on from square
         if ($pieceFrom->isFree()) {
-            throw new CheckersIllegalMoveException('there is no piece in from: '.$from);
+            throw new CheckersIllegalMoveException('illegalmove.no.piece.from.%coords%', array('%coords%' => $from));
         }
         
         // Check if piece moved is not owned by the other player
         if (($playerPieces - 1) != $checkersParty->getCurrentPlayer()) {
-            throw new CheckersIllegalMoveException('you cannot move pieces of your opponent');
+            throw new CheckersIllegalMoveException('illegalmove.cannot.move.opponent.pieces');
         }
         
         // Test if from and to are the same
         if ($from->isEqual($to)) {
-            throw new CheckersIllegalMoveException('no move detected');
+            throw new CheckersIllegalMoveException('illegalmove.no.move.detected');
         }
         
         // Check if movement is inside board
         if (!$from->isInsideBoard($boardSize)) {
-            throw new CheckersIllegalMoveException('$from must be in board size '.$boardSize.', got '.$from);
+            throw new CheckersIllegalMoveException('illegalmove.%name%.must.be.inboard.%boardsize%.%coords%', array(
+                '%name%'        => 'from',
+                '%boardsize%'   => $boardSize,
+                '%coords%'      => $from,
+            ));
         }
         
         // Check if we move piece inside the board
         if (!$to->isInsideBoard($boardSize)) {
-            throw new CheckersIllegalMoveException('$to must be in board size '.$boardSize.', got '.$to);
+            throw new CheckersIllegalMoveException('illegalmove.%name%.must.be.inboard.%boardsize%.%coords%', array(
+                '%name%'        => 'to',
+                '%boardsize%'   => $boardSize,
+                '%coords%'      => $to,
+            ));
         }
         
         // Check if destination square is not already occupied
         if (!$pieceTo->isFree()) {
-            throw new CheckersIllegalMoveException('you cannot move on a not empty square');
+            throw new CheckersIllegalMoveException('illegalmove.destination.occupied');
         }
 
         // Check for diagonal move
         if (!$from->isSameDiagonal($to)) {
-            throw new CheckersIllegalMoveException('you must move diagonnaly');
+            throw new CheckersIllegalMoveException('illegalmove.must.move.diagonally');
         }
         
         // Prepare a capture anticipator instance
@@ -175,7 +184,7 @@ class Checkers
             
             // Check if we are in multiple capture phase and player is stopping to capture with the piece
             if ($move->multipleCapture) {
-                throw new CheckersIllegalMoveException('You must continue your captures');
+                throw new CheckersIllegalMoveException('illegalmove.continue.capture');
             }
 
             // Piece made a simple move. Check force capture
@@ -183,7 +192,7 @@ class Checkers
                 $captures = $capturesAnticipator->anticipate($checkersParty);
 
                 if (count($captures) > 0) {
-                    throw new CheckersIllegalMoveException('you must capture opponent piece');
+                    throw new CheckersIllegalMoveException('illegalmove.must.capture');
                 }
             }
         }
@@ -193,14 +202,14 @@ class Checkers
             
             // Piece jump more than 2 squares
             if ($squareJump > 2) {
-                throw new CheckersIllegalMoveException('you can move over one square, or jump over opponent pieces');
+                throw new CheckersIllegalMoveException('illegalmove.cannot.move.too.far');
             }
             
             if (1 === $squareJump) {
             
                 // Check if piece goes forward
                 if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
-                    throw new CheckersIllegalMoveException('you cannot move back');
+                    throw new CheckersIllegalMoveException('illegalmove.cannot.move.back');
                 }
             }
             
@@ -210,7 +219,7 @@ class Checkers
                 // Check if piece goes forward
                 if (($playerPieces === Piece::BLACK) xor (($to->line - $from->line) > 0)) {
                     if (!$variant->getBackwardCapture()) {
-                        throw new CheckersIllegalMoveException('you cannot backward jump in this variant');
+                        throw new CheckersIllegalMoveException('illegalmove.cannot.backward.jump');
                     }
                 }
                 
@@ -219,17 +228,17 @@ class Checkers
                 
                 // Jump an empty square
                 if ($pieceMiddle->isFree()) {
-                    throw new CheckersIllegalMoveException('you must move over one square');
+                    throw new CheckersIllegalMoveException('illegalmove.cannot.move.too.far');
                 }
                 
                 // Jump an owned piece
                 if ($pieceMiddle->getColor() === $playerPieces) {
-                    throw new CheckersIllegalMoveException('you cannot jump over your pieces');
+                    throw new CheckersIllegalMoveException('illegalmove.cannot.jump.own.pieces');
                 }
                 
                 // Check if we are jumping a king while variant disallows
                 if ($pieceMiddle->isKing() && !$variant->getMenJumpKing()) {
-                    throw new CheckersIllegalMoveException('you cannot jump over kings in this variant');
+                    throw new CheckersIllegalMoveException('illegalmove.cannot.jump.kings.variant');
                 }
             }
         } else {
@@ -248,18 +257,16 @@ class Checkers
                     if (!$p->isFree()) {
                         if (null === $pieceMiddle) {
                             if ($p->getColor() === $playerPieces) {
-                                throw new CheckersIllegalMoveException('you cannot jump your own pieces');
+                                throw new CheckersIllegalMoveException('illegalmove.cannot.jump.own.pieces');
                             } else {
                                 $pieceMiddle = $p;
                                 $middle = $c;
                             }
                         } else {
-                            throw new CheckersIllegalMoveException('you cannot jump two pieces at time');
+                            throw new CheckersIllegalMoveException('illegalmove.cannot.jump.two.pieces');
                         }
                     } elseif ((null === $pieceMiddle) && $variant->getKingStopsBehind()) {
-                        throw new CheckersIllegalMoveException(
-                                'in this variant, you must stop on the square just behind the piece you capture'
-                        );
+                        throw new CheckersIllegalMoveException('illegalmove.king.must.stop.behind');
                     }
                 }
             } else {
@@ -268,7 +275,7 @@ class Checkers
                 $squareJump = $from->distanceToLine($to);
                 
                 if ($squareJump > 2) {
-                    throw new CheckersIllegalMoveException('you cannot make a long range jump in this variant');
+                    throw new CheckersIllegalMoveException('illegalmove.no.long.range.king');
                 }
                 
                 if (2 === $squareJump) {
@@ -277,12 +284,12 @@ class Checkers
 
                     // Jump an owned piece
                     if ($pieceMiddle->getColor() === $playerPieces) {
-                        throw new CheckersIllegalMoveException('you cannot jump over your pieces');
+                        throw new CheckersIllegalMoveException('illegalmove.cannot.jump.own.pieces');
                     }
                     
                     // Jump an empty piece
                     if ($pieceMiddle->isFree()) {
-                        throw new CheckersIllegalMoveException('you cannot make a long range jump in this variant');
+                        throw new CheckersIllegalMoveException('illegalmove.no.long.range.king');
                     }
                 }
             }
@@ -315,9 +322,7 @@ class Checkers
                         $isOneOfBest = $capturesEvaluator->isOneOfBestCapture($move);
                         
                         if (true !== $isOneOfBest) {
-                            throw new CheckersIllegalMoveException(
-                                    'you must capture a better way. This way fails on: '.$isOneOfBest
-                            );
+                            throw new CheckersIllegalMoveException('illegalmove.capturebetter.'.$isOneOfBest);
                         }
                     }
                 } else {
@@ -333,9 +338,7 @@ class Checkers
                         if (true === $isOneOfBest) {
                             $checkersParty->setBestMultipleCaptures(json_encode($bestCaptures));
                         } else {
-                            throw new CheckersIllegalMoveException(
-                                    'you must capture a better way. This way fails on: '.$isOneOfBest
-                            );
+                            throw new CheckersIllegalMoveException('illegalmove.capturebetter.'.$isOneOfBest);
                         }
                     }
                 }

@@ -16,6 +16,30 @@ canadian: Canadian
 cancels.force.capture: 'Note: This rule cancels force capture'
 captures.rules: 'Rules about captures'
 english: English
+illegalmove: 'Invalid move'
+
+illegalmove:
+    continue.capture: 'You must continue your captures with the same piece'
+    no.piece.from.%coords%: 'There is no piece at starting square (%coords)'
+    cannot.move.opponent.pieces: 'You cannot move the pieces of your opponent'
+    no.move.detected: 'No move has been detected'
+    %name%.must.be.inboard.%boardsize%.%coords%: '%name% must be in board size %boardsize%, got %coords%'
+    destination.occupied: 'You cannot move on an occupied square'
+    must.move.diagonally: 'You must move diagonally'
+    must.capture: 'You must capture the opponent piece'
+    cannot.move.too.far: 'You must move on on neighboring squares, or capture an opponent piece'
+    cannot.move.back: 'You cannot move back'
+    cannot.backward.jump: 'You cannot backwad jump in this variant'
+    cannot.jump.own.pieces: 'You cannot jump over your own pieces'
+    cannot.jump.kings.variant: 'you cannot jump over kings in this variant'
+    cannot.jump.two.pieces: 'You cannot jump two pieces at one time'
+    king.must.stop.behind: 'In this variant, you must stop on the square just behind the piece you capture'
+    no.long.range.king: 'You cannot make a long range jump in this variant'
+    capturebetter:
+        quantity:   'You must capture where there is the maximum amount of pieces'
+        preference: 'You must capture with a king instead of a piece'
+        quality:    'You must capture where there is the maximum amount of opponent kings'
+        precedence: 'You must capture where the opponent king is captured before pieces'
 
 first:
     player: 'First player'

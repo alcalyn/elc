@@ -399,7 +399,7 @@ var checkersControls =
      */
     enableDrop: function ()
     {
-        var squareUsed = checkers.variant.getSquareUsed() ? 'even' : 'odd' ;
+        var squareUsed = checkers.variant.getSquareUsed() ? 'odd' : 'even' ;
         
         $('.grid-'+squareUsed).droppable({
             hoverClass: 'piece-over',

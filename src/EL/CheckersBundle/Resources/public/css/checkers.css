@@ -22,9 +22,6 @@ h4 {
     position: relative;
     margin: 24px auto 48px auto;
 }
-.piece-controlled {
-    cursor: pointer;
-}
 .piece-over {
     border: 2px solid #BBB !important;
 }

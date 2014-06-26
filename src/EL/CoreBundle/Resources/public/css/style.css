@@ -536,12 +536,12 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
 }
 
 .cb-blackwhite ~ .cb-false {
-    background-color: black;
-    color: white;
-}
-.cb-blackwhite ~ .cb-true {
     background-color: white;
     color: black;
+}
+.cb-blackwhite ~ .cb-true {
+    background-color: black;
+    color: white;
 }
 
 

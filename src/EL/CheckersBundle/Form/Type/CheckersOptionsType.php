@@ -41,8 +41,8 @@ class CheckersOptionsType extends AbstractType
                 'required'  => false,
                 'attr'      => array(
                     'class'         => 'cb-restyle cb-blackwhite',
-                    'data-cb-true'  => $this->t->trans('white.es'),
-                    'data-cb-false' => $this->t->trans('black.es'),
+                    'data-cb-false'  => $this->t->trans('white.es'),
+                    'data-cb-true' => $this->t->trans('black.es'),
                 ),
             ))
             ->add('rightSquare', 'checkbox', array(
@@ -50,8 +50,8 @@ class CheckersOptionsType extends AbstractType
                 'required'  => false,
                 'attr'      => array(
                     'class'         => 'cb-restyle cb-blackwhite',
-                    'data-cb-true'  => $this->t->trans('white.e'),
-                    'data-cb-false' => $this->t->trans('black.e'),
+                    'data-cb-false'  => $this->t->trans('white.e'),
+                    'data-cb-true' => $this->t->trans('black.e'),
                 ),
             ))
             ->add('backwardCapture', 'checkbox', array(
@@ -103,8 +103,8 @@ class CheckersOptionsType extends AbstractType
                 'required'  => false,
                 'attr'      => array(
                     'class'         => 'cb-restyle cb-blackwhite',
-                    'data-cb-true'  => $this->t->trans('white.s'),
-                    'data-cb-false' => $this->t->trans('black.s'),
+                    'data-cb-false'  => $this->t->trans('white.s'),
+                    'data-cb-true' => $this->t->trans('black.s'),
                 ),
             ))
         ;

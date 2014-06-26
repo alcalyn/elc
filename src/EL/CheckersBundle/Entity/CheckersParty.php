@@ -74,6 +74,15 @@ class CheckersParty implements \JsonSerializable
      * @ORM\Column(name="bestMultipleCaptures", type="string", length=1023, nullable=true)
      */
     private $bestMultipleCaptures;
+    
+    /**
+     * Data about huff
+     * 
+     * @var string
+     *
+     * @ORM\Column(name="huff", type="string", length=256, nullable=true)
+     */
+    private $huff;
 
     /**
      * Get id
@@ -211,22 +220,6 @@ class CheckersParty implements \JsonSerializable
     {
         return $this->party;
     }
-    
-    /**
-     * Implements JsonSerializable
-     * 
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return array(
-            'id'            => $this->getId(),
-            'currentPlayer' => $this->getCurrentPlayer(),
-            'lastMove'      => json_decode($this->getLastMove()),
-            'parameters'    => $this->getParameters(),
-            'grid'          => $this->getGrid(),
-        );
-    }
 
     /**
      * Set bestMultipleCaptures
@@ -249,5 +242,45 @@ class CheckersParty implements \JsonSerializable
     public function getBestMultipleCaptures()
     {
         return $this->bestMultipleCaptures;
+    }
+
+    /**
+     * Set huff
+     *
+     * @param string $huff
+     * @return CheckersParty
+     */
+    public function setHuff($huff)
+    {
+        $this->huff = $huff;
+    
+        return $this;
+    }
+
+    /**
+     * Get huff
+     *
+     * @return string 
+     */
+    public function getHuff()
+    {
+        return $this->huff;
+    }
+    
+    /**
+     * Implements JsonSerializable
+     * 
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id'            => $this->getId(),
+            'currentPlayer' => $this->getCurrentPlayer(),
+            'lastMove'      => json_decode($this->getLastMove()),
+            'parameters'    => $this->getParameters(),
+            'grid'          => $this->getGrid(),
+            'huff'          => json_decode($this->getHuff()),
+        );
     }
 }

@@ -171,6 +171,7 @@ class CheckersInterface extends ELGameAdapter
                 ->useTrans(array(
                     'illegal.move',
                     'not.your.turn',
+                    'blow.up',
                     'illegalmove.no.move.detected',
                     'illegalmove.destination.occupied',
                     'illegalmove.must.move.diagonally',
@@ -181,6 +182,9 @@ class CheckersInterface extends ELGameAdapter
                     'illegalmove.cannot.jump.two.pieces',
                     'illegalmove.king.must.stop.behind',
                     'illegalmove.no.long.range.king',
+                    'illegalmove.cannot.huff.this.piece',
+                    'illegalmove.cannot.huff.already.huffed',
+                    'illegalmove.cannot.huff.already.jumped',
                 ))
         ;
         

@@ -63,11 +63,30 @@ var checkers =
     },
     
     /**
+     * Player tries to huff an opponent piece
+     * 
+     * @param {jQuery} $piece to be huff
+     */
+    huff: function (coords)
+    {
+        var data = {
+            slugParty:  jsContext.coreParty.slug,
+            slugGame:   jsContext.coreParty.game.slug,
+            coords: {
+                line: coords[0],
+                col:  coords[1]
+            }
+        };
+        
+        phax.action('checkers', 'huff', data);
+    },
+    
+    /**
      * Naive checks for a move.
      * Return a move instance with jumped pieces if there is.
      * 
-     * @param {type} from
-     * @param {type} to
+     * @param {Array} from
+     * @param {Array} to
      * 
      * @returns {Move|null} Move
      */
@@ -208,6 +227,53 @@ var checkers =
     },
     
     /**
+     * Naive checks for a huff.
+     * Return true of false if query to server can be done
+     * 
+     * @param {Array} coords
+     * 
+     * @returns {Boolean}
+     */
+    checkHuff: function (coords)
+    {
+        if (checkers.party.lastMove.jumpedCoords.length > 0) {
+            checkers.invalidMove(t('illegalmove.cannot.huff.already.jumped'));
+            return false;
+        }
+        
+        if (!checkers.party.huff) {
+            checkers.invalidMove(t('illegalmove.cannot.huff.this.piece'));
+            return false;
+        }
+        
+        // Check if player has already huffed this turn
+        if (checkers.party.huff.huffed) {
+            checkers.invalidMove(t('illegalmove.cannot.huff.already.huffed'));
+            return false;
+        }
+        
+        // Check if piece is huffable
+        var huffable = false;
+        var huffCoordsCount = checkers.party.huff.huffCoords.length;
+        
+        for (var i = 0; i < huffCoordsCount; i++) {
+            var huffCoord = checkers.party.huff.huffCoords[i];
+            
+            if ((huffCoord.line === parseInt(coords[0])) && (huffCoord.col === parseInt(coords[1]))) {
+                huffable = true;
+                break;
+            }
+        }
+        
+        if (!huffable) {
+            checkers.invalidMove(t('illegalmove.cannot.huff.this.piece'));
+            return false;
+        }
+        
+        return true;
+    },
+    
+    /**
      * Callback for move action
      * 
      * @param {Object} r
@@ -219,6 +285,20 @@ var checkers =
         }
         
         checkersControls.moveReaction(r);
+    },
+    
+    /**
+     * Callback for huff action
+     * 
+     * @param {Object} r
+     */
+    huffReaction: function (r)
+    {
+        if (r.valid) {
+            checkers.party = r.party;
+        }
+        
+        checkersControls.huffReaction(r);
     },
     
     /**
@@ -241,6 +321,11 @@ var checkers =
      */
     getLastMoveReaction: function (r)
     {
+        if (r.party.huff && (r.party.huff.huffed !== null) && (checkers.party.huff.huffed === null)) {
+            checkersControls.huffed(r.party.huff);
+            checkers.party.huff = r.party.huff;
+        }
+        
         if (r.party.lastMove.number < checkers.party.lastMove.number) {
             return;
         } else if (
@@ -363,6 +448,14 @@ var checkersControls =
             } else {
                 checkersControls.notMyTurn();
             }
+            
+            if (checkers.variant.getBlowUp()) {
+                jQuery('body').on('click', '.piece-huffable', function () {
+                    checkersControls.huffDetected(jQuery(this));
+                    
+                    return true;
+                });
+            }
         }
     },
     
@@ -480,6 +573,20 @@ var checkersControls =
             checkersControls.move($piece, coordsFrom);
             
             return false;
+        }
+    },
+    
+    huffDetected: function ($piece)
+    {
+        var coords = [
+            $piece.attr('data-line'),
+            $piece.attr('data-col')
+        ];
+        
+        if (checkers.checkHuff(coords)) {
+            checkers.huff(coords);
+            checkersControls.eat(coords);
+            checkersControls.animateHuff(coords);
         }
     },
     
@@ -662,6 +769,28 @@ var checkersControls =
     },
     
     /**
+     * Called then ajax request result has been received by model.
+     * Check for huff validity, and revert if not.
+     * 
+     * @param {Object} r
+     */
+    huffReaction: function (r)
+    {
+        if (r.valid) {
+            console.log('huffed successfully');
+            
+            if (checkers.isMyTurn()) {
+                checkersControls.myTurn();
+            } else {
+                checkersControls.notMyTurn();
+            }
+        } else {
+            checkersControls.hardRefresh();
+            checkers.invalidMove(r.error, r.illus);
+        }
+    },
+    
+    /**
      * Called when opponent played his turn
      * 
      * @param {Object} Move instance
@@ -710,6 +839,41 @@ var checkersControls =
         checkersControls.myTurn();
     },
     
+    /**
+     * A piece has been huffed
+     * 
+     * @param {Object} huff
+     */
+    huffed: function (huff)
+    {
+        var huffed = huff.huffed;
+        
+        checkersControls.eat(huffed);
+        checkersControls.animateHuff([huffed.line, huffed.col]);
+    },
+    
+    /**
+     * Animation for a huff
+     */
+    animateHuff: function (coords)
+    {
+        var $square = checkersControls.getSquareAt(coords);
+        
+        $square
+                .addClass('grid-item-highlight-1')
+                .popover({
+                    placement: 'top',
+                    content: t('blow.up')
+                })
+                .popover('show')
+                .popover('disable')
+        ;
+        
+        setTimeout(function () {
+            $square.popover('hide');
+        }, 3000);
+    },
+    
     highlightMove: function (move)
     {
         jQuery('.grid-item-highlight-1').removeClass('grid-item-highlight-1');
@@ -745,7 +909,7 @@ var checkersControls =
             return checkersControls.getPieceAt(mixed);
         }
         
-        if (mixed.line && mixed.col) {
+        if ((mixed.line !== undefined) && (mixed.col !== undefined)) {
             return checkersControls.getPieceAt([mixed.line, mixed.col]);
         }
         
@@ -761,6 +925,10 @@ var checkersControls =
                 .addClass('piece-draggable')
                 .draggable({disabled: false})
         ;
+        
+        if (checkers.variant.getBlowUp()) {
+            jQuery('.piece:not(.piece-controlled)').addClass('piece-huffable');
+        }
     },
     
     /**
@@ -775,6 +943,10 @@ var checkersControls =
         jQuery('.piece-controlled')
                 .draggable({disabled: true})
         ;
+        
+        if (checkers.variant.getBlowUp()) {
+            jQuery('.piece-huffable').removeClass('piece-huffable');
+        }
     }
 };
 

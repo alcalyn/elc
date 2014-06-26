@@ -130,7 +130,10 @@ class Checkers
         
         // Check if there is a piece on from square
         if ($pieceFrom->isFree()) {
-            throw new CheckersIllegalMoveException('illegalmove.no.piece.from.%coords%', array('%coords%' => $from));
+            throw new CheckersIllegalMoveException('illegalmove.no.piece.%name%.%coords%', array(
+                '%name%'    => 'from',
+                '%coords%'  => $from,
+            ));
         }
         
         // Check if piece moved is not owned by the other player
@@ -358,6 +361,17 @@ class Checkers
             }
         }
         
+        // Check huffs if variant allows to and no pieces has been jumped
+        if ($variant->getBlowUp()) {
+            if (null === $middle) {
+                $huff = $this->calculateHuff($checkersParty, $capturesAnticipator, $move);
+            } else {
+                $huff = self::createHuffInstance();
+            }
+            
+            $checkersParty->setHuff(json_encode($huff));
+        }
+        
         // Perform move
         $this->pieceAt($grid, $to, $pieceFrom);
         $this->pieceAt($grid, $from, Piece::FREE);
@@ -401,6 +415,137 @@ class Checkers
         }
         
         return $move;
+    }
+    
+    /**
+     * A player tries to huff a piece
+     * 
+     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\CoreBundle\Util\Coords $coords where the piece to huff is
+     */
+    public function huff(CheckersParty $checkersParty, Coords $coords)
+    {
+        $variant        = new Variant($checkersParty->getParameters());
+        $grid           = $checkersParty->getGrid();
+        $piece          = $this->pieceAt($grid, $coords);
+        $lastMove       = Move::jsonDeserialize(json_decode($checkersParty->getLastMove()));
+        
+        // Check if variant allows huff
+        if (!$variant->getBlowUp()) {
+            throw new CheckersIllegalMoveException('illegalmove.nohuff.variant');
+        }
+        
+        // Check if there is a piece on huff coords
+        if ($piece->isFree()) {
+            throw new CheckersIllegalMoveException('illegalmove.no.piece.%name%.%coords%', array(
+                '%name%'    => 'huff',
+                '%coords%'  => $coords,
+            ));
+        }
+        
+        // Check if player tries to huff his own pieces
+        if ($piece->getColor() === ($checkersParty->getCurrentPlayer() ? Piece::BLACK : Piece::WHITE)) {
+            throw new CheckersIllegalMoveException('illegalmove.cannot.huff.own.pieces');
+        }
+        
+        // Check if there is no captures in last move
+        if (count($lastMove->jumpedCoords) > 0) {
+            throw new CheckersIllegalMoveException('illegalmove.cannot.huff.already.jumped');
+        }
+        
+        $huff = json_decode($checkersParty->getHuff());
+        
+        if (null === $huff) {
+            throw new CheckersIllegalMoveException('illegalmove.cannot.huff.this.piece');
+        }
+        
+        if (null !== $huff->huffed) {
+            throw new CheckersIllegalMoveException('illegalmove.cannot.huff.already.huffed');
+        }
+        
+        $isHuffable = false;
+        
+        foreach ($huff->huffCoords as $huffCoord) {
+            if (($coords->line === $huffCoord->line) && ($coords->col === $huffCoord->col)) {
+                $isHuffable = true;
+                break;
+            }
+        }
+        
+        if (!$isHuffable) {
+            throw new CheckersIllegalMoveException('illegalmove.cannot.huff.this.piece');
+        }
+        
+        $huff->huffed = $coords;
+        $this->pieceAt($grid, $coords, Piece::FREE);
+        
+        $checkersParty
+                ->setHuff(json_encode($huff))
+                ->setGrid($grid)
+        ;
+    }
+    
+    /**
+     * Save all coords which can be huffed by opponent
+     * 
+     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\CheckersBundle\Checkers\CapturesAnticipatorCache $capturesAnticipator
+     * @param \EL\CheckersBundle\Checkers\Move $move
+     * @return \stdClass huff
+     */
+    private function calculateHuff(
+            CheckersParty $checkersParty,
+            CapturesAnticipatorCache $capturesAnticipator = null,
+            Move $move = null)
+    {
+        if (null === $capturesAnticipator) {
+            $capturesAnticipator = new CapturesAnticipatorCache();
+        }
+        
+        $huff = self::createHuffInstance();
+        
+        $captures = $capturesAnticipator->anticipate($checkersParty);
+        
+        // Save coords which can be huffed
+        foreach ($captures as $capture) {
+            $alreadyIn = false;
+
+            foreach ($huff->huffCoords as $huffCoord) {
+                if ($huffCoord->isEqual($capture->path[0])) {
+                    $alreadyIn = true;
+                    break;
+                }
+            }
+
+            if (!$alreadyIn) {
+                $huff->huffCoords[] = $capture->path[0];
+            }
+        }
+        
+        // Update coords if piece just moved
+        if (null !== $move) {
+            foreach ($huff->huffCoords as &$huffCoord) {
+                if ($huffCoord->isEqual($move->path[0])) {
+                    $huffCoord = $move->path[1];
+                }
+            }
+        }
+        
+        return $huff;
+    }
+    
+    /**
+     * Create a new instance of huff
+     * 
+     * @return \stdClass
+     */
+    private static function createHuffInstance()
+    {
+        $huff = new \stdClass();
+        $huff->huffed       = null;
+        $huff->huffCoords   = array();
+        
+        return $huff;
     }
     
     /**

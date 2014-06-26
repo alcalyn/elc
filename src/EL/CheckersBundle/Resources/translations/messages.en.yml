@@ -20,7 +20,7 @@ illegal.move: 'Invalid move'
 
 illegalmove:
     continue.capture: 'You must continue your captures with the same piece'
-    no.piece.from.%coords%: 'There is no piece at starting square (%coords)'
+    no.piece.%name%.%coords%: 'There is no piece here: "%name%" at %coords%'
     cannot.move.opponent.pieces: 'You cannot move the pieces of your opponent'
     no.move.detected: 'No move has been detected'
     %name%.must.be.inboard.%boardsize%.%coords%: '%name% must be in board size %boardsize%, got %coords%'
@@ -40,6 +40,11 @@ illegalmove:
         preference: 'You must capture with a king instead of a piece'
         quality:    'You must capture where there is the maximum amount of opponent kings'
         precedence: 'You must capture where the opponent king is captured before pieces'
+    nohuff.variant: 'You cannot huff in this variant'
+    cannot.huff.own.pieces: 'Do you really want huff your own piece...'
+    cannot.huff.already.jumped: 'You cannot huff pieces because your opponent jumped one or more of your pieces'
+    cannot.huff.this.piece: 'You cannot huff this piece'
+    cannot.huff.already.huffed: 'You cannot huff a piece again this turn'
 
 first:
     player: 'First player'

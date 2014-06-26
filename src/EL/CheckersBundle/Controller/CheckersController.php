@@ -83,11 +83,82 @@ class CheckersController extends Controller
             // Update party in database
             $this->getDoctrine()->getManager()->flush();
             
+            // Send success response
             return $this->get('phax')->reaction(array(
                 'valid' => true,
                 'party' => $extendedParty,
             ));
         } catch (CheckersIllegalMoveException $e) {
+            // Send error response
+            return $this->get('phax')->reaction(array(
+                'valid' => false,
+                'error' => $t->trans($e->getMessage(), $e->getMsgVars()),
+                'illus' => $e->getIllustration(),
+            ));
+        }
+    }
+    
+    /**
+     * A player tries to huff a piece
+     * 
+     * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
+     * @param string $slugParty
+     * @param string $slugGame
+     */
+    public function huffAction(PhaxAction $phaxAction, $slugParty, $slugGame)
+    {
+        $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
+        
+        $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
+        
+        $loggedPlayer   = $this->get('el_core.session')->getPlayer();
+        $coreParty      = $partyService->getParty();            /* @var $coreParty Party */
+        $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty CheckersParty */
+        $t              = $this->get('translator');
+        
+        // Check if party is still active
+        if ($coreParty->getState() !== Party::ACTIVE) {
+            return $this->get('phax')->reaction(array(
+                'valid' => false,
+                'error' => 'party has ended',
+            ));
+        }
+        
+        // Check if the move come from the good player turn
+        $playerTurn = $coreParty
+                ->getSlots()
+                ->get($extendedParty->getCurrentPlayer() ? 1 : 0)
+                ->getPlayer()
+        ;
+        
+        if ($playerTurn->getId() !== $loggedPlayer->getId()) {
+            return $this->get('phax')->reaction(array(
+                'valid' => false,
+                'error' => 'not your turn',
+            ));
+        }
+        
+        $checkersService    = $this->get('checkers.core');
+        $coords             = new Coords($phaxAction->coords['line'], $phaxAction->coords['col']);
+        
+        try {
+            // Perform huff
+            $checkersService->huff($extendedParty, $coords);
+            
+            // Update party in database
+            $this->getDoctrine()->getManager()->flush();
+            
+            // Send success response
+            return $this->get('phax')->reaction(array(
+                'valid' => true,
+                'party' => $extendedParty,
+            ));
+        } catch (CheckersIllegalMoveException $e) {
+            
+            // Update party in database
+            $this->getDoctrine()->getManager()->flush();
+            
+            // Send error response
             return $this->get('phax')->reaction(array(
                 'valid' => false,
                 'error' => $t->trans($e->getMessage(), $e->getMsgVars()),

@@ -13,7 +13,7 @@ board: Board
 board.size: 'Board size'
 
 canadian: Canadian
-cancels.force.capture: 'Note: This rule cancels force capture'
+old.style: 'Old style !'
 captures.rules: 'Rules about captures'
 english: English
 illegal.move: 'Invalid move'

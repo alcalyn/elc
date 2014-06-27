@@ -10,7 +10,7 @@ blow:
     up: 'Souffler n''est pas jouer !'
 
 board: Plateau
-cancels.force.capture: 'Note : Cette règle annule la capture forcée'
+old.style: 'À l''ancienne !'
 captures.rules: 'Règles de capture'
 board.size: 'Taille du plateau'
 

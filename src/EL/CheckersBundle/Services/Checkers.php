@@ -212,18 +212,18 @@ class Checkers
                 // Jump an empty square
                 if ($pieceMiddle->isFree()) {
                     throw new CheckersIllegalMoveException(
-                            'illegalmove.cannot.move.too.far',
-                            array(),
-                            'move-or-jump.jpg'
+                        'illegalmove.cannot.move.too.far',
+                        array(),
+                        'move-or-jump.jpg'
                     );
                 }
                 
                 // Jump an owned piece
                 if ($pieceMiddle->getColor() === $playerPieces) {
                     throw new CheckersIllegalMoveException(
-                            'illegalmove.cannot.jump.own.pieces',
-                            array(),
-                            'jump-own-piece.jpg'
+                        'illegalmove.cannot.jump.own.pieces',
+                        array(),
+                        'jump-own-piece.jpg'
                     );
                 }
                 
@@ -249,9 +249,9 @@ class Checkers
                         if (null === $pieceMiddle) {
                             if ($p->getColor() === $playerPieces) {
                                 throw new CheckersIllegalMoveException(
-                                        'illegalmove.cannot.jump.own.pieces',
-                                        array(),
-                                        'jump-own-piece.jpg'
+                                    'illegalmove.cannot.jump.own.pieces',
+                                    array(),
+                                    'jump-own-piece.jpg'
                                 );
                             } else {
                                 $pieceMiddle = $p;
@@ -280,9 +280,9 @@ class Checkers
                     // Jump an owned piece
                     if ($pieceMiddle->getColor() === $playerPieces) {
                         throw new CheckersIllegalMoveException(
-                                'illegalmove.cannot.jump.own.pieces',
-                                array(),
-                                'jump-own-piece.jpg'
+                            'illegalmove.cannot.jump.own.pieces',
+                            array(),
+                            'jump-own-piece.jpg'
                         );
                     }
                     
@@ -328,9 +328,9 @@ class Checkers
                     
                     if (null !== $bestCaptures) {
                         $capturesEvaluator = CapturesEvaluator::loadFromBestCaptures(
-                                json_decode($bestCaptures),
-                                $variant,
-                                $grid
+                            json_decode($bestCaptures),
+                            $variant,
+                            $grid
                         );
                         
                         $isOneOfBest = $capturesEvaluator->isOneOfBestCapture($move);
@@ -492,10 +492,10 @@ class Checkers
      * @return \stdClass huff
      */
     private function calculateHuff(
-            CheckersParty $checkersParty,
-            CapturesAnticipatorCache $capturesAnticipator = null,
-            Move $move = null)
-    {
+        CheckersParty $checkersParty,
+        CapturesAnticipatorCache $capturesAnticipator = null,
+        Move $move = null
+    ) {
         if (null === $capturesAnticipator) {
             $capturesAnticipator = new CapturesAnticipatorCache();
         }

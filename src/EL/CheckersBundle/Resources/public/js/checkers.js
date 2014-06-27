@@ -813,7 +813,7 @@ var checkersControls =
         var pathLengthLess1 = pathLength - 1;
         
         // Animate all move until now
-        for ( ; lastPath < pathLengthLess1; lastPath++) {
+        for (; lastPath < pathLengthLess1; lastPath++) {
             checkersControls.move(
                     [
                         move.path[lastPath].line,

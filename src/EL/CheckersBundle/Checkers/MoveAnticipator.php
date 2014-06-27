@@ -166,8 +166,12 @@ class MoveAnticipator
                 $coordsTo = $coordsFrom->add($this->coordsPatterns[$i][1]);
                 $pieceTo = $this->pieceAt($grid, $coordsTo);
                 
-                if ((null !== $pieceTo) && !$pieceJump->isFree() && $pieceTo->isFree() && ($pieceJump->getColor() !== $pieceFrom->getColor())) {
-                    
+                if (
+                        (null !== $pieceTo) &&
+                        !$pieceJump->isFree() &&
+                        $pieceTo->isFree() &&
+                        ($pieceJump->getColor() !== $pieceFrom->getColor())
+                ) {
                     // Check men jump kings
                     if ($this->variant->getMenJumpKing() || (!$pieceJump->isKing())) {
                         $jumpAgain = true;
@@ -227,7 +231,11 @@ class MoveAnticipator
                     $coordsJump = $coordsFrom->add($this->coordsPatterns[$i][0]);
                     $pieceJump = $this->pieceAt($grid, $coordsJump);
 
-                    if ((null !== $pieceJump) && !$pieceJump->isFree() && ($pieceJump->getColor() !== $pieceFrom->getColor())) {
+                    if (
+                            (null !== $pieceJump) &&
+                            !$pieceJump->isFree() &&
+                            ($pieceJump->getColor() !== $pieceFrom->getColor())
+                    ) {
                         $coordsTo = $coordsFrom->add($this->coordsPatterns[$i][1]);
                         $pieceTo = $this->pieceAt($grid, $coordsTo);
 

@@ -12,7 +12,8 @@ class Piece
     
     public $code;
     
-    public function __construct($code) {
+    public function __construct($code)
+    {
         $this->code = $code;
     }
     

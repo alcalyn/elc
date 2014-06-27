@@ -180,23 +180,6 @@ class Checkers
         // Jump distance
         $squareJump = $from->distanceToLine($to);
         
-        if (1 === $squareJump) {
-            
-            // Check if we are in multiple capture phase and player is stopping to capture with the piece
-            if ($move->multipleCapture) {
-                throw new CheckersIllegalMoveException('illegalmove.continue.capture');
-            }
-
-            // Piece made a simple move. Check force capture
-            if ($variant->getForceCapture()) {
-                $captures = $capturesAnticipator->anticipate($checkersParty);
-
-                if (count($captures) > 0) {
-                    throw new CheckersIllegalMoveException('illegalmove.must.capture');
-                }
-            }
-        }
-        
         if (!$pieceFrom->isKing()) {
             // If piece is not a king
             
@@ -307,6 +290,21 @@ class Checkers
                     if ($pieceMiddle->isFree()) {
                         throw new CheckersIllegalMoveException('illegalmove.no.long.range.king');
                     }
+                }
+            }
+        }
+        
+        // No captures, check if we were in multiple capture, or force capture
+        if (null === $middle) {
+            if ($move->multipleCapture) {
+                throw new CheckersIllegalMoveException('illegalmove.continue.capture');
+            }
+            
+            if ($variant->getForceCapture()) {
+                $captures = $capturesAnticipator->anticipate($checkersParty);
+
+                if (count($captures) > 0) {
+                    throw new CheckersIllegalMoveException('illegalmove.must.capture');
                 }
             }
         }

@@ -56,7 +56,7 @@ force:
     capture.quality: 'Quality (capture more kings)'
     capture.quantity: 'Quantity (capture more pieces)'
 
-french: French
+french: 'French / International'
 german: German
 italian: Italian
 

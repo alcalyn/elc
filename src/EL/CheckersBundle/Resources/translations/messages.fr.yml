@@ -56,7 +56,7 @@ force:
     capture.quality: 'Qualité (capturer le plus de dames)'
     capture.quantity: 'Quantité (capturer le plus de pions)'
 
-french: Française
+french: 'Française / Internationale'
 german: Allemande
 italian: Italienne
 

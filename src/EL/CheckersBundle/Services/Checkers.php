@@ -11,12 +11,14 @@ use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Checkers\CapturesAnticipatorCache;
 use EL\CheckersBundle\Checkers\CapturesEvaluator;
+use EL\CheckersBundle\Checkers\MoveAnticipator;
 use EL\CheckersBundle\Services\CheckersVariants;
 
 class Checkers
 {
     const WHITE = false;
     const BLACK = true;
+    const DRAW  = 'draw';
     
     /**
      * @var CheckersVariants 
@@ -547,43 +549,139 @@ class Checkers
     }
     
     /**
-     * Check if there is a winner or party
+     * Check for party end, returns if a player won or party is draw
      * 
-     * @param array $grid
-     * @param boolean $player
+     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
      * 
-     * @return mixed
-     *          false   : white wins
-     *          true    : black wins
-     *          null    : party not ended
+     * @return mixed one of these following:
+     *          Checkers::WHITE
+     *          Checkers::BLACK
+     *          Checkers::DRAW
      */
-    public function hasWinner(array $grid)
+    public function checkPartyEnd(CheckersParty $checkersParty)
     {
+        $grid = $checkersParty->getGrid();
         $boardSize = count($grid);
         
-        // Check if both players still have pieces
-        $has = array(
-            self::WHITE => false,
-            self::BLACK => false,
+        $pieces = array(
+            Piece::WHITE        => 0,
+            Piece::BLACK        => 0,
+            Piece::WHITE_KING   => 0,
+            Piece::BLACK_KING   => 0,
         );
         
+        // Count all pieces
         for ($i = 0; $i < $boardSize; $i++) {
             for ($j = 0; $j < $boardSize; $j++) {
                 $p = $grid[$i][$j];
                 
                 if ($p > 0) {
-                    $color = (bool) ($p % 2);
-                    
-                    $has[!$color] = true;
-                    
-                    if ($has[$color]) {
-                        return null;
-                    }
+                    $pieces[$p]++;
                 }
             }
         }
         
-        return $has[self::BLACK];
+        // Check for a winner by jumped all opponent pieces
+        $whitePieces = $pieces[Piece::WHITE] + $pieces[Piece::WHITE_KING];
+        $blackPieces = $pieces[Piece::BLACK] + $pieces[Piece::BLACK_KING];
+        
+        if (!$whitePieces) {
+            return self::BLACK;
+        } elseif (!$blackPieces) {
+            return self::WHITE;
+        }
+        
+        // Check for a winner by blocking opponent
+        $moveAnticipator = new MoveAnticipator();
+
+        if (!$moveAnticipator->canMove($checkersParty)) {
+            return $checkersParty->getCurrentPlayer() ? Checkers::WHITE : Checkers::BLACK ;
+        }
+        
+        // Check for draw
+        if ($this->canBeDrawNoMove($checkersParty)) {
+            $checkersParty->setDrawNoMove($checkersParty->getDrawNoMove() + 1);
+            
+            if ($checkersParty->getDrawNoMove() >= 25) {
+                return self::DRAW;
+            }
+        } else {
+            // This state cn change, so reset the counter
+            $checkersParty->setDrawNoMove(0);
+        }
+        
+        if ($this->canBeDrawByNotEnough($pieces)) {
+            $checkersParty->setDrawNotEnough($checkersParty->getDrawNotEnough() + 1);
+            
+            if ($checkersParty->getDrawNotEnough() >= 16) {
+                return self::DRAW;
+            }
+        }
+        
+        if ($this->canBeDrawBy1v2kings($pieces)) {
+            return self::DRAW;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Return true if party can be draw because just a king moved and no captures made
+     * 
+     * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
+     * 
+     * @return boolean
+     */
+    private function canBeDrawNoMove(CheckersParty $checkersParty)
+    {
+        $grid = $checkersParty->getGrid();
+        $lastMove = Move::jsonDeserialize(json_decode($checkersParty->getLastMove()));
+        
+        return
+            (0 === count($lastMove->jumpedCoords)) &&
+            ($this->pieceAt($grid, end($lastMove->path))->isKing())
+        ;
+    }
+    
+    /**
+     * Return true if party is 1 vs 3 pieces with a king for each player
+     * 
+     * @param array $pieces
+     * 
+     * @return boolean
+     */
+    private function canBeDrawByNotEnough(array $pieces)
+    {
+        $whitePieces = $pieces[Piece::WHITE] + $pieces[Piece::WHITE_KING];
+        $blackPieces = $pieces[Piece::BLACK] + $pieces[Piece::BLACK_KING];
+        
+        $white1vsBlack3 = ($pieces[Piece::WHITE_KING] === 1) && ($blackPieces <= 3) && ($pieces[Piece::BLACK_KING] > 0);
+        $black1vsWhite3 = ($pieces[Piece::BLACK_KING] === 1) && ($whitePieces <= 3) && ($pieces[Piece::WHITE_KING] > 0);
+        
+        return $white1vsBlack3 || $black1vsWhite3;
+    }
+    
+    /**
+     * Return true if party is a 1v2 or 1v1 kings only
+     * 
+     * @param array $pieces
+     * 
+     * @return boolean
+     */
+    private function canBeDrawBy1v2kings(array $pieces)
+    {
+        $piecesNumber = $pieces[Piece::WHITE] + $pieces[Piece::BLACK];
+        $kingsNumber = $pieces[Piece::WHITE_KING] + $pieces[Piece::BLACK_KING];
+        
+        if ($piecesNumber > 0) {
+            return false;
+        }
+        
+        if (0 === ($pieces[Piece::WHITE_KING] * $pieces[Piece::BLACK_KING])) {
+            return false;
+        }
+
+        return $kingsNumber <= 3;
     }
     
     /**

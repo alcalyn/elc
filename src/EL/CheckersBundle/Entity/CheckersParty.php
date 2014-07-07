@@ -83,6 +83,37 @@ class CheckersParty implements \JsonSerializable
      * @ORM\Column(name="huff", type="string", length=256, nullable=true)
      */
     private $huff;
+    
+    /**
+     * Incremented each turn where king moved and no captures done,
+     * draw party when it reaches 25
+     * 
+     * @var integer
+     * 
+     * @ORM\Column(name="drawNoMove", type="smallint")
+     */
+    private $drawNoMove;
+    
+    /**
+     * Incremented at 1 vs 3 pieces, a king each,
+     * draw party when it reaches 16
+     * 
+     * @var integer
+     * 
+     * @ORM\Column(name="drawNotEnough", type="smallint")
+     */
+    private $drawNotEnough;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this
+                ->setDrawNoMove(0)
+                ->setDrawNotEnough(0)
+        ;
+    }
 
     /**
      * Get id
@@ -282,5 +313,51 @@ class CheckersParty implements \JsonSerializable
             'grid'          => $this->getGrid(),
             'huff'          => json_decode($this->getHuff()),
         );
+    }
+
+    /**
+     * Set drawNoMove
+     *
+     * @param integer $drawNoMove
+     * @return CheckersParty
+     */
+    public function setDrawNoMove($drawNoMove)
+    {
+        $this->drawNoMove = $drawNoMove;
+    
+        return $this;
+    }
+
+    /**
+     * Get drawNoMove
+     *
+     * @return integer 
+     */
+    public function getDrawNoMove()
+    {
+        return $this->drawNoMove;
+    }
+
+    /**
+     * Set drawNotEnough
+     *
+     * @param integer $drawNotEnough
+     * @return CheckersParty
+     */
+    public function setDrawNotEnough($drawNotEnough)
+    {
+        $this->drawNotEnough = $drawNotEnough;
+    
+        return $this;
+    }
+
+    /**
+     * Get drawNotEnough
+     *
+     * @return integer 
+     */
+    public function getDrawNotEnough()
+    {
+        return $this->drawNotEnough;
     }
 }

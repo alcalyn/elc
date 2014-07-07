@@ -197,8 +197,8 @@ class CheckersController extends Controller
         $eloService = $this->get('el_core.score.elo'); /* @var $eloService \EL\CoreBundle\Services\EloService */
         $wldService = $this->get('el_core.score.wld'); /* @var $wldService \EL\CoreBundle\Services\WLDService */
         
-        $gameVariant = $eloService->getGameVariant($game, $variantName);
         $game = $checkersParty->getParty()->getGame();
+        $gameVariant = $eloService->getGameVariant($game, $variantName);
         
         if (Checkers::DRAW !== $winner) {
             $slots->get($winner ? 1 : 0)->addScore(1);

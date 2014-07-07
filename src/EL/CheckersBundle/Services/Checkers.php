@@ -662,7 +662,7 @@ class Checkers
     }
     
     /**
-     * Return true if party is 1 vs 3 pieces with a king for each player
+     * Return true if party is a 1v2 or 1v1 kings only
      * 
      * @param array $pieces
      * 
@@ -671,7 +671,7 @@ class Checkers
     private function canBeDrawBy1v2kings(array $pieces)
     {
         $piecesNumber = $pieces[Piece::WHITE] + $pieces[Piece::BLACK];
-        $kingNumber = $pieces[Piece::WHITE_KING] + $pieces[Piece::BLACK_KING];
+        $kingsNumber = $pieces[Piece::WHITE_KING] + $pieces[Piece::BLACK_KING];
         
         if ($piecesNumber > 0) {
             return false;
@@ -681,11 +681,7 @@ class Checkers
             return false;
         }
 
-        if ($kingNumber <= 3) {
-            return false;
-        }
-        
-        return true;
+        return $kingsNumber <= 3;
     }
     
     /**

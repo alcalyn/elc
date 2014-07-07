@@ -5,6 +5,7 @@ $(function () {
     initOptions();
     checkers.init();
     checkersControls.init();
+    dependentCriterias();
 });
 
 

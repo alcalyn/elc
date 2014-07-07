@@ -498,3 +498,54 @@ function getVariantFromForm() {
 function initOptions() {
     $('select#variant-select').change();
 }
+
+/**
+ * Check or uncheck others criterias when checking a criteria
+ */
+function dependentCriterias() {
+    // Uncheck blow up when check force capture
+    $('#el_core_options_type_extendedOptions_forceCapture').change(function () {
+        if ($('#el_core_options_type_extendedOptions_forceCapture').prop('checked')) {
+            dependentUpdate('#el_core_options_type_extendedOptions_blowUp', false);
+        }
+    });
+    
+    // Uncheck force capture when check blow up
+    $('#el_core_options_type_extendedOptions_blowUp').change(function () {
+        if ($('#el_core_options_type_extendedOptions_blowUp').prop('checked')) {
+            dependentUpdate('#el_core_options_type_extendedOptions_forceCapture', false);
+        }
+    });
+    
+    // Check long range king when check king stops behind
+    $('#el_core_options_type_extendedOptions_kingStopsBehind').change(function () {
+        if ($('#el_core_options_type_extendedOptions_kingStopsBehind').prop('checked')) {
+            dependentUpdate('#el_core_options_type_extendedOptions_longRangeKing', true);
+        }
+    });
+    
+    // Uncheck king stops behind when uncheck long range king
+    $('#el_core_options_type_extendedOptions_longRangeKing').change(function () {
+        if (!$('#el_core_options_type_extendedOptions_longRangeKing').prop('checked')) {
+            dependentUpdate('#el_core_options_type_extendedOptions_kingStopsBehind', false);
+        }
+    });
+}
+
+function dependentUpdate(input, value) {
+    var $input = $(input);
+    
+    if ($input.prop('checked') ^ value) {
+        $input.prop('checked', value);
+        
+        // Animate update
+        var $row = $input.closest('.form-group');
+        
+        $row.css({
+            backgroundColor: value ? 'rgba(0, 128, 0, 0.5)' : 'rgba(128, 0, 0, 0.5)'
+        });
+        $row.animate({
+            backgroundColor: value ? 'rgba(0, 128, 0, 0)' : 'rgba(128, 0, 0, 0)'
+        }, 800);
+    }
+}

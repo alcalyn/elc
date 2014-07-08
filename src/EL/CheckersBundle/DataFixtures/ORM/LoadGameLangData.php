@@ -17,22 +17,29 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
                 'lang'      => 'fr',
                 'title'     => 'Dames',
                 'slug'      => 'dames',
-                'shortdesc' => 'Jeu de dames classique, mangez tous les pions de votre adversaire.',
+                'shortdesc' => 'Jeu de dames, capturez tous les pions de votre adversaire.',
                 'longdesc'  => 'Vous et votre adversaire disposez de pions, vous devez vous déplacer en diagonale,'
-                                . ' et sautez par dessus les pions de votre adversaire pour les manger.'."\n"
-                                . ' Le jeu est disponible dans toutes les versions possible : Anglaise, Française...',
-                'picHome'   => '',
+                                . ' et sauter par dessus les pions de votre adversaire pour les capturer.'."\n"
+                                . ' Le jeu est disponible dans toutes les variantes existante possible :'
+                                . ' Anglaise, Française/Internationale, Italienne...'."\n"
+                                . ' Vous pouvez même créer une variante personnalisée,'
+                                . ' jouer sur un plateau à 16 cases,'."\n"
+                                . 'ou jouer avec le "Souffler n\'est pas joué" !',
+                'picHome'   => 'bundles/checkers/img/home.jpg',
             ),
             array(
                 'game'      => 'checkers',
                 'lang'      => 'en',
                 'title'     => 'Checkers',
                 'slug'      => 'checkers',
-                'shortdesc' => 'Classic checkers, eat all pawns of your opponent.',
-                'longdesc'  => 'You and your opponent have pawns, you have to move them diagonally,'
-                                . ' and jump over pawns of your opponent to move them.'."\n"
-                                . ' The game is playable in every existing versions: English, French...',
-                'picHome'   => '',
+                'shortdesc' => 'Checkers or Draughts, capture all your opponent pieces.',
+                'longdesc'  => 'You and your opponent have pieces, you have to move them diagonally,'
+                                . ' and jump over your opponent pieces to capture them.'."\n"
+                                . ' The game is available in every existing variants:'
+                                . ' English, French/International, Italian...'."\n"
+                                . ' You can also create a personalized variant,'
+                                . ' play on a 16-squares board, or huff your opponent pieces !',
+                'picHome'   => 'bundles/checkers/img/home.jpg',
             ),
         );
         

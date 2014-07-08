@@ -262,8 +262,12 @@ class Checkers
                         } else {
                             throw new CheckersIllegalMoveException('illegalmove.cannot.jump.two.pieces');
                         }
-                    } elseif ((null === $pieceMiddle) && $variant->getKingStopsBehind()) {
-                        throw new CheckersIllegalMoveException('illegalmove.king.must.stop.behind');
+                    } elseif ((null !== $pieceMiddle) && $variant->getKingStopsBehind()) {
+                        throw new CheckersIllegalMoveException(
+                                'illegalmove.king.must.stop.behind',
+                                array(),
+                                'king-stops-behind.jpg'
+                        );
                     }
                 }
             } else {

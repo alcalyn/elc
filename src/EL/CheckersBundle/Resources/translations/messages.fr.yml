@@ -26,7 +26,7 @@ illegalmove:
     %name%.must.be.inboard.%boardsize%.%coords%: '%name% doit être dans le plateau de taille %boardsize%, reçu "%coords%"'
     destination.occupied: 'Vous ne pouvez pas aller sur une case occupée'
     must.move.diagonally: 'Vous devez vous déplacer en diagonale'
-    must.capture: 'Vous devez capturer le ou les pièces de votre adversaire'
+    must.capture: 'Vous devez capturer la ou les pièces de votre adversaire'
     cannot.move.too.far: 'Vous pouvez déplacer les pions que d''une case, ou capturer une pièce adverse'
     cannot.move.back: 'Vous ne pouvez pas vous déplacer en arrière'
     cannot.backward.jump: 'Dans cette variante, vous ne pouvez pas capturer en arrière avec un pion'

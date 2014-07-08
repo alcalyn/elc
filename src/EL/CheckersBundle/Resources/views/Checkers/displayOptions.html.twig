@@ -17,9 +17,9 @@
     <span class="glyphicon glyphicon-{{ variant.longRangeKing ? 'ok' : 'remove' }}"></span> {{ 'long.range.king'|trans }}
 </p>
 
-{% if variant.longRangeKing %}
-    <p class="text-{{ variant.kingStopsBehind ? 'success' : 'danger' }}">
-        <span class="glyphicon glyphicon-{{ variant.kingStopsBehind ? 'ok' : 'remove' }}"></span> {{ 'king.stops.behind'|trans }}
+{% if variant.longRangeKing and variant.kingStopsBehind %}
+    <p class="text-warning">
+        <span class="glyphicon glyphicon-chevron-right"></span> {{ 'king.stops.behind'|trans }}
     </p>
 {% endif %}
 

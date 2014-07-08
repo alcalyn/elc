@@ -170,6 +170,7 @@ var checkers =
                 var path = diagonalPath(from, to);
                 var middle = null;
                 var pieceMiddle = null;
+                var error = false;
                 
                 path.forEach(function (value, key) {
                     var p = checkers.pieceAt(value);
@@ -178,20 +179,27 @@ var checkers =
                         if (null === pieceMiddle) {
                             if (p.getColor() === pieceFrom.getColor()) {
                                 checkers.invalidMove(t('illegalmove.cannot.jump.own.pieces'), 'jump-own-piece.jpg');
-                                return null;
+                                error = true;
+                                return false;
                             } else {
                                 pieceMiddle = p;
                                 middle = value;
                             }
                         } else {
                             checkers.invalidMove(t('illegalmove.cannot.jump.two.pieces'));
-                            return null;
+                            error = true;
+                            return false;
                         }
                     } else if ((null !== pieceMiddle) && (checkers.variant.getKingStopsBehind())) {
-                        checkers.invalidMove(t('illegalmove.king.must.stop.behind'));
-                        return null;
+                        checkers.invalidMove(t('illegalmove.king.must.stop.behind'), 'king-stops-behind.jpg');
+                        error = true;
+                        return false;
                     }
                 });
+                
+                if (error) {
+                    return null;
+                }
                 
                 if (middle) {
                     jumpedCoords.push(middle);

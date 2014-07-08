@@ -948,6 +948,40 @@ var checkersControls =
         if (checkers.variant.getBlowUp()) {
             jQuery('.piece-huffable').removeClass('piece-huffable');
         }
+    },
+    
+    sandBox: function ()
+    {
+        $('.piece-controlled').draggable('destroy');
+        var squareUsed = checkers.variant.getSquareUsed() ? 'odd' : 'even' ;
+        $('.grid-'+squareUsed).droppable('destroy');
+        
+        $('.piece').draggable({
+            revert: 'invalid'
+        });
+        
+        $('.grid-item').droppable({
+            hoverClass: 'piece-over',
+            over: function()
+            {
+                if (!checkersControls.$squareFrom) {
+                    checkersControls.$squareFrom = $(this);
+                }
+            },
+            drop: function(event, ui)
+            {
+                if (checkersControls.$squareFrom) {
+                    var $piece      = $(ui.draggable);
+                    var to          = $(this).attr('id').split('-');
+                    var coordsTo    = [
+                        parseInt(to[1]),
+                        parseInt(to[2])
+                    ];
+                    checkersControls.move($piece, coordsTo);
+                    checkersControls.$squareFrom = undefined;
+                }
+            }
+        });
     }
 };
 

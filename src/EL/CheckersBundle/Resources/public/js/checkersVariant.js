@@ -547,5 +547,7 @@ function dependentUpdate(input, value) {
         $row.animate({
             backgroundColor: value ? 'rgba(0, 128, 0, 0)' : 'rgba(128, 0, 0, 0)'
         }, 800);
+        
+        refreshSelectOption();
     }
 }

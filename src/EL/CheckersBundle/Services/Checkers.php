@@ -338,7 +338,11 @@ class Checkers
                         $isOneOfBest = $capturesEvaluator->isOneOfBestCapture($move);
                         
                         if (true !== $isOneOfBest) {
-                            throw new CheckersIllegalMoveException('illegalmove.capturebetter.'.$isOneOfBest);
+                            throw new CheckersIllegalMoveException(
+                                    'illegalmove.capturebetter.'.$isOneOfBest,
+                                    array(),
+                                    'best-'.$isOneOfBest.'.jpg'
+                            );
                         }
                     }
                 } else {
@@ -354,7 +358,11 @@ class Checkers
                         if (true === $isOneOfBest) {
                             $checkersParty->setBestMultipleCaptures(json_encode($bestCaptures));
                         } else {
-                            throw new CheckersIllegalMoveException('illegalmove.capturebetter.'.$isOneOfBest);
+                            throw new CheckersIllegalMoveException(
+                                    'illegalmove.capturebetter.'.$isOneOfBest,
+                                    array(),
+                                    'best-'.$isOneOfBest.'.jpg'
+                            );
                         }
                     }
                 }

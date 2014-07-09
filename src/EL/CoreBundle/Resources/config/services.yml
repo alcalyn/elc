@@ -13,6 +13,10 @@ parameters:
     el_core.controller.widget.class:    EL\CoreBundle\Controller\WidgetController
 
 services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
     el_core.session:
         class: %el_core.session.class%
         arguments: [@session, @doctrine.orm.entity_manager]

@@ -276,8 +276,26 @@ table.ranking thead th {
     width: 100% !important;
 }
 
+.current-party {
+}
 
 
+
+.player-list {
+    margin-bottom: 16px;
+}
+.player-list .started-date {
+    font-size: 10px;
+    margin: 0 0 12px;
+}
+.player-list > li {
+}
+.player-list > li > a {
+    border-radius: 20px;
+}
+.player-list > li > a {
+    padding: 2px 8px;
+}
 
 /*----------------footer----------------*/
 footer {

@@ -52,6 +52,7 @@ disallow:
 draws: Draws
 elo: Elo
 endafter: 'End game after'
+exactly.at: 'Exactly at'
 faq: FAQ
 
 feed:
@@ -121,12 +122,15 @@ number:
 observers:
     disallowed: 'Observers disallowed'
 
+offer.draw: 'Offer draw'
 open: Open
 parties: Games
 parties.%game%: 'Games of %game%'
 parties.list: 'Games list'
 party: Game
 party.has.ended: 'Party has ended'
+party.options: 'Game options'
+party.started.the: 'Started the'
 party.title: 'Party Title'
 
 play:
@@ -173,6 +177,7 @@ slot:
     open: 'Slot open'
 
 state: State
+surrender: 'Surrender'
 top: Top
 watch: Watch
 wins: Wins

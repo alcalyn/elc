@@ -150,6 +150,27 @@ class PartyService extends GameService
     
     
     /**
+     * Return all players who are in this party
+     * 
+     * Load SCORES
+     * 
+     * @return array of players
+     */
+    public function getPlayers()
+    {
+        $players = array();
+        
+        foreach ($this->getParty()->getSlots() as $slot) {
+            if ($slot->hasPlayer()) {
+                $players []= $slot->getPlayer();
+            }
+        }
+        
+        return $players;
+    }
+    
+    
+    /**
      * Check if player can join the party at slot $slotIndex, or an other.
      * If join is true, the player join the party if he can.
      * If player has already join party, he just change slot.

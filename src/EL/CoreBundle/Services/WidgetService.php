@@ -29,12 +29,18 @@ class WidgetService
      * @param string $controller name
      * @param array $parameters
      */
-    public function add($controller, array $parameters = array())
+    public function add($controller, array $parameters = array(), $position = null)
     {
-        $this->widgets []= array(
+        $array = array(
             'controller'    => $controller,
             'parameters'    => $parameters,
         );
+        
+        if (null === $position) {
+            $this->widgets []= $array;
+        } else {
+            array_splice($this->widgets, $position, 0, array($array));
+        }
     }
     
     /**

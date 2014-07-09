@@ -6,7 +6,7 @@ as Poker, Chess, RISK, Checkers... with others players simple way:
 you don't need account, play as guest now,
 and beat your opponents scores !
 
-## Features in Version 0.2
+## Features in version 0.2
 
 ### Games
 - Checkers
@@ -21,7 +21,7 @@ and beat your opponents scores !
 
 ### Session
 - Guest session
-- Transform your guest account and keep your statistics
+- Transform your guest account and keep your best scores statistics
 
 ### Game workflow
 - Create a game and wait for players join

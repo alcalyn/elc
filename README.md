@@ -21,7 +21,7 @@ and beat your opponents scores !
 
 ### Session
 - Guest session
-- Transform your guest account and keep your best scores statistics
+- Transform your guest account and keep your best scores and statistics
 
 ### Game workflow
 - Create a game and wait for players join

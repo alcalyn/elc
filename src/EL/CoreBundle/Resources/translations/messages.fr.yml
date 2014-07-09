@@ -149,6 +149,7 @@ ranking: Classement
 ratio: Ratio
 ready: Prêt
 remake: Recommencer
+remake.other.parameters: 'Recommencer avec d''autres paramètres'
 
 remember:
     me: 'Se souvenir de moi'

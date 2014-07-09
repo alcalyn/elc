@@ -148,7 +148,7 @@ ranking: Ranking
 ratio: Ratio
 ready: Ready
 remake: Remake
-remake.other.parameters: 'Remake with different parameters'
+remake.other.parameters: 'Quit and remake with different parameters'
 
 remember:
     me: 'Remember me'

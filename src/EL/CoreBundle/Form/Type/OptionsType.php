@@ -33,7 +33,7 @@ class OptionsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class'            => 'EL\CoreBundle\Form\Entity\Options',
-            'cascade_validation'    => true
+            'cascade_validation'    => true,
         ));
     }
     

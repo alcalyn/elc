@@ -11,7 +11,7 @@ interface ELGameInterface
      * Return an object to hydrate by options form.
      * Can have default values
      * 
-     * @return stdClass
+     * @return \stdClass
      */
     public function createParty();
     
@@ -19,7 +19,7 @@ interface ELGameInterface
      * Return a form type for party
      * at the creation of a personalized party.
      * 
-     * @return AbstractType
+     * @return \Symfony\Component\Form\AbstractType
      */
     public function getPartyType();
     
@@ -68,9 +68,12 @@ interface ELGameInterface
      * Return infomations about extended options of current party.
      * Your options are accessible in twig though variable 'extendedOptions'
      * 
+     * @param CoreParty $coreParty
+     * @param stdClass $extendedParty
+     * 
      * @return string template path, such as 'AbstractGameBundle:Adapter:displayOptions.html.twig'
      */
-    public function getDisplayOptionsTemplate();
+    public function getDisplayOptionsTemplate(CoreParty $coreParty, $extendedParty);
     
     /**
      * Return a default slots configuration
@@ -84,23 +87,42 @@ interface ELGameInterface
      * Can define customs rules to start party.
      * Return an ELUserException if cannot start, true otherwise
      * 
-     * @return mixed true or ELUserException
+     * @param PartyService $partyService
+     * 
+     * @return boolean true
+     * 
+     * @throws ELUserException if cannot start
      */
     public function canStart(PartyService $partyService);
     
     /**
+     * Party has just started. Init your party here
+     * 
+     * @param PartyService $partyService
+     */
+    public function started(PartyService $partyService);
+    
+    /**
      * Controller of active party screen
+     * 
+     * @param string $_locale
+     * @param PartyService $partyService
+     * @param \stdClass $extendedParty
      * 
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function activeAction($_locale, PartyService $partyService);
+    public function activeAction($_locale, PartyService $partyService, $extendedParty);
     
     /**
      * Controller of ended party screen (scores)
      * 
+     * @param string $_locale
+     * @param PartyService $partyService
+     * @param \stdClass $extendedParty
+     * 
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function endedAction($_locale, PartyService $partyService);
+    public function endedAction($_locale, PartyService $partyService, $extendedParty);
     
     /**
      * Return short message which will be displayed
@@ -122,11 +144,12 @@ interface ELGameInterface
     public function isMyTurn(PartyService $partyService);
     
     /**
-     * Notify your game that party has been remade.
-     * Persist/flush your new remade party linked to core party.
+     * Return a remake of an extended party
      * 
      * @param PartyService $partyService containing old core party
      * @param CoreParty $cloneCoreParty just cloned
+     * 
+     * @return \stdClass
      */
     public function createRemake(PartyService $partyService, CoreParty $cloneCoreParty);
 }

@@ -493,13 +493,6 @@ select.form-control.smaller {
     font-size: 14px;
     margin: 0 0 0 0;
 }
-.list-group {
-}
-.panel {
-}
-.panel-heading {
-    padding: 6px 16px;
-}
 
 /*----------------chat panel----------------*/
 .panel.chat {
@@ -542,4 +535,117 @@ select.form-control.smaller {
 
 .page-title {
     margin: 8px 0 16px 0;
+}
+
+
+/* checkbox */
+input[type=checkbox].cb-restyle {
+    visibility: hidden;
+    position: absolute;
+}
+input[type=checkbox].cb-restyle ~ .label {
+    text-transform: uppercase;
+    box-shadow: 0 0 2px rgba(180, 180, 180, 1) inset;
+    vertical-align: middle;
+    padding-top: 4px;
+    cursor: pointer;
+    position: relative;
+    top: 6px;
+}
+input[type=checkbox]:checked.cb-restyle ~ .cb-false {
+    display: none;
+}
+input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
+    display: none;
+}
+
+.cb-blackwhite ~ .cb-false {
+    background-color: white;
+    color: black;
+}
+.cb-blackwhite ~ .cb-true {
+    background-color: black;
+    color: white;
+}
+
+
+/* ----------- grid and default pieces ------------- */
+.grid {
+}
+.grid .grid-item {
+    display: block;
+    float: left;
+    width: 64px;
+    height: 64px;
+}
+.grid-small .grid-item {
+    width: 48px;
+    height: 48px;
+}
+.grid-large .grid-item {
+    width: 96px;
+    height: 96px;
+}
+.grid .grid-odd {
+    background-color: #DDD;
+}
+.grid .grid-odd:hover {
+    background-color: #BBB;
+}
+.grid .grid-even {
+    background-color: #EEE;
+}
+.grid .grid-even:hover {
+    background-color: #CCC;
+}
+.grid .grid-item-highlight-1 {
+    border: 2px dashed #AAA;
+}
+.grid .grid-item-highlight-2 {
+    border: 2px solid #BBB;
+}
+
+.piece {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    margin: 9px;
+    border-radius: 999px;
+    background-color: white;
+}
+.grid-small .piece {
+    width: 34px;
+    height: 34px;
+    margin: 7px;
+}
+.grid-large .piece {
+    width: 68px;
+    height: 68px;
+    margin: 14px;
+}
+.piece-white {
+    background-color: lightcoral;
+    border-color: lightcoral;
+}
+.piece-black {
+    background-color: lightblue;
+    border-color: lightblue;
+}
+/* init jquery ui css */
+.piece.ui-state-disabled {
+    opacity: 1;
+    filter: none;
+    background-image: inherit;
+}
+.piece-draggable {
+    box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.5) inset;
+    cursor: grab;
+}
+.piece-draggable:hover {
+    box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.5) inset;
+}
+.piece.ui-draggable-dragging {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 4px;
+    cursor: grabbing;
 }

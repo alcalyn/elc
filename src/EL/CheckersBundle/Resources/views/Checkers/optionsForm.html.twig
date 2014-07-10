@@ -1,0 +1,68 @@
+<h3 class="gameVariant">{{ 'game.variant'|trans }}</h3>
+
+    <div class="row">
+        <div class="col-md-7">
+            <select id="variant-select" class="form-control">
+                {% for variantName, variant in js_vars.export['js-context'].variants %}
+                    <option value="{{ variant.binaryValue }}">{{ variantName|trans }}</option>
+                {% endfor %}
+                <option value="0">{{ 'personalized'|trans }}</option>
+            </select>
+        </div>
+        <div class="col-md-5">
+            {{ form_row(optionsForm.createGame) }}
+        </div>
+    </div>
+
+<h4>{{ 'personalized'|trans }}</h4>
+
+<div class="row checkers-personalization">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'board'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.boardSize) }}
+                {{ form_row(optionsForm.extendedOptions.squareUsed) }}
+                {{ form_row(optionsForm.extendedOptions.rightSquare) }}
+                {{ form_row(optionsForm.extendedOptions.firstPlayer) }}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'king.rules'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.longRangeKing) }}
+                {{ form_row(optionsForm.extendedOptions.kingStopsBehind) }}
+                {{ form_row(optionsForm.extendedOptions.menJumpKing) }}
+                {{ form_row(optionsForm.extendedOptions.kingPassing) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'captures.rules'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.backwardCapture) }}
+                {{ form_row(optionsForm.extendedOptions.forceCapture) }}
+                {{ form_row(optionsForm.extendedOptions.forceCaptureQuantity) }}
+                {{ form_row(optionsForm.extendedOptions.forceCapturePreference) }}
+                {{ form_row(optionsForm.extendedOptions.forceCaptureQuality) }}
+                {{ form_row(optionsForm.extendedOptions.forceCaptureKingOrder) }}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ 'blow.up'|trans }}</h5>
+            </div>
+            <div class="panel-body">
+                {{ form_row(optionsForm.extendedOptions.blowUp) }}
+                <i>{{ 'old.style'|trans }}</i>
+            </div>
+        </div>
+    </div>
+</div>

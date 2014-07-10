@@ -105,6 +105,9 @@ class PartyController extends Controller
         $extendedGame       = $partyService->getExtendedGame();
         $extendedOptions    = $extendedGame->loadParty($party);
         $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions)['parameters'];
+        $options            = $extendedGame->getDisplayOptionsTemplate($party, $extendedOptions);
+        $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
+        $optionsVars        = is_array($options) ? $options['vars'] : array() ;
         
         $this->get('el_core.js_vars')
                 ->initPhaxController('party')
@@ -130,7 +133,7 @@ class PartyController extends Controller
             'player'                    => $player,
             'coreParty'                 => $party,
             'extendedOptions'           => $extendedOptions,
-            'extendedOptionsTemplate'   => $extendedGame->getDisplayOptionsTemplate(),
+            'extendedOptionsTemplate'   => $optionsTemplate,
             'slotsConfiguration'        => $slotsConfiguration,
             'game'                      => $party->getGame(),
             'slots'                     => $party->getSlots(),
@@ -138,7 +141,7 @@ class PartyController extends Controller
             'canJoin'                   => $canJoin,
             'isHost'                    => $isHost,
             'gameLayout'                => $extendedGame->getGameLayout(),
-        );
+        ) + $optionsVars;
     }
     
     /**
@@ -270,7 +273,7 @@ class PartyController extends Controller
             ->addContext('extended-party', $extendedParty->jsonSerialize())
         ;
         
-        return $extendedGame->activeAction($_locale, $partyService);
+        return $extendedGame->activeAction($_locale, $partyService, $extendedParty);
     }
     
     
@@ -294,9 +297,9 @@ class PartyController extends Controller
             ->useTrans('has.remake')
         ;
         
-        $extendedGame   = $partyService->loadExtendedGame($this->container)->getExtendedGame();
+        $extendedGame = $partyService->loadExtendedGame($this->container)->getExtendedGame();
         
-        return $extendedGame->endedAction($_locale, $partyService);
+        return $extendedGame->endedAction($_locale, $partyService, $extendedGame);
     }
     
     /**

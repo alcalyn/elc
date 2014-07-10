@@ -1,0 +1,97 @@
+backward:
+    capture: 'Prise en arrière'
+
+black: Noir
+black.e: Noire
+black.es: Noires
+black.s: Noirs
+
+blow:
+    up: 'Souffler n''est pas jouer !'
+
+board: Plateau
+old.style: 'À l''ancienne !'
+captures.rules: 'Règles de capture'
+board.size: 'Taille du plateau'
+
+canadian: Canadienne
+english: Anglaise
+illegal.move: 'Mouvement invalide'
+
+illegalmove:
+    continue.capture: 'Vous devez continuer à capturer avec la même pièce'
+    no.piece.%name%.%coords%: 'Il n''y a pas de pièce ici : "%name%", %coords%'
+    cannot.move.opponent.pieces: 'Vous ne pouvez pas déplacer les pièces de votre adversaire'
+    no.move.detected: 'Pas de mouvement détecté'
+    %name%.must.be.inboard.%boardsize%.%coords%: '%name% doit être dans le plateau de taille %boardsize%, reçu "%coords%"'
+    destination.occupied: 'Vous ne pouvez pas aller sur une case occupée'
+    must.move.diagonally: 'Vous devez vous déplacer en diagonale'
+    must.capture: 'Vous devez capturer la ou les pièces de votre adversaire'
+    cannot.move.too.far: 'Vous pouvez déplacer les pions que d''une case, ou capturer une pièce adverse'
+    cannot.move.back: 'Vous ne pouvez pas vous déplacer en arrière'
+    cannot.backward.jump: 'Dans cette variante, vous ne pouvez pas capturer en arrière avec un pion'
+    cannot.jump.own.pieces: 'Vous ne pouvez pas sauter par dessus vos propres pièces'
+    cannot.jump.kings.variant: 'Dans cette variante, vous ne pouvez pas manger une dame avec un pion'
+    cannot.jump.two.pieces: 'Vous ne pouvez pas sauter deux pièces en même temps'
+    king.must.stop.behind: 'Dans cette variante, la dame doit s''arrêter sur la case juste derrière sa capture'
+    no.long.range.king: 'Dans cette variante, les dames ne peuvent se déplacer que d''une case'
+    capturebetter:
+        quantity:   'Vous devez capturer là où vous prenez le plus de pièces'
+        preference: 'Vous devez capturer avec une dame au lieu d''un pion'
+        quality:    'Vous devez capturer là où il y a le plus de dames adverse'
+        precedence: 'Vous devez capturer là où vous prenez une dame le plus tôt dans la rafle'
+    nohuff.variant: '"Souffler n''est pas joué" ne marche pas dans cette variante'
+    cannot.huff.own.pieces: 'Vous voulez vraiment souffler votre propre pièce...'
+    cannot.huff.already.jumped: 'Vous ne pouvez pas souffler la pièce car votre adversaire a capturé une de vos pièces lors de son dernier coup'
+    cannot.huff.this.piece: 'Vous ne pouvez pas souffler cette pièce'
+    cannot.huff.already.huffed: 'Vous avez déjà soufflé une pièce de votre adversaire pendant ce coup'
+
+first:
+    player: 'Premier joueur'
+
+force:
+    capture: 'Forcer la prise'
+    capture.kingorder: 'Précédence (capturer une dame d''abord)'
+    capture.preference: 'Préférence (capturer avec une dame plutôt q''un pion)'
+    capture.quality: 'Qualité (capturer le plus de dames)'
+    capture.quantity: 'Quantité (capturer le plus de pions)'
+
+french: 'Française / Internationale'
+german: Allemande
+italian: Italienne
+
+king:
+    passing: 'Dame en passant'
+    rules: 'Règles sur les dames'
+    stops:
+        behind: 'La dame capture et s''arrête sur la case juste derrière'
+
+long:
+    range:
+        king: 'Déplacements longs de la dame'
+
+maximum:
+    capture: 'Prises maximum'
+
+men:
+    jump:
+        king: 'Les pions peuvent prendre les dames'
+
+netherlands: Néerlandaise
+personalized: Personalisée
+
+right:
+    square: 'Couleur de la case à droite du joueur'
+
+russian: Russe
+spanish: Espagnole
+
+square:
+    used: 'Cases utilisées pour jouer'
+
+white: Blanc
+white.e: Blanche
+white.es: Blanches
+white.s: Blancs
+
+<b>%variantName%</b>.variant: 'Variante <b>%variantName%</b>'

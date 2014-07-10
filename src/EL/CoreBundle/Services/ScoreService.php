@@ -31,7 +31,7 @@ class ScoreService
      * 
      * @return \EL\CoreBundle\Entity\GameVariant
      */
-    protected function getGameVariant(Game $game, $variantName = null)
+    public function getGameVariant(Game $game, $variantName = null)
     {
         if (null === $variantName) {
             $variantName = GameVariant::DEFAULT_NAME;

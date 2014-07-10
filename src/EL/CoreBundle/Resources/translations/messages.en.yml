@@ -7,6 +7,10 @@ all:
     games: 'All games'
 
 ban: Ban
+black: Black
+black.e: Black
+black.es: Black
+black.s: Black
 cancel: Cancel
 
 cannot:
@@ -59,7 +63,10 @@ feed:
     the:
         opponent: 'You must feed the opponent'
 
+first:
+    player: 'First player'
 game: Game
+game.variant: 'Game variant'
 games: Games
 go: Go
 
@@ -181,3 +188,7 @@ surrender: 'Surrender'
 top: Top
 watch: Watch
 wins: Wins
+white: White
+white.e: White
+white.es: White
+white.s: White

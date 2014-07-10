@@ -77,7 +77,7 @@ class Awale extends ELGameAdapter
         );
     }
     
-    public function getDisplayOptionsTemplate()
+    public function getDisplayOptionsTemplate(Party $coreParty, $extendedParty)
     {
         return 'AwaleBundle:Awale:displayOptions.html.twig';
     }
@@ -87,9 +87,8 @@ class Awale extends ELGameAdapter
         return 'AwaleBundle::layout.html.twig';
     }
     
-    public function activeAction($_locale, PartyService $partyService)
+    public function activeAction($_locale, PartyService $partyService, $extendedParty)
     {
-        $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore  */
         $coreParty      = $partyService->getParty();            /* @var $coreParty     Party      */
         $sessionPlayer  = $this->get('el_core.session')->getPlayer();
@@ -115,7 +114,6 @@ class Awale extends ELGameAdapter
     public function createRemake(PartyService $partyService, Party $corePartyClone)
     {
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore */
-        $em             = $this->getDoctrine()->getManager();   /* @var $em            \Doctrine\ORM\EntityManager */
         $oldAwaleParty  = $partyService->loadExtendedParty();   /* @var $oldAwaleParty AwaleParty */
         
         $remakeAwaleParty = new AwaleParty();
@@ -125,7 +123,6 @@ class Awale extends ELGameAdapter
                 ->setGrid($awaleCore->fillGrid($oldAwaleParty->getSeedsPerContainer()))
         ;
         
-        $em->persist($remakeAwaleParty);
-        $em->flush();
+        return $remakeAwaleParty;
     }
 }

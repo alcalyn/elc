@@ -29,7 +29,7 @@ class DefaultController extends ELGameAdapter
         ));
     }
     
-    public function getDisplayOptionsTemplate()
+    public function getDisplayOptionsTemplate(CoreParty $coreParty, $extendedParty)
     {
         return implode(':', array(
             'TicTacToeBundle',
@@ -93,17 +93,10 @@ class DefaultController extends ELGameAdapter
         return 'TicTacToeBundle::layout.html.twig';
     }
     
-    public function activeAction($_locale, PartyService $partyService)
+    public function activeAction($_locale, PartyService $partyService, $extendedParty)
     {
-        $em = $this->getDoctrine()->getManager();
-        
         $game       = $partyService->getGame();
         $coreParty  = $partyService->getParty();
-
-        $party = $em
-                ->getRepository('TicTacToeBundle:Party')
-                ->findOneByCoreParty($coreParty)
-        ;
         
         $this->get('el_core.js_vars')
                 ->useTrans('not.your.turn')
@@ -112,7 +105,7 @@ class DefaultController extends ELGameAdapter
         return $this->render('TicTacToeBundle:Default:active.html.twig', array(
             'game'          => $game,
             'party'         => $coreParty,
-            'extendedParty' => $party,
+            'extendedParty' => $extendedParty,
             'gameLayout'    => $this->getGameLayout(),
         ));
     }
@@ -134,11 +127,9 @@ class DefaultController extends ELGameAdapter
     
     public function createRemake(PartyService $partyService, CoreParty $corePartyClone)
     {
-        $em                 = $this->getDoctrine()->getManager();
         $extendedParty      = $partyService->loadExtendedParty();
         $extendedPartyClone = $extendedParty->createRemake($corePartyClone);
         
-        $em->persist($extendedPartyClone);
-        $em->flush();
+        return $extendedPartyClone;
     }
 }

@@ -18,9 +18,10 @@ class PartyRepository extends EntityRepository
     {
         $query = $this->_em->createQuery(
             '
-                select p, g, gl, s
+                select p, g, gl, s, pl
                 from CoreBundle:Party p
                 left join p.slots s
+                left join s.player pl
                 left join p.game g
                 left join p.host h
                 left join g.langs gl

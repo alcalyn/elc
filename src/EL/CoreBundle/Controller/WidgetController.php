@@ -60,13 +60,16 @@ class WidgetController extends Controller
         $players            = $partyService->getPlayers();
         $extendedGame       = $partyService->getExtendedGame();
         $extendedOptions    = $extendedGame->loadParty($party);
+        $options            = $extendedGame->getDisplayOptionsTemplate($party, $extendedOptions);
+        $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
+        $optionsVars        = is_array($options) ? $options['vars'] : array() ;
         
         return $this->get('phax')->render('CoreBundle:Widget/CurrentParty:current-party.html.twig', array(
             'locale'                    => $_locale,
             'coreParty'                 => $party,
             'players'                   => $players,
             'extendedOptions'           => $extendedOptions,
-            'extendedOptionsTemplate'   => $extendedGame->getDisplayOptionsTemplate(),
-        ));
+            'extendedOptionsTemplate'   => $optionsTemplate,
+        ) + $optionsVars);
     }
 }

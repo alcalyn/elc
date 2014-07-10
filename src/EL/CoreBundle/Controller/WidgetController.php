@@ -44,4 +44,29 @@ class WidgetController extends Controller
             'gamesList'        => $gamesList,
         ));
     }
+    
+    /**
+     * Controller for widget current parties
+     * 
+     * @param string $_locale
+     * 
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
+    public function currentPartyAction($_locale)
+    {
+        $partyService       = $this->get('el_core.party');
+        $scoreService       = $this->get('el_core.score');
+        $party              = $partyService->getParty();
+        $players            = $partyService->getPlayers();
+        $extendedGame       = $partyService->getExtendedGame();
+        $extendedOptions    = $extendedGame->loadParty($party);
+        
+        return $this->get('phax')->render('CoreBundle:Widget/CurrentParty:current-party.html.twig', array(
+            'locale'                    => $_locale,
+            'coreParty'                 => $party,
+            'players'                   => $players,
+            'extendedOptions'           => $extendedOptions,
+            'extendedOptionsTemplate'   => $extendedGame->getDisplayOptionsTemplate(),
+        ));
+    }
 }

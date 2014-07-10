@@ -52,6 +52,7 @@ disallow:
 draws: Nulles
 elo: Élo
 endafter: 'Terminer le jeu après'
+exactly.at: 'Exactement le'
 faq: FAQ
 
 feed:
@@ -122,12 +123,15 @@ number:
 observers:
     disallowed: 'Visiteurs désactivés'
 
+offer.draw: 'Proposer nulle'
 open: Ouvrir
 parties: Parties
 parties.%game%: '%game% : Toutes les parties'
 parties.list: 'Liste des parties'
 party: Partie
 party.has.ended: 'La partie est terminée'
+party.options: 'Options de la partie'
+party.started.the: 'Démarrée le'
 party.title: 'Titre de la partie'
 
 play:
@@ -174,6 +178,7 @@ slot:
     open: 'Slot ouvert'
 
 state: État
+surrender: Abandonner
 top: Top
 watch: Regarder
 wins: Victoires

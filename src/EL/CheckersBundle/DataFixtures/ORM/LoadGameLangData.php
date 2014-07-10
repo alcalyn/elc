@@ -23,8 +23,8 @@ class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterfac
                                 . ' Le jeu est disponible dans toutes les variantes existante possible :'
                                 . ' Anglaise, Française/Internationale, Italienne...'."\n"
                                 . ' Vous pouvez même créer une variante personnalisée,'
-                                . ' jouer sur un plateau à 16 cases,'."\n"
-                                . 'ou jouer avec le "Souffler n\'est pas joué" !',
+                                . ' jouer sur un plateau à 16 cases,'
+                                . ' ou jouer avec le "Souffler n\'est pas joué" !',
                 'picHome'   => 'bundles/checkers/img/home.jpg',
             ),
             array(

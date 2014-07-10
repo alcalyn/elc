@@ -57,6 +57,7 @@ class WidgetController extends Controller
         $partyService       = $this->get('el_core.party');
         $scoreService       = $this->get('el_core.score');
         $party              = $partyService->getParty();
+        $game               = $partyService->getGame();
         $players            = $partyService->getPlayers();
         $extendedGame       = $partyService->getExtendedGame();
         $extendedOptions    = $extendedGame->loadParty($party);
@@ -64,9 +65,12 @@ class WidgetController extends Controller
         $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
         $optionsVars        = is_array($options) ? $options['vars'] : array() ;
         
+        $scoreService->badgePlayers($players, $game);
+        
         return $this->get('phax')->render('CoreBundle:Widget/CurrentParty:current-party.html.twig', array(
             'locale'                    => $_locale,
             'coreParty'                 => $party,
+            'game'                      => $game,
             'players'                   => $players,
             'extendedOptions'           => $extendedOptions,
             'extendedOptionsTemplate'   => $optionsTemplate,

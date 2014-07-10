@@ -14,6 +14,14 @@ use EL\CoreBundle\Entity\GameVariant;
  */
 class ScoreRepository extends EntityRepository
 {
+    /**
+     * Get a Score data for a player on a game variant
+     * 
+     * @param \EL\CoreBundle\Entity\Player $player
+     * @param \EL\CoreBundle\Entity\GameVariant $gameVariant
+     * 
+     * @return mixed
+     */
     public function get(Player $player, GameVariant $gameVariant)
     {
         return $this->_em->createQuery(
@@ -31,6 +39,41 @@ class ScoreRepository extends EntityRepository
         ))->getOneOrNullResult();
     }
     
+    /**
+     * Get multiple scores data for players on a game variant
+     * 
+     * @param array $players
+     * @param \EL\CoreBundle\Entity\GameVariant $gameVariant
+     * 
+     * @return mixed
+     */
+    public function getMultiple(array $players, GameVariant $gameVariant)
+    {
+        return $this->_em->createQuery(
+            '
+                select p, s
+                from CoreBundle:Score s
+                left join s.player p
+                left join s.gameVariant gv
+                where p in (:players)
+                and gv.id = :gameVariantId
+            '
+        )->setParameters(array(
+            'players'         => $players,
+            'gameVariantId'   => $gameVariant->getId(),
+        ))->getResult();
+    }
+    
+    /**
+     * Return a top-$length ranking board from $offset
+     * 
+     * @param \EL\CoreBundle\Entity\GameVariant $gameVariant
+     * @param array $order
+     * @param integer $length
+     * @param integer $offset
+     * 
+     * @return mixed
+     */
     public function getRanking(GameVariant $gameVariant, array $order = array(), $length = -1, $offset = 0)
     {
         $query = $this->_em->createQueryBuilder()

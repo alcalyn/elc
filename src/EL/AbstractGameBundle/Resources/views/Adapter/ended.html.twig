@@ -46,7 +46,7 @@
     </table>
     <form action="{{ path('elcore_party_preparation_action', { 'slugGame': game.slug, 'slugParty': coreParty.slug }) }}" method="post">
         <button type="submit" name="action" value="remake" class="btn btn-primary">{{ 'remake'|trans }}</button>
-        <a href="{{ path('elcore_party_creation', {slug: game.slug}) }}" class="btn btn-default">{{ 'remake.other.parameters'|trans }}</a>
+        <a href="{{ path('elcore_party_creation', {slug: game.slug}) }}" class="btn btn-link">{{ 'remake.other.parameters'|trans }}</a>
     </form>
 </div>
 {% endblock %}

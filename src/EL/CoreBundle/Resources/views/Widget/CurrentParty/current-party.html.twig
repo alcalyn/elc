@@ -11,7 +11,13 @@
                 <li>
                     <a>
                         {{ player.pseudo }}
-                        <span class="badge">1689 Elo</span>
+                        
+                        {% if player.badge is defined %}
+                            <span class="badge">
+                                {{ player.badge|displayScore(game.rankingReference) }}
+                                {{ game.rankingReference|trans }}
+                            </span>
+                        {% endif %}
                     </a>
                 </li>
             {% endfor %}

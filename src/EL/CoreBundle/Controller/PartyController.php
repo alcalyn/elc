@@ -98,6 +98,8 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty);
         }
         
+        $game               = $partyService->getGame();
+        $slots              = $party->getSlots();
         $player             = $this->get('el_core.session')->getPlayer();
         $canJoin            = true === $partyService->canJoin();
         $isHost             = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
@@ -108,6 +110,9 @@ class PartyController extends Controller
         $options            = $extendedGame->getDisplayOptionsTemplate($party, $extendedOptions);
         $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
         $optionsVars        = is_array($options) ? $options['vars'] : array() ;
+        $scoreService       = $this->get('el_core.score');
+        
+        $scoreService->badgePlayers($partyService->getPlayers(), $game);
         
         $this->get('el_core.js_vars')
                 ->initPhaxController('party')
@@ -135,8 +140,8 @@ class PartyController extends Controller
             'extendedOptions'           => $extendedOptions,
             'extendedOptionsTemplate'   => $optionsTemplate,
             'slotsConfiguration'        => $slotsConfiguration,
-            'game'                      => $party->getGame(),
-            'slots'                     => $party->getSlots(),
+            'game'                      => $game,
+            'slots'                     => $slots,
             'inParty'                   => $inParty,
             'canJoin'                   => $canJoin,
             'isHost'                    => $isHost,

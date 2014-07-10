@@ -192,6 +192,11 @@ class Player implements \JsonSerializable
         return $this->bot;
     }
     
+    /**
+     * Implements JsonSerializable
+     * 
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array(
@@ -199,6 +204,24 @@ class Player implements \JsonSerializable
             'pseudo'        => $this->getPseudo(),
             'invited'       => $this->getInvited(),
             'bot'           => $this->getBot(),
+        );
+    }
+    
+    /**
+     * Instances of this class will be serialized in session,
+     * so be carefull when creating attributes having an instance
+     * 
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array(
+            'id',
+            'pseudo',
+            'passwordHash',
+            'invited',
+            'bot',
+            'dateCreate',
         );
     }
 }

@@ -109,6 +109,66 @@ class ScoreService
     }
     
     /**
+     * Get Score data for a player and a game variant
+     * 
+     * @param \EL\CoreBundle\Services\Player $player
+     * @param Game|GameVariant $game
+     * 
+     * @return Score
+     */
+    public function getMultipleScoreData(array $players, $game)
+    {
+        $gameVariant = $this->asGameVariant($game);
+        
+        $scores = $this->em
+                ->getRepository('CoreBundle:Score')
+                ->getMultiple($players, $gameVariant)
+        ;
+        
+        $array = array();
+        
+        foreach ($scores as $score) {
+            $array[$score->getPlayer()->getId()] = $score;
+        }
+        
+        return $array;
+    }
+    
+    /**
+     * Add a score badge to a player on a game variant
+     * 
+     * @param Player $player
+     * @param mixed $game
+     * @param Score $score
+     */
+    public function badgePlayer(Player $player, $game, Score $score = null)
+    {
+        $gameVariant = $this->asGameVariant($game);
+        
+        if (null === $score) {
+            $score = $this->getScoreData($player, $game);
+        }
+        
+        $player->badge = $score;
+    }
+    
+    /**
+     * Add a score badge to multiple players
+     * 
+     * @param array $players
+     * @param mixed $game
+     */
+    public function badgePlayers(array $players, $game)
+    {
+        $gameVariant    = $this->asGameVariant($game);
+        $scores         = $this->getMultipleScoreData($players, $game);
+        
+        foreach ($scores as $score) {
+            $this->badgePlayer($score->getPlayer(), $gameVariant, $score);
+        }
+    }
+    
+    /**
      * Return a rank board of the $game from $offset to $lenth.
      * 
      * Example:

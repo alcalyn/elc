@@ -470,53 +470,38 @@ class PartyService extends GameService
     /**
      * Return true if party is ready to start
      * 
-     * @param boolean $start, if true, start the party if ready
-     * @return integer
+     * @param boolean $start set to false to just check if party can be started
+     * 
+     * @return boolean true, or throws ELUserException
+     * 
+     * @throws ELUserException if party cannot be started
      */
     public function start($start = true)
     {
-        $party = $this->getParty();
+        $party  = $this->getParty();
+        $player = $this->session->getPlayer();
+        $isHost = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
         
-        if ($party->getState() === Party::PREPARATION) {
-            
-            if ($this->getExtendedGame()->canStart($this) !== true) {
-                throw new ELCoreException('Extended party canStart() must return true or throw ELUserException');
-            }
-            
-            if ($start) {
-                $party
-                    ->setState(Party::STARTING)
-                    ->setDateStarted(new \DateTime())
-                ;
-                
-                if (self::DELAY_BEFORE_START <= 0) {
-                    $party->setState(Party::ACTIVE);
-                    $this->getExtendedGame()->started($this);
-                }
-                
-                $this->em->persist($party);
-                $this->em->flush();
-            }
-            
-            return true;
-        } else {
+        if (!$isHost) {
+            throw new ELUserException('cannot.start.youarenothost');
+        }
+        
+        if ($party->getState() !== Party::PREPARATION) {
             throw new ELUserException('cannot.start.already.started');
         }
-    }
-    
-    
-    /**
-     * Start the party if ready, else return error code
-     * 
-     * @return integer
-     */
-    public function canStart()
-    {
-        try {
-            return $this->canStart(false);
-        } catch (ELUserException $e) {
-            return false;
+            
+        if ($start) {
+            $party->setDateStarted(new \DateTime());
+
+            if (self::DELAY_BEFORE_START <= 0) {
+                $party->setState(Party::ACTIVE);
+                $this->getExtendedGame()->started($this);
+            } else {
+                $party->setState(Party::STARTING);
+            }
         }
+        
+        return true;
     }
     
     

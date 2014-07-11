@@ -10,6 +10,7 @@ use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Entity\Game;
+use EL\CoreBundle\Event\PartyEvent;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Form\Type\PartyType;
 use EL\CoreBundle\Form\Entity\Options;
@@ -43,28 +44,15 @@ class PartyController extends Controller
         
         if ($optionsForm->isValid()) {
             $partyService->setParty($coreParty);
-
-            $coreParty
-                    ->setDateCreate(new \DateTime())
-            ;
-
+            
             $em->persist($coreParty);
-
-            // notify extended game that party has been created with $extendedOptions options
-            $extendedGame->saveParty($coreParty, $extendedOptions);
-
-            // get slots configuration from extended party depending of options
-            $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions);
-
-            // create slots from given slots configuration
-            $partyService->createSlots($slotsConfiguration);
+            
+            // Dispatch event, party created
+            $eventDispatcher = $this->get('event_dispatcher');
+            $event = new PartyEvent($partyService, $extendedGame, $extendedOptions);
+            $eventDispatcher->dispatch(PartyEvent::PARTY_CREATED, $event);
 
             $em->flush();
-
-            if (0 === strlen($coreParty->getSlug())) {
-                $coreParty->setSlug($partyService->generateRandomTitle($_locale));
-                $em->flush();
-            }
 
             // redirect to preparation page
             return $this->redirect($this->generateUrl('elcore_party_preparation', array(
@@ -177,9 +165,9 @@ class PartyController extends Controller
      */
     public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService, Request $request)
     {
+        $em         = $this->getDoctrine()->getManager();
         $player     = $this->get('el_core.session')->getPlayer();
         $party      = $partyService->getParty();
-        $isHost     = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
         $t          = $this->get('translator');
         $session    = $this->get('session');
         $flashbag   = $session->getFlashBag();
@@ -187,19 +175,17 @@ class PartyController extends Controller
         
         switch ($action) {
             case 'run':
-                if (!in_array($party->getState(), array(Party::PREPARATION, Party::STARTING))) {
-                    break;
+                
+                try {
+                    // Dispatch event, party started
+                    $eventDispatcher = $this->get('event_dispatcher');
+                    $event = new PartyEvent($partyService);
+                    $eventDispatcher->dispatch(PartyEvent::PARTY_STARTED, $event);
+                } catch (ELUserException $e) {
+                    $e->addFlashMessage($session);
                 }
                 
-                if ($isHost) {
-                    try {
-                        $partyService->start();
-                    } catch (ELUserException $e) {
-                        $e->addFlashMessage($session);
-                    }
-                } else {
-                    $flashbag->add('danger', $t->trans('cannot.start.youarenothost'));
-                }
+                $em->flush();
                 break;
             
             case 'cancel':

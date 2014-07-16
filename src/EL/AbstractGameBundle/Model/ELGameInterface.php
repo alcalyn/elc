@@ -32,8 +32,6 @@ interface ELGameInterface
      * 
      * @param CoreParty $coreParty
      * @param stdClass $extendedParty
-     * 
-     * @return boolean
      */
     public function saveParty(CoreParty $coreParty, $extendedParty);
     

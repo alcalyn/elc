@@ -6,26 +6,17 @@ use EL\CoreBundle\Event\PartyEvent;
 
 class PartyListener
 {
+    /**
+     * @param \EL\CoreBundle\Event\PartyEvent $event
+     */
     public function onPartyCreated(PartyEvent $event)
     {
-        $partyService = $event->getPartyService();
-        $coreParty = $partyService->getParty();
-        $gameInterface = $event->getGameInterface();
-        $extendedOptions = $event->getExtendedParty();
         
-        // Set datetime created
-        $coreParty->setDateCreate(new \DateTime());
-        
-        // notify extended game that party has been created with $extendedOptions options
-        $gameInterface->saveParty($coreParty, $extendedOptions);
-        
-        // get slots configuration from extended party depending of options
-        $slotsConfiguration = $gameInterface->getSlotsConfiguration($extendedOptions);
-        
-        // create slots from given slots configuration
-        $partyService->createSlots($slotsConfiguration);
     }
     
+    /**
+     * @param \EL\CoreBundle\Event\PartyEvent $event
+     */
     public function onPartyStarted(PartyEvent $event)
     {
         $partyService = $event->getPartyService();
@@ -33,11 +24,17 @@ class PartyListener
         $partyService->start();
     }
     
+    /**
+     * @param \EL\CoreBundle\Event\PartyEvent $event
+     */
     public function onPartyActived(PartyEvent $event)
     {
         
     }
     
+    /**
+     * @param \EL\CoreBundle\Event\PartyEvent $event
+     */
     public function onPartyEnded(PartyEvent $event)
     {
         

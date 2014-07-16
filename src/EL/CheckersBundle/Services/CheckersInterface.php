@@ -20,7 +20,8 @@ class CheckersInterface extends ELGameAdapter
     
     public function createParty()
     {
-        return new Variant();
+        $variants = $this->get('checkers.variants');
+        return $variants->getVariant(Variant::ENGLISH);
     }
     
     public function getGameLayout()
@@ -64,8 +65,6 @@ class CheckersInterface extends ELGameAdapter
     /**
      * @param \EL\CoreBundle\Entity\Party $coreParty
      * @param Variant $checkersVariant
-     * 
-     * @return boolean
      */
     public function saveParty(Party $coreParty, $checkersVariant)
     {
@@ -78,8 +77,6 @@ class CheckersInterface extends ELGameAdapter
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($checkersParty);
-        
-        return true;
     }
     
     public function loadParty(Party $coreParty)

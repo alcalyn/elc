@@ -32,9 +32,6 @@ class Awale extends ELGameAdapter
         ;
         
         $em->persist($awaleParty);
-        $em->flush();
-        
-        return true;
     }
     
     public function loadParty(Party $coreParty)

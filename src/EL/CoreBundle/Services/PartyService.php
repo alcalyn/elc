@@ -3,6 +3,8 @@
 namespace EL\CoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use EL\CoreBundle\Event\PartyEvent;
 use Doctrine\ORM\EntityManager;
 use EL\CoreBundle\Services\GameService;
 use EL\CoreBundle\Entity\Party;
@@ -12,6 +14,7 @@ use EL\CoreBundle\Services\SessionService;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Form\Entity\PartyOptions;
+use EL\AbstractGameBundle\Model\ELGameInterface;
 
 class PartyService extends GameService
 {
@@ -43,13 +46,24 @@ class PartyService extends GameService
      */
     private $party;
     
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
     
-    
-    public function __construct(EntityManager $em, SessionService $session)
+    /**
+     * Constructor
+     * 
+     * @param \Doctrine\ORM\EntityManager $em
+     * @param \EL\CoreBundle\Services\SessionService $session
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(EntityManager $em, SessionService $session, EventDispatcherInterface $eventDispatcher)
     {
         parent::__construct($em);
         
         $this->session          = $session;
+        $this->eventDispatcher  = $eventDispatcher;
     }
     
     
@@ -101,7 +115,10 @@ class PartyService extends GameService
     }
     
     /**
-     * @param PartyOptions $partyOption
+     * Create a new instance of Party
+     * 
+     * @param string $locale
+     * 
      * @return Party
      */
     public function createParty($locale)
@@ -116,18 +133,44 @@ class PartyService extends GameService
         return $party;
     }
     
-    public function createSlots(array $slotsConfiguration, Party $party = null)
+    /**
+     * Init a party and slots configuration after player has created it
+     * 
+     * @param \EL\CoreBundle\Entity\Party $coreParty
+     * @param \EL\CoreBundle\Services\ELGameInterface $gameInterface
+     * @param \stdClass $extendedOptions
+     */
+    public function create(Party $coreParty, ELGameInterface $gameInterface, $extendedOptions)
     {
-        if (is_null($party)) {
-            $this->needParty();
-            $party = $this->getParty();
-        }
+        $coreParty->setDateCreate(new \DateTime());
         
-        $position = 0;
+        // create slots from given slots configuration
+        $slotsConfiguration = $gameInterface->getSlotsConfiguration($extendedOptions);
+        $this->createSlots($slotsConfiguration);
+        
+        // Notify extended game that a party has been created
+        $gameInterface->saveParty($coreParty, $extendedOptions);
+        
+        // Dispatch party creation event
+        $event = new PartyEvent($this, $gameInterface, $extendedOptions);
+        $this->eventDispatcher->dispatch(PartyEvent::PARTY_CREATED, $event);
+    }
+    
+    /**
+     * Create slots from $slotsConfiguration
+     * 
+     * @param array $slotsConfiguration
+     */
+    public function createSlots(array $slotsConfiguration)
+    {
+        $this->needParty();
+        
+        $party      = $this->getParty();
+        $position   = 0;
         
         foreach ($slotsConfiguration['slots'] as $s) {
             $isHost =  isset($s['host']) && $s['host'];
-            $isOpen = !isset($s['host']) || $s['host'];
+            $isOpen = !isset($s['open']) || $s['open'];
             $score  =  isset($s['score']) ? $s['score'] : 0 ;
             
             $slot = new Slot();
@@ -144,8 +187,6 @@ class PartyService extends GameService
             
             $this->em->persist($slot);
         }
-        
-        $this->em->flush();
     }
     
     

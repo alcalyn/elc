@@ -39,7 +39,7 @@ services:
         
     el_core.party:
         class: %el_core.party.class%
-        arguments: [@doctrine.orm.entity_manager, @el_core.session]
+        arguments: [@doctrine.orm.entity_manager, @el_core.session, @event_dispatcher]
         
     el_core.widgets:
         class: %el_core.widget.class%

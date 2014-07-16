@@ -2,11 +2,11 @@
 
 namespace EL\TicTacToeBundle\Controller;
 
-use EL\AbstractGameBundle\Model\ELGameAdapter;
+use EL\CoreBundle\Entity\Party as CoreParty;
 use EL\CoreBundle\Services\PartyService;
+use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\TicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
 use EL\TicTacToeBundle\Entity\Party;
-use EL\CoreBundle\Entity\Party as CoreParty;
 
 class DefaultController extends ELGameAdapter
 {
@@ -45,9 +45,6 @@ class DefaultController extends ELGameAdapter
         $extendedParty->setParty($coreParty);
         
         $em->persist($extendedParty);
-        $em->flush();
-        
-        return true;
     }
     
     public function loadParty(CoreParty $coreParty)

@@ -9,7 +9,7 @@ class CheckersVariants
     /**
      * Array containing variants
      * 
-     * @var array of Variant
+     * @var Variant[]
      */
     private $variants;
     
@@ -29,6 +29,15 @@ class CheckersVariants
     public function getVariants()
     {
         return $this->variants;
+    }
+    
+    /**
+     * @param string $name
+     * @return Variant
+     */
+    public function getVariant($name)
+    {
+        return $this->variants[$name];
     }
     
     /**

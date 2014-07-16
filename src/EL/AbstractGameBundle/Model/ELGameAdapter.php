@@ -60,7 +60,6 @@ class ELGameAdapter extends Controller implements ELGameInterface
      */
     public function saveParty(CoreParty $coreParty, $options)
     {
-        return true;
     }
     
     /**

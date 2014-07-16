@@ -43,15 +43,10 @@ class PartyController extends Controller
         $optionsForm->handleRequest($request);
         
         if ($optionsForm->isValid()) {
+            
             $partyService->setParty($coreParty);
-            
             $em->persist($coreParty);
-            
-            // Dispatch event, party created
-            $eventDispatcher = $this->get('event_dispatcher');
-            $event = new PartyEvent($partyService, $extendedGame, $extendedOptions);
-            $eventDispatcher->dispatch(PartyEvent::PARTY_CREATED, $event);
-
+            $partyService->create($coreParty, $extendedGame, $extendedOptions);
             $em->flush();
 
             // redirect to preparation page

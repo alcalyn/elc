@@ -19,9 +19,7 @@ class PartyListener
      */
     public function onPartyStarted(PartyEvent $event)
     {
-        $partyService = $event->getPartyService();
         
-        $partyService->start();
     }
     
     /**

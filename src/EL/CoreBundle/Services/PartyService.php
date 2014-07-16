@@ -532,14 +532,19 @@ class PartyService extends GameService
         }
             
         if ($start) {
+            $event = new PartyEvent($this, $this->getExtendedGame());
             $party->setDateStarted(new \DateTime());
-
+            
             if (self::DELAY_BEFORE_START <= 0) {
                 $party->setState(Party::ACTIVE);
                 $this->getExtendedGame()->started($this);
+                $this->eventDispatcher->dispatch(PartyEvent::PARTY_STARTED, $event);
+                $this->eventDispatcher->dispatch(PartyEvent::PARTY_ACTIVED, $event);
             } else {
                 $party->setState(Party::STARTING);
+                $this->eventDispatcher->dispatch(PartyEvent::PARTY_STARTED, $event);
             }
+
         }
         
         return true;

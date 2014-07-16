@@ -172,10 +172,7 @@ class PartyController extends Controller
             case 'run':
                 
                 try {
-                    // Dispatch event, party started
-                    $eventDispatcher = $this->get('event_dispatcher');
-                    $event = new PartyEvent($partyService);
-                    $eventDispatcher->dispatch(PartyEvent::PARTY_STARTED, $event);
+                    $partyService->start();
                 } catch (ELUserException $e) {
                     $e->addFlashMessage($session);
                 }

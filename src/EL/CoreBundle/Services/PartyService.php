@@ -18,14 +18,6 @@ use EL\AbstractGameBundle\Model\ELGameInterface;
 
 class PartyService extends GameService
 {
-    
-    const OK            = 0;
-    const ENDED_PARTY   = 1;
-    const NO_FREE_SLOT  = 2;
-    const ALREADY_JOIN  = 3;
-    const STARTED_PARTY = 4;
-    const NOT_OK        = 10;
-    
     /**
      * Number of seconds after host clicked Start,
      * and before game really starting
@@ -576,6 +568,10 @@ class PartyService extends GameService
     
     /**
      * End the party if currently active
+     * 
+     * @return boolean
+     * 
+     * @throws ELCoreException
      */
     public function end()
     {
@@ -587,9 +583,9 @@ class PartyService extends GameService
                 ->setDateEnded(new \DateTime())
             ;
             
-            return self::OK;
+            return true;
         } else {
-            return self::NOT_OK;
+            throw new ELCoreException('Party cannot be ended because not active');
         }
     }
     

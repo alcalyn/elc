@@ -80,6 +80,18 @@ class GameService
     }
     
     /**
+     * Use entity manager from this service to persist an entity
+     * 
+     * @param \stdClass $entity
+     * 
+     * @return void
+     */
+    public function persist($entity)
+    {
+        return $this->em->persist($entity);
+    }
+    
+    /**
      * Find all parties for this game
      * 
      * @param integer $state of parties, let blank for all parties.

@@ -111,13 +111,17 @@ class ScoreService
     /**
      * Get Score data for a player and a game variant
      * 
-     * @param \EL\CoreBundle\Services\Player $player
+     * @param \EL\CoreBundle\Services\Player $players
      * @param Game|GameVariant $game
      * 
-     * @return Score
+     * @return Score[]
      */
     public function getMultipleScoreData(array $players, $game)
     {
+        if (0 === count($players)) {
+            return array();
+        }
+        
         $gameVariant = $this->asGameVariant($game);
         
         $scores = $this->em
@@ -125,13 +129,13 @@ class ScoreService
                 ->getMultiple($players, $gameVariant)
         ;
         
-        $array = array();
+        $arrayScores = array();
         
         foreach ($scores as $score) {
-            $array[$score->getPlayer()->getId()] = $score;
+            $arrayScores[$score->getPlayer()->getId()] = $score;
         }
         
-        return $array;
+        return $arrayScores;
     }
     
     /**

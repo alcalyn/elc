@@ -44,6 +44,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         
         $awaleParty
                 ->setParty($coreParty)
+                ->setSeedsPerContainer($seedsPerContainer)
                 ->setGrid($awaleCore->fillGrid($seedsPerContainer))
         ;
         
@@ -122,20 +123,5 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
             'reverse'       => $reverse,
             'grid'          => $awaleCore->unserializeGrid($extendedParty->getGrid()),
         ));
-    }
-    
-    public function createRemake(PartyService $partyService, Party $corePartyClone)
-    {
-        $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore */
-        $oldAwaleParty  = $partyService->loadExtendedParty();   /* @var $oldAwaleParty AwaleParty */
-        
-        $remakeAwaleParty = new AwaleParty();
-        $remakeAwaleParty
-                ->setParty($corePartyClone)
-                ->setSeedsPerContainer($oldAwaleParty->getSeedsPerContainer())
-                ->setGrid($awaleCore->fillGrid($oldAwaleParty->getSeedsPerContainer()))
-        ;
-        
-        return $remakeAwaleParty;
     }
 }

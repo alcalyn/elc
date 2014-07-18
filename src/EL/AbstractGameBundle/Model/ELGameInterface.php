@@ -109,14 +109,4 @@ interface ELGameInterface
      * @return boolean
      */
     public function isMyTurn(PartyService $partyService);
-    
-    /**
-     * Return a remake of an extended party
-     * 
-     * @param PartyService $partyService containing old core party
-     * @param CoreParty $cloneCoreParty just cloned
-     * 
-     * @return \stdClass
-     */
-    public function createRemake(PartyService $partyService, CoreParty $cloneCoreParty);
 }

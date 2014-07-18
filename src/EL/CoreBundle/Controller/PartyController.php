@@ -163,13 +163,11 @@ class PartyController extends Controller
         $em         = $this->getDoctrine()->getManager();
         $player     = $this->get('el_core.session')->getPlayer();
         $party      = $partyService->getParty();
-        $t          = $this->get('translator');
         $session    = $this->get('session');
-        $flashbag   = $session->getFlashBag();
         $action     = $request->request->get('action');
         
         switch ($action) {
-            case 'run':
+            case 'start':
                 
                 try {
                     $partyService->start();
@@ -189,27 +187,32 @@ class PartyController extends Controller
                 break;
             
             case 'join':
-                if ($party->getState() !== Party::PREPARATION) {
-                    break;
-                }
                 
                 try {
                     $partyService->join();
                     $em->flush();
                 } catch (ELUserException $e) {
-                    $e->addFlashMessage($this->get('session'));
+                    $e->addFlashMessage($session);
                 }
+                
                 break;
             
             case 'remake':
-                $remakeParty = $partyService->remake();
-                $em->flush();
                 
-                return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                    '_locale'   => $_locale,
-                    'slugGame'  => $remakeParty->getGame()->getSlug(),
-                    'slugParty' => $remakeParty->getSlug(),
-                )));
+                try {
+                    $remakeParty = $partyService->remake();
+                    $em->flush();
+                    
+                    return $this->redirect($this->generateUrl('elcore_party_preparation', array(
+                        '_locale'   => $_locale,
+                        'slugGame'  => $remakeParty->getGame()->getSlug(),
+                        'slugParty' => $remakeParty->getSlug(),
+                    )));
+                } catch (ELUserException $e) {
+                    $e->addFlashMessage($session);
+                }
+                
+                break;
             
             default:
                 throw new ELCoreException('Unknown action : "'.$action.'"');

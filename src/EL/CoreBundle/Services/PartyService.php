@@ -229,7 +229,7 @@ class PartyService extends GameService
             throw new ELUserException('cannot.join.party.ended');
         }
         
-        if (($state === Party::ACTIVE) && !$party->getRoom()) {
+        if (($state !== Party::PREPARATION) && !$party->getRoom()) {
             throw new ELUserException('cannot.join.party.started');
         }
         
@@ -579,7 +579,6 @@ class PartyService extends GameService
         
         $player                 = $this->session->getPlayer();
         $oldCoreParty           = $this->getParty();
-        $alreadyRemakeCoreParty = $oldCoreParty->getRemake();
         
         // Check if party ended
         if ($oldCoreParty->getState() !== Party::ENDED) {
@@ -587,9 +586,9 @@ class PartyService extends GameService
         }
         
         // Check if party already remade, then join
-        if (null !== $alreadyRemakeCoreParty) {
-            $this->join($player, -1, true, $alreadyRemakeCoreParty);
-            return $alreadyRemakeCoreParty;
+        if (null !== $oldCoreParty->getRemake()) {
+            $this->join($player, -1, true, $oldCoreParty->getRemake());
+            return $oldCoreParty->getRemake();
         }
         
         // Else create a clone core party
@@ -599,19 +598,13 @@ class PartyService extends GameService
         $oldCoreParty->setRemake($remakeCoreParty);
         $remakeCoreParty->setHost($player);
         
-        // Create new slots for remake party
-        $options            = $this->getExtendedGame()->loadParty($oldCoreParty);
-        $slotsConfiguration = $this->getExtendedGame()->getSlotsConfiguration($options);
-        
-        $this->createSlots($slotsConfiguration, $remakeCoreParty);
-        
-        // Notify the game that party is remaking
-        $remakeExtendedParty = $this->getExtendedGame()->createRemake($this, $remakeCoreParty);
+        // Create new party
+        $oldExtendedParty = $this->getExtendedGame()->loadParty($oldCoreParty);
+        $this->create($remakeCoreParty, $this->getExtendedGame(), $oldExtendedParty);
+        // Create a RemakePartyEvent, trigger here for after if needed, and another before
         
         // Persist new party and old party
         $this->em->persist($remakeCoreParty);
-        $this->em->persist($remakeExtendedParty);
-        $this->em->persist($oldCoreParty);
         
         // Return new party
         return $remakeCoreParty;

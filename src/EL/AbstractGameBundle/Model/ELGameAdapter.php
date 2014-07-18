@@ -159,12 +159,4 @@ class ELGameAdapter extends Controller implements ELGameInterface
     {
         return false;
     }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function createRemake(PartyService $partyService, CoreParty $corePartyClone)
-    {
-        throw new ELCoreException('Remake party must be implemented');
-    }
 }

@@ -25,22 +25,24 @@
         </thead>
         <tbody>
             {% for slot in coreParty.slots %}
-                <tr class="player-row player-{{ slot.player.id }}{{ (slot.player.id in playersInRemake) ? ' success' : '' }}">
-                    <td>{{ slot.position }}</td>
-                    <td>
-                        {% if slot.player %}
-                            {{ slot.player.pseudo }}
-                        {% else %}
-                            No player
-                        {% endif %}
-                    </td>
-                    <td>{{ slot.score }}</td>
-                    <td class="comment">
-                        {% if slot.player.id in playersInRemake %}
-                            <p class="text-success">{{ 'has.remake'|trans }}</p>
-                        {% endif %}
-                    </td>
-                </tr>
+                {% if slot.player %}
+                    <tr class="player-row player-{{ slot.player.id }}{{ (slot.player.id in playersInRemake) ? ' success' : '' }}">
+                        <td>{{ slot.position }}</td>
+                        <td>
+                            {% if slot.player %}
+                                {{ slot.player.pseudo }}
+                            {% else %}
+                                No player
+                            {% endif %}
+                        </td>
+                        <td>{{ slot.score }}</td>
+                        <td class="comment">
+                            {% if slot.player.id in playersInRemake %}
+                                <p class="text-success">{{ 'has.remake'|trans }}</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

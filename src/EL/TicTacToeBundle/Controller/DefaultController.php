@@ -136,12 +136,4 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
         
         return $partyPlayer === $loggedPlayer;
     }
-    
-    public function createRemake(PartyService $partyService, CoreParty $corePartyClone)
-    {
-        $extendedParty      = $partyService->loadExtendedParty();
-        $extendedPartyClone = $extendedParty->createRemake($corePartyClone);
-        
-        return $extendedPartyClone;
-    }
 }

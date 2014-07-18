@@ -173,11 +173,11 @@ class PartyController extends Controller
                 
                 try {
                     $partyService->start();
+                    $em->flush();
                 } catch (ELUserException $e) {
                     $e->addFlashMessage($session);
                 }
                 
-                $em->flush();
                 break;
             
             case 'cancel':
@@ -195,17 +195,15 @@ class PartyController extends Controller
                 
                 try {
                     $partyService->join();
+                    $em->flush();
                 } catch (ELUserException $e) {
                     $e->addFlashMessage($this->get('session'));
                 }
                 break;
             
             case 'remake':
-                if ($party->getState() !== Party::ENDED) {
-                    break;
-                }
-                
                 $remakeParty = $partyService->remake();
+                $em->flush();
                 
                 return $this->redirect($this->generateUrl('elcore_party_preparation', array(
                     '_locale'   => $_locale,

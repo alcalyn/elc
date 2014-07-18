@@ -39,6 +39,7 @@ class SlotController extends Controller
     
     public function openAction(PhaxAction $phaxAction)
     {
+        $em         = $this->getDoctrine()->getManager();
         $slugParty  = $phaxAction->slugParty;
         $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
@@ -51,12 +52,15 @@ class SlotController extends Controller
                 ->openSlot($slotIndex, $slotOpen)
         ;
         
+        $em->flush();
+        
         return $this->party($partyService->getParty());
     }
     
     
     public function ajaxJoinAction(PhaxAction $phaxAction)
     {
+        $em         = $this->getDoctrine()->getManager();
         $slugParty  = $phaxAction->slugParty;
         $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
@@ -68,12 +72,15 @@ class SlotController extends Controller
                 ->join(null, $slotIndex)
         ;
         
+        $em->flush();
+        
         return $this->party($partyService->getParty());
     }
     
     
     public function banAction(PhaxAction $phaxAction)
     {
+        $em         = $this->getDoctrine()->getManager();
         $slugParty  = $phaxAction->slugParty;
         $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
@@ -84,6 +91,8 @@ class SlotController extends Controller
                 ->setPartyBySlug($slugParty, $slugGame, $_locale)
                 ->ban($playerId)
         ;
+        
+        $em->flush();
         
         return $this->party($partyService->getParty());
     }

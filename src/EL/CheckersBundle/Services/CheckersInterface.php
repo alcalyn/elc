@@ -17,7 +17,8 @@ class CheckersInterface extends ELGameAdapter
     public function init()
     {
         $em = $this->getDoctrine()->getManager();
-        $this->get('event_dispatcher')->addSubscriber(new PartyEventListener($em));
+        $checkers = $this->get('checkers.core');
+        $this->get('event_dispatcher')->addSubscriber(new PartyEventListener($em, $checkers));
     }
     
     public function getPartyType()
@@ -107,24 +108,6 @@ class CheckersInterface extends ELGameAdapter
                 ),
             ),
         );
-    }
-    
-    public function started(PartyService $partyService)
-    {
-        $em             = $this->getDoctrine()->getManager();
-        $checkers       = $this->get('checkers.core');          /* @var $checkers Checkers */
-        $checkersParty  = $partyService->loadExtendedParty();   /* @var $checkersParty CheckersParty */
-        $variant        = new Variant($checkersParty->getParameters());
-        $grid           = $checkers->initGrid($variant);
-        $move           = new Move(0);
-        
-        $checkersParty
-                ->setGrid($grid)
-                ->setCurrentPlayer($variant->getFirstPlayer())
-                ->setLastMove(json_encode($move))
-        ;
-        
-        $em->persist($checkersParty);
     }
     
     /**

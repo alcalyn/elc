@@ -2,17 +2,31 @@
 
 namespace EL\CheckersBundle\Services;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Services\SessionService;
+use EL\CoreBundle\Event\PartyEvent;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Form\Type\CheckersOptionsType;
 use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Move;
 
-class CheckersInterface extends ELGameAdapter
+class CheckersInterface extends ELGameAdapter implements EventSubscriberInterface
 {
+    public static function getSubscribedEvents()
+    {
+        return array(
+            'event.party.created'   => 'onPartyCreated',
+        );
+    }
+    
+    public function init()
+    {
+        $this->get('event_dispatcher')->addSubscriber($this);
+    }
+    
     public function getPartyType()
     {
         return new CheckersOptionsType($this->get('translator'));
@@ -63,11 +77,13 @@ class CheckersInterface extends ELGameAdapter
     }
     
     /**
-     * @param \EL\CoreBundle\Entity\Party $coreParty
-     * @param Variant $checkersVariant
+     * @param \EL\CoreBundle\Event\PartyEvent $event
      */
-    public function saveParty(Party $coreParty, $checkersVariant)
+    public function onPartyCreated(PartyEvent $event)
     {
+        $coreParty = $event->getPartyService()->getParty();
+        $checkersVariant = $event->getExtendedParty();
+        
         $checkersParty = new CheckersParty();
         $checkersParty
                 ->setParty($coreParty)

@@ -2,14 +2,28 @@
 
 namespace EL\TicTacToeBundle\Controller;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use EL\CoreBundle\Event\PartyEvent;
 use EL\CoreBundle\Entity\Party as CoreParty;
 use EL\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\TicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
 use EL\TicTacToeBundle\Entity\Party;
 
-class DefaultController extends ELGameAdapter
+class DefaultController extends ELGameAdapter implements EventSubscriberInterface
 {
+    public static function getSubscribedEvents()
+    {
+        return array(
+            'event.party.created'   => 'onPartyCreated',
+        );
+    }
+    
+    public function init()
+    {
+        $this->get('event_dispatcher')->addSubscriber($this);
+    }
+    
     public function getPartyType()
     {
         return new TicTacToePartyOptionsType();
@@ -38,12 +52,13 @@ class DefaultController extends ELGameAdapter
         ));
     }
     
-    public function saveParty(CoreParty $coreParty, $extendedParty)
+    public function onPartyCreated(PartyEvent $event)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em             = $this->getDoctrine()->getManager();
+        $coreParty      = $event->getPartyService()->getParty();
+        $extendedParty  = $event->getExtendedParty();
         
         $extendedParty->setParty($coreParty);
-        
         $em->persist($extendedParty);
     }
     

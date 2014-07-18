@@ -6,6 +6,7 @@ services:
         class: EL\TicTacToeBundle\Controller\DefaultController
         calls:
             - [setContainer, ["@service_container"]]
+            - [init]
     phax.tictactoe:
         class: EL\TicTacToeBundle\Controller\TicTacToeAjaxController
         calls:

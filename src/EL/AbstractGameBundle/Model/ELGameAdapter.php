@@ -58,13 +58,6 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function saveParty(CoreParty $coreParty, $options)
-    {
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
     public function loadParty(CoreParty $coreParty)
     {
         return new AdapterOptions();

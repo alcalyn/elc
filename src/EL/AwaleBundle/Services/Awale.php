@@ -2,14 +2,28 @@
 
 namespace EL\AwaleBundle\Services;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use EL\CoreBundle\Event\PartyEvent;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\AwaleBundle\Form\Type\AwalePartyType;
 use EL\AwaleBundle\Entity\AwaleParty;
 
-class Awale extends ELGameAdapter
+class Awale extends ELGameAdapter implements EventSubscriberInterface
 {
+    public static function getSubscribedEvents()
+    {
+        return array(
+            'event.party.created'   => 'onPartyCreated',
+        );
+    }
+    
+    public function init()
+    {
+        $this->get('event_dispatcher')->addSubscriber($this);
+    }
+    
     public function getPartyType()
     {
         return new AwalePartyType();
@@ -20,9 +34,11 @@ class Awale extends ELGameAdapter
         return new AwaleParty();
     }
     
-    public function saveParty(Party $coreParty, $awaleParty)
+    public function onPartyCreated(PartyEvent $event)
     {
         $em                 = $this->getDoctrine()->getManager();
+        $coreParty          = $event->getPartyService()->getParty();
+        $awaleParty         = $event->getExtendedParty();
         $awaleCore          = $this->get('awale.core');
         $seedsPerContainer  = $awaleParty->getSeedsPerContainer();
         

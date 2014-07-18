@@ -148,9 +148,6 @@ class PartyService extends GameService
         $slotsConfiguration = $gameInterface->getSlotsConfiguration($extendedOptions);
         $this->createSlots($slotsConfiguration);
         
-        // Notify extended game that a party has been created
-        $gameInterface->saveParty($coreParty, $extendedOptions);
-        
         // Dispatch party creation event
         $event = new PartyEvent($this, $gameInterface, $extendedOptions);
         $this->eventDispatcher->dispatch(PartyEvent::PARTY_CREATED, $event);

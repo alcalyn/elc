@@ -24,18 +24,6 @@ interface ELGameInterface
     public function getPartyType();
     
     /**
-     * Called then optionsType form has been posted.
-     * Use this callback to save party options in database
-     * and return true, if options are valid
-     * 
-     * Return false to refuse options
-     * 
-     * @param CoreParty $coreParty
-     * @param stdClass $extendedParty
-     */
-    public function saveParty(CoreParty $coreParty, $extendedParty);
-    
-    /**
      * Retreive extended party from core party
      * Load extended party class,
      * only extended party configuration and date

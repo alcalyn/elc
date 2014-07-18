@@ -3,6 +3,7 @@ services:
         class: EL\AwaleBundle\Services\Awale
         calls:
             - [setContainer, ["@service_container"]]
+            - [init]
 
     awale.core:
         class: EL\AwaleBundle\Services\AwaleCore

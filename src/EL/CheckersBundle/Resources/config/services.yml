@@ -3,6 +3,7 @@ services:
         class: EL\CheckersBundle\Services\CheckersInterface
         calls:
             - [setContainer, ["@service_container"]]
+            - [init]
 
     checkers.core:
         class: EL\CheckersBundle\Services\Checkers

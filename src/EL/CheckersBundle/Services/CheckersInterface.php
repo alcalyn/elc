@@ -6,6 +6,7 @@ use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Services\SessionService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
+use EL\CheckersBundle\EventListener\PartyEventListener;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Form\Type\CheckersOptionsType;
 use EL\CheckersBundle\Checkers\Variant;
@@ -13,6 +14,13 @@ use EL\CheckersBundle\Checkers\Move;
 
 class CheckersInterface extends ELGameAdapter
 {
+    public function init()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $checkers = $this->get('checkers.core');
+        $this->get('event_dispatcher')->addSubscriber(new PartyEventListener($em, $checkers));
+    }
+    
     public function getPartyType()
     {
         return new CheckersOptionsType($this->get('translator'));
@@ -20,7 +28,8 @@ class CheckersInterface extends ELGameAdapter
     
     public function createParty()
     {
-        return new Variant();
+        $variants = $this->get('checkers.variants');
+        return $variants->getVariant(Variant::ENGLISH);
     }
     
     public function getGameLayout()
@@ -61,27 +70,6 @@ class CheckersInterface extends ELGameAdapter
         );
     }
     
-    /**
-     * @param \EL\CoreBundle\Entity\Party $coreParty
-     * @param Variant $checkersVariant
-     * 
-     * @return boolean
-     */
-    public function saveParty(Party $coreParty, $checkersVariant)
-    {
-        $checkersParty = new CheckersParty();
-        $checkersParty
-                ->setParty($coreParty)
-                ->setCurrentPlayer($checkersVariant->getFirstPlayer())
-                ->setParameters($checkersVariant->getBinaryValue())
-        ;
-        
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($checkersParty);
-        
-        return true;
-    }
-    
     public function loadParty(Party $coreParty)
     {
         $em = $this->getDoctrine()->getManager();
@@ -120,24 +108,6 @@ class CheckersInterface extends ELGameAdapter
                 ),
             ),
         );
-    }
-    
-    public function started(PartyService $partyService)
-    {
-        $em             = $this->getDoctrine()->getManager();
-        $checkers       = $this->get('checkers.core');          /* @var $checkers Checkers */
-        $checkersParty  = $partyService->loadExtendedParty();   /* @var $checkersParty CheckersParty */
-        $variant        = new Variant($checkersParty->getParameters());
-        $grid           = $checkers->initGrid($variant);
-        $move           = new Move(0);
-        
-        $checkersParty
-                ->setGrid($grid)
-                ->setCurrentPlayer($variant->getFirstPlayer())
-                ->setLastMove(json_encode($move))
-        ;
-        
-        $em->persist($checkersParty);
     }
     
     /**

@@ -24,20 +24,6 @@ interface ELGameInterface
     public function getPartyType();
     
     /**
-     * Called then optionsType form has been posted.
-     * Use this callback to save party options in database
-     * and return true, if options are valid
-     * 
-     * Return false to refuse options
-     * 
-     * @param CoreParty $coreParty
-     * @param stdClass $extendedParty
-     * 
-     * @return boolean
-     */
-    public function saveParty(CoreParty $coreParty, $extendedParty);
-    
-    /**
      * Retreive extended party from core party
      * Load extended party class,
      * only extended party configuration and date
@@ -82,25 +68,6 @@ interface ELGameInterface
      * @return array
      */
     public function getSlotsConfiguration($options);
-    
-    /**
-     * Can define customs rules to start party.
-     * Return an ELUserException if cannot start, true otherwise
-     * 
-     * @param PartyService $partyService
-     * 
-     * @return boolean true
-     * 
-     * @throws ELUserException if cannot start
-     */
-    public function canStart(PartyService $partyService);
-    
-    /**
-     * Party has just started. Init your party here
-     * 
-     * @param PartyService $partyService
-     */
-    public function started(PartyService $partyService);
     
     /**
      * Controller of active party screen

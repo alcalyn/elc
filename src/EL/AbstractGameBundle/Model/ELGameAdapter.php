@@ -58,14 +58,6 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function saveParty(CoreParty $coreParty, $options)
-    {
-        return true;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
     public function loadParty(CoreParty $coreParty)
     {
         return new AdapterOptions();
@@ -106,34 +98,6 @@ class ELGameAdapter extends Controller implements ELGameInterface
                 ),
             ),
         );
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function canStart(PartyService $partyService)
-    {
-        $nbPlayerMin    = $partyService->getGame()->getNbplayerMin();
-        $nbPlayerMax    = $partyService->getGame()->getNbplayerMax();
-        $nbPlayer       = $partyService->getNbPlayer();
-        $t              = $this->get('translator');
-        
-        if ($nbPlayer < $nbPlayerMin) {
-            throw new ELUserException($t->trans('cannot.start.notenoughplayer'), -1, ELUserException::TYPE_WARNING);
-        }
-        
-        if ($nbPlayer > $nbPlayerMax) {
-            throw new ELUserException($t->trans('cannot.start.toomanyplayer'), -1, ELUserException::TYPE_WARNING);
-        }
-        
-        return true;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function started(PartyService $partyService)
-    {
     }
     
     /**

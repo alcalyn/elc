@@ -1,4 +1,5 @@
 parameters:
+    el_core.party_listener.class:       EL\CoreBundle\EventListener\PartyListener
     el_core.session.class:              EL\CoreBundle\Services\SessionService
     el_core.js_vars.class:              EL\CoreBundle\Services\JsVarsService
     el_core.party.class:                EL\CoreBundle\Services\PartyService
@@ -17,6 +18,13 @@ services:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
+    el_core.party_listener:
+        class: %el_core.party_listener.class%
+        tags:
+            - { name: kernel.event_listener, event: event.party.created, method: onPartyCreated }
+            - { name: kernel.event_listener, event: event.party.started, method: onPartyStarted }
+            - { name: kernel.event_listener, event: event.party.actived, method: onPartyActived }
+            - { name: kernel.event_listener, event: event.party.ended, method: onPartyEnded }
     el_core.session:
         class: %el_core.session.class%
         arguments: [@session, @doctrine.orm.entity_manager]
@@ -31,7 +39,7 @@ services:
         
     el_core.party:
         class: %el_core.party.class%
-        arguments: [@doctrine.orm.entity_manager, @el_core.session]
+        arguments: [@doctrine.orm.entity_manager, @el_core.session, @event_dispatcher]
         
     el_core.widgets:
         class: %el_core.widget.class%

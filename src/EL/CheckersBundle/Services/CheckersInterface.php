@@ -178,7 +178,7 @@ class CheckersInterface extends ELGameAdapter
      * 
      * @return \EL\CheckersBundle\Checkers\Variant
      */
-    public function createRemakeOptions($oldParty)
+    public function getOptions($oldParty)
     {
         return new Variant($oldParty->getParameters());
     }

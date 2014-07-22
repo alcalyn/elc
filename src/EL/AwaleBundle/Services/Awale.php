@@ -24,7 +24,6 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
     {
         return array(
             'event.party.created'   => 'onPartyCreated',
-            'event.party.remake'    => 'onPartyRemake',
         );
     }
     
@@ -143,18 +142,12 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         ));
     }
     
-    public function onPartyRemake(PartyRemakeEvent $event)
+    public function getOptions($oldParty)
     {
-        $partyService       = $event->getPartyService();
-        $newParty           = $this->loadParty($partyService->getParty());
-        $awaleCore          = $this->get('awale.core');
-        $seedsPerContainer  = $newParty->getSeedsPerContainer();
+        $party = new AwaleParty();
         
-        // init new party from old
-        $newParty
-                ->setGrid($awaleCore->fillGrid($seedsPerContainer))
-                ->setCurrentPlayer(0)
-                ->setLastMove('0|0')
+        return $party
+                ->setSeedsPerContainer($oldParty->getSeedsPerContainer())
         ;
     }
 }

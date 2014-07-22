@@ -111,12 +111,13 @@ interface ELGameInterface
     public function isMyTurn(PartyService $partyService);
     
     /**
-     * Create options (as createStandardOptions)
-     * from old party instance for a remake
+     * Get options (as createStandardOptions)
+     * of the old extended party instance,
+     * like if it was returned by createStandardOptions()
      * 
      * @param \JsonSerializable $oldExtendedParty
      * 
      * @return \stdClass
      */
-    public function createRemakeOptions($oldExtendedParty);
+    public function getOptions($oldExtendedParty);
 }

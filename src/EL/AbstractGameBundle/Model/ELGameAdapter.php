@@ -163,8 +163,14 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function createRemakeOptions($oldParty)
+    public function getOptions($oldParty)
     {
-        return clone $oldParty;
+        $defaultOptions = $this->createStandardOptions();
+        
+        if ($defaultOptions instanceof AdapterOptions) {
+            return $defaultOptions;
+        } else {
+            throw new ELCoreException('You must implement getOptions()');
+        }
     }
 }

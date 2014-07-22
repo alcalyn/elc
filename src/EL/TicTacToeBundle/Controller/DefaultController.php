@@ -162,11 +162,18 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
         $newParty = $this->loadParty($partyService->getParty());
         
         // Change first player
-        $newParty
-                ->setFirstPlayer(1 - $newParty->getFirstPlayer())
-                ->setCurrentPlayer($newParty->getFirstPlayer())
-                ->setGrid('---------')
-                ->setPartyNumber(1)
+        $newParty->setFirstPlayer(1 - $newParty->getFirstPlayer());
+    }
+    
+    public function getOptions($oldParty)
+    {
+        $party = new Party();
+        
+        return $party
+                ->setFirstPlayer($oldParty->getFirstPlayer())
+                ->setCurrentPlayer($party->getFirstPlayer())
+                ->setNumberOfParties($oldParty->getNumberOfParties())
+                ->setVictoryCondition($oldParty->getVictoryCondition())
         ;
     }
 }

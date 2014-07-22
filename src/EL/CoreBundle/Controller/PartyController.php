@@ -35,7 +35,7 @@ class PartyController extends Controller
         $partyService           = $this->get('el_core.party')->setGameBySlug($slug, $_locale, $this->container);
         $gameInterface           = $partyService->getGameInterface();
         $coreParty              = $partyService->createParty($_locale);
-        $extendedOptions        = $gameInterface->createParty();
+        $extendedOptions        = $gameInterface->createStandardOptions();
         $extendedOptionsType    = $gameInterface->getPartyType();
         $options                = new Options($coreParty, $extendedOptions);
         $optionsForm            = $this->createForm(new OptionsType($extendedOptionsType), $options);

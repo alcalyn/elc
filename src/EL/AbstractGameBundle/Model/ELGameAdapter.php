@@ -23,7 +23,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function createParty()
+    public function createStandardOptions()
     {
         return new AdapterOptions();
     }
@@ -158,5 +158,13 @@ class ELGameAdapter extends Controller implements ELGameInterface
     public function isMyTurn(PartyService $partyService)
     {
         return false;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function createRemakeOptions($oldParty)
+    {
+        return clone $oldParty;
     }
 }

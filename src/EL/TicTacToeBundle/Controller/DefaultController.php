@@ -38,7 +38,7 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
         return new TicTacToePartyOptionsType();
     }
     
-    public function createParty()
+    public function createStandardOptions()
     {
         return new Party();
     }
@@ -65,8 +65,7 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
     {
         $em             = $this->getDoctrine()->getManager();
         $coreParty      = $event->getPartyService()->getParty();
-        $extendedParty  = $event->getExtendedParty();
-        $party          = clone $extendedParty;
+        $party          = $event->getExtendedOptions();
         
         $party->setParty($coreParty);
         $em->persist($party);

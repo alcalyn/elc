@@ -60,20 +60,20 @@ class PartyEvent extends ELCoreEvent
     /**
      * @var \stdClass
      */
-    protected $extendedParty;
+    protected $extendedOptions;
     
     /**
      * Constructor
      * 
      * @param \EL\CoreBundle\Services\PartyService $partyService
      * @param \EL\AbstractGameBundle\Model\ELGameInterface $gameInterface
-     * @param \stdClass $extParty
+     * @param \stdClass $extOptions
      */
-    public function __construct(PartyService $partyService, ELGameInterface $gameInterface = null, $extParty = null)
+    public function __construct(PartyService $partyService, ELGameInterface $gameInterface = null, $extOptions = null)
     {
         $this->partyService = $partyService;
         $this->gameInterface = $gameInterface;
-        $this->extendedParty = $extParty;
+        $this->extendedOptions = $extOptions;
     }
     
     /**
@@ -95,8 +95,8 @@ class PartyEvent extends ELCoreEvent
     /**
      * @return \stdClass
      */
-    public function getExtendedParty()
+    public function getExtendedOptions()
     {
-        return $this->extendedParty;
+        return $this->extendedOptions;
     }
 }

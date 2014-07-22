@@ -26,7 +26,7 @@ class CheckersInterface extends ELGameAdapter
         return new CheckersOptionsType($this->get('translator'));
     }
     
-    public function createParty()
+    public function createStandardOptions()
     {
         $variants = $this->get('checkers.variants');
         return $variants->getVariant(Variant::ENGLISH);
@@ -171,5 +171,15 @@ class CheckersInterface extends ELGameAdapter
             'gridSize'          => $gridSize,
             'squareSize'        => $squareSize,
         ));
+    }
+    
+    /**
+     * @param CheckersParty $oldParty
+     * 
+     * @return \EL\CheckersBundle\Checkers\Variant
+     */
+    public function createRemakeOptions($oldParty)
+    {
+        return new Variant($oldParty->getParameters());
     }
 }

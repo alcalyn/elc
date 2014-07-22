@@ -45,7 +45,7 @@ class PartyEventListener implements EventSubscriberInterface
     public function onPartyCreated(PartyEvent $event)
     {
         $coreParty = $event->getPartyService()->getParty();
-        $checkersVariant = new Variant($event->getExtendedParty()->getParameters());
+        $checkersVariant = $event->getExtendedOptions();
         
         $checkersParty = new CheckersParty();
         $checkersParty

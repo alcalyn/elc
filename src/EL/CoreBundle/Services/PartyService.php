@@ -602,10 +602,11 @@ class PartyService extends GameService
         // Create new party (will dispatch party created event)
         $gameInterface = $this->getGameInterface();
         $oldExtendedParty = $gameInterface->loadParty($oldCoreParty);
-        $this->create($newCoreParty, $gameInterface, $oldExtendedParty);
+        $remakeOptions = $gameInterface->createRemakeOptions($oldExtendedParty);
+        $this->create($newCoreParty, $gameInterface, $remakeOptions);
         
         // Dispatch party remake event
-        $event = new PartyRemakeEvent($this, $gameInterface, $oldExtendedParty, $oldCoreParty);
+        $event = new PartyRemakeEvent($this, $gameInterface, $remakeOptions, $oldCoreParty);
         $this->eventDispatcher->dispatch(PartyRemakeEvent::PARTY_REMAKE, $event);
         
         // Persist new party and new extended party

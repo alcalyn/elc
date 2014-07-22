@@ -38,7 +38,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         return new AwalePartyType();
     }
     
-    public function createParty()
+    public function createStandardOptions()
     {
         return new AwaleParty();
     }
@@ -47,7 +47,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
     {
         $em                 = $this->getDoctrine()->getManager();
         $coreParty          = $event->getPartyService()->getParty();
-        $awaleParty         = clone $event->getExtendedParty();
+        $awaleParty         = $event->getExtendedOptions();
         $awaleCore          = $this->get('awale.core');
         $seedsPerContainer  = $awaleParty->getSeedsPerContainer();
         

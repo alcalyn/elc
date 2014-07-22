@@ -65,7 +65,8 @@ class PartyEvent extends ELCoreEvent
     /**
      * Constructor
      * 
-     * @param PartyService $partyService
+     * @param \EL\CoreBundle\Services\PartyService $partyService
+     * @param \EL\AbstractGameBundle\Model\ELGameInterface $gameInterface
      * @param \stdClass $extParty
      */
     public function __construct(PartyService $partyService, ELGameInterface $gameInterface = null, $extParty = null)

@@ -23,9 +23,9 @@ class WidgetController extends Controller
 
             $game                       = $party->getGame();
             $gamesList[$game->getId()]  = $game->getTitle();
-            $extendedGame               = $partyService->getExtendedGame();
-            $partyDescription           = $extendedGame->getCurrentDescription($_locale, $partyService);
-            $myTurn                     = $extendedGame->isMyTurn($partyService);
+            $gameInterface               = $partyService->getGameInterface();
+            $partyDescription           = $gameInterface->getCurrentDescription($_locale, $partyService);
+            $myTurn                     = $gameInterface->isMyTurn($partyService);
 
             $partiesList []= array(
                 'game'          => $game,
@@ -59,9 +59,9 @@ class WidgetController extends Controller
         $party              = $partyService->getParty();
         $game               = $partyService->getGame();
         $players            = $partyService->getPlayers();
-        $extendedGame       = $partyService->getExtendedGame();
-        $extendedOptions    = $extendedGame->loadParty($party);
-        $options            = $extendedGame->getDisplayOptionsTemplate($party, $extendedOptions);
+        $gameInterface       = $partyService->getGameInterface();
+        $extendedOptions    = $gameInterface->loadParty($party);
+        $options            = $gameInterface->getDisplayOptionsTemplate($party, $extendedOptions);
         $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
         $optionsVars        = is_array($options) ? $options['vars'] : array() ;
         

@@ -24,7 +24,7 @@ class GameService
      * 
      * @var ELAbstractGame\Model\ELGameInterface
      */
-    private $extendedGame = null;
+    private $gameInterface = null;
     
     
     
@@ -43,7 +43,7 @@ class GameService
         $this->game = $game;
         
         if (!is_null($container)) {
-            $this->loadExtendedGame($container);
+            $this->loadGameInterface($container);
         }
         
         return $this;
@@ -121,10 +121,10 @@ class GameService
      * 
      * @return \EL\AbstractGameBundle\Model\ELGameInterface
      */
-    public function getExtendedGame()
+    public function getGameInterface()
     {
-        $this->needExtendedGame();
-        return $this->extendedGame;
+        $this->needGameInterface();
+        return $this->gameInterface;
     }
     
     /**
@@ -132,13 +132,13 @@ class GameService
      * 
      * @return \EL\AbstractGameBundle\Model\ELGameInterface
      */
-    public function loadExtendedGame(Container $container)
+    public function loadGameInterface(Container $container)
     {
         $this->needGame();
-        $extendedGame = $container->get('el_games.'.$this->game->getName());
+        $gameInterface = $container->get('el_games.'.$this->game->getName());
         
-        if ($extendedGame instanceof ELGameInterface) {
-            $this->extendedGame = $extendedGame;
+        if ($gameInterface instanceof ELGameInterface) {
+            $this->gameInterface = $gameInterface;
             return $this;
         } else {
             throw new ELCoreException('Your game service must implement EL\AbstractGameBundle\Model\ELGameInterface');
@@ -153,9 +153,9 @@ class GameService
         }
     }
     
-    protected function needExtendedGame()
+    protected function needGameInterface()
     {
-        if (is_null($this->extendedGame)) {
+        if (is_null($this->gameInterface)) {
             throw new \Exception('GameService : extended game must be defined by calling setGame');
         }
     }

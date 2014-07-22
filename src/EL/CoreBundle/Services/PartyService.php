@@ -5,6 +5,7 @@ namespace EL\CoreBundle\Services;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use EL\CoreBundle\Event\PartyEvent;
+use EL\CoreBundle\Event\PartyRemakeEvent;
 use Doctrine\ORM\EntityManager;
 use EL\CoreBundle\Services\GameService;
 use EL\CoreBundle\Entity\Party;
@@ -134,11 +135,12 @@ class PartyService extends GameService
      */
     public function create(Party $coreParty, ELGameInterface $gameInterface, $extendedOptions)
     {
+        $this->setParty($coreParty);
         $coreParty->setDateCreate(new \DateTime());
         
         // create slots from given slots configuration
         $slotsConfiguration = $gameInterface->getSlotsConfiguration($extendedOptions);
-        $this->createSlots($slotsConfiguration);
+        $this->createSlots($slotsConfiguration, $coreParty);
         
         // Dispatch party creation event
         $event = new PartyEvent($this, $gameInterface, $extendedOptions);
@@ -149,13 +151,11 @@ class PartyService extends GameService
      * Create slots from $slotsConfiguration
      * 
      * @param array $slotsConfiguration
+     * @param Party $party
      */
-    public function createSlots(array $slotsConfiguration)
+    public function createSlots(array $slotsConfiguration, Party $party)
     {
-        $this->needParty();
-        
-        $party      = $this->getParty();
-        $position   = 0;
+        $position = 0;
         
         foreach ($slotsConfiguration['slots'] as $s) {
             $isHost =  isset($s['host']) && $s['host'];
@@ -504,7 +504,7 @@ class PartyService extends GameService
             $party->setDateStarted(new \DateTime());
             $party->setState(Party::STARTING);
             
-            $event = new PartyEvent($this, $this->getExtendedGame());
+            $event = new PartyEvent($this, $this->getGameInterface());
             $this->eventDispatcher->dispatch(PartyEvent::PARTY_STARTED, $event);
             
             if (self::DELAY_BEFORE_START <= 0) {
@@ -534,7 +534,7 @@ class PartyService extends GameService
                     ->setDateStarted($startDate)
                 ;
                 
-                $event = new PartyEvent($this, $this->getExtendedGame());
+                $event = new PartyEvent($this, $this->getGameInterface());
                 $this->eventDispatcher->dispatch(PartyEvent::PARTY_ACTIVED, $event);
             }
         }
@@ -575,10 +575,10 @@ class PartyService extends GameService
      */
     public function remake()
     {
-        $this->needExtendedGame();
+        $this->needGameInterface();
         
-        $player                 = $this->session->getPlayer();
-        $oldCoreParty           = $this->getParty();
+        $player         = $this->session->getPlayer();
+        $oldCoreParty   = $this->getParty();
         
         // Check if party ended
         if ($oldCoreParty->getState() !== Party::ENDED) {
@@ -587,27 +587,53 @@ class PartyService extends GameService
         
         // Check if party already remade, then join
         if (null !== $oldCoreParty->getRemake()) {
-            $this->join($player, -1, true, $oldCoreParty->getRemake());
-            return $oldCoreParty->getRemake();
+            $newCoreParty = $oldCoreParty->getRemake();
+            $this->join($player, -1, true, $newCoreParty);
+            return $newCoreParty;
         }
         
         // Else create a clone core party
-        $remakeCoreParty = $oldCoreParty->createRemake();
+        $newCoreParty = $this->createPartyRemake($oldCoreParty);
         
         // And link the old party to the remade party, and set new host
-        $oldCoreParty->setRemake($remakeCoreParty);
-        $remakeCoreParty->setHost($player);
+        $oldCoreParty->setRemake($newCoreParty);
+        $newCoreParty->setHost($player);
         
-        // Create new party
-        $oldExtendedParty = $this->getExtendedGame()->loadParty($oldCoreParty);
-        $this->create($remakeCoreParty, $this->getExtendedGame(), $oldExtendedParty);
-        // Create a RemakePartyEvent, trigger here for after if needed, and another before
+        // Create new party (will dispatch party created event)
+        $gameInterface = $this->getGameInterface();
+        $oldExtendedParty = $gameInterface->loadParty($oldCoreParty);
+        $this->create($newCoreParty, $gameInterface, $oldExtendedParty);
         
-        // Persist new party and old party
-        $this->em->persist($remakeCoreParty);
+        // Dispatch party remake event
+        $event = new PartyRemakeEvent($this, $gameInterface, $oldExtendedParty, $oldCoreParty);
+        $this->eventDispatcher->dispatch(PartyRemakeEvent::PARTY_REMAKE, $event);
+        
+        // Persist new party and new extended party
+        $this->em->persist($newCoreParty);
         
         // Return new party
-        return $remakeCoreParty;
+        return $newCoreParty;
+    }
+    
+    /**
+     * Create a remake party from an old party
+     * 
+     * @param \EL\CoreBundle\Entity\Party $oldParty
+     * 
+     * @return Party
+     */
+    public function createPartyRemake(Party $oldParty)
+    {
+        $newParty = new Party();
+        
+        return $newParty
+                ->setGame($oldParty->getGame())
+                ->setTitle($oldParty->getTitle())
+                ->setPrivate($oldParty->getPrivate())
+                ->setRoom($oldParty->getRoom())
+                ->setDisallowChat($oldParty->getDisallowChat())
+                ->setDisallowObservers($oldParty->getDisallowObservers())
+        ;
     }
     
     /**
@@ -670,7 +696,7 @@ class PartyService extends GameService
      */
     public function loadExtendedParty()
     {
-        return $this->getExtendedGame()->loadParty($this->getParty());
+        return $this->getGameInterface()->loadParty($this->getParty());
     }
     
     public function generateRandomTitle($locale)

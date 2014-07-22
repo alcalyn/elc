@@ -609,7 +609,7 @@ class PartyService extends GameService
         $event = new PartyRemakeEvent($this, $gameInterface, $extendedOptions, $oldCoreParty);
         $this->eventDispatcher->dispatch(PartyRemakeEvent::PARTY_REMAKE, $event);
         
-        // Persist new party and new extended party
+        // Persist new core party
         $this->em->persist($newCoreParty);
         
         // Return new party

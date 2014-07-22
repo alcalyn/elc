@@ -26,7 +26,7 @@ class CheckersInterface extends ELGameAdapter
         return new CheckersOptionsType($this->get('translator'));
     }
     
-    public function createParty()
+    public function createStandardOptions()
     {
         $variants = $this->get('checkers.variants');
         return $variants->getVariant(Variant::ENGLISH);
@@ -173,15 +173,13 @@ class CheckersInterface extends ELGameAdapter
         ));
     }
     
-    public function createRemake(PartyService $partyService, Party $corePartyClone)
+    /**
+     * @param CheckersParty $oldParty
+     * 
+     * @return \EL\CheckersBundle\Checkers\Variant
+     */
+    public function getOptions($oldParty)
     {
-        $checkers   = $this->get('checkers.core');          /* @var $checkers Checkers */
-        $oldParty   = $partyService->loadExtendedParty();
-        
-        $newParty = $checkers->remake($oldParty);
-        
-        return $newParty
-                ->setParty($corePartyClone)
-        ;
+        return new Variant($oldParty->getParameters());
     }
 }

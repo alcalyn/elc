@@ -312,26 +312,6 @@ class Party implements \JsonSerializable
     }
     
     /**
-     * Create a remake party from this party
-     * 
-     * @param \EL\CoreBundle\Entity\Party $corePartyClone
-     * @return \self
-     */
-    public function createRemake(\EL\CoreBundle\Entity\Party $corePartyClone)
-    {
-        $clone = new self();
-        
-        $clone->party               = $corePartyClone;
-        $clone->firstPlayer         = 1 - $this->firstPlayer;
-        $clone->currentPlayer       = $clone->firstPlayer;
-        $clone->numberOfParties     = $this->numberOfParties;
-        $clone->victoryCondition    = $this->victoryCondition;
-        $clone->grid                = '---------';
-        
-        return $clone;
-    }
-    
-    /**
      * Json serialize implementation
      * 
      * @return array

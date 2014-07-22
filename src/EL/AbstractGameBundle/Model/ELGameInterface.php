@@ -13,7 +13,7 @@ interface ELGameInterface
      * 
      * @return \stdClass
      */
-    public function createParty();
+    public function createStandardOptions();
     
     /**
      * Return a form type for party
@@ -111,12 +111,13 @@ interface ELGameInterface
     public function isMyTurn(PartyService $partyService);
     
     /**
-     * Return a remake of an extended party
+     * Get options (as createStandardOptions)
+     * of the old extended party instance,
+     * like if it was returned by createStandardOptions()
      * 
-     * @param PartyService $partyService containing old core party
-     * @param CoreParty $cloneCoreParty just cloned
+     * @param \JsonSerializable $oldExtendedParty
      * 
      * @return \stdClass
      */
-    public function createRemake(PartyService $partyService, CoreParty $cloneCoreParty);
+    public function getOptions($oldExtendedParty);
 }

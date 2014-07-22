@@ -548,25 +548,4 @@ class Party implements \JsonSerializable
             'dateEnded'         => $this->getDateEnded(),
         );
     }
-    
-    /**
-     * create a remake party from this
-     * 
-     * @return Party
-     */
-    public function createRemake()
-    {
-        $clone = new self();
-        
-        $clone->game                = $this->game;
-        $clone->title               = $this->title;
-        $clone->private             = $this->private;
-        $clone->room                = $this->room;
-        $clone->disallowChat       = $this->disallowChat;
-        $clone->disallowObservers  = $this->disallowObservers;
-        $clone->state               = self::PREPARATION;
-        $clone->dateCreate         = new \DateTime();
-        
-        return $clone;
-    }
 }

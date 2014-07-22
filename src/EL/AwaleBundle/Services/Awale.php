@@ -4,6 +4,7 @@ namespace EL\AwaleBundle\Services;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\CoreBundle\Event\PartyEvent;
+use EL\CoreBundle\Event\PartyRemakeEvent;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
@@ -12,6 +13,13 @@ use EL\AwaleBundle\Entity\AwaleParty;
 
 class Awale extends ELGameAdapter implements EventSubscriberInterface
 {
+    /**
+     * Parties related to core party
+     * 
+     * @var AwaleParty[]
+     */
+    private $extendedParties = array();
+    
     public static function getSubscribedEvents()
     {
         return array(
@@ -29,7 +37,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         return new AwalePartyType();
     }
     
-    public function createParty()
+    public function createStandardOptions()
     {
         return new AwaleParty();
     }
@@ -38,7 +46,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
     {
         $em                 = $this->getDoctrine()->getManager();
         $coreParty          = $event->getPartyService()->getParty();
-        $awaleParty         = $event->getExtendedParty();
+        $awaleParty         = $event->getExtendedOptions();
         $awaleCore          = $this->get('awale.core');
         $seedsPerContainer  = $awaleParty->getSeedsPerContainer();
         
@@ -48,20 +56,30 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         ;
         
         $em->persist($awaleParty);
+        $this->saveParty($coreParty, $awaleParty);
     }
     
     public function loadParty(Party $coreParty)
     {
-        $em = $this->getDoctrine()->getManager();
+        if (!isset($this->extendedParties[$coreParty->getId()])) {
+            $em = $this->getDoctrine()->getManager();
+
+            $party = $em
+                    ->getRepository('AwaleBundle:AwaleParty')
+                    ->findOneBy(array(
+                        'party' => $coreParty,
+                    ))
+            ;
+            
+            $this->saveParty($coreParty, $party);
+        }
         
-        $party = $em
-                ->getRepository('AwaleBundle:AwaleParty')
-                ->findOneBy(array(
-                    'party' => $coreParty,
-                ))
-        ;
-        
-        return $party;
+        return $this->extendedParties[$coreParty->getId()];
+    }
+    
+    private function saveParty(Party $coreParty, AwaleParty $party)
+    {
+        $this->extendedParties[$coreParty->getId()] = $party;
     }
     
     public function getSlotsConfiguration($options)
@@ -124,18 +142,12 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         ));
     }
     
-    public function createRemake(PartyService $partyService, Party $corePartyClone)
+    public function getOptions($oldParty)
     {
-        $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore */
-        $oldAwaleParty  = $partyService->loadExtendedParty();   /* @var $oldAwaleParty AwaleParty */
+        $party = new AwaleParty();
         
-        $remakeAwaleParty = new AwaleParty();
-        $remakeAwaleParty
-                ->setParty($corePartyClone)
-                ->setSeedsPerContainer($oldAwaleParty->getSeedsPerContainer())
-                ->setGrid($awaleCore->fillGrid($oldAwaleParty->getSeedsPerContainer()))
+        return $party
+                ->setSeedsPerContainer($oldParty->getSeedsPerContainer())
         ;
-        
-        return $remakeAwaleParty;
     }
 }

@@ -740,16 +740,4 @@ class Checkers
         
         return $this->pieceAt($grid, $coords, $piece->promote());
     }
-    
-    public function remake(CheckersParty $oldParty)
-    {
-        $newParty   = new CheckersParty();
-        $variant    = new Variant($oldParty->getParameters());
-        
-        return $newParty
-                ->setParameters($oldParty->getParameters())
-                ->setGrid($this->initGrid($variant))
-                ->setCurrentPlayer($variant->getFirstPlayer())
-        ;
-    }
 }

@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
-use EL\CoreBundle\Services\SessionService;
 use EL\CoreBundle\Form\Entity\Signup;
 use EL\CoreBundle\Form\Entity\Login;
 use EL\CoreBundle\Form\Type\SignupType;
@@ -137,7 +136,10 @@ class UserController extends Controller
     /**
      * @Route(
      *      "/player/logout",
-     *      name = "elcore_user_logout"
+     *      name = "elcore_user_logout",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function logoutAction()

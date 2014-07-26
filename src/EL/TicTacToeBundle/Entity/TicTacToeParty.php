@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * TicTacToeParty
  *
  * @ORM\Table(name="el_games_tictactoe_party")
- * @ORM\Entity(repositoryClass="EL\TicTacToeBundle\Repository\PartyRepository")
+ * @ORM\Entity(repositoryClass="EL\TicTacToeBundle\Repository\TicTacToePartyRepository")
  */
-class Party implements \JsonSerializable
+class TicTacToeParty implements \JsonSerializable
 {
     const PLAYER_X              = 0;
     const PLAYER_O              = 1;
@@ -154,7 +154,7 @@ class Party implements \JsonSerializable
      * Set party
      *
      * @param \EL\CoreBundle\Entity\Party $party
-     * @return Party
+     * @return TicTacToeParty
      */
     public function setParty(\EL\CoreBundle\Entity\Party $party = null)
     {
@@ -177,7 +177,7 @@ class Party implements \JsonSerializable
      * Set grid
      *
      * @param string $grid
-     * @return Party
+     * @return TicTacToeParty
      */
     public function setGrid($grid)
     {
@@ -200,7 +200,7 @@ class Party implements \JsonSerializable
      * Set currentPlayer
      *
      * @param integer $currentPlayer
-     * @return Party
+     * @return TicTacToeParty
      */
     public function setCurrentPlayer($currentPlayer)
     {
@@ -223,7 +223,7 @@ class Party implements \JsonSerializable
      * Set lastPartyEnd
      *
      * @param \DateTime $lastPartyEnd
-     * @return Party
+     * @return TicTacToeParty
      */
     public function setLastPartyEnd($lastPartyEnd)
     {
@@ -246,7 +246,7 @@ class Party implements \JsonSerializable
      * Set numberOfParties
      *
      * @param integer $numberOfParties
-     * @return Party
+     * @return TicTacToeParty
      */
     public function setNumberOfParties($numberOfParties)
     {
@@ -269,7 +269,7 @@ class Party implements \JsonSerializable
      * Set victoryCondition
      *
      * @param integer $victoryCondition
-     * @return Party
+     * @return TicTacToeParty
      */
     public function setVictoryCondition($victoryCondition)
     {
@@ -292,7 +292,7 @@ class Party implements \JsonSerializable
      * Set partyNumber
      *
      * @param integer $partyNumber
-     * @return Party
+     * @return TicTacToeParty
      */
     public function setPartyNumber($partyNumber)
     {

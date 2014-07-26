@@ -3,8 +3,6 @@
 namespace EL\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use EL\CoreBundle\Entity\Player;
-use EL\CoreBundle\Entity\GameVariant;
 
 /**
  * EloRepository

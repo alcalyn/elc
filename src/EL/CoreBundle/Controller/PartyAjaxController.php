@@ -4,7 +4,6 @@ namespace EL\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
-use Phax\CoreBundle\Model\PhaxResponse;
 use EL\CoreBundle\Exception\ELCoreException;
 
 class PartyAjaxController extends Controller

@@ -20,6 +20,11 @@ framework:
     session:         ~
     fragments:       ~
     http_method_override: true
+    session:
+        #cookie_lifetime: 0
+        #save_path: %kernel.root_dir%/var/sessions
+        #cookie_domain: .my-domain.com
+        name: ElectronLibreSession
 
 # Twig Configuration
 twig:

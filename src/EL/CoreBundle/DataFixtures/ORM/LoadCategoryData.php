@@ -21,6 +21,8 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
             )
         );
         
+        $objects = array();
+        
         $i = 0;
         foreach ($items as $item) {
             $object = new Category();

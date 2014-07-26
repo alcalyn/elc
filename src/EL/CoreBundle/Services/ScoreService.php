@@ -150,7 +150,7 @@ class ScoreService
         $gameVariant = $this->asGameVariant($game);
         
         if (null === $score) {
-            $score = $this->getScoreData($player, $game);
+            $score = $this->getScoreData($player, $gameVariant);
         }
         
         $player->badge = $score;

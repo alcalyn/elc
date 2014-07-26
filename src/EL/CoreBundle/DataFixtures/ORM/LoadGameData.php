@@ -35,6 +35,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
             ),
         );
         
+        $objects = array();
         
         $i = 0;
         foreach ($items as $item) {

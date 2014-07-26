@@ -14,7 +14,6 @@ use EL\CoreBundle\Entity\Player;
 use EL\CoreBundle\Services\SessionService;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
-use EL\CoreBundle\Form\Entity\PartyOptions;
 use EL\AbstractGameBundle\Model\ELGameInterface;
 
 class PartyService extends GameService
@@ -130,7 +129,7 @@ class PartyService extends GameService
      * Init a party and slots configuration after player has created it
      * 
      * @param \EL\CoreBundle\Entity\Party $coreParty
-     * @param \EL\CoreBundle\Services\ELGameInterface $gameInterface
+     * @param ELGameInterface $gameInterface
      * @param \stdClass $extendedOptions
      */
     public function create(Party $coreParty, ELGameInterface $gameInterface, $extendedOptions)
@@ -211,7 +210,7 @@ class PartyService extends GameService
      * @param \EL\CoreBundle\Entity\Player $player
      * @param integer $slotIndex preference. If defined and free, join this slot. Else join first free slot.
      * @param boolean $join, false to not join even if possible
-     * @param boolean $party to join
+     * @param Party $party to join
      * 
      * @return PartyService
      * 
@@ -295,7 +294,7 @@ class PartyService extends GameService
     /**
      * 
      * @param \EL\CoreBundle\Entity\Player $player
-     * @param type $slotIndex
+     * @param integer $slotIndex
      * @param \EL\CoreBundle\Entity\Party $party
      * @return boolean if he can join
      */
@@ -482,7 +481,7 @@ class PartyService extends GameService
      * 
      * @param boolean $start set to false to just check if party can be started
      * 
-     * @return boolean true, or throws ELUserException
+     * @return boolean|null true, or throws ELUserException
      * 
      * @throws ELUserException if party cannot be started
      */
@@ -700,6 +699,9 @@ class PartyService extends GameService
         return $this->getGameInterface()->loadParty($this->getParty());
     }
     
+    /**
+     * @param string $locale
+     */
     public function generateRandomTitle($locale)
     {
         $this->needGame();

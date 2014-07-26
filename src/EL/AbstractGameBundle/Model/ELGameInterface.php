@@ -76,7 +76,7 @@ interface ELGameInterface
      * @param PartyService $partyService
      * @param \stdClass $extendedParty
      * 
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function activeAction($_locale, PartyService $partyService, $extendedParty);
     
@@ -85,11 +85,9 @@ interface ELGameInterface
      * 
      * @param string $_locale
      * @param PartyService $partyService
-     * @param \stdClass $extendedParty
-     * 
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param ELGameInterface $extendedParty
      */
-    public function endedAction($_locale, PartyService $partyService, $extendedParty);
+    public function endedAction($_locale, PartyService $partyService);
     
     /**
      * Return short message which will be displayed

@@ -3,16 +3,14 @@
 namespace EL\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Entity\Party;
-use EL\CoreBundle\Entity\Game;
-use EL\CoreBundle\Event\PartyEvent;
 use EL\CoreBundle\Services\PartyService;
-use EL\CoreBundle\Form\Type\PartyType;
 use EL\CoreBundle\Form\Entity\Options;
 use EL\CoreBundle\Form\Type\OptionsType;
 
@@ -27,6 +25,7 @@ class PartyController extends Controller
      *      "/games/{slug}/creation",
      *      name = "elcore_party_creation"
      * )
+     * @Method({"GET", "POST"})
      * @Template
      */
     public function createAction($_locale, $slug, Request $request)
@@ -69,7 +68,10 @@ class PartyController extends Controller
     /**
      * @Route(
      *      "/games/{slugGame}/{slugParty}/preparation",
-     *      name = "elcore_party_preparation"
+     *      name = "elcore_party_preparation",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      * @Template
      */
@@ -137,7 +139,10 @@ class PartyController extends Controller
      * 
      * @Route(
      *      "/games/{slugGame}/{slugParty}/join",
-     *      name = "elcore_party_join"
+     *      name = "elcore_party_join",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function joinAction($_locale, $slugGame, $slugParty, PartyService $partyService)
@@ -155,13 +160,15 @@ class PartyController extends Controller
     /**
      * @Route(
      *      "/games/{slugGame}/{slugParty}/preparation/action",
-     *      name = "elcore_party_preparation_action"
+     *      name = "elcore_party_preparation_action",
+     *      requirements = {
+     *          "_method" = "POST"
+     *      }
      * )
      */
     public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService, Request $request)
     {
         $em         = $this->getDoctrine()->getManager();
-        $player     = $this->get('el_core.session')->getPlayer();
         $party      = $partyService->getParty();
         $session    = $this->get('session');
         $action     = $request->request->get('action');
@@ -227,7 +234,10 @@ class PartyController extends Controller
      * 
      * @Route(
      *      "/games/{slugGame}/{slugParty}",
-     *      name = "elcore_party"
+     *      name = "elcore_party",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function activeAction($_locale, $slugGame, $slugParty, PartyService $partyService)
@@ -263,7 +273,10 @@ class PartyController extends Controller
     /**
      * @Route(
      *      "/games/{slugGame}/{slugParty}/results",
-     *      name = "elcore_party_ended"
+     *      name = "elcore_party_ended",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function endedAction($_locale, $slugGame, $slugParty, PartyService $partyService)
@@ -282,7 +295,7 @@ class PartyController extends Controller
         
         $gameInterface = $partyService->loadGameInterface($this->container)->getGameInterface();
         
-        return $gameInterface->endedAction($_locale, $partyService, $gameInterface);
+        return $gameInterface->endedAction($_locale, $partyService);
     }
     
     /**

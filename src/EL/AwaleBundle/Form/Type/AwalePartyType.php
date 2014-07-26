@@ -18,9 +18,9 @@ class AwalePartyType extends AbstractType
             ->add('seedsPerContainer', 'choice', array(
                 'label'     => 'seeds.per.container',
                 'choices'   => array(
-                    3 => /** @Ignore */ 3,
-                    4 => /** @Ignore */ 4,
-                    5 => /** @Ignore */ 5,
+                    3 => /** @ignore */ 3,
+                    4 => /** @ignore */ 4,
+                    5 => /** @ignore */ 5,
                 ),
             ))
         ;

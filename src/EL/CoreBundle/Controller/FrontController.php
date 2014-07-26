@@ -4,7 +4,6 @@ namespace EL\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use EL\CoreBundle\Entity\WLD;
 
 class FrontController extends Controller
 {
@@ -13,7 +12,8 @@ class FrontController extends Controller
      *      "/",
      *      name = "elcore_home",
      *      requirements = {
-     *          "_scheme" = "http"
+     *          "_scheme" = "http",
+     *          "_method" = "GET"
      *      }
      * )
      */
@@ -27,7 +27,10 @@ class FrontController extends Controller
     /**
      * @Route(
      *      "/about",
-     *      name = "elcore_about"
+     *      name = "elcore_about",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function aboutAction($_locale)
@@ -38,7 +41,10 @@ class FrontController extends Controller
     /**
      * @Route(
      *      "/faq",
-     *      name = "elcore_faq"
+     *      name = "elcore_faq",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function faqAction($_locale)

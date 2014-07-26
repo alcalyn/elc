@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Entity\Party as CoreParty;
 use EL\CoreBundle\Exception\ELCoreException;
-use EL\CoreBundle\Exception\ELUserException;
 use EL\AbstractGameBundle\Form\Entity\AdapterOptions;
 use EL\AbstractGameBundle\Form\Type\AdapterOptionsType;
 
@@ -115,7 +114,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function endedAction($_locale, PartyService $partyService, $extendedParty)
+    public function endedAction($_locale, PartyService $partyService)
     {
         return $this->render('AbstractGameBundle:Adapter:ended.html.twig', array(
             'game'              => $partyService->getGame(),

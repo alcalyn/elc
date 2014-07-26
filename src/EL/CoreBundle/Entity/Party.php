@@ -67,6 +67,7 @@ class Party implements \JsonSerializable
     private $host;
     
     /**
+     * @var \Doctrine\Common\Collections\Collection
      * 
      * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\Slot", mappedBy="party")
      */
@@ -163,7 +164,9 @@ class Party implements \JsonSerializable
     private $dateEnded;
     
     
-    
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this

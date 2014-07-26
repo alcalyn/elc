@@ -34,7 +34,7 @@ class Checkers
     }
     
     /**
-     * @return array of predefined Variants
+     * @return Variant[] of predefined Variants
      */
     public function getVariants()
     {
@@ -98,7 +98,6 @@ class Checkers
      * from square $from to $to.
      * 
      * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
-     * @param integer $playerPosition 0 or 1
      * @param \EL\CoreBundle\Util\Coords $from
      * @param \EL\CoreBundle\Util\Coords $to
      * 
@@ -116,7 +115,6 @@ class Checkers
         $playerPieces   = $pieceFrom->getColor();
         $lastMove       = Move::jsonDeserialize(json_decode($checkersParty->getLastMove()));
         $middle         = null;
-        $pieceMiddle    = null;
         
         // Create new current move, or keep the last if we are in a multiple capture phase
         if ($lastMove->multipleCapture) {

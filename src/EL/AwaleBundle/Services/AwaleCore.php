@@ -2,9 +2,6 @@
 
 namespace EL\AwaleBundle\Services;
 
-use EL\CoreBundle\Entity\Party;
-use EL\AwaleBundle\Entity\AwaleParty;
-
 class AwaleCore
 {
     const WIN_0     = 0;
@@ -161,7 +158,6 @@ class AwaleCore
      * Check if there is seeds in row of $array
      * 
      * @param array $grid
-     * @param integer $row
      * 
      * @return boolean
      */

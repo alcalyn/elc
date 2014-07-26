@@ -62,21 +62,19 @@ class MoveAnticipator
      * Return true if $player (default is current) can move
      * 
      * @param \EL\CheckersBundle\Entity\CheckersParty $checkersParty
-     * @param \EL\CoreBundle\Util\Coords $coords
-     * @param type $player
      * 
      * @return boolean
      */
-    public function canMove(CheckersParty $checkersParty, $player = null)
+    public function canMove(CheckersParty $checkersParty)
     {
         $this->checkersParty    = $checkersParty;
         $this->variant          = new Variant($checkersParty->getParameters());
         $this->boardSize        = $this->variant->getBoardSize();
         $this->grid             = $checkersParty->getGrid();
-        $this->player           = (null === $player) ? $this->checkersParty->getCurrentPlayer() : $player ;
+        $this->player           = $this->checkersParty->getCurrentPlayer();
         $this->lineForward      = $this->player ? 1 : -1 ;
         $colorMatch             = $this->player ? array(2, 4) : array(1, 3) ;
-        $this->coordsPatterns   = $this->initCoordsPattern($this->lineForward);
+        $this->coordsPatterns   = $this->initCoordsPattern();
         
         for ($line = 0; $line < $this->boardSize; $line++) {
             for ($col = 0; $col < $this->boardSize; $col++) {
@@ -105,11 +103,10 @@ class MoveAnticipator
      * 
      * @param CheckersParty $checkersParty
      * @param Coords $coords (if set, anticipate moves only for the piece on $coords)
-     * @param boolean $player (default is current player turn)
      * 
      * @return array of Move
      */
-    public function anticipateCaptures(CheckersParty $checkersParty, Coords $coords = null, $player = null)
+    public function anticipateCaptures(CheckersParty $checkersParty, Coords $coords = null)
     {
         $this->checkersParty    = $checkersParty;
         $this->variant          = new Variant($checkersParty->getParameters());
@@ -117,10 +114,10 @@ class MoveAnticipator
         $this->boardSize        = $this->variant->getBoardSize();
         $this->grid             = $checkersParty->getGrid();
         $this->moves            = array();
-        $this->player           = (null === $player) ? $this->checkersParty->getCurrentPlayer() : $player ;
+        $this->player           = $this->checkersParty->getCurrentPlayer();
         $this->lineForward      = $this->player ? 1 : -1 ;
         $colorMatch             = $this->player ? array(2, 4) : array(1, 3) ;
-        $this->coordsPatterns   = $this->initCoordsPattern($this->lineForward);
+        $this->coordsPatterns   = $this->initCoordsPattern();
         
         if (null === $coords) {
             // anticipate for every pieces
@@ -154,6 +151,10 @@ class MoveAnticipator
         $coordsFrom = end($currentMove->path);
         $pieceFrom = $this->pieceAt($grid, $coordsFrom);
         $jumpAgain = false;
+        
+        if (null === $pieceFrom) {
+            throw new ELCoreException('No pieces at '.$coordsFrom);
+        }
         
         if (!$pieceFrom->isKing()) {
             
@@ -191,9 +192,6 @@ class MoveAnticipator
                 $jumpAgain = true;
                 
                 for ($i = 0; $i < 4; $i++) {
-                    $coordsJump = null;
-                    $pieceJump = null;
-                    
                     $generator = $coordsFrom->iterateCoords($this->coordsPatterns[$i][0], $this->boardSize);
                     $continue = true;
                     
@@ -271,7 +269,7 @@ class MoveAnticipator
      * 
      * @param array $grid
      * @param \EL\CoreBundle\Util\Coords $coords
-     * @param integer|Coords $set
+     * @param integer|Piece $set
      * 
      * @return \EL\CheckersBundle\Checkers\Piece or null if $coords is outside board
      */
@@ -292,11 +290,9 @@ class MoveAnticipator
     /**
      * Init an array of precalculated move
      * 
-     * @param integer $lineForward 1 or -1, direction of player
-     * 
      * @return array
      */
-    private function initCoordsPattern($lineForward)
+    private function initCoordsPattern()
     {
         return array(
             array(

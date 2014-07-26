@@ -215,7 +215,7 @@ class CapturesEvaluator
      * @param \EL\CheckersBundle\Checkers\Variant $variant
      * @param array $grid
      * 
-     * @return \self
+     * @return CapturesEvaluator
      * 
      * @throws CheckersException if $captures is empty
      */

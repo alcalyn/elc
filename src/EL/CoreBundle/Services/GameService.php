@@ -22,12 +22,15 @@ class GameService
     /**
      * Extended Game service
      * 
-     * @var ELAbstractGame\Model\ELGameInterface
+     * @var ELGameInterface
      */
     private $gameInterface = null;
     
     
     
+    /**
+     * @param \Doctrine\ORM\EntityManager $em
+     */
     public function __construct($em)
     {
         $this->em = $em;
@@ -130,7 +133,7 @@ class GameService
     /**
      * Return extended game service
      * 
-     * @return \EL\AbstractGameBundle\Model\ELGameInterface
+     * @return GameService
      */
     public function loadGameInterface(Container $container)
     {

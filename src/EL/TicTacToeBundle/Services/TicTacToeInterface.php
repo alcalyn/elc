@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\TicTacToeBundle\Controller;
+namespace EL\TicTacToeBundle\Services;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\CoreBundle\Event\PartyEvent;
@@ -9,14 +9,14 @@ use EL\CoreBundle\Entity\Party as CoreParty;
 use EL\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\TicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
-use EL\TicTacToeBundle\Entity\Party;
+use EL\TicTacToeBundle\Entity\TicTacToeParty;
 
-class DefaultController extends ELGameAdapter implements EventSubscriberInterface
+class TicTacToeInterface extends ELGameAdapter implements EventSubscriberInterface
 {
     /**
      * Parties related to core party
      * 
-     * @var Party[]
+     * @var TicTacToeParty[]
      */
     private $extendedParties = array();
     
@@ -40,7 +40,7 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
     
     public function createStandardOptions()
     {
-        return new Party();
+        return new TicTacToeParty();
     }
     
     public function getCreationFormTemplate()
@@ -78,7 +78,7 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
             $em = $this->getDoctrine()->getManager();
 
             $party = $em
-                    ->getRepository('TicTacToeBundle:Party')
+                    ->getRepository('TicTacToeBundle:TicTacToeParty')
                     ->findOneByCoreParty($coreParty)
             ;
             
@@ -88,7 +88,7 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
         return $this->extendedParties[$coreParty->getId()];
     }
     
-    private function saveParty(CoreParty $coreParty, Party $party)
+    private function saveParty(CoreParty $coreParty, TicTacToeParty $party)
     {
         $this->extendedParties[$coreParty->getId()] = $party;
     }
@@ -167,7 +167,7 @@ class DefaultController extends ELGameAdapter implements EventSubscriberInterfac
     
     public function getOptions($oldParty)
     {
-        $party = new Party();
+        $party = new TicTacToeParty();
         
         return $party
                 ->setFirstPlayer($oldParty->getFirstPlayer())

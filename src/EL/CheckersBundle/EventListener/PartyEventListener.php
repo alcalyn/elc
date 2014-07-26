@@ -4,7 +4,6 @@ namespace EL\CheckersBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\CoreBundle\Event\PartyEvent;
-use EL\CoreBundle\Event\PartyRemakeEvent;
 use EL\CheckersBundle\Checkers\Variant;
 use EL\CheckersBundle\Checkers\Move;
 use EL\CheckersBundle\Entity\CheckersParty;
@@ -45,7 +44,7 @@ class PartyEventListener implements EventSubscriberInterface
     public function onPartyCreated(PartyEvent $event)
     {
         $coreParty = $event->getPartyService()->getParty();
-        $checkersVariant = $event->getExtendedOptions();
+        $checkersVariant = $event->getExtendedOptions();        /* @var $checkersVariant Variant */
         
         $checkersParty = new CheckersParty();
         $checkersParty
@@ -63,7 +62,7 @@ class PartyEventListener implements EventSubscriberInterface
     public function onPartyActived(PartyEvent $event)
     {
         $partyService   = $event->getPartyService();
-        $checkersParty  = $partyService->loadExtendedParty();
+        $checkersParty  = $partyService->loadExtendedParty();           /* @var $checkersParty CheckersParty */
         $variant        = new Variant($checkersParty->getParameters());
         $grid           = $this->checkers->initGrid($variant);
         $move           = new Move(0);

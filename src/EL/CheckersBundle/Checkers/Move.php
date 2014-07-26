@@ -3,7 +3,6 @@
 namespace EL\CheckersBundle\Checkers;
 
 use EL\CoreBundle\Util\Coords;
-use EL\CheckersBundle\Checkers\Piece;
 
 class Move implements \JsonSerializable
 {

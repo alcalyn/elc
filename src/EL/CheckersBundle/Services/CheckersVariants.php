@@ -24,7 +24,7 @@ class CheckersVariants
     /**
      * Get predefined Variants
      * 
-     * @return array of predefined Variant
+     * @return Variant[] of predefined Variant
      */
     public function getVariants()
     {

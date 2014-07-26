@@ -2,7 +2,6 @@
 
 namespace EL\CoreBundle\Entity;
 
-
 /**
  * class AbstractLangEntity
  * 
@@ -14,6 +13,21 @@ namespace EL\CoreBundle\Entity;
  */
 class AbstractLangEntity
 {
+    /**
+     * @var array
+     */
+    protected $langs;
+    
+    /**
+     * Call getter of first localized entity named $name
+     * 
+     * @param string $name
+     * @param array $args
+     * 
+     * @return mixed
+     * 
+     * @throws \Exception if getter not found
+     */
     public function __call($name, $args)
     {
         if (strtolower(substr($name, 0, 3)) === 'get') {

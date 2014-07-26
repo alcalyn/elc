@@ -3,12 +3,9 @@
 namespace EL\TicTacToeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Phax\CoreBundle\Model\PhaxAction;
-use EL\CoreBundle\Entity\WLD;
 use EL\CoreBundle\Entity\Party as CoreParty;
-use EL\TicTacToeBundle\Entity\Party;
+use EL\TicTacToeBundle\Entity\TicTacToeParty;
 
 class TicTacToeAjaxController extends Controller
 {
@@ -21,7 +18,7 @@ class TicTacToeAjaxController extends Controller
          * Load Tic Tac Toe party
          */
         $extendedParty = $em
-                ->getRepository('TicTacToeBundle:Party')
+                ->getRepository('TicTacToeBundle:TicTacToeParty')
                 ->findOneByExtendedPartyId($phaxAction->extendedPartyId)
         ;
         
@@ -50,7 +47,7 @@ class TicTacToeAjaxController extends Controller
                 
                 $coreParty = $partyService->getParty();
                 
-                if (Party::END_ON_PARTIES_NUMBER === $extendedParty->getVictoryCondition()) {
+                if (TicTacToeParty::END_ON_PARTIES_NUMBER === $extendedParty->getVictoryCondition()) {
                     if ($extendedParty->getPartyNumber() >= $extendedParty->getNumberOfParties()) {
                         $partyService->end();
                     }
@@ -61,11 +58,11 @@ class TicTacToeAjaxController extends Controller
                         $victoriesCount += $slot->getScore();
                     }
                     
-                    if (Party::END_ON_WINS_NUMBER === $extendedParty->getVictoryCondition()) {
+                    if (TicTacToeParty::END_ON_WINS_NUMBER === $extendedParty->getVictoryCondition()) {
                         if ($victoriesCount >= $extendedParty->getNumberOfParties()) {
                             $partyService->end();
                         }
-                    } elseif (Party::END_ON_DRAWS_NUMBER === $extendedParty->getVictoryCondition()) {
+                    } elseif (TicTacToeParty::END_ON_DRAWS_NUMBER === $extendedParty->getVictoryCondition()) {
                         $drawsCount = $extendedParty->getPartyNumber() - $victoriesCount;
                         
                         if ($drawsCount >= $extendedParty->getNumberOfParties()) {
@@ -99,7 +96,7 @@ class TicTacToeAjaxController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $extendedParty = $em
-                ->getRepository('TicTacToeBundle:Party')
+                ->getRepository('TicTacToeBundle:TicTacToeParty')
                 ->findOneByExtendedPartyId($phaxAction->extendedPartyId)
         ;
         
@@ -174,7 +171,7 @@ class TicTacToeAjaxController extends Controller
         /**
          * Tick the case
          */
-        $grid[$index] = $extendedParty->getCurrentPlayer() == Party::PLAYER_X ? 'X' : 'O' ;
+        $grid[$index] = $extendedParty->getCurrentPlayer() == TicTacToeParty::PLAYER_X ? 'X' : 'O' ;
         
         $extendedParty
             ->setGrid($grid)
@@ -242,7 +239,7 @@ class TicTacToeAjaxController extends Controller
      * Check if we have winner or draw party
      * 
      * @param string $grid
-     * @return mixed
+     * @return string|null
      *             'X'        => X won
      *             'O'        => O won
      *             '-'        => draw
@@ -274,6 +271,12 @@ class TicTacToeAjaxController extends Controller
         }
     }
     
+    /**
+     * @param string $grid
+     * @param integer $a
+     * @param integer $b
+     * @param integer $c
+     */
     private static function brochette($grid, $a, $b, $c)
     {
         return

@@ -4,7 +4,6 @@ namespace EL\CheckersBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
-use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Util\Coords;
 use EL\CoreBundle\Services\PartyService;

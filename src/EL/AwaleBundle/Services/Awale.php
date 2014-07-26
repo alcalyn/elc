@@ -4,7 +4,6 @@ namespace EL\AwaleBundle\Services;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\CoreBundle\Event\PartyEvent;
-use EL\CoreBundle\Event\PartyRemakeEvent;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
@@ -46,7 +45,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
     {
         $em                 = $this->getDoctrine()->getManager();
         $coreParty          = $event->getPartyService()->getParty();
-        $awaleParty         = $event->getExtendedOptions();
+        $awaleParty         = $event->getExtendedOptions();             /* @var $awaleParty AwaleParty */
         $awaleCore          = $this->get('awale.core');
         $seedsPerContainer  = $awaleParty->getSeedsPerContainer();
         
@@ -118,6 +117,13 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         return 'AwaleBundle::layout.html.twig';
     }
     
+    /**
+     * @param string $_locale
+     * @param \EL\CoreBundle\Services\PartyService $partyService
+     * @param AwaleParty $extendedParty
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function activeAction($_locale, PartyService $partyService, $extendedParty)
     {
         $awaleCore      = $this->get('awale.core');             /* @var $awaleCore     AwaleCore  */

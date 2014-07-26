@@ -15,6 +15,9 @@ class ELUserException extends ELCoreException
     private $type;
     
     
+    /**
+     * @param string $message
+     */
     public function __construct($message, $code = -1, $type = self::TYPE_DANGER)
     {
         parent::__construct($message, $code);
@@ -23,12 +26,18 @@ class ELUserException extends ELCoreException
     }
     
     
+    /**
+     * @param string $type
+     */
     public function setType($type)
     {
         $this->type = $type;
         return $this;
     }
     
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;

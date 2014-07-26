@@ -18,6 +18,7 @@ class CheckersIllegalMoveException extends CheckersException
     /**
      * @param string $msg message translation id
      * @param array $msgVars parameters of translation
+     * @param string $illustration
      */
     public function __construct($msg, array $msgVars = array(), $illustration = null)
     {
@@ -36,7 +37,7 @@ class CheckersIllegalMoveException extends CheckersException
     }
     
     /**
-     * @return array
+     * @return string
      */
     public function getIllustration()
     {

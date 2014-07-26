@@ -3,7 +3,6 @@
 namespace EL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Player
@@ -211,7 +210,7 @@ class Player implements \JsonSerializable
      * Instances of this class will be serialized in session,
      * so be carefull when creating attributes having an instance
      * 
-     * @return array
+     * @return string[]
      */
     public function __sleep()
     {

@@ -10,7 +10,6 @@ use EL\CheckersBundle\EventListener\PartyEventListener;
 use EL\CheckersBundle\Entity\CheckersParty;
 use EL\CheckersBundle\Form\Type\CheckersOptionsType;
 use EL\CheckersBundle\Checkers\Variant;
-use EL\CheckersBundle\Checkers\Move;
 
 class CheckersInterface extends ELGameAdapter
 {
@@ -116,7 +115,7 @@ class CheckersInterface extends ELGameAdapter
      * @param \EL\CoreBundle\Services\PartyService $partyService
      * @param CheckersParty $extendedParty
      * 
-     * @return type
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function activeAction($_locale, PartyService $partyService, $extendedParty)
     {

@@ -55,7 +55,7 @@ class CategoryLang
      * Set title
      *
      * @param string $title
-     * @return CategorieLang
+     * @return CategoryLang
      */
     public function setTitle($title)
     {
@@ -78,7 +78,7 @@ class CategoryLang
      * Set category
      *
      * @param \EL\CoreBundle\Entity\Category $category
-     * @return CategorieLang
+     * @return CategoryLang
      */
     public function setCategory(\EL\CoreBundle\Entity\Category $category)
     {
@@ -101,7 +101,7 @@ class CategoryLang
      * Set lang
      *
      * @param \EL\CoreBundle\Entity\Lang $lang
-     * @return CategorieLang
+     * @return CategoryLang
      */
     public function setLang(\EL\CoreBundle\Entity\Lang $lang)
     {

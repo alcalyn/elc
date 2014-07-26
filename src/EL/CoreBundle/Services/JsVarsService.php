@@ -58,7 +58,6 @@ class JsVarsService
         $this->set(self::TYPE_PHAX_CONFIG, 'www_script', $this->router->generate('phax_script', array()));
         $this->set(self::TYPE_PHAX_CONFIG, 'www_root', $this->router->generate('elcore_home', array()));
         
-        //$this->initPhaxController('surf');
         $this->initPhaxController('widget');
         
         $this->addContext('player', $this->session->getPlayer()->jsonSerialize());
@@ -68,6 +67,9 @@ class JsVarsService
     }
     
     
+    /**
+     * @param string $type
+     */
     public function set($type, $key, $value)
     {
         $this->vars[$type][$key] = $value;
@@ -100,6 +102,9 @@ class JsVarsService
     }
     
     
+    /**
+     * @param string $key
+     */
     public function addContext($key, $value)
     {
         $this->set(self::TYPE_JS_CONTEXT, $key, $value);
@@ -107,6 +112,9 @@ class JsVarsService
     }
     
     
+    /**
+     * @param string $controller
+     */
     public function initPhaxController($controller)
     {
         $this->vars[self::TYPE_PHAX_LOAD_CONTROLLERS] []= $controller;
@@ -114,6 +122,9 @@ class JsVarsService
     }
     
     
+    /**
+     * @param string $s
+     */
     public function useTrans($s)
     {
         if (is_array($s)) {
@@ -121,7 +132,7 @@ class JsVarsService
                 $this->useTrans($t);
             }
         } else {
-            $this->set(self::TYPE_TRANSLATION, $s, $this->translator->trans(/** @Ignore */ $s));
+            $this->set(self::TYPE_TRANSLATION, $s, $this->translator->trans(/** @ignore */ $s));
         }
         
         return $this;

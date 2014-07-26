@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Phax\CoreBundle\Model\PhaxAction;
 use EL\CoreBundle\Exception\ELCoreException;
-use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\PartyService;
 use EL\AwaleBundle\Entity\AwaleParty;
@@ -71,8 +70,9 @@ class AwaleController extends Controller
         }
         
         // Check player turn
+        $slots              = $coreParty->getSlots();   /* @var $slots \Doctrine\Common\Collections\Collection */
         $currentPlayerIndex = intval($extendedParty->getCurrentPlayer());
-        $currentPlayer      = $coreParty->getSlots()->get($currentPlayerIndex)->getPlayer();
+        $currentPlayer      = $slots->get($currentPlayerIndex)->getPlayer();
         $sessionPlayer      = $this->get('el_core.session')->getPlayer();
         
         if ($currentPlayer->getId() !== $sessionPlayer->getId()) {
@@ -107,8 +107,8 @@ class AwaleController extends Controller
         ;
         
         // Update scores
-        $slot0 = $coreParty->getSlots()->get(0);    /* @var $slot0 \EL\CoreBundle\Entity\Slot */
-        $slot1 = $coreParty->getSlots()->get(1);    /* @var $slot1 \EL\CoreBundle\Entity\Slot */
+        $slot0 = $slots->get(0);    /* @var $slot0 \EL\CoreBundle\Entity\Slot */
+        $slot1 = $slots->get(1);    /* @var $slot1 \EL\CoreBundle\Entity\Slot */
         
         $slot0->setScore($newGrid[0]['attic']);
         $slot1->setScore($newGrid[1]['attic']);
@@ -150,13 +150,18 @@ class AwaleController extends Controller
         // stop party
         $coreParty->setState(Party::ENDED);
         
-        $slot0      = $coreParty->getSlots()->get(0);    /* @var $slot0 \EL\CoreBundle\Entity\Slot */
-        $slot1      = $coreParty->getSlots()->get(1);    /* @var $slot1 \EL\CoreBundle\Entity\Slot */
+        $slots      = $coreParty->getSlots();   /* @var $slots \Doctrine\Common\Collections\Collection */
+        $slot0      = $slots->get(0);           /* @var $slot0 \EL\CoreBundle\Entity\Slot */
+        $slot1      = $slots->get(1);           /* @var $slot1 \EL\CoreBundle\Entity\Slot */
         $score0     = $slot0->getScore();
         $score1     = $slot1->getScore();
         $player0    = $slot0->getPlayer();
         $player1    = $slot1->getPlayer();
         $game       = $coreParty->getGame();
+        
+        if ((null === $player0) || (null === $player1)) {
+            throw new ELCoreException('Cannot update score because there is only one player in party');
+        }
         
         // player 0 wins
         if ($score0 > $score1) {

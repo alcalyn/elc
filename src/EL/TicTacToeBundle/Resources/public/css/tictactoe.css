@@ -44,6 +44,12 @@
     background-color: #B5E0EE;
 }
 
+.grid.highlight {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.65);
+    transition-duration: 400ms;
+    transition-property: box-shadow;
+}
+
 
 #players {
     margin: 24px auto 48px auto;

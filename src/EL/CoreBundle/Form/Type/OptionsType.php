@@ -32,7 +32,8 @@ class OptionsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\CoreBundle\Form\Entity\Options',
+            'data_class'            => 'EL\CoreBundle\Form\Entity\Options',
+            'cascade_validation'    => true,
         ));
     }
     

@@ -34,6 +34,7 @@ class LoadCategoryLangData extends AbstractFixture implements OrderedFixtureInte
             ),
         );
         
+        $objects = array();
         
         $i = 0;
         foreach ($items as $item) {

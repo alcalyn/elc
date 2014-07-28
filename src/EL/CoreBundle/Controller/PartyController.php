@@ -3,15 +3,14 @@
 namespace EL\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
 use EL\CoreBundle\Entity\Party;
-use EL\CoreBundle\Entity\Game;
 use EL\CoreBundle\Services\PartyService;
-use EL\CoreBundle\Form\Type\PartyType;
 use EL\CoreBundle\Form\Entity\Options;
 use EL\CoreBundle\Form\Type\OptionsType;
 
@@ -26,60 +25,42 @@ class PartyController extends Controller
      *      "/games/{slug}/creation",
      *      name = "elcore_party_creation"
      * )
+     * @Method({"GET", "POST"})
      * @Template
      */
     public function createAction($_locale, $slug, Request $request)
     {
         $em                     = $this->getDoctrine()->getManager();
         $partyService           = $this->get('el_core.party')->setGameBySlug($slug, $_locale, $this->container);
-        $extendedGame           = $partyService->getExtendedGame();
+        $gameInterface           = $partyService->getGameInterface();
         $coreParty              = $partyService->createParty($_locale);
-        $extendedOptions        = $extendedGame->createParty();
-        $extendedOptionsType    = $extendedGame->getPartyType();
+        $extendedOptions        = $gameInterface->createStandardOptions();
+        $extendedOptionsType    = $gameInterface->getPartyType();
         $options                = new Options($coreParty, $extendedOptions);
         $optionsForm            = $this->createForm(new OptionsType($extendedOptionsType), $options);
         
         $optionsForm->handleRequest($request);
         
-        if ($optionsForm->isSubmitted()) {
-            if ($optionsForm->isValid()) {
-                $partyService->setParty($coreParty);
-                
-                $coreParty
-                        ->setDateCreate(new \DateTime())
-                ;
-                
-                $em->persist($coreParty);
-                
-                // notify extended game that party has been created with $extendedOptions options
-                $extendedGame->saveParty($coreParty, $extendedOptions);
-                
-                // get slots configuration from extended party depending of options
-                $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions);
-                
-                // create slots from given slots configuration
-                $partyService->createSlots($slotsConfiguration);
-                
-                $em->flush();
-                
-                if (0 === strlen($coreParty->getSlug())) {
-                    $coreParty->setSlug($partyService->generateRandomTitle($_locale));
-                    $em->flush();
-                }
-                
-                // redirect to preparation page
-                return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                    '_locale'   => $_locale,
-                    'slugGame'  => $slug,
-                    'slugParty' => $coreParty->getSlug(),
-                )));
-            }
+        if ($optionsForm->isValid()) {
+            
+            $partyService->setParty($coreParty);
+            $em->persist($coreParty);
+            $partyService->create($coreParty, $gameInterface, $extendedOptions);
+            $em->flush();
+
+            // redirect to preparation page
+            return $this->redirect($this->generateUrl('elcore_party_preparation', array(
+                '_locale'   => $_locale,
+                'slugGame'  => $slug,
+                'slugParty' => $coreParty->getSlug(),
+            )));
         }
         
         return array(
             'game'                  => $partyService->getGame(),
             'optionsForm'           => $optionsForm->createView(),
-            'creationFormTemplate'  => $extendedGame->getCreationFormTemplate(),
+            'creationFormTemplate'  => $gameInterface->getCreationFormTemplate(),
+            'gameLayout'            => $gameInterface->getGameLayout(),
         );
     }
     
@@ -87,7 +68,10 @@ class PartyController extends Controller
     /**
      * @Route(
      *      "/games/{slugGame}/{slugParty}/preparation",
-     *      name = "elcore_party_preparation"
+     *      name = "elcore_party_preparation",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      * @Template
      */
@@ -99,15 +83,24 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty);
         }
         
+        $game               = $partyService->getGame();
+        $slots              = $party->getSlots();
         $player             = $this->get('el_core.session')->getPlayer();
         $canJoin            = true === $partyService->canJoin();
         $isHost             = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
         $inParty            = $partyService->inParty();
-        $extendedGame       = $partyService->getExtendedGame();
-        $extendedOptions    = $extendedGame->loadParty($party);
-        $slotsConfiguration = $extendedGame->getSlotsConfiguration($extendedOptions)['parameters'];
+        $gameInterface       = $partyService->getGameInterface();
+        $extendedOptions    = $gameInterface->loadParty($party);
+        $slotsConfiguration = $gameInterface->getSlotsConfiguration($extendedOptions)['parameters'];
+        $options            = $gameInterface->getDisplayOptionsTemplate($party, $extendedOptions);
+        $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
+        $optionsVars        = is_array($options) ? $options['vars'] : array() ;
+        $scoreService       = $this->get('el_core.score');
+        
+        $scoreService->badgePlayers($partyService->getPlayers(), $game);
         
         $this->get('el_core.js_vars')
+                ->initPhaxController('party')
                 ->initPhaxController('slot')
                 ->addContext('core-party', $party->jsonSerialize())
                 ->addContext('is-host', $isHost)
@@ -130,14 +123,15 @@ class PartyController extends Controller
             'player'                    => $player,
             'coreParty'                 => $party,
             'extendedOptions'           => $extendedOptions,
-            'extendedOptionsTemplate'   => $extendedGame->getDisplayOptionsTemplate(),
+            'extendedOptionsTemplate'   => $optionsTemplate,
             'slotsConfiguration'        => $slotsConfiguration,
-            'game'                      => $party->getGame(),
-            'slots'                     => $party->getSlots(),
+            'game'                      => $game,
+            'slots'                     => $slots,
             'inParty'                   => $inParty,
             'canJoin'                   => $canJoin,
             'isHost'                    => $isHost,
-        );
+            'gameLayout'                => $gameInterface->getGameLayout(),
+        ) + $optionsVars;
     }
     
     /**
@@ -145,7 +139,10 @@ class PartyController extends Controller
      * 
      * @Route(
      *      "/games/{slugGame}/{slugParty}/join",
-     *      name = "elcore_party_join"
+     *      name = "elcore_party_join",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function joinAction($_locale, $slugGame, $slugParty, PartyService $partyService)
@@ -163,34 +160,29 @@ class PartyController extends Controller
     /**
      * @Route(
      *      "/games/{slugGame}/{slugParty}/preparation/action",
-     *      name = "elcore_party_preparation_action"
+     *      name = "elcore_party_preparation_action",
+     *      requirements = {
+     *          "_method" = "POST"
+     *      }
      * )
      */
     public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService, Request $request)
     {
-        $player     = $this->get('el_core.session')->getPlayer();
+        $em         = $this->getDoctrine()->getManager();
         $party      = $partyService->getParty();
-        $isHost     = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
-        $t          = $this->get('translator');
         $session    = $this->get('session');
-        $flashbag   = $session->getFlashBag();
         $action     = $request->request->get('action');
         
         switch ($action) {
-            case 'run':
-                if (!in_array($party->getState(), array(Party::PREPARATION, Party::STARTING))) {
-                    break;
+            case 'start':
+                
+                try {
+                    $partyService->start();
+                    $em->flush();
+                } catch (ELUserException $e) {
+                    $e->addFlashMessage($session);
                 }
                 
-                if ($isHost) {
-                    try {
-                        $partyService->start();
-                    } catch (ELUserException $e) {
-                        $e->addFlashMessage($session);
-                    }
-                } else {
-                    $flashbag->add('danger', $t->trans('cannot.start.youarenothost'));
-                }
                 break;
             
             case 'cancel':
@@ -202,29 +194,32 @@ class PartyController extends Controller
                 break;
             
             case 'join':
-                if ($party->getState() !== Party::PREPARATION) {
-                    break;
-                }
                 
                 try {
                     $partyService->join();
+                    $em->flush();
                 } catch (ELUserException $e) {
-                    $e->addFlashMessage($this->get('session'));
+                    $e->addFlashMessage($session);
                 }
+                
                 break;
             
             case 'remake':
-                if ($party->getState() !== Party::ENDED) {
-                    break;
+                
+                try {
+                    $remakeParty = $partyService->remake();
+                    $em->flush();
+                    
+                    return $this->redirect($this->generateUrl('elcore_party_preparation', array(
+                        '_locale'   => $_locale,
+                        'slugGame'  => $remakeParty->getGame()->getSlug(),
+                        'slugParty' => $remakeParty->getSlug(),
+                    )));
+                } catch (ELUserException $e) {
+                    $e->addFlashMessage($session);
                 }
                 
-                $remakeParty = $partyService->remake();
-                
-                return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                    '_locale'   => $_locale,
-                    'slugGame'  => $remakeParty->getGame()->getSlug(),
-                    'slugParty' => $remakeParty->getSlug(),
-                )));
+                break;
             
             default:
                 throw new ELCoreException('Unknown action : "'.$action.'"');
@@ -239,7 +234,10 @@ class PartyController extends Controller
      * 
      * @Route(
      *      "/games/{slugGame}/{slugParty}",
-     *      name = "elcore_party"
+     *      name = "elcore_party",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function activeAction($_locale, $slugGame, $slugParty, PartyService $partyService)
@@ -250,23 +248,35 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
         }
         
-        $extendedGame   = $this->get($partyService->getGameServiceName());
-        $jsVars         = $this->get('el_core.js_vars');
+        $gameInterface   = $partyService->loadGameInterface($this->container)->getGameInterface();
+        $extendedParty  = $gameInterface->loadParty($party);
         
-        $jsVars
+        if (!($extendedParty instanceof \JsonSerializable)) {
+            throw new ELCoreException(
+                    'Your class ('.get_class($extendedParty).') must implement JsonSerializable'
+            );
+        }
+        
+        $widgetService = $this->get('el_core.widgets');
+        $widgetService->add('CoreBundle:Widget:currentParty', array(), 0);
+        
+        $this->get('el_core.js_vars')
             ->initPhaxController('party')
             ->addContext('core-party', $party->jsonSerialize())
-            ->addContext('extended-party', $extendedGame->loadParty($party)->jsonSerialize())
+            ->addContext('extended-party', $extendedParty->jsonSerialize())
         ;
         
-        return $extendedGame->activeAction($_locale, $partyService);
+        return $gameInterface->activeAction($_locale, $partyService, $extendedParty);
     }
     
     
     /**
      * @Route(
      *      "/games/{slugGame}/{slugParty}/results",
-     *      name = "elcore_party_ended"
+     *      name = "elcore_party_ended",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      */
     public function endedAction($_locale, $slugGame, $slugParty, PartyService $partyService)
@@ -277,9 +287,15 @@ class PartyController extends Controller
             return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
         }
         
-        $extendedGame = $this->get($partyService->getGameServiceName());
+        $this->get('el_core.js_vars')
+            ->initPhaxController('party')
+            ->addContext('core-party', $party->jsonSerialize())
+            ->useTrans('has.remake')
+        ;
         
-        return $extendedGame->endedAction($_locale, $partyService);
+        $gameInterface = $partyService->loadGameInterface($this->container)->getGameInterface();
+        
+        return $gameInterface->endedAction($_locale, $partyService);
     }
     
     /**

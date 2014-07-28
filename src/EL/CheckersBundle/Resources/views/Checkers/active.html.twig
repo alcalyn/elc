@@ -1,0 +1,63 @@
+{% extends "AbstractGameBundle:Adapter:active.html.twig" %}
+
+{% block body %}
+<div class="checkers-active">
+    <div class="grid {{ gridSize }}" style="width:{{ variant.boardSize * squareSize }}px">
+        {#
+            Grid
+        #}
+        {% set rightSquare = variant.rightSquare ? 1 : 0 %}
+        {% if not reverse %}
+            {#
+                Normal
+            #}
+            {% for line in 0..(variant.boardSize - 1) %}
+                {% for col in 0..(variant.boardSize - 1) %}
+                    <div
+                        id="grid-{{ line }}-{{ col }}"
+                        class="grid-item grid-{{ cycle(['even', 'odd'], (line+col+rightSquare)) }}"
+                    ></div>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            {#
+                Reversed
+            #}
+            {% for line in (variant.boardSize - 1)..0 %}
+                {% for col in (variant.boardSize - 1)..0 %}
+                    <div
+                        id="grid-{{ line }}-{{ col }}"
+                        class="grid-item grid-{{ cycle(['even', 'odd'], (line+col+rightSquare)) }}"
+                    ></div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        {#
+            Pieces
+        #}
+        {% for line in 0..(variant.boardSize - 1) %}
+            {% for col in 0..(variant.boardSize - 1) %}
+                {% if grid[line][col] %}
+                    <div
+                        class="
+                            piece
+                            piece-{{ grid[line][col] is odd ? 'white' : 'black' }}
+                            {{ grid[line][col] > 2 ? 'piece-king' }}
+                            {{ player.id == slots[(grid[line][col] - 1) % 2].player.id ? 'piece-controlled' }}
+                        "
+                        data-line="{{ line }}"
+                        data-col="{{ col }}"
+                        {% if not reverse %}
+                            style="left:{{ col * squareSize }}px;top:{{ line * squareSize }}px"
+                        {% else %}
+                            style="left:{{ ((grid|length - 1) - col) * squareSize }}px;top:{{ ((grid|length - 1) - line) * squareSize }}px"
+                        {% endif %}
+                    ></div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        <div class="clearfix"></div>
+    </div>
+</div>
+{% endblock %}

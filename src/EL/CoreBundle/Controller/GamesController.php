@@ -5,8 +5,6 @@ namespace EL\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use EL\CoreBundle\Entity\Game;
 use EL\CoreBundle\Entity\Party;
 use EL\CoreBundle\Services\GameService;
 
@@ -17,7 +15,10 @@ class GamesController extends Controller
      * 
      * @Route(
      *      "/games",
-     *      name = "elcore_games_list"
+     *      name = "elcore_games_list",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      * @Template
      */
@@ -48,7 +49,10 @@ class GamesController extends Controller
      * 
      * @Route(
      *      "/games/{slug}",
-     *      name = "elcore_game_home"
+     *      name = "elcore_game_home",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      * @Template
      */
@@ -76,7 +80,10 @@ class GamesController extends Controller
      * 
      * @Route(
      *      "/games/{slug}/games-list",
-     *      name = "elcore_game_parties_list"
+     *      name = "elcore_game_parties_list",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      * @Template
      */
@@ -97,7 +104,10 @@ class GamesController extends Controller
      * 
      * @Route(
      *      "/games/{slug}/ranking",
-     *      name = "elcore_game_ranking"
+     *      name = "elcore_game_ranking",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      * @Template
      */
@@ -126,7 +136,10 @@ class GamesController extends Controller
      * 
      * @Route(
      *      "/games/{slug}/rules",
-     *      name = "elcore_game_rules"
+     *      name = "elcore_game_rules",
+     *      requirements = {
+     *          "_method" = "GET"
+     *      }
      * )
      * @Template
      */

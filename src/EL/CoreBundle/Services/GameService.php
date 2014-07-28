@@ -4,6 +4,7 @@ namespace EL\CoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use EL\CoreBundle\Entity\Game;
+use EL\AbstractGameBundle\Model\ELGameInterface;
 use EL\CoreBundle\Exception\ELCoreException;
 
 class GameService
@@ -21,12 +22,15 @@ class GameService
     /**
      * Extended Game service
      * 
-     * @var ELAbstractGame\Model\ELGameInterface
+     * @var ELGameInterface
      */
-    private $extendedGame = null;
+    private $gameInterface = null;
     
     
     
+    /**
+     * @param \Doctrine\ORM\EntityManager $em
+     */
     public function __construct($em)
     {
         $this->em = $em;
@@ -42,7 +46,7 @@ class GameService
         $this->game = $game;
         
         if (!is_null($container)) {
-            $this->loadExtendedGame($container);
+            $this->loadGameInterface($container);
         }
         
         return $this;
@@ -79,6 +83,18 @@ class GameService
     }
     
     /**
+     * Use entity manager from this service to persist an entity
+     * 
+     * @param \stdClass $entity
+     * 
+     * @return void
+     */
+    public function persist($entity)
+    {
+        return $this->em->persist($entity);
+    }
+    
+    /**
      * Find all parties for this game
      * 
      * @param integer $state of parties, let blank for all parties.
@@ -108,34 +124,27 @@ class GameService
      * 
      * @return \EL\AbstractGameBundle\Model\ELGameInterface
      */
-    public function getExtendedGame()
+    public function getGameInterface()
     {
-        $this->needExtendedGame();
-        return $this->extendedGame;
+        $this->needGameInterface();
+        return $this->gameInterface;
     }
     
     /**
      * Return extended game service
      * 
-     * @return \EL\AbstractGameBundle\Model\ELGameInterface
+     * @return GameService
      */
-    public function loadExtendedGame(Container $container)
+    public function loadGameInterface(Container $container)
     {
         $this->needGame();
-        $this->extendedGame = $container->get($this->getGameServiceName());
-        return $this;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getGameServiceName(Game $game = null)
-    {
-        if (is_null($game)) {
-            $this->needGame();
-            return 'el_games.'.$this->game->getName();
+        $gameInterface = $container->get('el_games.'.$this->game->getName());
+        
+        if ($gameInterface instanceof ELGameInterface) {
+            $this->gameInterface = $gameInterface;
+            return $this;
         } else {
-            return 'el_games.'.$game->getName();
+            throw new ELCoreException('Your game service must implement EL\AbstractGameBundle\Model\ELGameInterface');
         }
     }
     
@@ -147,9 +156,9 @@ class GameService
         }
     }
     
-    protected function needExtendedGame()
+    protected function needGameInterface()
     {
-        if (is_null($this->extendedGame)) {
+        if (is_null($this->gameInterface)) {
             throw new \Exception('GameService : extended game must be defined by calling setGame');
         }
     }

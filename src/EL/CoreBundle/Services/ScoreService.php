@@ -31,7 +31,7 @@ class ScoreService
      * 
      * @return \EL\CoreBundle\Entity\GameVariant
      */
-    protected function getGameVariant(Game $game, $variantName = null)
+    public function getGameVariant(Game $game, $variantName = null)
     {
         if (null === $variantName) {
             $variantName = GameVariant::DEFAULT_NAME;
@@ -106,6 +106,70 @@ class ScoreService
         }
         
         return $score;
+    }
+    
+    /**
+     * Get Score data for a player and a game variant
+     * 
+     * @param \EL\CoreBundle\Services\Player $players
+     * @param Game|GameVariant $game
+     * 
+     * @return Score[]
+     */
+    public function getMultipleScoreData(array $players, $game)
+    {
+        if (0 === count($players)) {
+            return array();
+        }
+        
+        $gameVariant = $this->asGameVariant($game);
+        
+        $scores = $this->em
+                ->getRepository('CoreBundle:Score')
+                ->getMultiple($players, $gameVariant)
+        ;
+        
+        $arrayScores = array();
+        
+        foreach ($scores as $score) {
+            $arrayScores[$score->getPlayer()->getId()] = $score;
+        }
+        
+        return $arrayScores;
+    }
+    
+    /**
+     * Add a score badge to a player on a game variant
+     * 
+     * @param Player $player
+     * @param mixed $game
+     * @param Score $score
+     */
+    public function badgePlayer(Player $player, $game, Score $score = null)
+    {
+        $gameVariant = $this->asGameVariant($game);
+        
+        if (null === $score) {
+            $score = $this->getScoreData($player, $gameVariant);
+        }
+        
+        $player->badge = $score;
+    }
+    
+    /**
+     * Add a score badge to multiple players
+     * 
+     * @param array $players
+     * @param mixed $game
+     */
+    public function badgePlayers(array $players, $game)
+    {
+        $gameVariant    = $this->asGameVariant($game);
+        $scores         = $this->getMultipleScoreData($players, $game);
+        
+        foreach ($scores as $score) {
+            $this->badgePlayer($score->getPlayer(), $gameVariant, $score);
+        }
     }
     
     /**

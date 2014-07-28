@@ -3,8 +3,6 @@
     <button type="button" class="btn btn-default player-pseudo btn-slot-12">
         {{ slot.player.pseudo }}
 
-        {% if slot.player.badge is defined %}
-            <span class="badge">{{ slot.player.badge }}</span>
-        {% endif %}
+        {% include 'CoreBundle:Slot:_slot-player-badge.html.twig' %}
     </button>
 </div>

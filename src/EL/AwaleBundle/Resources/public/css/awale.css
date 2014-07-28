@@ -1,0 +1,84 @@
+
+
+.p0.box {
+    background: linear-gradient(to bottom, #FFB1B1 0px, lightCoral 100%);
+}
+.p1.box {
+    background: linear-gradient(to bottom, #BFEAEE 0px, lightBlue 100%);
+}
+.p0.box:hover {
+    background: linear-gradient(to bottom, #FFB1B1 0px, #F58585 100%);
+}
+.p1.box:hover {
+    background: linear-gradient(to bottom, #C4EFF3 0px, #B0DBE9 100%);
+}
+
+.box {
+    border-radius: 1000px;
+    width: 50px;
+    height: 50px;
+    outline: none !important;
+}
+.box[disabled] {
+    opacity: 1;
+}
+.box p {
+    font-size: 14px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+.box .change {
+    position: absolute;
+    margin-top: 4px;
+}
+.box .change.positive {
+    color: #009933;
+}
+.box .change.negative {
+    color: #AA3333;
+}
+.attic {
+    width: 56px;
+    height: 116px;
+}
+
+.awale-active #board .row:first-child {
+    margin-bottom: 16px;
+}
+.awale-active #board .col:first-child .attic {
+    margin-left: 54px;
+}
+
+
+#players {
+    margin: 24px auto 48px auto;
+}
+#players > div {
+    text-align: center;
+}
+#players .scores {
+}
+#players .scores p {
+    font-size: 22px;
+    text-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+}
+#players .scores .pseudo {
+}
+#players .scores .score {
+    font-weight: bold;
+    font-size: 32px;
+}
+#players .scores .p0 .score {
+    margin-left: 16px;
+}
+#players .scores .p1 .score {
+    margin-right: 16px;
+}
+#players .scores .p0 {
+    color: lightCoral;
+    text-align: right;
+}
+#players .scores .p1 {
+    color: lightBlue;
+    text-align: left;
+}

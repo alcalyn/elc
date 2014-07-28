@@ -1,0 +1,6 @@
+{% if slot.player.badge is defined %}
+    <span class="badge">
+        {{ slot.player.badge|displayScore(game.rankingReference) }}
+        {{ game.rankingReference|trans }}
+    </span>
+{% endif %}

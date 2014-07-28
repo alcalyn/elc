@@ -4,6 +4,7 @@ namespace EL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 use EL\CoreBundle\Entity\Slot;
 
 /**
@@ -66,6 +67,7 @@ class Party implements \JsonSerializable
     private $host;
     
     /**
+     * @var \Doctrine\Common\Collections\Collection
      * 
      * @ORM\OneToMany(targetEntity="EL\CoreBundle\Entity\Slot", mappedBy="party")
      */
@@ -73,6 +75,8 @@ class Party implements \JsonSerializable
 
     /**
      * @var string
+     * 
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="title", type="string", length=63)
      */
@@ -160,7 +164,9 @@ class Party implements \JsonSerializable
     private $dateEnded;
     
     
-    
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this
@@ -544,26 +550,5 @@ class Party implements \JsonSerializable
             'dateStarted'       => $this->getDateStarted(),
             'dateEnded'         => $this->getDateEnded(),
         );
-    }
-    
-    /**
-     * create a remake party from this
-     * 
-     * @return Party
-     */
-    public function createRemake()
-    {
-        $clone = new self();
-        
-        $clone->game                = $this->game;
-        $clone->title               = $this->title;
-        $clone->private             = $this->private;
-        $clone->room                = $this->room;
-        $clone->disallowChat       = $this->disallowChat;
-        $clone->disallowObservers  = $this->disallowObservers;
-        $clone->state               = self::PREPARATION;
-        $clone->dateCreate         = new \DateTime();
-        
-        return $clone;
     }
 }

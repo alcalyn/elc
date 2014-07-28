@@ -1,0 +1,11 @@
+container:
+    is:
+        empty: 'Le compartiment est vide'
+
+feed:
+    the:
+        opponent: 'Vous devez nourrir votre adversaire'
+
+seeds:
+    per:
+        container: 'Graines par compartiment'

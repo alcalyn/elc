@@ -3,9 +3,10 @@ parameters:
 
 services:
     el_games.tictactoe:
-        class: EL\TicTacToeBundle\Controller\DefaultController
+        class: EL\TicTacToeBundle\Services\TicTacToeInterface
         calls:
             - [setContainer, ["@service_container"]]
+            - [init]
     phax.tictactoe:
         class: EL\TicTacToeBundle\Controller\TicTacToeAjaxController
         calls:

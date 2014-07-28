@@ -1,0 +1,73 @@
+{% extends gameLayout %}
+
+{% block body %}
+<div class="awale-active">
+    {% set reverse = reverse|default(false) %}
+    <div id="board" class="row">
+        {#
+            Left attic
+        #}
+        <div class="col-md-offset-1 col-md-2 col col-{{ reverse ? 'p0' : 'p1' }}">
+            <button type="button" class="btn btn-default box attic {{ reverse ? 'p0' : 'p1' }} attic-{{ reverse ? 'p0' : 'p1' }}" disabled="disabled">
+                <p class="value">{{ grid[reverse ? 0 : 1].attic }}</p>
+            </button>
+        </div>
+        {#
+            Containers
+        #}
+        <div class="col-md-6 boxes">
+            {#
+                Top containers
+            #}
+            <div class="row row-{{ reverse ? 'p0' : 'p1' }}">
+                {% for i in 0..5 %}
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-default box {{ reverse ? 'p0' : 'p1' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" disabled="disabled" data-coords="{{ reverse ? '0' : '1' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">
+                            <p class="value">{{ grid[reverse ? 0 : 1].seeds[reverse ? loop.revindex0 : loop.index0] }}</p>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+            {#
+                Bottom containers
+            #}
+            <div class="row row-{{ reverse ? 'p1' : 'p0' }}">
+                {% for i in 0..5 %}
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-default box {{ reverse ? 'p1' : 'p0' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" data-coords="{{ reverse ? '1' : '0' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">
+                            <p class="value">{{ grid[reverse ? 1 : 0].seeds[reverse ? loop.revindex0 : loop.index0] }}</p>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {#
+            Right attic
+        #}
+        <div class="col-md-2 col col-{{ reverse ? 'p1' : 'p0' }}">
+            <button type="button" class="btn btn-default box attic {{ reverse ? 'p1' : 'p0' }} attic-{{ reverse ? 'p1' : 'p0' }}" disabled="disabled">
+                <p class="value">{{ grid[reverse ? 1 : 0].attic }}</p>
+            </button>
+        </div>
+    </div>
+    <div id="players">
+        {#
+            Players pseudos
+        #}
+        <div class="row scores">
+            <div class="p0 col-md-6">
+                <p>
+                    <span class="pseudo">{{ coreParty.slots[0].player.pseudo|default('?') }}</span>
+                    <span class="score">{{ coreParty.slots[0].score|default('?') }}</span>
+                </p>
+            </div>
+            <div class="p1 col-md-6">
+                <p>
+                    <span class="score">{{ coreParty.slots[1].score|default('?') }}</span>
+                    <span class="pseudo">{{ coreParty.slots[1].player.pseudo|default('?') }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

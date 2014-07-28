@@ -3,6 +3,9 @@
 namespace EL\CoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use EL\CoreBundle\Event\PartyEvent;
+use EL\CoreBundle\Event\PartyRemakeEvent;
 use Doctrine\ORM\EntityManager;
 use EL\CoreBundle\Services\GameService;
 use EL\CoreBundle\Entity\Party;
@@ -11,18 +14,10 @@ use EL\CoreBundle\Entity\Player;
 use EL\CoreBundle\Services\SessionService;
 use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Exception\ELUserException;
-use EL\CoreBundle\Form\Entity\PartyOptions;
+use EL\AbstractGameBundle\Model\ELGameInterface;
 
 class PartyService extends GameService
 {
-    
-    const OK            = 0;
-    const ENDED_PARTY   = 1;
-    const NO_FREE_SLOT  = 2;
-    const ALREADY_JOIN  = 3;
-    const STARTED_PARTY = 4;
-    const NOT_OK        = 10;
-    
     /**
      * Number of seconds after host clicked Start,
      * and before game really starting
@@ -43,13 +38,24 @@ class PartyService extends GameService
      */
     private $party;
     
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
     
-    
-    public function __construct(EntityManager $em, SessionService $session)
+    /**
+     * Constructor
+     * 
+     * @param \Doctrine\ORM\EntityManager $em
+     * @param \EL\CoreBundle\Services\SessionService $session
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(EntityManager $em, SessionService $session, EventDispatcherInterface $eventDispatcher)
     {
         parent::__construct($em);
         
         $this->session          = $session;
+        $this->eventDispatcher  = $eventDispatcher;
     }
     
     
@@ -101,7 +107,10 @@ class PartyService extends GameService
     }
     
     /**
-     * @param PartyOptions $partyOption
+     * Create a new instance of Party
+     * 
+     * @param string $locale
+     * 
      * @return Party
      */
     public function createParty($locale)
@@ -116,18 +125,40 @@ class PartyService extends GameService
         return $party;
     }
     
-    public function createSlots(array $slotsConfiguration, Party $party = null)
+    /**
+     * Init a party and slots configuration after player has created it
+     * 
+     * @param \EL\CoreBundle\Entity\Party $coreParty
+     * @param ELGameInterface $gameInterface
+     * @param \stdClass $extendedOptions
+     */
+    public function create(Party $coreParty, ELGameInterface $gameInterface, $extendedOptions)
     {
-        if (is_null($party)) {
-            $this->needParty();
-            $party = $this->getParty();
-        }
+        $this->setParty($coreParty);
+        $coreParty->setDateCreate(new \DateTime());
         
+        // create slots from given slots configuration
+        $slotsConfiguration = $gameInterface->getSlotsConfiguration($extendedOptions);
+        $this->createSlots($slotsConfiguration, $coreParty);
+        
+        // Dispatch party creation event
+        $event = new PartyEvent($this, $gameInterface, $extendedOptions);
+        $this->eventDispatcher->dispatch(PartyEvent::PARTY_CREATED, $event);
+    }
+    
+    /**
+     * Create slots from $slotsConfiguration
+     * 
+     * @param array $slotsConfiguration
+     * @param Party $party
+     */
+    public function createSlots(array $slotsConfiguration, Party $party)
+    {
         $position = 0;
         
         foreach ($slotsConfiguration['slots'] as $s) {
             $isHost =  isset($s['host']) && $s['host'];
-            $isOpen = !isset($s['host']) || $s['host'];
+            $isOpen = !isset($s['open']) || $s['open'];
             $score  =  isset($s['score']) ? $s['score'] : 0 ;
             
             $slot = new Slot();
@@ -144,8 +175,27 @@ class PartyService extends GameService
             
             $this->em->persist($slot);
         }
+    }
+    
+    
+    /**
+     * Return all players who are in this party
+     * 
+     * Load SCORES
+     * 
+     * @return array of players
+     */
+    public function getPlayers()
+    {
+        $players = array();
         
-        $this->em->flush();
+        foreach ($this->getParty()->getSlots() as $slot) {
+            if ($slot->hasPlayer()) {
+                $players []= $slot->getPlayer();
+            }
+        }
+        
+        return $players;
     }
     
     
@@ -160,7 +210,7 @@ class PartyService extends GameService
      * @param \EL\CoreBundle\Entity\Player $player
      * @param integer $slotIndex preference. If defined and free, join this slot. Else join first free slot.
      * @param boolean $join, false to not join even if possible
-     * @param boolean $party to join
+     * @param Party $party to join
      * 
      * @return PartyService
      * 
@@ -178,7 +228,7 @@ class PartyService extends GameService
             throw new ELUserException('cannot.join.party.ended');
         }
         
-        if (($state === Party::ACTIVE) && !$party->getRoom()) {
+        if (($state !== Party::PREPARATION) && !$party->getRoom()) {
             throw new ELUserException('cannot.join.party.started');
         }
         
@@ -231,12 +281,10 @@ class PartyService extends GameService
         if ($join) {
             $nextFreeSlot->setPlayer($player);
             $this->em->persist($nextFreeSlot);
-            $this->em->flush();
             
             if ($alreadyJoinSlot) {
                 $alreadyJoinSlot->setPlayer(null);
                 $this->em->persist($alreadyJoinSlot);
-                $this->em->flush();
             }
         }
         
@@ -246,7 +294,7 @@ class PartyService extends GameService
     /**
      * 
      * @param \EL\CoreBundle\Entity\Player $player
-     * @param type $slotIndex
+     * @param integer $slotIndex
      * @param \EL\CoreBundle\Entity\Party $party
      * @return boolean if he can join
      */
@@ -261,36 +309,52 @@ class PartyService extends GameService
     }
     
     
-    public function inParty(Player $player = null, Party $party = null)
+    /**
+     * Return the position index of $player (default is current)
+     * in $party (default is current)
+     * 
+     * @param \EL\CoreBundle\Entity\Player $player
+     * @param \EL\CoreBundle\Entity\Party $party
+     * 
+     * @return integer
+     */
+    public function position(Player $player = null, Party $party = null)
     {
-        if (is_null($player)) {
+        $this->needParty();
+        
+        if (null === $player) {
             $player = $this->session->getPlayer();
         }
         
-        $party  = is_null($party) ? $this->getParty() : $party ;
+        if (null === $party) {
+            $party = $this->getParty();
+        }
+        
+        $i = 0;
         
         foreach ($party->getSlots() as $slot) {
             if ($slot->hasPlayer() && ($slot->getPlayer()->getId() === $player->getId())) {
-                return true;
+                return $i;
+            } else {
+                $i++;
             }
         }
         
-        return false;
+        return -1;
     }
     
     
-    
     /**
-     * A player join a party on a free slot
+     * Return if $player (default is current) is in $party (default is current)
      * 
      * @param \EL\CoreBundle\Entity\Player $player
-     * @param \EL\CoreBundle\Entity\Slot $slot
+     * @param \EL\CoreBundle\Entity\Party $party
+     * 
+     * @return boolean
      */
-    public function affectPlayerToSlot(Player $player, Slot $slot)
+    public function inParty(Player $player = null, Party $party = null)
     {
-        $slot->setPlayer($player);
-        $this->em->persist($slot);
-        $this->em->flush();
+        return $this->position($player, $party) >= 0;
     }
     
     
@@ -333,7 +397,6 @@ class PartyService extends GameService
         if ($slot) {
             $slot->setPlayer(null);
             $this->em->persist($slot);
-            $this->em->flush($slot);
             return true;
         } else {
             return false;
@@ -359,7 +422,6 @@ class PartyService extends GameService
         
         if ($slot->getOpen() !== $open) {
             $slot->setOpen($open);
-            $this->em->flush();
         }
         
         return $this;
@@ -391,8 +453,6 @@ class PartyService extends GameService
             }
         }
         
-        $this->em->flush();
-        
         return $this;
     }
     
@@ -419,51 +479,37 @@ class PartyService extends GameService
     /**
      * Return true if party is ready to start
      * 
-     * @param boolean $start, if true, start the party if ready
-     * @return integer
+     * @param boolean $start set to false to just check if party can be started
+     * 
+     * @return boolean|null true, or throws ELUserException
+     * 
+     * @throws ELUserException if party cannot be started
      */
     public function start($start = true)
     {
-        $party = $this->getParty();
+        $party  = $this->getParty();
+        $player = $this->session->getPlayer();
+        $isHost = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
         
-        if ($party->getState() === Party::PREPARATION) {
-            
-            if ($this->getExtendedGame()->canStart($this) !== true) {
-                throw new ELCoreException('Extended party canStart() must return true or throw ELUserException');
-            }
-            
-            if ($start) {
-                $party
-                    ->setState(Party::STARTING)
-                    ->setDateStarted(new \DateTime())
-                ;
-                
-                if (self::DELAY_BEFORE_START <= 0) {
-                    $party->setState(Party::ACTIVE);
-                }
-                
-                $this->em->persist($party);
-                $this->em->flush();
-            }
-            
-            return true;
-        } else {
+        if (!$isHost) {
+            throw new ELUserException('cannot.start.youarenothost');
+        }
+        
+        if ($party->getState() !== Party::PREPARATION) {
             throw new ELUserException('cannot.start.already.started');
         }
-    }
-    
-    
-    /**
-     * Start the party if ready, else return error code
-     * 
-     * @return integer
-     */
-    public function canStart()
-    {
-        try {
-            return $this->canStart(false);
-        } catch (ELUserException $e) {
-            return false;
+            
+        if ($start) {
+            $party->setDateStarted(new \DateTime());
+            $party->setState(Party::STARTING);
+            
+            $event = new PartyEvent($this, $this->getGameInterface());
+            $this->eventDispatcher->dispatch(PartyEvent::PARTY_STARTED, $event);
+            
+            if (self::DELAY_BEFORE_START <= 0) {
+                $party->setState(Party::ACTIVE);
+                $this->eventDispatcher->dispatch(PartyEvent::PARTY_ACTIVED, $event);
+            }
         }
     }
     
@@ -487,8 +533,8 @@ class PartyService extends GameService
                     ->setDateStarted($startDate)
                 ;
                 
-                $this->em->persist($party);
-                $this->em->flush();
+                $event = new PartyEvent($this, $this->getGameInterface());
+                $this->eventDispatcher->dispatch(PartyEvent::PARTY_ACTIVED, $event);
             }
         }
     }
@@ -496,6 +542,10 @@ class PartyService extends GameService
     
     /**
      * End the party if currently active
+     * 
+     * @return boolean
+     * 
+     * @throws ELCoreException
      */
     public function end()
     {
@@ -507,9 +557,9 @@ class PartyService extends GameService
                 ->setDateEnded(new \DateTime())
             ;
             
-            return self::OK;
+            return true;
         } else {
-            return self::NOT_OK;
+            throw new ELCoreException('Party cannot be ended because not active');
         }
     }
     
@@ -519,40 +569,111 @@ class PartyService extends GameService
      * and call extended party createRemake with new core party as argument
      * 
      * @return Party
+     * 
+     * @throws ELUserException
      */
     public function remake()
     {
-        $this->needExtendedGame();
+        $this->needGameInterface();
         
-        $player = $this->session->getPlayer();
-        $party  = $this->getParty();
-        $remake = $party->getRemake();
+        $player         = $this->session->getPlayer();
+        $oldCoreParty   = $this->getParty();
         
-        if (null !== $remake) {
-            $this->join($player, -1, true, $remake);
-            return $remake;
+        // Check if party ended
+        if ($oldCoreParty->getState() !== Party::ENDED) {
+            throw new ELUserException('party.cannot.remake.notended');
         }
         
-        $cloneCoreParty     = $party->createRemake();
+        // Check if party already remade, then join
+        if (null !== $oldCoreParty->getRemake()) {
+            $newCoreParty = $oldCoreParty->getRemake();
+            $this->join($player, -1, true, $newCoreParty);
+            return $newCoreParty;
+        }
         
-        $party->setRemake($cloneCoreParty);
-        $cloneCoreParty->setHost($player);
+        // Else create a clone core party
+        $newCoreParty = $this->createPartyRemake($oldCoreParty);
         
-        $options            = $this->getExtendedGame()->loadParty($party);
-        $slotsConfiguration = $this->getExtendedGame()->getSlotsConfiguration($options);
+        // And link the old party to the remade party, and set new host
+        $oldCoreParty->setRemake($newCoreParty);
+        $newCoreParty->setHost($player);
         
-        $this->createSlots($slotsConfiguration, $cloneCoreParty);
+        // Create new party (will dispatch party created event)
+        $gameInterface = $this->getGameInterface();
+        $oldExtendedParty = $gameInterface->loadParty($oldCoreParty);
+        $extendedOptions = $gameInterface->getOptions($oldExtendedParty);
+        $this->create($newCoreParty, $gameInterface, $extendedOptions);
         
-        $this->em->persist($cloneCoreParty);
-        $this->em->persist($party);
-        $this->em->flush();
+        // Dispatch party remake event
+        $event = new PartyRemakeEvent($this, $gameInterface, $extendedOptions, $oldCoreParty);
+        $this->eventDispatcher->dispatch(PartyRemakeEvent::PARTY_REMAKE, $event);
         
-        $this->getExtendedGame()->createRemake($party->getSlug(), $cloneCoreParty);
+        // Persist new core party
+        $this->em->persist($newCoreParty);
         
-        return $cloneCoreParty;
+        // Return new party
+        return $newCoreParty;
     }
     
+    /**
+     * Create a remake party from an old party
+     * 
+     * @param \EL\CoreBundle\Entity\Party $oldParty
+     * 
+     * @return Party
+     */
+    public function createPartyRemake(Party $oldParty)
+    {
+        $newParty = new Party();
+        
+        return $newParty
+                ->setGame($oldParty->getGame())
+                ->setTitle($oldParty->getTitle())
+                ->setPrivate($oldParty->getPrivate())
+                ->setRoom($oldParty->getRoom())
+                ->setDisallowChat($oldParty->getDisallowChat())
+                ->setDisallowObservers($oldParty->getDisallowObservers())
+        ;
+    }
     
+    /**
+     * Return a list of player who are in remake party
+     * 
+     * @return array
+     */
+    public function getPlayersInRemakeParty()
+    {
+        $this->needParty();
+        
+        $party = $this->em
+                ->getRepository('CoreBundle:Party')
+                ->findPlayersInRemakeParty($this->getParty())
+        ;
+        
+        $players = array();
+        
+        if (null === $party) {
+            return $players;
+        }
+        
+        if (null === $party->getRemake()) {
+            return $players;
+        }
+        
+        foreach ($party->getRemake()->getSlots() as $slot) {
+            if ($slot->hasPlayer()) {
+                $players []= $slot->getPlayer()->getId();
+            }
+        }
+        
+        return $players;
+    }
+    
+    /**
+     * Return the number of player in this party
+     * 
+     * @return int
+     */
     public function getNbPlayer()
     {
         $this->needParty();
@@ -568,7 +689,19 @@ class PartyService extends GameService
         return $nb;
     }
     
+    /**
+     * Load extended party
+     * 
+     * @return \stdClass
+     */
+    public function loadExtendedParty()
+    {
+        return $this->getGameInterface()->loadParty($this->getParty());
+    }
     
+    /**
+     * @param string $locale
+     */
     public function generateRandomTitle($locale)
     {
         $this->needGame();

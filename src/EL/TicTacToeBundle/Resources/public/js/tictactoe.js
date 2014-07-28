@@ -31,6 +31,10 @@ var tictactoe = {
     
     init: function ()
     {
+        if (0 === $('.jeux-actif').size()) {
+            return;
+        }
+        
         tictactoe.bindCases();
         tictactoe.startRefresh();
         tictactoe.currentPlayer = jsContext.extendedParty.firstPlayer;

@@ -3,6 +3,7 @@
 namespace EL\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use EL\CoreBundle\Exception\ELCoreException;
 use EL\CoreBundle\Entity\WLD;
 use EL\CoreBundle\Entity\Player;
 use EL\CoreBundle\Entity\Party;
@@ -106,7 +107,7 @@ class WLDService extends ScoreService
      * @param Game|GameVariant  $game
      * @param Party             $party
      * 
-     * @return type
+     * @return Score
      */
     public function lose(Player $player, $game, Party $party = null)
     {

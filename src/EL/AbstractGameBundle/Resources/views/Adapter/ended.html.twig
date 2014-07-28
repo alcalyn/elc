@@ -1,4 +1,4 @@
-{% extends "CoreBundle::layout.html.twig" %}
+{% extends gameLayout %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
@@ -20,26 +20,35 @@
                 <th>#</th>
                 <th>{{ 'player'|trans }}</th>
                 <th>{{ 'score'|trans }}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for slot in coreParty.slots %}
-                <tr>
-                    <td>{{ slot.position }}</td>
-                    <td>
-                        {% if slot.player %}
-                            {{ slot.player.pseudo }}
-                        {% else %}
-                            No player
-                        {% endif %}
-                    </td>
-                    <td>{{ slot.score }}</td>
-                </tr>
+                {% if slot.player %}
+                    <tr class="player-row player-{{ slot.player.id }}{{ (slot.player.id in playersInRemake) ? ' success' : '' }}">
+                        <td>{{ slot.position }}</td>
+                        <td>
+                            {% if slot.player %}
+                                {{ slot.player.pseudo }}
+                            {% else %}
+                                No player
+                            {% endif %}
+                        </td>
+                        <td>{{ slot.score }}</td>
+                        <td class="comment">
+                            {% if slot.player.id in playersInRemake %}
+                                <p class="text-success">{{ 'has.remake'|trans }}</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
     <form action="{{ path('elcore_party_preparation_action', { 'slugGame': game.slug, 'slugParty': coreParty.slug }) }}" method="post">
         <button type="submit" name="action" value="remake" class="btn btn-primary">{{ 'remake'|trans }}</button>
+        <a href="{{ path('elcore_party_creation', {slug: game.slug}) }}" class="btn btn-link">{{ 'remake.other.parameters'|trans }}</a>
     </form>
 </div>
 {% endblock %}

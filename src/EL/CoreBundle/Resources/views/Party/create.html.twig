@@ -1,4 +1,4 @@
-{% extends "CoreBundle::layout.html.twig" %}
+{% extends gameLayout %}
 
 {% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
 
@@ -13,9 +13,10 @@
 
 {% block body %}
 <div class="jeux-preparation">
-    <h2>{{ 'create.game.%gametitle%'|trans({'%gametitle%': game.title}) }}</h2>
+    <h2 class="page-title">{{ 'create.game.%gametitle%'|trans({'%gametitle%': game.title}) }}</h2>
+    {{ form_errors(optionsForm) }}
     {{ form_start(optionsForm) }}
-    {{ form_row(optionsForm.coreParty) }}
+    {{ form_widget(optionsForm.coreParty) }}
     {% include creationFormTemplate %}
     {{ form_end(optionsForm) }}
     <div class="clearfix"></div>

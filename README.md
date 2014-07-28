@@ -6,18 +6,31 @@ as Poker, Chess, RISK, Checkers... with others players simple way:
 you don't need account, play as guest now,
 and beat your opponents scores !
 
-## Current features Version 0.1
+## Features in version 0.2
 
-- Play Tic Tac Toe
-- Ranking board
+### Games
+- Checkers
+- Oware
+- Tic Tac Toe
+
+### Ranking system
 - Elo system
 - Wins/Losses/Draws system
-- Score system
+- Best score system
+- Ranking board
+
+### Session
 - Guest session
-- Transform your guest account and keep your statistics
+- Transform your guest account and keep your best scores and statistics
+
+### Game workflow
 - Create a game and wait for players join
 - Remake a game in one click
-- English, French
+- See which players want to remake
+
+### Internationalisation
+- English
+- French
 
 ## License
 

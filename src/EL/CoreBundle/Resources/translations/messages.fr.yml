@@ -7,6 +7,10 @@ all:
     games: 'Tous les jeux'
 
 ban: Exclure
+black: Noir
+black.e: Noire
+black.es: Noires
+black.s: Noirs
 cancel: Annuler
 
 cannot:
@@ -29,6 +33,10 @@ close: Fermer
 community: Communauté
 contacts: Contacts
 
+container:
+    is:
+        empty: 'Ce compartiment est vide'
+
 create:
     account: 'Créer un compte'
 
@@ -46,12 +54,25 @@ disallow:
     observers: 'Désactiver les observateurs'
 
 draws: Nulles
+elo: Élo
 endafter: 'Terminer le jeu après'
+exactly.at: 'Exactement le'
 faq: FAQ
+
+feed:
+    the:
+        opponent: 'Vous devez nourrir votre adversaire'
+
+first:
+    player: 'Premier joueur'
+
 game: Jeu
-game.endafter: 'Le Morpion se terminera après'
+game.variant: 'Variante'
 games: Jeux
 go: Go
+
+has:
+    remake: 'Recommence'
 
 here:
     is:
@@ -99,6 +120,10 @@ no:
     rankingyet:
         bethefirst: 'Pas encore de classement. Jouez et soyez le premier !'
 
+not:
+    your:
+        turn: 'Ce n''est pas à vous de jouer'
+
 number:
     of:
         parties: Nombre
@@ -106,11 +131,15 @@ number:
 observers:
     disallowed: 'Visiteurs désactivés'
 
+offer.draw: 'Proposer nulle'
 open: Ouvrir
 parties: Parties
 parties.%game%: '%game% : Toutes les parties'
 parties.list: 'Liste des parties'
 party: Partie
+party.has.ended: 'La partie est terminée'
+party.options: 'Options de la partie'
+party.started.the: 'Démarrée le'
 party.title: 'Titre de la partie'
 
 play:
@@ -132,6 +161,7 @@ ranking: Classement
 ratio: Ratio
 ready: Prêt
 remake: Recommencer
+remake.other.parameters: 'Quitter et recommencer avec d''autres paramètres'
 
 remember:
     me: 'Se souvenir de moi'
@@ -144,6 +174,11 @@ run:
 score: Score
 scores: Scores
 search: Rechercher
+
+seeds:
+    per:
+        container: 'Graines par compartiment'
+
 signup: 'Créer un compte'
 
 slot:
@@ -151,11 +186,11 @@ slot:
     open: 'Slot ouvert'
 
 state: État
-
-tictactoe:
-    options: 'Options du morpion'
-
+surrender: Abandonner
 top: Top
-victorycondition: 'Nombre de ...'
 watch: Regarder
 wins: Victoires
+white: Blanc
+white.e: Blanche
+white.es: Blanches
+white.s: Blancs

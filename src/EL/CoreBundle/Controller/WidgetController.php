@@ -23,9 +23,9 @@ class WidgetController extends Controller
 
             $game                       = $party->getGame();
             $gamesList[$game->getId()]  = $game->getTitle();
-            $extendedGame               = $partyService->getExtendedGame();
-            $partyDescription           = $extendedGame->getCurrentDescription($_locale, $partyService);
-            $myTurn                     = $extendedGame->isMyTurn($partyService);
+            $gameInterface               = $partyService->getGameInterface();
+            $partyDescription           = $gameInterface->getCurrentDescription($_locale, $partyService);
+            $myTurn                     = $gameInterface->isMyTurn($partyService);
 
             $partiesList []= array(
                 'game'          => $game,
@@ -43,5 +43,37 @@ class WidgetController extends Controller
             'currentParties'   => $partiesList,
             'gamesList'        => $gamesList,
         ));
+    }
+    
+    /**
+     * Controller for widget current parties
+     * 
+     * @param string $_locale
+     * 
+     * @return \Phax\CoreBundle\Model\PhaxReaction
+     */
+    public function currentPartyAction($_locale)
+    {
+        $partyService       = $this->get('el_core.party');
+        $scoreService       = $this->get('el_core.score');
+        $party              = $partyService->getParty();
+        $game               = $partyService->getGame();
+        $players            = $partyService->getPlayers();
+        $gameInterface       = $partyService->getGameInterface();
+        $extendedOptions    = $gameInterface->loadParty($party);
+        $options            = $gameInterface->getDisplayOptionsTemplate($party, $extendedOptions);
+        $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
+        $optionsVars        = is_array($options) ? $options['vars'] : array() ;
+        
+        $scoreService->badgePlayers($players, $game);
+        
+        return $this->get('phax')->render('CoreBundle:Widget/CurrentParty:current-party.html.twig', array(
+            'locale'                    => $_locale,
+            'coreParty'                 => $party,
+            'game'                      => $game,
+            'players'                   => $players,
+            'extendedOptions'           => $extendedOptions,
+            'extendedOptionsTemplate'   => $optionsTemplate,
+        ) + $optionsVars);
     }
 }

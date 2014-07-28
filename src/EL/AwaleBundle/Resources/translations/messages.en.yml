@@ -1,0 +1,11 @@
+container:
+    is:
+        empty: 'The container is empty'
+
+feed:
+    the:
+        opponent: 'You must feed your opponent'
+
+seeds:
+    per:
+        container: 'Seeds per container'

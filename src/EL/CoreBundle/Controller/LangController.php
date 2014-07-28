@@ -2,7 +2,6 @@
 
 namespace EL\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

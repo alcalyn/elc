@@ -15,17 +15,18 @@
 
 .box {
     border-radius: 1000px;
-    width: 50px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
     outline: none !important;
 }
 .box[disabled] {
     opacity: 1;
 }
 .box p {
-    font-size: 14px;
-    margin-top: 20px;
+    font-size: 18px;
+    margin-top: 28px;
     font-weight: bold;
+    text-shadow: 0 0 4px white;
 }
 .box .change {
     position: absolute;
@@ -38,15 +39,15 @@
     color: #AA3333;
 }
 .attic {
-    width: 56px;
-    height: 116px;
+    width: 64px;
+    height: 144px;
 }
 
 .awale-active #board .row:first-child {
     margin-bottom: 16px;
 }
 .awale-active #board .col:first-child .attic {
-    margin-left: 54px;
+    margin-left: 38px;
 }
 
 

@@ -23,10 +23,11 @@
     opacity: 1;
 }
 .box p {
+    position: relative;
     font-size: 18px;
     margin-top: 28px;
     font-weight: bold;
-    text-shadow: 0 0 4px white;
+    text-shadow: 0 0 4px white, -2px 0 4px white, 2px 0 4px white;
 }
 .box .change {
     position: absolute;
@@ -41,6 +42,16 @@
 .attic {
     width: 64px;
     height: 144px;
+}
+
+div.seeds {
+    position: relative;
+}
+div.seeds div.seed {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: url("../img/seeds.png") repeat scroll 0 0 transparent;
 }
 
 .awale-active #board .row:first-child {

@@ -43,13 +43,13 @@ var awale =
             awale.initialized = true;
         }
         
-        console.log('awale init');
-        
         awale.bindButtons();
         
         if (!awale.isMyTurn()) {
             awale.startChecking();
         }
+        
+        awale.initSeeds();
     },
     
     /**
@@ -97,8 +97,6 @@ var awale =
      */
     clickListener: function ($box)
     {
-        console.log('kik', $box);
-        
         // Check current player
         if (!awale.isMyTurn()) {
             alert(t('not.your.turn'));
@@ -169,6 +167,7 @@ var awale =
         
         awale.highlightContainer($boxStart, null, -seeds);
         $boxStart.find('.value').html('0');
+        awale.updateSeeds($boxStart, null, 0);
         
         awale.feedAnimation(row, container, seeds);
     },
@@ -186,7 +185,6 @@ var awale =
             var data    = row.data('coords').split(':');
             row         = parseInt(data[0]);
             container   = parseInt(data[1]);
-            console.log('parse', row, container);
         } else {
             row         = parseInt(row);
             container   = parseInt(container);
@@ -195,8 +193,6 @@ var awale =
         
         // Calculate next box, except start box from
         var $box;
-        
-        console.log('before', row, container);
         
         do {
             if (0 === row) {
@@ -216,13 +212,13 @@ var awale =
             $box = awale.getBox(row, container);
         } while ($box.is(awale.animation.start));
         
-        console.log('after', row, container);
-        
         // Wait
         setTimeout(function () {
             // highlight and increment next box
             awale.highlightContainer($box, null, 1);
-            $box.find('.value').html(parseInt($box.find('.value').html()) + 1);
+            var newSeedsCount = parseInt($box.find('.value').html()) + 1;
+            $box.find('.value').html(newSeedsCount);
+            awale.updateSeeds($box, null, newSeedsCount);
             
             // decrement hand seeds
             seeds--;
@@ -260,10 +256,12 @@ var awale =
                 
                 // set box value to 0
                 $box.find('.value').html(0);
+                awale.updateSeeds($box, null, 0);
                 
                 // increment attic
                 var atticValue = parseInt($attic.find('.value').html()) + seeds;
                 $attic.find('.value').html(atticValue);
+                awale.updateSeeds($attic, null, atticValue);
                 
                 // update score
                 $('#players .p'+currentPlayer+' .score').html(atticValue);
@@ -289,6 +287,99 @@ var awale =
         } else {
             awale.stopAnimation();
         }
+    },
+    
+    /**
+     * Init seeds display at page loading
+     */
+    initSeeds: function ()
+    {
+        jQuery('.box').each(function () {
+            var $box = jQuery(this);
+            var count = parseInt($box.find('.value').html());
+            
+            awale.updateSeeds($box, null, count);
+        });
+    },
+    
+    /**
+     * Update real seeds pictures in boxes
+     * 
+     * @param {integer} row
+     * @param {integer} container
+     * @param {integer} seeds
+     */
+    updateSeeds: function (row, container, seeds)
+    {
+        var $seeds = awale.getBox(row, container).find('.seeds');
+        var count = $seeds.find('.seed').size();
+        
+        if (seeds === count) {
+            return;
+        }
+        
+        if (seeds < count) {
+            $seeds.find('.seed:nth-last-child(-n+'+(count - seeds)+')').remove();
+        }
+        
+        if (seeds > count) {
+            var add = seeds - count;
+            
+            for (var i = 0; i < add; i++) {
+                $seed = awale.createSeed();
+                
+                $seed.css({
+                    left: Math.random() * 28 - 6,
+                    top: Math.random() * 32
+                });
+                
+                $seeds.append($seed);
+            }
+        }
+        
+        awale.moveALittle(row, container);
+    },
+    
+    /**
+     * Create a random seed
+     * 
+     * @returns {jQuery} new seed item
+     */
+    createSeed: function ()
+    {
+        var rand = Math.floor(Math.random() * 10);
+        
+        var $seed = jQuery('<div class="seed">');
+        
+        $seed.css({
+            backgroundPosition: (24 * rand)+'px 0'
+        });
+        
+        return $seed;
+    },
+    
+    /**
+     * Move all seeds in a box a little to notify an update
+     * 
+     * @param {integer} row
+     * @param {integer} container
+     */
+    moveALittle: function (row, container)
+    {
+        var $seeds = awale.getBox(row, container).find('.seeds');
+        
+        $seeds.find('.seed').each(function () {
+            $seed = jQuery(this);
+            position = $seed.position();
+            
+            position.left += Math.random() * 2 - 1;
+            position.top  += Math.random() * 2 - 1;
+            
+            $seed.css({
+                left: position.left+'px',
+                top:  position.top +'px'
+            });
+        });
     },
     
     callAfterAnimation: function (callback)
@@ -327,8 +418,6 @@ var awale =
                 .css({opacity: 0.15})
                 .animate({opacity: 1}, 180)
         ;
-        
-        console.log(row, container, change);
         
         if (change) {
             var $change = $('<p class="change">');
@@ -405,8 +494,6 @@ var awale =
         
         if (!awale.isMyTurn()) {
             if (r.awaleParty.lastMove !== jsContext.extendedParty.lastMove) {
-                console.log('opponent played');
-                
                 var nextMove = r.awaleParty.lastMove.split('|');
                 var lastMove = jsContext.extendedParty.lastMove.split('|');
                 
@@ -477,8 +564,6 @@ var awale =
     
     partyStateChanged: function (before, now)
     {
-        console.log('party state changed', before, now);
-        
         if ((before === party.ACTIVE) && (now === party.ENDED)) {
             setTimeout(function () {
                 location.reload();

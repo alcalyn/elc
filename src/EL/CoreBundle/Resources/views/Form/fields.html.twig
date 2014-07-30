@@ -68,7 +68,7 @@
     {% if label is empty %}
         {% set label = name|humanize %}
     {% endif %}
-    {% set attr = attr|merge({'class':'btn btn-default'}) %}
+    {% set attr = attr|merge({'class':'btn btn-primary'}) %}
     <div class="col-sm-offset-4 col-sm-8">
         <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
     </div>

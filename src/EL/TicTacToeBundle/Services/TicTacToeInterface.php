@@ -131,6 +131,7 @@ class TicTacToeInterface extends ELGameAdapter implements EventSubscriberInterfa
         
         $this->get('el_core.js_vars')
                 ->useTrans('not.your.turn')
+                ->useTrans('party.has.ended')
         ;
         
         return $this->render('TicTacToeBundle:Default:active.html.twig', array(

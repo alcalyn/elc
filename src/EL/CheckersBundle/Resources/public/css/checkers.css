@@ -39,9 +39,16 @@ h4 {
 .grid-large .piece-king {
     border-width: 18px;
 }
-.piece-king.ui-draggable-dragging {
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 4px 4px rgba(0, 0, 0, 0.25) inset;
+.piece-king.piece-draggable {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3), 0 2px 2px rgba(0, 0, 0, 0.3) inset;
 }
+.piece-king.piece-draggable:hover {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3), 0 3px 3px rgba(0, 0, 0, 0.3) inset;
+}
+.piece-king.piece.ui-draggable-dragging {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3), 0 5px 5px rgba(0, 0, 0, 0.3) inset;
+}
+
 .piece-huffable {
     cursor: alias;
 }

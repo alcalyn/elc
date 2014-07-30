@@ -25,7 +25,7 @@ class OptionsType extends AbstractType
         $builder
                 ->add('coreParty', new CorePartyType())
                 ->add('extendedOptions', $this->extendedOptionsType)
-                ->add('createGame', 'submit')
+                ->add('createGame', 'submit', array('label' => 'create.game'))
         ;
     }
     

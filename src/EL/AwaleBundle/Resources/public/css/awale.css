@@ -18,20 +18,32 @@
     width: 64px;
     height: 64px;
     outline: none !important;
+    overflow: hidden;
 }
 .box[disabled] {
     opacity: 1;
 }
-.box p {
+.box .value {
     position: relative;
+    font-weight: bold;
     font-size: 18px;
     margin-top: 28px;
-    font-weight: bold;
-    text-shadow: 0 0 4px white, -2px 0 4px white, 2px 0 4px white;
+    background-color: rgba(255, 255, 255, 0.65);
+    padding: 0 0 10px;
+    width: 62px;
+}
+.attic .value {
+    top: 47px;
+}
+.box.highlight {
+    box-shadow: 0 2px 4px gray;
 }
 .box .change {
+    font-weight: bold;
+    font-size: 14px;
     position: absolute;
     margin-top: 4px;
+    text-shadow: 0 0 3px white;
 }
 .box .change.positive {
     color: #009933;

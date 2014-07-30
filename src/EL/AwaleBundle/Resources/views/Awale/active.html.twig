@@ -3,7 +3,7 @@
 {% block body %}
 <div class="awale-active">
     {% set reverse = reverse|default(false) %}
-    <div id="board" class="row">
+    <div id="board" class="row{{ reverse ? ' reversed' : '' }}">
         {#
             Left attic
         #}
@@ -20,7 +20,7 @@
             {#
                 Top containers
             #}
-            <div class="row row-{{ reverse ? 'p0' : 'p1' }}">
+            <div class="row row-{{ reverse ? 'p0' : 'p1' }} row-top">
                 {% for i in 0..5 %}
                     <div class="col-md-2">
                         <button type="button" class="btn btn-default box {{ reverse ? 'p0' : 'p1' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" disabled="disabled" data-coords="{{ reverse ? '0' : '1' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">
@@ -33,7 +33,7 @@
             {#
                 Bottom containers
             #}
-            <div class="row row-{{ reverse ? 'p1' : 'p0' }}">
+            <div class="row row-{{ reverse ? 'p1' : 'p0' }} row-bottom">
                 {% for i in 0..5 %}
                     <div class="col-md-2">
                         <button type="button" class="btn btn-default box {{ reverse ? 'p1' : 'p0' }} box-{{ reverse ? loop.revindex0 : loop.index0 }}" data-coords="{{ reverse ? '1' : '0' }}:{{ reverse ? loop.revindex0 : loop.index0 }}">

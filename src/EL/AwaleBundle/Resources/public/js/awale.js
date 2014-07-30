@@ -45,7 +45,9 @@ var awale =
         
         awale.bindButtons();
         
-        if (!awale.isMyTurn()) {
+        if (awale.isMyTurn()) {
+            awale.highlightMyRows(true);
+        } else {
             awale.startChecking();
         }
         
@@ -162,10 +164,12 @@ var awale =
             return;
         }
         
+        awale.highlightMyRows(false);
+        
         awale.animation.playing = true;
         awale.animation.start   = $boxStart;
         
-        awale.highlightContainer($boxStart, null, -seeds);
+        awale.flashContainer($boxStart, null, -seeds);
         $boxStart.find('.value').html('0');
         awale.updateSeeds($boxStart, null, 0);
         
@@ -215,7 +219,7 @@ var awale =
         // Wait
         setTimeout(function () {
             // highlight and increment next box
-            awale.highlightContainer($box, null, 1);
+            awale.flashContainer($box, null, 1);
             var newSeedsCount = parseInt($box.find('.value').html()) + 1;
             $box.find('.value').html(newSeedsCount);
             awale.updateSeeds($box, null, newSeedsCount);
@@ -249,10 +253,10 @@ var awale =
         if ((row !== currentPlayer) && (2 === seeds || 3 === seeds)) {
             setTimeout(function () {
                 // highlight box
-                awale.highlightContainer($box, null, -seeds);
+                awale.flashContainer($box, null, -seeds);
                 
                 // highlight attic
-                awale.highlightContainer($attic, null, seeds);
+                awale.flashContainer($attic, null, seeds);
                 
                 // set box value to 0
                 $box.find('.value').html(0);
@@ -309,7 +313,7 @@ var awale =
      * @param {integer} container
      * @param {integer} seeds
      */
-    updateSeeds: function (row, container, seeds)
+    updateSeeds: function (row, container, seeds, disableMoveALittle)
     {
         var $seeds = awale.getBox(row, container).find('.seeds');
         var count = $seeds.find('.seed').size();
@@ -329,15 +333,17 @@ var awale =
                 $seed = awale.createSeed();
                 
                 $seed.css({
-                    left: Math.random() * 28 - 6,
-                    top: Math.random() * 32
+                    left: Math.random() * 24 + 7,
+                    top: Math.random() * 28 + 2
                 });
                 
                 $seeds.append($seed);
             }
         }
         
-        awale.moveALittle(row, container);
+        if (!disableMoveALittle) {
+            awale.moveALittle(row, container);
+        }
     },
     
     /**
@@ -382,6 +388,20 @@ var awale =
         });
     },
     
+    /**
+     * Add class highlight to my boxes if boolean is true
+     * 
+     * @param {boolean} boolean
+     */
+    highlightMyRows: function (boolean)
+    {
+        if (boolean) {
+            jQuery('.row-bottom .box').addClass('highlight');
+        } else {
+            jQuery('.row-bottom .box').removeClass('highlight');
+        }
+    },
+    
     callAfterAnimation: function (callback)
     {
         awale.animation.callbacks.push(callback);
@@ -410,12 +430,12 @@ var awale =
      * @param {integer} change (optional) display +n or -n over value
      * @returns jQuery item
      */
-    highlightContainer: function (row, container, change)
+    flashContainer: function (row, container, change)
     {
         var $box = awale.getBox(row, container);
         
         $box
-                .css({opacity: 0.15})
+                .css({opacity: 0.50})
                 .animate({opacity: 1}, 180)
         ;
         
@@ -505,6 +525,7 @@ var awale =
                 awale.stopChecking();
                 awale.callAfterAnimation(function () {
                     awale.updateClient(r);
+                    awale.highlightMyRows(true);
                 });
                 
                 return;
@@ -531,6 +552,8 @@ var awale =
          */
         $('#board .attic-p0 .value').html(grid[0]['attic']);
         $('#board .attic-p1 .value').html(grid[1]['attic']);
+        awale.updateSeeds(0, 6, grid[0]['attic'], true);
+        awale.updateSeeds(1, 6, grid[1]['attic'], true);
         
         /**
          * Refresh containers
@@ -538,6 +561,8 @@ var awale =
         for (var i = 0; i < 6; i++) {
             $('#board .boxes .row-p0 .box-'+i+' .value').html(grid[0]['seeds'][i]);
             $('#board .boxes .row-p1 .box-'+i+' .value').html(grid[1]['seeds'][i]);
+            awale.updateSeeds(0, i, grid[0]['seeds'][i], true);
+            awale.updateSeeds(1, i, grid[1]['seeds'][i], true);
         }
         
         /**
@@ -571,6 +596,14 @@ var awale =
         } else {
             location.reload();
         }
+    },
+    
+    /**
+     * @returns {Boolean} whether board is reversed
+     */
+    isBoardReversed: function ()
+    {
+        return jQuery('#board').hasClass('reversed');
     }
 };
 

@@ -72,9 +72,6 @@ class CheckersController extends Controller
                 $this->endParty($extendedParty, $winner, $variantName);
             }
             
-            // Update party in database
-            $this->getDoctrine()->getManager()->flush();
-            
             // Send success response
             return $this->get('phax')->reaction(array(
                 'valid' => true,
@@ -137,18 +134,12 @@ class CheckersController extends Controller
             // Perform huff
             $checkersService->huff($extendedParty, $coords);
             
-            // Update party in database
-            $this->getDoctrine()->getManager()->flush();
-            
             // Send success response
             return $this->get('phax')->reaction(array(
                 'valid' => true,
                 'party' => $extendedParty,
             ));
         } catch (CheckersIllegalMoveException $e) {
-            
-            // Update party in database
-            $this->getDoctrine()->getManager()->flush();
             
             // Send error response
             return $this->get('phax')->reaction(array(

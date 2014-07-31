@@ -77,8 +77,6 @@ class PointsService extends ScoreService
          */
         $this->em->persist($stat);
         
-        $this->em->flush();
-        
         return $scoreData;
     }
 }

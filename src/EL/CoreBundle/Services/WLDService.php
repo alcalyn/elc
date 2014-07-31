@@ -81,8 +81,6 @@ class WLDService extends ScoreService
          */
         $this->em->persist($wld);
         
-        $this->em->flush();
-        
         return $scoreData;
     }
     

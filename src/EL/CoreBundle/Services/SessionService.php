@@ -190,7 +190,6 @@ class SessionService
     public function savePlayer()
     {
         $this->resyncronizePlayer();
-        $this->em->flush();
         
         return $this;
     }

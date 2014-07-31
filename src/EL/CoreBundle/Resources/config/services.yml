@@ -1,5 +1,6 @@
 parameters:
     el_core.party_listener.class:       EL\CoreBundle\EventListener\PartyListener
+    el_core.flush_later_listener.class: EL\CoreBundle\EventListener\FlushOnKernelTerminate
     el_core.session.class:              EL\CoreBundle\Services\SessionService
     el_core.js_vars.class:              EL\CoreBundle\Services\JsVarsService
     el_core.party.class:                EL\CoreBundle\Services\PartyService
@@ -25,6 +26,11 @@ services:
             - { name: kernel.event_listener, event: event.party.started, method: onPartyStarted }
             - { name: kernel.event_listener, event: event.party.actived, method: onPartyActived }
             - { name: kernel.event_listener, event: event.party.ended, method: onPartyEnded }
+    el_core.flush_later_listener:
+        class: %el_core.flush_later_listener.class%
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
     el_core.session:
         class: %el_core.session.class%
         arguments: [@session, @doctrine.orm.entity_manager]

@@ -77,7 +77,6 @@ class TicTacToeAjaxController extends Controller
                 }
                 
                 $extendedParty->setLastPartyEnd(null);
-                $em->flush();
             }
         }
         
@@ -226,7 +225,6 @@ class TicTacToeAjaxController extends Controller
          * Save the grid
          */
         $em->persist($extendedParty);
-        $em->flush();
         
         return $phax->reaction(array(
             'party'     => $extendedParty->jsonSerialize(),

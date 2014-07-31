@@ -168,7 +168,6 @@ class PartyController extends Controller
      */
     public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService, Request $request)
     {
-        $em         = $this->getDoctrine()->getManager();
         $party      = $partyService->getParty();
         $session    = $this->get('session');
         $action     = $request->request->get('action');
@@ -178,7 +177,6 @@ class PartyController extends Controller
                 
                 try {
                     $partyService->start();
-                    $em->flush();
                 } catch (ELUserException $e) {
                     $e->addFlashMessage($session);
                 }
@@ -197,7 +195,6 @@ class PartyController extends Controller
                 
                 try {
                     $partyService->join();
-                    $em->flush();
                 } catch (ELUserException $e) {
                     $e->addFlashMessage($session);
                 }
@@ -208,7 +205,7 @@ class PartyController extends Controller
                 
                 try {
                     $remakeParty = $partyService->remake();
-                    $em->flush();
+                    $this->getDoctrine()->getManager()->flush();
                     
                     return $this->redirect($this->generateUrl('elcore_party_preparation', array(
                         '_locale'   => $_locale,

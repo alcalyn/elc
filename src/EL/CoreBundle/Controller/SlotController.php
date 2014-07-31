@@ -52,8 +52,6 @@ class SlotController extends Controller
                 ->openSlot($slotIndex, $slotOpen)
         ;
         
-        $em->flush();
-        
         return $this->party($partyService->getParty());
     }
     
@@ -72,8 +70,6 @@ class SlotController extends Controller
                 ->join(null, $slotIndex)
         ;
         
-        $em->flush();
-        
         return $this->party($partyService->getParty());
     }
     
@@ -91,8 +87,6 @@ class SlotController extends Controller
                 ->setPartyBySlug($slugParty, $slugGame, $_locale)
                 ->ban($playerId)
         ;
-        
-        $em->flush();
         
         return $this->party($partyService->getParty());
     }

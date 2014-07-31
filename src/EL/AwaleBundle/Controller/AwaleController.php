@@ -125,7 +125,6 @@ class AwaleController extends Controller
         $em->persist($extendedParty);
         $em->persist($slot0);
         $em->persist($slot1);
-        $em->flush();
         
         // Return updated party
         $jsonExtendedParty          = $extendedParty->jsonSerialize();

@@ -51,7 +51,6 @@ class ScoreService
             ;
             
             $this->em->persist($gameVariant);
-            $this->em->flush();
         }
         
         return $gameVariant;
@@ -102,7 +101,6 @@ class ScoreService
             ;
             
             $this->em->persist($score);
-            $this->em->flush();
         }
         
         return $score;

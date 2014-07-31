@@ -154,8 +154,6 @@ class EloService extends ScoreService
         $this->em->persist($stat0);
         $this->em->persist($stat1);
         
-        $this->em->flush();
-        
         return array(
             'p0' => $update0,
             'p1' => $update1,

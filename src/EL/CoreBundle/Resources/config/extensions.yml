@@ -1,0 +1,12 @@
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+            
+    el_core.twig.el_twig_extensions:
+        class: EL\CoreBundle\Extensions\ELTwigExtensions
+        arguments:
+            - @request_stack
+        tags:
+            - { name: twig.extension }

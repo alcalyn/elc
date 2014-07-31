@@ -1,6 +1,4 @@
 parameters:
-    el_core.party_listener.class:       EL\CoreBundle\EventListener\PartyListener
-    el_core.flush_later_listener.class: EL\CoreBundle\EventListener\FlushOnKernelTerminate
     el_core.session.class:              EL\CoreBundle\Services\SessionService
     el_core.js_vars.class:              EL\CoreBundle\Services\JsVarsService
     el_core.party.class:                EL\CoreBundle\Services\PartyService
@@ -10,27 +8,8 @@ parameters:
     el_core.points.class:               EL\CoreBundle\Services\PointsService
     el_core.elo.class:                  EL\CoreBundle\Services\EloService
     el_core.wld.class:                  EL\CoreBundle\Services\WLDService
-    el_core.controller.party.class:     EL\CoreBundle\Controller\PartyAjaxController
-    el_core.controller.slot.class:      EL\CoreBundle\Controller\SlotController
-    el_core.controller.widget.class:    EL\CoreBundle\Controller\WidgetController
 
 services:
-    twig.extension.intl:
-        class: Twig_Extensions_Extension_Intl
-        tags:
-            - { name: twig.extension }
-    el_core.party_listener:
-        class: %el_core.party_listener.class%
-        tags:
-            - { name: kernel.event_listener, event: event.party.created, method: onPartyCreated }
-            - { name: kernel.event_listener, event: event.party.started, method: onPartyStarted }
-            - { name: kernel.event_listener, event: event.party.actived, method: onPartyActived }
-            - { name: kernel.event_listener, event: event.party.ended, method: onPartyEnded }
-    el_core.flush_later_listener:
-        class: %el_core.flush_later_listener.class%
-        arguments: [@doctrine.orm.entity_manager]
-        tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
     el_core.session:
         class: %el_core.session.class%
         arguments: [@session, @doctrine.orm.entity_manager]
@@ -65,38 +44,3 @@ services:
     el_core.score.wld:
         class: %el_core.wld.class%
         arguments: [@doctrine.orm.entity_manager]
-        
-    el_core.twig.el_twig_extensions:
-        class: EL\CoreBundle\Extensions\ELTwigExtensions
-        arguments:
-            - @request_stack
-        tags:
-            - { name: twig.extension }
-        
-    phax.party:
-        class: %el_core.controller.party.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-            
-    phax.slot:
-        class: %el_core.controller.slot.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-            
-    phax.widget:
-        class: %el_core.controller.widget.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-        
-    el_core.paramconverter_gameservice:
-        class: EL\CoreBundle\Request\ParamConverter\GameServiceConverter
-        arguments: [@service_container]
-        tags:
-            - { name: request.param_converter, priority: 20 }
-        
-    el_core.paramconverter_partyservice:
-        class: EL\CoreBundle\Request\ParamConverter\PartyServiceConverter
-        arguments: [@service_container]
-        tags:
-            - { name: request.param_converter, priority: 20 }
-        

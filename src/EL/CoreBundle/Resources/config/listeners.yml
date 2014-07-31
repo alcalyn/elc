@@ -1,0 +1,14 @@
+services:
+    el_core.party_listener:
+        class: EL\CoreBundle\EventListener\PartyListener
+        tags:
+            - { name: kernel.event_listener, event: event.party.created, method: onPartyCreated }
+            - { name: kernel.event_listener, event: event.party.started, method: onPartyStarted }
+            - { name: kernel.event_listener, event: event.party.actived, method: onPartyActived }
+            - { name: kernel.event_listener, event: event.party.ended, method: onPartyEnded }
+            
+    el_core.flush_later_listener:
+        class: EL\CoreBundle\EventListener\FlushOnKernelTerminate
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }

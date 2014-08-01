@@ -209,7 +209,7 @@ class PartyService extends GameService
      * 
      * @param \EL\CoreBundle\Entity\Player $player
      * @param integer $slotIndex preference. If defined and free, join this slot. Else join first free slot.
-     * @param boolean $join, false to not join even if possible
+     * @param boolean $join false to not join even if possible
      * @param Party $party to join
      * 
      * @return PartyService
@@ -218,11 +218,72 @@ class PartyService extends GameService
      */
     public function join(Player $player = null, $slotIndex = -1, $join = true, Party $party = null)
     {
-        $this->needParty();
+        if (null === $player) {
+            $player = $this->session->getPlayer();
+        }
         
-        $player         = is_null($player) ? $this->session->getPlayer() : $player ;
-        $party          = is_null($party) ? $this->getParty() : $party ;
-        $state          = $party->getState();
+        if (null === $party) {
+            $this->needParty();
+            $party = $this->getParty();
+        }
+        
+        $this->checkJoinOnPartyState($party);
+        
+        $slots              = $party->getSlots();
+        $nextFreeSlot       = $this->getNextFreeSlot($slots);
+        $alreadyJoinSlot    = $this->getPlayerSlot($slots, $player);
+        
+        $this->checkAlreadyJoinOrFull($nextFreeSlot, $alreadyJoinSlot, $slotIndex);
+        
+        // set nextFreeSlot to slotIndex if free and defined
+        if ($slotIndex >= 0) {
+            $this->checkSlotsExists($slots, $slotIndex);
+            
+            if ($slots->get($slotIndex)->isFree()) {
+                $nextFreeSlot = $slots->get($slotIndex);
+            } else {
+                throw new ELUserException('slot.notfree');
+            }
+        }
+            
+        // Assign player to nextFreeSlot
+        if ($join) {
+            $this->doJoin($player, $nextFreeSlot, $alreadyJoinSlot);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Assign a player to a slot
+     * 
+     * @param \EL\CoreBundle\Entity\Player $player
+     * @param \EL\CoreBundle\Entity\Slot $slot
+     * @param \EL\CoreBundle\Entity\Slot $oldSlot the slot the player occupies actually
+     */
+    private function doJoin(Player $player, Slot $slot, Slot $oldSlot = null)
+    {
+        // Set player on his new slot
+        $slot->setPlayer($player);
+        $this->em->persist($slot);
+
+        if ($oldSlot) {
+            // If player change slot, update old slot
+            $oldSlot->setPlayer(null);
+            $this->em->persist($oldSlot);
+        }
+    }
+    
+    /**
+     * Check if can join this party depending on its state
+     * 
+     * @param \EL\CoreBundle\Entity\Party $party
+     * 
+     * @throws ELUserException
+     */
+    private function checkJoinOnPartyState(Party $party)
+    {
+        $state = $party->getState();
         
         if ($state === Party::ENDED) {
             throw new ELUserException('cannot.join.party.ended');
@@ -231,27 +292,34 @@ class PartyService extends GameService
         if (($state !== Party::PREPARATION) && !$party->getRoom()) {
             throw new ELUserException('cannot.join.party.started');
         }
-        
-        $slots              = $party->getSlots();
-        $nextFreeSlot       = null;
-        $alreadyJoinSlot    = null;
-        
-        // find next free slot and current player slot he maybe already joined
-        foreach ($slots as $slot) {
-            if ($slot->isFree()) {
-                $nextFreeSlot = $slot;
-            } else {
-                if ($slot->getPlayer() === $player) {
-                    $alreadyJoinSlot = $slot;
-                }
-            }
-
-            if ($nextFreeSlot && $alreadyJoinSlot) {
-                break;
-            }
+    }
+    
+    /**
+     * Check if slot that index refers exists
+     * 
+     * @param Slot[] $slots
+     * @param integer $slotIndex
+     * 
+     * @throws ELUserException
+     */
+    private function checkSlotsExists($slots, $slotIndex)
+    {
+        if ($slotIndex >= $slots->count()) {
+            throw new ELUserException('slot.notexists');
         }
-        
-        // Throw exception if there is no free slot
+    }
+    
+    /**
+     * Basic checks for join a party
+     * 
+     * @param Slot $nextFreeSlot
+     * @param Slot $alreadyJoinSlot
+     * @param integer $slotIndex if user want to join a specific slot
+     * 
+     * @throws ELUserException if any error
+     */
+    private function checkAlreadyJoinOrFull(Slot $nextFreeSlot = null, Slot $alreadyJoinSlot = null, $slotIndex = -1)
+    {
         if (!$nextFreeSlot) {
             if ($alreadyJoinSlot) {
                 if ($slotIndex < 0) {
@@ -263,39 +331,56 @@ class PartyService extends GameService
                 throw new ELUserException('cannot.join.nofreeslot');
             }
         }
-        
-        // set nextFreeSlot to slotIndex if free and defined
-        if ($slotIndex >= 0) {
-            if ($slotIndex < $slots->count()) {
-                if ($slots->get($slotIndex)->isFree()) {
-                    $nextFreeSlot = $slots->get($slotIndex);
-                } else {
-                    throw new ELUserException('slot.notfree');
-                }
-            } else {
-                throw new ELUserException('slot.notexists');
-            }
-        }
-            
-        // Assign player to nextFreeSlot
-        if ($join) {
-            $nextFreeSlot->setPlayer($player);
-            $this->em->persist($nextFreeSlot);
-            
-            if ($alreadyJoinSlot) {
-                $alreadyJoinSlot->setPlayer(null);
-                $this->em->persist($alreadyJoinSlot);
-            }
-        }
-        
-        return $this;
     }
     
     /**
+     * Return next free slots of an array of slots, or null if slots are full
+     * 
+     * @param Slot[] $slots
+     * 
+     * @return Slot|null
+     */
+    public function getNextFreeSlot($slots)
+    {
+        foreach ($slots as $slot) {
+            if ($slot->isFree()) {
+                return $slot;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Return the slot the player occupies
+     * 
+     * @param Slot[] $slots
+     * @param Player $player
+     * 
+     * @return Slot|null
+     */
+    public function getPlayerSlot($slots, Player $player = null)
+    {
+        if (null === $player) {
+            $player = $this->session->getPlayer();
+        }
+        
+        foreach ($slots as $slot) {
+            if (!$slot->isFree() && ($slot->getPlayer() === $player)) {
+                return $slot;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Just check if can join or not, return a boolean
      * 
      * @param \EL\CoreBundle\Entity\Player $player
      * @param integer $slotIndex
      * @param \EL\CoreBundle\Entity\Party $party
+     * 
      * @return boolean if he can join
      */
     public function canJoin(Player $player = null, $slotIndex = -1, Party $party = null)

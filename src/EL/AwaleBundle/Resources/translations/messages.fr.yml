@@ -6,6 +6,8 @@ feed:
     the:
         opponent: 'Vous devez nourrir votre adversaire'
 
+game.end.%seeds%: La partie se termine quand un joueur stocke plus de <b>%seeds%</b> graines.
+
 seeds:
     per:
         container: 'Graines par compartiment'

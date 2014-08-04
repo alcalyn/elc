@@ -21,6 +21,8 @@ class AwalePartyType extends AbstractType
                     3 => /** @ignore */ 3,
                     4 => /** @ignore */ 4,
                     5 => /** @ignore */ 5,
+                    6 => /** @ignore */ 6,
+                    7 => /** @ignore */ 7,
                 ),
             ))
         ;

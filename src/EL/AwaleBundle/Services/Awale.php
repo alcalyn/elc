@@ -145,6 +145,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
             'gameLayout'    => $this->getGameLayout(),
             'reverse'       => $reverse,
             'grid'          => $awaleCore->unserializeGrid($extendedParty->getGrid()),
+            'seedsToWin'    => $awaleCore->getSeedsNeededToWin($extendedParty->getSeedsPerContainer()),
         ));
     }
     

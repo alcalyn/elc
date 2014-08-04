@@ -6,6 +6,8 @@ feed:
     the:
         opponent: 'You must feed your opponent'
 
+game.end.%seeds%: Game ends when a player store more than <b>%seeds%</b> seeds.
+
 seeds:
     per:
         container: 'Seeds per container'

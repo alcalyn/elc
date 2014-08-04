@@ -247,7 +247,7 @@ class AwaleCore
      */
     public function hasWinner(array $grid, $seedsPerContainer)
     {
-        $seedsToWin = $seedsPerContainer * 6;
+        $seedsToWin = $this->getSeedsNeededToWin($seedsPerContainer);
         
         if ($grid[0]['attic'] > $seedsToWin) {
             return self::WIN_0;
@@ -262,5 +262,17 @@ class AwaleCore
         }
         
         return self::NO_WIN;
+    }
+    
+    /**
+     * Return the number the player must exceed to win
+     * 
+     * @param integer $seedsPerContainer the initial amount of seed in a box
+     * 
+     * @return integer
+     */
+    public function getSeedsNeededToWin($seedsPerContainer)
+    {
+        return $seedsPerContainer * 6;
     }
 }

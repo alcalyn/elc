@@ -212,7 +212,7 @@ var party =
         for (var i = 0; i < length; i++) {
             jQuery('.player-'+playersInRemake[i]).addClass('success');
             jQuery('.player-'+playersInRemake[i]+' .comment')
-                    .html('<p class="text-success">'+t('has.remake')+'</p>')
+                    .html('<span class="text-success">'+t('has.remake')+'</span>')
             ;
         }
     }

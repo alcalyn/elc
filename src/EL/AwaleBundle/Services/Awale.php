@@ -22,7 +22,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'event.party.created'   => 'onPartyCreated',
+            PartyEvent::PARTY_CREATE_BEFORE => 'onPartyCreateBefore',
         );
     }
     
@@ -41,7 +41,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
         return new AwaleParty();
     }
     
-    public function onPartyCreated(PartyEvent $event)
+    public function onPartyCreateBefore(PartyEvent $event)
     {
         $em                 = $this->getDoctrine()->getManager();
         $coreParty          = $event->getPartyService()->getParty();

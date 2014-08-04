@@ -10,15 +10,7 @@ class PartyListener
     /**
      * @param \EL\CoreBundle\Event\PartyEvent $event
      */
-    public function onPartyCreated(PartyEvent $event)
-    {
-        
-    }
-    
-    /**
-     * @param \EL\CoreBundle\Event\PartyEvent $event
-     */
-    public function onPartyStarted(PartyEvent $event)
+    public function onPartyStartBefore(PartyEvent $event)
     {
         $partyService   = $event->getPartyService();
         $nbPlayerMin    = $partyService->getGame()->getNbplayerMin();
@@ -32,21 +24,5 @@ class PartyListener
         if ($nbPlayer > $nbPlayerMax) {
             throw new ELUserException('cannot.start.toomanyplayer', -1, ELUserException::TYPE_WARNING);
         }
-    }
-    
-    /**
-     * @param \EL\CoreBundle\Event\PartyEvent $event
-     */
-    public function onPartyActived(PartyEvent $event)
-    {
-        
-    }
-    
-    /**
-     * @param \EL\CoreBundle\Event\PartyEvent $event
-     */
-    public function onPartyEnded(PartyEvent $event)
-    {
-        
     }
 }

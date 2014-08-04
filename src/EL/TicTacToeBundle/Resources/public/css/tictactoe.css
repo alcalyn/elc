@@ -54,6 +54,9 @@
 #players {
     margin: 24px auto 48px auto;
 }
+#players p {
+    margin: 0;
+}
 #players > div {
     text-align: center;
 }

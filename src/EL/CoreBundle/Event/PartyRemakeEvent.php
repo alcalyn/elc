@@ -9,14 +9,14 @@ use EL\AbstractGameBundle\Model\ELGameInterface;
 class PartyRemakeEvent extends PartyEvent
 {
     /**
-     * The event.party.remake event is thrown each time
-     * a partye has been remade.
+     * The event.party.remake.after event is thrown after each time
+     * a party has been remade.
      * 
      * The EventListener receives a PartyRemakeEvent instance.
      * 
      * @var string
      */
-    const PARTY_REMAKE = 'event.party.remake';
+    const PARTY_REMAKE_AFTER = 'event.party.remake.after';
     
     /**
      * New party which is a remade from the old

@@ -33,15 +33,15 @@ class PartyEventListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'event.party.created'   => 'onPartyCreated',
-            'event.party.actived'   => 'onPartyActived',
+            PartyEvent::PARTY_CREATE_BEFORE => 'onPartyCreateBefore',
+            PartyEvent::PARTY_ACTIVE_AFTER  => 'onPartyActiveAfter',
         );
     }
     
     /**
      * @param \EL\CoreBundle\Event\PartyEvent $event
      */
-    public function onPartyCreated(PartyEvent $event)
+    public function onPartyCreateBefore(PartyEvent $event)
     {
         $coreParty = $event->getPartyService()->getParty();
         $checkersVariant = $event->getExtendedOptions();        /* @var $checkersVariant Variant */
@@ -59,7 +59,7 @@ class PartyEventListener implements EventSubscriberInterface
     /**
      * @param \EL\CoreBundle\Event\PartyEvent $event
      */
-    public function onPartyActived(PartyEvent $event)
+    public function onPartyActiveAfter(PartyEvent $event)
     {
         $partyService   = $event->getPartyService();
         $checkersParty  = $partyService->loadExtendedParty();           /* @var $checkersParty CheckersParty */

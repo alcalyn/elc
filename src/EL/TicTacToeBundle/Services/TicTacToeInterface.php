@@ -23,8 +23,8 @@ class TicTacToeInterface extends ELGameAdapter implements EventSubscriberInterfa
     public static function getSubscribedEvents()
     {
         return array(
-            'event.party.created'   => 'onPartyCreated',
-            'event.party.remake'    => 'onPartyRemake',
+            PartyEvent::PARTY_CREATE_BEFORE         => 'onPartyCreateBefore',
+            PartyRemakeEvent::PARTY_REMAKE_AFTER    => 'onPartyRemakeAfter',
         );
     }
     
@@ -61,7 +61,7 @@ class TicTacToeInterface extends ELGameAdapter implements EventSubscriberInterfa
         ));
     }
     
-    public function onPartyCreated(PartyEvent $event)
+    public function onPartyCreateBefore(PartyEvent $event)
     {
         $em             = $this->getDoctrine()->getManager();
         $coreParty      = $event->getPartyService()->getParty();
@@ -157,7 +157,7 @@ class TicTacToeInterface extends ELGameAdapter implements EventSubscriberInterfa
         return $partyPlayer === $loggedPlayer;
     }
     
-    public function onPartyRemake(PartyRemakeEvent $event)
+    public function onPartyRemakeAfter(PartyRemakeEvent $event)
     {
         $partyService = $event->getPartyService();
         $newParty = $this->loadParty($partyService->getParty());

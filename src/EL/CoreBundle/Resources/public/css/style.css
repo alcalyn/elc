@@ -10,9 +10,6 @@ body {
     padding: 0;
     margin: 0px auto auto auto;
 }
-p, h1, h2, h3, h4, h5, h6, ul, li {
-    margin: 0;
-}
 p {
     font-size: 13px;
 }
@@ -41,6 +38,7 @@ header {
 header h1 {
     font-size: 32px;
     text-shadow: 0 2px 1px rgba(255, 255, 255, 0.75);
+    margin: 0;
 }
 header #head-title {
     position: absolute;
@@ -100,6 +98,9 @@ header #lang-switcher a.flag img {
 }
 header #lang-switcher a.flag:hover img {
     opacity: 1;
+}
+.spacer {
+    margin: 20px 0;
 }
 /*---------------- main page container----------------------*/
 #main-page-container {
@@ -335,6 +336,7 @@ footer > * {
     font-size: 16px;
     font-weight: bold;
     border-bottom: 1px solid #80A4CC;
+    margin: 0;
 }
 .jeu-item h3 span {
     float: right;

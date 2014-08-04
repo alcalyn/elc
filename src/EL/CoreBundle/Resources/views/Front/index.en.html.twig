@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6 text-justify">
+    <div class="col-md-12 text-justify">
         <p class="lead">
             Electron libre allows you to play any kind of games
             as Poker, Chess, RISK, Checkers... with others players
@@ -20,11 +20,55 @@
             you don't need account, play as guest now,
             and beat your opponents scores !
         </p>
-    </div>
-    <div class="col-md-6">
-        <p class="lead">
-            <a href="{{ path('elcore_game_home', {'slug': 'tictactoe'}) }}">Play Tic Tac Toe</a>
-        </p>
+        <h3>Games actually available:</h3>
+        <div class="row spacer">
+            <div class="col-md-5">
+                <img width="256" src="{{ asset('bundles/core/img/games_screenshots/checkers.jpg') }}" />
+            </div>
+            <div class="col-md-7">
+                <h4>Checkers</h4>
+                <p>
+                    Available in every variant, play to the English, International or Italian variant.<br />
+                    You can customize your own variant by changing the board size (between 4 and 14),
+                    and each other parameters.<br />
+                    You can also play with the "Huffing isn't a real move" rule.
+                    <br />
+                    <a class="btn btn-primary spacer" href="{{ path('elcore_game_home', {'slug': 'checkers'}) }}">
+                        Create a Checkers game
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="row spacer">
+            <div class="col-md-5">
+                <h4>Oware</h4>
+                <p>
+                    African game consisting to store more seeds than your opponent, while feeding him.
+                    <br />
+                    <a class="btn btn-primary spacer" href="{{ path('elcore_game_home', {'slug': 'oware'}) }}">
+                        Create an Oware game
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-7">
+                <img width="386" src="{{ asset('bundles/core/img/games_screenshots/oware.jpg') }}" />
+            </div>
+        </div>
+        <div class="row spacer">
+            <div class="col-md-5">
+                <img width="256" src="{{ asset('bundles/core/img/games_screenshots/tictactoe.jpg') }}" />
+            </div>
+            <div class="col-md-7">
+                <h4>Tic Tac Toe</h4>
+                <p>
+                    The famous Tic Tac Toe !
+                    <br />
+                    <a class="btn btn-primary spacer" href="{{ path('elcore_game_home', {'slug': 'tictactoe'}) }}">
+                        Create a Tic Tac Toe game
+                    </a>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

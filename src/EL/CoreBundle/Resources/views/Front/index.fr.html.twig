@@ -12,19 +12,64 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6 text-justify">
+    <div class="col-md-12 text-justify">
         <p class="lead">
             Electron libre permet de jouer à tout type de jeu
-            comme le Poker, Echecs, RISK, Dames... avec d'autres joueurs
+            comme le Poker, Echecs, RISK, Dames, Awalé... avec d'autres joueurs
             de façon simple et immédiate :
             pas besoin de compte, jouez en tant qu'invité à partir de maintenant,
             et battez les scores de vos adversaires !
         </p>
-    </div>
-    <div class="col-md-6">
-        <p class="lead">
-            <a href="{{ path('elcore_game_home', {'slug': 'morpion'}) }}">Jouer au Morpion</a>
-        </p>
+        <h3>Jeux actuellement disponible :</h3>
+        <div class="row spacer">
+            <div class="col-md-5">
+                <img width="256" src="{{ asset('bundles/core/img/games_screenshots/checkers.jpg') }}" />
+            </div>
+            <div class="col-md-7">
+                <h4>Les Dames</h4>
+                <p>
+                    Disponible dans toutes les variantes, jouez à la version Anglaise,
+                    Internationale, Italienne, ou personnalisez votre variante en changeant
+                    la taille du damier (de 4 à 14), ou tous les autres paramètres.<br />
+                    Vous pouvez même jouer avec la règle du "Soufflez n'est pas joué&nbsp;!".
+                    <br />
+                    <a class="btn btn-primary spacer" href="{{ path('elcore_game_home', {'slug': 'dames'}) }}">
+                        Créer une partie de Dames
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="row spacer">
+            <div class="col-md-5">
+                <h4>L'Awalé</h4>
+                <p>
+                    Jeu Africain consistant à stocker plus de graines que votre adversaire,
+                    tout en le nourissant.
+                    <br />
+                    <a class="btn btn-primary spacer" href="{{ path('elcore_game_home', {'slug': 'awale'}) }}">
+                        Créer une partie d'Awalé
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img width="386" src="{{ asset('bundles/core/img/games_screenshots/oware.jpg') }}" />
+            </div>
+        </div>
+        <div class="row spacer">
+            <div class="col-md-5">
+                <img width="256" src="{{ asset('bundles/core/img/games_screenshots/tictactoe.jpg') }}" />
+            </div>
+            <div class="col-md-7">
+                <h4>Le Morpion</h4>
+                <p>
+                    Le Morpion quoi !
+                    <br />
+                    <a class="btn btn-primary spacer" href="{{ path('elcore_game_home', {'slug': 'morpion'}) }}">
+                        Créer une partie de Morpion
+                    </a>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

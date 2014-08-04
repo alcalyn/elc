@@ -13,9 +13,10 @@
 
 {% block body %}
 <h2>{{ game.title }}</h2>
-<p class="partie-title">{{ coreParty.title }}</p>
+<small class="partie-title">{{ coreParty.title }}</small>
 {% if coreParty.host %}
-    <p class="host">Hôte : {{ coreParty.host.pseudo }}</h2>
+    <br />
+    <small class="host">Hôte : <b>{{ coreParty.host.pseudo }}</b></small>
 {% endif %}
 <hr />
 <div class="row">

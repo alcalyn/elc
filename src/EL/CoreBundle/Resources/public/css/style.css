@@ -259,6 +259,7 @@ table.ranking thead th {
 .widget h3.widget-title {
     font-size: 16px;
     font-weight: bold;
+    margin: 0;
 }
 .widget .widget-body {
     padding: 6px;
@@ -636,12 +637,14 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
 /* init jquery ui css */
 .piece.ui-state-disabled {
     opacity: 1;
-    filter: none;
+    filter: alpha(opacity=100);
     background-image: inherit;
 }
 .piece-draggable {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-    cursor: grab;
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
 }
 .piece-draggable:hover {
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
@@ -649,5 +652,7 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
 .piece.ui-draggable-dragging {
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
     margin-top: 4px;
-    cursor: grabbing;
+    cursor: move;
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
 }

@@ -1,4 +1,4 @@
-<p>
+<span>
     {% if coreParty.private %}
         <span class="glyphicon glyphicon-eye-close"></span>
         {{ 'private.party'|trans }}
@@ -6,14 +6,16 @@
         <span class="glyphicon glyphicon-eye-open"></span>
         {{ 'public.party'|trans }}
     {% endif %}
-</p>
-<p>
-    {% if coreParty.disallowChat %}
+</span>
+{% if coreParty.disallowChat %}
+    <br />
+    <span>
         {{ 'chat.disabled'|trans }}
-    {% endif %}
-</p>
-<p>
-    {% if coreParty.disallowObservers %}
+    </span>
+{% endif %}
+{% if coreParty.disallowObservers %}
+    <br />
+    <span>
         {{ 'observers.disallowed'|trans }}
-    {% endif %}
-</p>
+    </span>
+{% endif %}

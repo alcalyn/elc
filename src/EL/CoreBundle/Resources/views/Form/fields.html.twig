@@ -12,7 +12,7 @@
         {% set form_method = "POST" %}
     {% endif %}
     {% set attr = attr|merge({'class':'form-horizontal'}) %}
-    <form name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}" role="form"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    <form name="{{ form.vars.name }}" method="{{ form_method|lower }}"{% if action %} action="{{ action }}"{% endif %} role="form"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
     {% if form_method != method %}
         <input type="hidden" name="_method" value="{{ method }}" />
     {% endif %}
@@ -23,7 +23,7 @@
 {% block form_row %}
 {% spaceless %}
     <div class="form-group has-feedback{% if form.vars.submitted %} has-{{ form.vars.valid ? 'success' : 'error' }}{% endif %}">
-        <label for="{{ id }}" class="col-sm-4 control-label">{{ form_label(form) }}</label>
+        {{ form_label(form) }}
         <div class="col-sm-4">
             {{ form_widget(form) }}
         </div>
@@ -31,6 +31,24 @@
     </div>
 {% endspaceless %}
 {% endblock form_row %}
+
+
+{% block form_label -%}
+    {% if label is not sameas(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif %}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif %}
+        {% if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        {# Add boostrap classes #}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' col-sm-4 control-label')|trim}) %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+    {%- endif %}
+{%- endblock form_label %}
 
 
 {% block form_errors %}
@@ -54,8 +72,8 @@
 {% block form_widget_simple %}
 {% spaceless %}
     {% set type = type|default('text') %}
-    {% set attr = attr|merge({'class':'form-control'}) %}
-    <input type="{{ type }}" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {% if form.vars.submitted %}
         <span class="glyphicon glyphicon-{{ form.vars.valid ? 'ok' : 'remove' }} form-control-feedback"></span>
     {% endif %}

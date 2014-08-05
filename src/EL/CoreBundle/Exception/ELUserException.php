@@ -2,51 +2,79 @@
 
 namespace EL\CoreBundle\Exception;
 
-use Symfony\Component\HttpFoundation\Session\Session;
-
 class ELUserException extends ELCoreException
 {
+    /**
+     * @var string
+     */
+    const TYPE_INFO = 'info';
     
-    const TYPE_INFO     = 'info';
-    const TYPE_WARNING  = 'warning';
-    const TYPE_DANGER   = 'danger';
+    /**
+     * @var string
+     */
+    const TYPE_WARNING = 'warning';
     
+    /**
+     * @var string
+     */
+    const TYPE_DANGER = 'danger';
     
+    /**
+     * Contains an error level
+     * 
+     * @var string
+     */
     private $type;
     
-    
-    public function __construct($message, $type = self::TYPE_DANGER)
+    /**
+     * @param string $message translation key
+     * @param string $type error level
+     * @param integer $code
+     */
+    public function __construct($message, $type = self::TYPE_DANGER, $code = -1)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
+        
+        $this->checkType($type);
         $this->setType($type);
     }
     
+    /**
+     * Check if $type is a valid error level
+     * 
+     * @param string $type
+     * 
+     * @throws ELCoreException
+     */
+    private function checkType($type)
+    {
+        $availableTypes = array(
+            self::TYPE_INFO,
+            self::TYPE_WARNING,
+            self::TYPE_DANGER,
+        );
+        
+        if (!in_array($type, $availableTypes)) {
+            throw new ELCoreException(
+                get_class($this).'::type can be "'.implode('", "', $availableTypes).'", got "'.$type.'"'
+            );
+        }
+    }
     
+    /**
+     * @param string $type
+     */
     public function setType($type)
     {
         $this->type = $type;
         return $this;
     }
     
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
-    }
-    
-    public function addFlashMessage(Session $session)
-    {
-        $session->getFlashBag()->add(
-            $this->getType(),
-            $this->getMessage()
-        );
-    }
-    
-    public function checkType($type)
-    {
-        if (!in_array($type, array('info', 'warning', 'danger'))) {
-            throw new ELCoreException(
-                'ELUserException::type can be "info", "warning" or "danger", got "'.$type.'"'
-            );
-        }
     }
 }

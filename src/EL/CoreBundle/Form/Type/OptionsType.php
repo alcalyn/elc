@@ -25,14 +25,15 @@ class OptionsType extends AbstractType
         $builder
                 ->add('coreParty', new CorePartyType())
                 ->add('extendedOptions', $this->extendedOptionsType)
-                ->add('createGame', 'submit')
+                ->add('createGame', 'submit', array('label' => 'create.game'))
         ;
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\CoreBundle\Form\Entity\Options',
+            'data_class'            => 'EL\CoreBundle\Form\Entity\Options',
+            'cascade_validation'    => true,
         ));
     }
     

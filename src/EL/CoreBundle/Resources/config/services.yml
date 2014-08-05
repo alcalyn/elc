@@ -8,9 +8,6 @@ parameters:
     el_core.points.class:               EL\CoreBundle\Services\PointsService
     el_core.elo.class:                  EL\CoreBundle\Services\EloService
     el_core.wld.class:                  EL\CoreBundle\Services\WLDService
-    el_core.controller.party.class:     EL\CoreBundle\Controller\PartyAjaxController
-    el_core.controller.slot.class:      EL\CoreBundle\Controller\SlotController
-    el_core.controller.widget.class:    EL\CoreBundle\Controller\WidgetController
 
 services:
     el_core.session:
@@ -27,7 +24,7 @@ services:
         
     el_core.party:
         class: %el_core.party.class%
-        arguments: [@doctrine.orm.entity_manager, @el_core.session]
+        arguments: [@doctrine.orm.entity_manager, @el_core.session, @event_dispatcher]
         
     el_core.widgets:
         class: %el_core.widget.class%
@@ -47,38 +44,3 @@ services:
     el_core.score.wld:
         class: %el_core.wld.class%
         arguments: [@doctrine.orm.entity_manager]
-        
-    el_core.twig.el_twig_extensions:
-        class: EL\CoreBundle\Extensions\ELTwigExtensions
-        arguments:
-            - @request_stack
-        tags:
-            - { name: twig.extension }
-        
-    phax.party:
-        class: %el_core.controller.party.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-            
-    phax.slot:
-        class: %el_core.controller.slot.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-            
-    phax.widget:
-        class: %el_core.controller.widget.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-        
-    el_core.paramconverter_gameservice:
-        class: EL\CoreBundle\Request\ParamConverter\GameServiceConverter
-        arguments: [@service_container]
-        tags:
-            - { name: request.param_converter, priority: 20 }
-        
-    el_core.paramconverter_partyservice:
-        class: EL\CoreBundle\Request\ParamConverter\PartyServiceConverter
-        arguments: [@service_container]
-        tags:
-            - { name: request.param_converter, priority: 20 }
-        

@@ -4,7 +4,6 @@ namespace EL\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use EL\CoreBundle\Entity\Game;
-use EL\CoreBundle\Entity\GameVariant;
 
 /**
  * GameVariantRepository

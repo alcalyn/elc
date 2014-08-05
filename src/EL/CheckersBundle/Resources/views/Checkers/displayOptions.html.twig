@@ -1,0 +1,85 @@
+<br />
+{{ '<b>%variantName%</b>.variant'|trans({'%variantName%': variantName|trans})|raw }}
+
+<hr />
+
+
+
+<h4>{{ 'board'|trans }}</h4>
+
+<span><span class="glyphicon glyphicon-th-large"></span> {{ 'board.size'|trans }} <b>{{ variant.boardSize }}</b></span>
+<br />
+<span>{{ 'first.player'|trans }} <b>{{ variant.firstPlayer ? 'black'|trans : 'white'|trans }}</b></span>
+
+
+
+<h4>{{ 'king.rules'|trans }}</h4>
+
+<span class="text-{{ variant.longRangeKing ? 'success' : 'danger' }}">
+    <span class="glyphicon glyphicon-{{ variant.longRangeKing ? 'ok' : 'remove' }}"></span> {{ 'long.range.king'|trans }}
+</span>
+<br />
+
+{% if variant.longRangeKing and variant.kingStopsBehind %}
+    <span class="text-warning">
+        <span class="glyphicon glyphicon-chevron-right"></span> {{ 'king.stops.behind'|trans }}
+    </span>
+    <br />
+{% endif %}
+
+<span class="text-{{ variant.menJumpKing ? 'success' : 'danger' }}">
+    <span class="glyphicon glyphicon-{{ variant.menJumpKing ? 'ok' : 'remove' }}"></span> {{ 'men.jump.king'|trans }}
+</span>
+<br />
+<span class="text-{{ variant.kingPassing ? 'success' : 'danger' }}">
+    <span class="glyphicon glyphicon-{{ variant.kingPassing ? 'ok' : 'remove' }}"></span> {{ 'king.passing'|trans }}
+</span>
+
+
+
+<h4>{{ 'captures.rules'|trans }}</h4>
+
+<span class="text-{{ variant.backwardCapture ? 'success' : 'danger' }}">
+    <span class="glyphicon glyphicon-{{ variant.backwardCapture ? 'ok' : 'remove' }}"></span> {{ 'backward.capture'|trans }}
+</span>
+<br />
+<span class="text-{{ variant.forceCapture ? 'success' : 'danger' }}">
+    <span class="glyphicon glyphicon-{{ variant.forceCapture ? 'ok' : 'remove' }}"></span> {{ 'force.capture'|trans }}
+</span>
+
+{% if variant.forceCaptureQuantity %}
+    <span class="text-warning">
+        <span class="glyphicon glyphicon-chevron-right"></span> {{ 'illegalmove.capturebetter.quantity'|trans }}
+    </span>
+    <br />
+{% endif %}
+
+{% if variant.forceCapturePreference %}
+    <span class="text-warning">
+        <span class="glyphicon glyphicon-chevron-right"></span> {{ 'illegalmove.capturebetter.preference'|trans }}
+    </span>
+    <br />
+{% endif %}
+
+{% if variant.forceCaptureQuality %}
+    <span class="text-warning">
+        <span class="glyphicon glyphicon-chevron-right"></span> {{ 'illegalmove.capturebetter.quality'|trans }}
+    </span>
+    <br />
+{% endif %}
+
+{% if variant.forceCaptureKingOrder %}
+    <span class="text-warning">
+        <span class="glyphicon glyphicon-chevron-right"></span> {{ 'illegalmove.capturebetter.precedence'|trans }}
+    </span>
+    <br />
+{% endif %}
+
+
+
+{% if variant.blowUp %}
+    <h4>{{ 'blow.up'|trans }}</h4>
+    <span class="text-success">
+        <span class="glyphicon glyphicon-ok"></span> {{ 'blow.up'|trans }}
+    </span>
+{% endif %}

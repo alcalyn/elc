@@ -340,7 +340,7 @@ class Score
     /**
      * Return ratio (wins/losses)
      * 
-     * @return float
+     * @return integer
      */
     public function getRatio()
     {

@@ -3,7 +3,6 @@
 namespace EL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Player
@@ -25,7 +24,7 @@ class Player implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=31, unique=true)
+     * @ORM\Column(name="pseudo", type="string", length=31)
      */
     protected $pseudo;
 
@@ -192,6 +191,11 @@ class Player implements \JsonSerializable
         return $this->bot;
     }
     
+    /**
+     * Implements JsonSerializable
+     * 
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array(
@@ -199,6 +203,24 @@ class Player implements \JsonSerializable
             'pseudo'        => $this->getPseudo(),
             'invited'       => $this->getInvited(),
             'bot'           => $this->getBot(),
+        );
+    }
+    
+    /**
+     * Instances of this class will be serialized in session,
+     * so be carefull when creating attributes having an instance
+     * 
+     * @return string[]
+     */
+    public function __sleep()
+    {
+        return array(
+            'id',
+            'pseudo',
+            'passwordHash',
+            'invited',
+            'bot',
+            'dateCreate',
         );
     }
 }

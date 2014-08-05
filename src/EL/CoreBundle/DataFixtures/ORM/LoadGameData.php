@@ -19,27 +19,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
                 'nbplayermax'       => 2,
                 'visible'           => false,
                 'category'          => 'strategy',
-                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,score',
-                'rankingOrder'      => 'wins:d,draws:d',
-                'rankingReference'  => 'wins',
-            ),
-            array(
-                'name'              => 'tictactoe',
-                'nbplayermin'       => 2,
-                'nbplayermax'       => 2,
-                'visible'           => true,
-                'category'          => 'strategy',
-                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo',
-                'rankingOrder'      => 'wins:d,draws:d',
-                'rankingReference'  => 'wins',
-            ),
-            array(
-                'name'              => 'awale',
-                'nbplayermin'       => 2,
-                'nbplayermax'       => 2,
-                'visible'           => false,
-                'category'          => 'casino',
-                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,score',
+                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,points',
                 'rankingOrder'      => 'wins:d,draws:d',
                 'rankingReference'  => 'wins',
             ),
@@ -49,12 +29,13 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
                 'nbplayermax'       => 8,
                 'visible'           => false,
                 'category'          => 'casino',
-                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,score',
+                'rankingColumns'    => 'parties,wins,losses,draws,ratio,elo,points',
                 'rankingOrder'      => 'wins:d,draws:d',
                 'rankingReference'  => 'wins',
             ),
         );
         
+        $objects = array();
         
         $i = 0;
         foreach ($items as $item) {

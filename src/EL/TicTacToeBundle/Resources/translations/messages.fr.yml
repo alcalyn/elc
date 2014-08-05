@@ -1,0 +1,13 @@
+endafter: 'Se termine après'
+
+game:
+    endafter: 'Le Morpion se terminera après'
+
+number:
+    of:
+        parties: 'Nombre de parties'
+
+tictactoe:
+    options: 'Options du morpion'
+
+victorycondition: 'Nombre de ...'

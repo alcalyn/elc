@@ -18,9 +18,10 @@ class PartyRepository extends EntityRepository
     {
         $query = $this->_em->createQuery(
             '
-                select p, g, gl, s
+                select p, g, gl, s, pl
                 from CoreBundle:Party p
                 left join p.slots s
+                left join s.player pl
                 left join p.game g
                 left join p.host h
                 left join g.langs gl
@@ -73,6 +74,24 @@ class PartyRepository extends EntityRepository
             'state_starting'    => Party::STARTING,
             'state_active'      => Party::ACTIVE,
         ))->getResult();
+    }
+    
+    public function findPlayersInRemakeParty($oldParty)
+    {
+        return $this->_em->createQueryBuilder()
+                ->select('p, pr, s, pl')
+                ->from('CoreBundle:Party', 'p')
+                ->leftJoin('p.remake', 'pr')
+                ->leftJoin('pr.slots', 's')
+                ->leftJoin('s.player', 'pl')
+                ->where('p = :oldParty')
+                ->setParameters(array(
+                    ':oldParty' => $oldParty,
+                ))
+                ->getQuery()
+                ->getOneOrNullResult()
+        ;
+                
     }
     
     public function countSlug($slug)

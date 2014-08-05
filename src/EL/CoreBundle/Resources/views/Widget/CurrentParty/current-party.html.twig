@@ -1,0 +1,43 @@
+<div class="widget current-party">
+    <div class="widget-head">
+        <h3 class="widget-title"><span class="glyphicon glyphicon-tower"></span> {{ coreParty.title }}</h3>
+    </div>
+    <div class="widget-body">
+        <p class="help-block started-date" title="{{ 'exactly.at'|trans }} {{ coreParty.dateStarted|localizeddate('full', 'none') }}, {{ coreParty.dateStarted|date('G:i') }}">
+            {{ 'party.started.the'|trans }} {{ coreParty.dateStarted|localizeddate('medium', 'none') }}
+        </p>
+        <ul class="nav nav-pills nav-stacked player-list">
+            {% for player in players %}
+                <li>
+                    <a>
+                        {{ player.pseudo }}
+                        
+                        {% if player.badge is defined %}
+                            <span class="badge">
+                                {{ player.badge|displayScore(game.rankingReference) }}
+                                {{ game.rankingReference|trans }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="panel panel-default options">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-options">{{ 'party.options'|trans }}</a>
+                </h4>
+            </div>
+            <div id="collapse-options" class="panel-collapse collapse">
+                <div class="panel-body">
+                    {% include 'CoreBundle:Party:_coreOptions.html.twig' %}
+                    {% include extendedOptionsTemplate %}
+                </div>
+            </div>
+        </div>
+        <p>
+            <button type="button" class="btn btn-warning btn-xs">{{ 'offer.draw'|trans }}</button>
+            <button type="button" class="btn btn-danger btn-xs">{{ 'surrender'|trans }}</button>
+        </p>
+    </div>
+</div>

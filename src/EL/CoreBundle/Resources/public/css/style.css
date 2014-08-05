@@ -10,9 +10,6 @@ body {
     padding: 0;
     margin: 0px auto auto auto;
 }
-p, h1, h2, h3, h4, h5, h6, ul, li {
-    margin: 0;
-}
 p {
     font-size: 13px;
 }
@@ -41,6 +38,7 @@ header {
 header h1 {
     font-size: 32px;
     text-shadow: 0 2px 1px rgba(255, 255, 255, 0.75);
+    margin: 0;
 }
 header #head-title {
     position: absolute;
@@ -82,7 +80,7 @@ header #login .user-avatar {
 header #login .avatar {
 }
 header #lang-switcher {
-    left: 400px;
+    right: 318px;
     position: absolute;
     text-align: right;
     top: 10px;
@@ -100,6 +98,9 @@ header #lang-switcher a.flag img {
 }
 header #lang-switcher a.flag:hover img {
     opacity: 1;
+}
+.spacer {
+    margin: 20px 0;
 }
 /*---------------- main page container----------------------*/
 #main-page-container {
@@ -193,6 +194,9 @@ nav.navbar form input {
 #content {
     min-height: 300px;
 }
+.row-game .row-picture-home img {
+    max-width: 220px;
+}
 .row-game h2.game-title {
     margin-bottom: 0px;
     font-size: 26px;
@@ -255,6 +259,7 @@ table.ranking thead th {
 .widget h3.widget-title {
     font-size: 16px;
     font-weight: bold;
+    margin: 0;
 }
 .widget .widget-body {
     padding: 6px;
@@ -273,8 +278,26 @@ table.ranking thead th {
     width: 100% !important;
 }
 
+.current-party {
+}
 
 
+
+.player-list {
+    margin-bottom: 16px;
+}
+.player-list .started-date {
+    font-size: 10px;
+    margin: 0 0 12px;
+}
+.player-list > li {
+}
+.player-list > li > a {
+    border-radius: 20px;
+}
+.player-list > li > a {
+    padding: 2px 8px;
+}
 
 /*----------------footer----------------*/
 footer {
@@ -314,6 +337,7 @@ footer > * {
     font-size: 16px;
     font-weight: bold;
     border-bottom: 1px solid #80A4CC;
+    margin: 0;
 }
 .jeu-item h3 span {
     float: right;
@@ -421,6 +445,12 @@ footer > * {
 }
 
 
+/*----------------ended----------------*/
+.player-row .comment {
+    width: 180px;
+    text-align: center;
+}
+
 
 /*----------------tools----------------*/
 .scrollin {
@@ -466,13 +496,6 @@ select.form-control.smaller {
     font-size: 14px;
     margin: 0 0 0 0;
 }
-.list-group {
-}
-.panel {
-}
-.panel-heading {
-    padding: 6px 16px;
-}
 
 /*----------------chat panel----------------*/
 .panel.chat {
@@ -503,9 +526,133 @@ select.form-control.smaller {
     padding: 6px 30px;
 }
 
+.form-errors {
+    padding-top: 4px;
+}
+.form-errors .label {
+    margin-right: 6px;
+}
+.form-errors br {
+    margin-bottom: 2px;
+}
+
+.page-title {
+    margin: 8px 0 16px 0;
+}
 
 
+/* checkbox */
+input[type=checkbox].cb-restyle {
+    visibility: hidden;
+    position: absolute;
+}
+input[type=checkbox].cb-restyle ~ .label {
+    text-transform: uppercase;
+    box-shadow: 0 0 2px rgba(180, 180, 180, 1) inset;
+    vertical-align: middle;
+    padding-top: 4px;
+    cursor: pointer;
+    position: relative;
+    top: 6px;
+}
+input[type=checkbox]:checked.cb-restyle ~ .cb-false {
+    display: none;
+}
+input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
+    display: none;
+}
+
+.cb-blackwhite ~ .cb-false {
+    background-color: white;
+    color: black;
+}
+.cb-blackwhite ~ .cb-true {
+    background-color: black;
+    color: white;
+}
 
 
+/* ----------- grid and default pieces ------------- */
+.grid {
+}
+.grid .grid-item {
+    display: block;
+    float: left;
+    width: 64px;
+    height: 64px;
+}
+.grid-small .grid-item {
+    width: 48px;
+    height: 48px;
+}
+.grid-large .grid-item {
+    width: 96px;
+    height: 96px;
+}
+.grid .grid-odd {
+    background-color: #DDD;
+}
+.grid .grid-odd:hover {
+    background-color: #BBB;
+}
+.grid .grid-even {
+    background-color: #EEE;
+}
+.grid .grid-even:hover {
+    background-color: #CCC;
+}
+.grid .grid-item-highlight-1 {
+    border: 2px dashed #AAA;
+}
+.grid .grid-item-highlight-2 {
+    border: 2px solid #BBB;
+}
 
-
+.piece {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    margin: 9px;
+    border-radius: 999px;
+    background-color: white;
+}
+.grid-small .piece {
+    width: 34px;
+    height: 34px;
+    margin: 7px;
+}
+.grid-large .piece {
+    width: 68px;
+    height: 68px;
+    margin: 14px;
+}
+.piece-white {
+    background-color: lightcoral;
+    border-color: lightcoral;
+}
+.piece-black {
+    background-color: lightblue;
+    border-color: lightblue;
+}
+/* init jquery ui css */
+.piece.ui-state-disabled {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    background-image: inherit;
+}
+.piece-draggable {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+.piece-draggable:hover {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+.piece.ui-draggable-dragging {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    margin-top: 4px;
+    cursor: move;
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+}

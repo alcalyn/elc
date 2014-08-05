@@ -31,9 +31,14 @@ var tictactoe = {
     
     init: function ()
     {
+        if (0 === $('.jeux-actif').size()) {
+            return;
+        }
+        
         tictactoe.bindCases();
         tictactoe.startRefresh();
         tictactoe.currentPlayer = jsContext.extendedParty.firstPlayer;
+        tictactoe.refreshHighlight();
     },
     
     /**
@@ -71,6 +76,8 @@ var tictactoe = {
         tictactoe.set(line, col, tictactoe.currentPlayer === tictactoe.PLAYER_X ? 'X' : 'O');
         tictactoe.tick(line, col);
         tictactoe.changeCurrentPlayer();
+        tictactoe.refreshHighlight();
+        
         return true;
     },
     
@@ -279,6 +286,18 @@ var tictactoe = {
     },
     
     /**
+     * Display or hide board highlight for current player
+     */
+    refreshHighlight: function ()
+    {
+        if (jsContext.coreParty.slots[tictactoe.currentPlayer].player.id === jsContext.player.id) {
+            jQuery('.grid').addClass('highlight');
+        } else {
+            jQuery('.grid').removeClass('highlight');
+        }
+    },
+    
+    /**
      * Begin ajax calls at interval
      * 
      * @returns {void}
@@ -352,6 +371,8 @@ var tictactoe = {
         $('.scores .p2 .score').html(r.party.coreParty.slots[1].score);
         
         $('.party span').html(r.party.partyNumber);
+        
+        tictactoe.refreshHighlight();
     },
     
     /**

@@ -7,17 +7,11 @@ all:
     games: 'All games'
 
 ban: Ban
+black: Black
+black.e: Black
+black.es: Black
+black.s: Black
 cancel: Cancel
-
-cannot:
-    join:
-        party:
-            full: 'Cannot join, party is full'
-
-    start:
-        notenoughplayer: 'Cannot start, there is not enough players'
-        toomanyplayer: 'Cannot start, there is too much players.'
-        youarenothost: 'Cannot start, you are not the host of this game'
 
 change:
     slot: 'Change slot'
@@ -28,6 +22,10 @@ chat:
 close: Close
 community: Community
 contacts: Contacts
+
+container:
+    is:
+        empty: 'This container is empty'
 
 create:
     account: 'Create account'
@@ -46,12 +44,24 @@ disallow:
     observers: 'Disallow observers'
 
 draws: Draws
+elo: Elo
 endafter: 'End game after'
+exactly.at: 'Exactly at'
 faq: FAQ
+
+feed:
+    the:
+        opponent: 'You must feed the opponent'
+
+first:
+    player: 'First player'
 game: Game
-game.endafter: 'Tic Tac Toe will terminate after'
+game.variant: 'Game variant'
 games: Games
 go: Go
+
+has:
+    remake: 'Remake'
 
 here:
     is:
@@ -98,6 +108,10 @@ no:
     rankingyet:
         bethefirst: 'No ranking yet. Play now and then be the first !'
 
+not:
+    your:
+        turn: 'This is not your turn to play'
+
 number:
     of:
         parties: Number
@@ -105,11 +119,15 @@ number:
 observers:
     disallowed: 'Observers disallowed'
 
+offer.draw: 'Offer draw'
 open: Open
 parties: Games
 parties.%game%: 'Games of %game%'
 parties.list: 'Games list'
 party: Game
+party.has.ended: 'Party has ended'
+party.options: 'Game options'
+party.started.the: 'Started the'
 party.title: 'Party Title'
 
 play:
@@ -131,6 +149,7 @@ ranking: Ranking
 ratio: Ratio
 ready: Ready
 remake: Remake
+remake.other.parameters: 'Quit and remake with different parameters'
 
 remember:
     me: 'Remember me'
@@ -143,6 +162,11 @@ run:
 score: Score
 scores: Scores
 search: Search
+
+seeds:
+    per:
+        container: 'Seeds per container'
+
 signup: 'Sign up'
 
 slot:
@@ -150,11 +174,11 @@ slot:
     open: 'Slot open'
 
 state: State
-
-tictactoe:
-    options: 'Tic Tac Toe options'
-
+surrender: 'Surrender'
 top: Top
-victorycondition: 'Number of ...'
 watch: Watch
 wins: Wins
+white: White
+white.e: White
+white.es: White
+white.s: White

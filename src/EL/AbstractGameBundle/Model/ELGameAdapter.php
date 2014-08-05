@@ -5,7 +5,7 @@ namespace EL\AbstractGameBundle\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\CoreBundle\Services\PartyService;
 use EL\CoreBundle\Entity\Party as CoreParty;
-use EL\CoreBundle\Exception\ELUserException;
+use EL\CoreBundle\Exception\ELCoreException;
 use EL\AbstractGameBundle\Form\Entity\AdapterOptions;
 use EL\AbstractGameBundle\Form\Type\AdapterOptionsType;
 
@@ -22,10 +22,17 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function createParty()
+    public function createStandardOptions()
     {
-        // can we delete this and return a new stdClass ?
         return new AdapterOptions();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getGameLayout()
+    {
+        return 'CoreBundle::layout.html.twig';
     }
     
     /**
@@ -39,17 +46,12 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function getDisplayOptionsTemplate()
+    public function getDisplayOptionsTemplate(CoreParty $coreParty, $extendedParty)
     {
-        return 'AbstractGameBundle:Adapter:displayOptions.html.twig';
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function saveParty(CoreParty $coreParty, $options)
-    {
-        return true;
+        return array(
+            'template'  => 'AbstractGameBundle:Adapter:displayOptions.html.twig',
+            'vars'      => array(),
+        );
     }
     
     /**
@@ -100,32 +102,12 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function canStart(PartyService $partyService)
-    {
-        $nbPlayerMin    = $partyService->getGame()->getNbplayerMin();
-        $nbPlayerMax    = $partyService->getGame()->getNbplayerMax();
-        $nbPlayer       = $partyService->getNbPlayer();
-        $t              = $this->get('translator');
-        
-        if ($nbPlayer < $nbPlayerMin) {
-            throw new ELUserException($t->trans('cannot.start.notenoughplayer'), ELUserException::TYPE_WARNING);
-        }
-        
-        if ($nbPlayer > $nbPlayerMax) {
-            throw new ELUserException($t->trans('cannot.start.toomanyplayer'), ELUserException::TYPE_WARNING);
-        }
-        
-        return true;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function activeAction($_locale, PartyService $partyService)
+    public function activeAction($_locale, PartyService $partyService, $extendedParty)
     {
         return $this->render('AbstractGameBundle:Adapter:active.html.twig', array(
             'game'          => $partyService->getGame(),
-            'coreParty'    => $partyService->getParty(),
+            'coreParty'     => $partyService->getParty(),
+            'gameLayout'    => $this->getGameLayout(),
         ));
     }
     
@@ -135,8 +117,10 @@ class ELGameAdapter extends Controller implements ELGameInterface
     public function endedAction($_locale, PartyService $partyService)
     {
         return $this->render('AbstractGameBundle:Adapter:ended.html.twig', array(
-            'game'          => $partyService->getGame(),
-            'coreParty'    => $partyService->getParty(),
+            'game'              => $partyService->getGame(),
+            'coreParty'         => $partyService->getParty(),
+            'playersInRemake'   => $partyService->getPlayersInRemakeParty(),
+            'gameLayout'        => $this->getGameLayout(),
         ));
     }
     
@@ -178,8 +162,14 @@ class ELGameAdapter extends Controller implements ELGameInterface
     /**
      * {@inheritdoc}
      */
-    public function createRemake($slugParty, CoreParty $corePartyClone)
+    public function getOptions($oldParty)
     {
-        return new stdClass();
+        $defaultOptions = $this->createStandardOptions();
+        
+        if ($defaultOptions instanceof AdapterOptions) {
+            return $defaultOptions;
+        } else {
+            throw new ELCoreException('You must implement getOptions()');
+        }
     }
 }

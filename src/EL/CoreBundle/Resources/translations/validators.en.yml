@@ -4,3 +4,12 @@ pseudo:
 
     min:
         '{{limit}}': 'Your pseudo must be at least {{limit}} characters'
+
+loginerror:
+    pseudo.not.found: 'Pseudo does not exists'
+    password.invalid: 'Pseudo exists but the password is invalid'
+
+signuperror:
+    already.logged: 'You are already logged'
+    pseudo.unavailable: 'This pseudo is already used'
+    passwords.repeatition: 'Passwords do not match'

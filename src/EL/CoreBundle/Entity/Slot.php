@@ -143,7 +143,6 @@ class Slot implements \JsonSerializable
     /**
      * Add $n to score
      * 
-     * @param mixed $n, default = 1
      * @return Slot
      */
     public function addScore($n = 1)

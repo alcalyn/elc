@@ -22,9 +22,9 @@ class PointsService extends ScoreService
      * Add a points value in time for history
      * 
      * @param \EL\CoreBundle\Entity\Player $player
-     * @param \EL\CoreBundle\Entity\Points $points
      * @param \EL\CoreBundle\Entity\GameVariant $gameVariant
      * @param \EL\CoreBundle\Entity\Party $party
+     * @param double $value
      * 
      * @return Points
      */
@@ -76,8 +76,6 @@ class PointsService extends ScoreService
          * Save in database
          */
         $this->em->persist($stat);
-        
-        $this->em->flush();
         
         return $scoreData;
     }

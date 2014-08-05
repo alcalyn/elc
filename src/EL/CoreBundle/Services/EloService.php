@@ -26,7 +26,7 @@ class EloService extends ScoreService
      * @param \EL\CoreBundle\Entity\Player $player
      * @param Game|GameVariant $game
      * 
-     * @return Elo
+     * @return double
      */
     public function getElo(Player $player, $game)
     {
@@ -71,7 +71,7 @@ class EloService extends ScoreService
      * @param \EL\CoreBundle\Entity\Player $p1
      * @param Game|GameVariant $game
      * @param Party $party in which update is linked to
-     * @param float $win :
+     * @param integer $win :
      *      1   for $p0 wins,
      *      0   for $p1 wins,
      *      0.5 for draw
@@ -153,8 +153,6 @@ class EloService extends ScoreService
          */
         $this->em->persist($stat0);
         $this->em->persist($stat1);
-        
-        $this->em->flush();
         
         return array(
             'p0' => $update0,

@@ -11,53 +11,51 @@
 /**
  * Game page, grid and score
  */
-#grid {
+.grid {
     width: 420px;
     margin: 24px auto 0 auto;
 }
 
-.grid-item {
-    display: block;
-    float: left;
+.grid .grid-item {
     width: 140px;
     height: 140px;
 }
-.grid-item:hover {
-}
-
-.grid-odd {
-    background-color: #EEE;
-}
-.grid-odd.grid-value_-:hover {
+.grid .grid-odd.grid-value_-:hover {
     background-color: #CCC;
 }
-.grid-even {
-    background-color: #DDD;
-}
-.grid-even.grid-value_-:hover {
+.grid .grid-even.grid-value_-:hover {
     background-color: #BBB;
 }
 
-.grid-value_- {
+.grid .grid-value_- {
     cursor: pointer;
 }
 
-.grid-value_X.grid-even {
+.grid .grid-value_X.grid-even {
     background-color: lightCoral;
 }
-.grid-value_X.grid-odd {
+.grid .grid-value_X.grid-odd {
     background-color: #F78787;
 }
-.grid-value_O.grid-even {
+.grid .grid-value_O.grid-even {
     background-color: lightBlue;
 }
-.grid-value_O.grid-odd {
+.grid .grid-value_O.grid-odd {
     background-color: #B5E0EE;
+}
+
+.grid.highlight {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.65);
+    transition-duration: 400ms;
+    transition-property: box-shadow;
 }
 
 
 #players {
     margin: 24px auto 48px auto;
+}
+#players p {
+    margin: 0;
 }
 #players > div {
     text-align: center;

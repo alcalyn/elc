@@ -11,31 +11,17 @@ interface ELGameInterface
      * Return an object to hydrate by options form.
      * Can have default values
      * 
-     * @return stdClass
+     * @return \stdClass
      */
-    public function createParty();
+    public function createStandardOptions();
     
     /**
      * Return a form type for party
      * at the creation of a personalized party.
      * 
-     * @return AbstractType
+     * @return \Symfony\Component\Form\AbstractType
      */
     public function getPartyType();
-    
-    /**
-     * Called then optionsType form has been posted.
-     * Use this callback to save party options in database
-     * and return true, if options are valid
-     * 
-     * Return false to refuse options
-     * 
-     * @param CoreParty $coreParty
-     * @param stdClass $extendedParty
-     * 
-     * @return boolean
-     */
-    public function saveParty(CoreParty $coreParty, $extendedParty);
     
     /**
      * Retreive extended party from core party
@@ -45,9 +31,17 @@ interface ELGameInterface
      * 
      * @param CoreParty $coreParty
      * 
-     * @return stdClass
+     * @return \JsonSerializable
      */
     public function loadParty(CoreParty $coreParty);
+    
+    /**
+     * Get game layout path, such as 'AbstractGameBundle:Adapter:game-layout.html.twig'.
+     * Used to extends htmlhead and htmlend to add assets
+     * 
+     * @return string
+     */
+    public function getGameLayout();
     
     /**
      * Return a form template for your options
@@ -60,9 +54,12 @@ interface ELGameInterface
      * Return infomations about extended options of current party.
      * Your options are accessible in twig though variable 'extendedOptions'
      * 
+     * @param CoreParty $coreParty
+     * @param stdClass $extendedParty
+     * 
      * @return string template path, such as 'AbstractGameBundle:Adapter:displayOptions.html.twig'
      */
-    public function getDisplayOptionsTemplate();
+    public function getDisplayOptionsTemplate(CoreParty $coreParty, $extendedParty);
     
     /**
      * Return a default slots configuration
@@ -73,24 +70,22 @@ interface ELGameInterface
     public function getSlotsConfiguration($options);
     
     /**
-     * Can define customs rules to start party.
-     * Return an ELUserException if cannot start, true otherwise
-     * 
-     * @return mixed true or ELUserException
-     */
-    public function canStart(PartyService $partyService);
-    
-    /**
      * Controller of active party screen
      * 
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param string $_locale
+     * @param PartyService $partyService
+     * @param \stdClass $extendedParty
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function activeAction($_locale, PartyService $partyService);
+    public function activeAction($_locale, PartyService $partyService, $extendedParty);
     
     /**
      * Controller of ended party screen (scores)
      * 
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param string $_locale
+     * @param PartyService $partyService
+     * @param ELGameInterface $extendedParty
      */
     public function endedAction($_locale, PartyService $partyService);
     
@@ -114,12 +109,13 @@ interface ELGameInterface
     public function isMyTurn(PartyService $partyService);
     
     /**
-     * Return a clone of extended party.
-     * Used when someone remake a party.
+     * Get options (as createStandardOptions)
+     * of the old extended party instance,
+     * like if it was returned by createStandardOptions()
      * 
-     * @param $slugParty to clone
-     * @param $corePartyClone just cloned
-     * @return void nothing interesting
+     * @param \JsonSerializable $oldExtendedParty
+     * 
+     * @return \stdClass
      */
-    public function createRemake($slugParty, CoreParty $corePartyClone);
+    public function getOptions($oldExtendedParty);
 }

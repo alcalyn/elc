@@ -1,4 +1,4 @@
-{% extends "CoreBundle::layout.html.twig" %}
+{% extends gameLayout %}
 
 {% block title %}{{ parent() }} - {{ 'games'|trans }}{% endblock %}
 
@@ -13,9 +13,10 @@
 
 {% block body %}
 <h2>{{ game.title }}</h2>
-<p class="partie-title">{{ coreParty.title }}</p>
+<small class="partie-title">{{ coreParty.title }}</small>
 {% if coreParty.host %}
-    <p class="host">Hôte : {{ coreParty.host.pseudo }}</h2>
+    <br />
+    <small class="host">Hôte : <b>{{ coreParty.host.pseudo }}</b></small>
 {% endif %}
 <hr />
 <div class="row">
@@ -34,7 +35,7 @@
     <div class="col-md-6">
         <div class="panel panel-default options">
             <div class="panel-heading">
-                <h4 class="panel-title">Options de la partie</h4>
+                <h4 class="panel-title">{{ 'party.options'|trans }}</h4>
             </div>
             <div class="panel-body">
                 {% include 'CoreBundle:Party:_coreOptions.html.twig' %}
@@ -54,7 +55,7 @@
                 </div>
                 #}
                 <div class="col-md-4">
-                    <button type="submit" name="action" value="run" class="btn btn-primary">{{ 'run.party'|trans }}</button>
+                    <button type="submit" name="action" value="start" class="btn btn-primary">{{ 'run.party'|trans }}</button>
                 </div>
             {% else %}
                 {# Hide buttons Leave and Ready for now

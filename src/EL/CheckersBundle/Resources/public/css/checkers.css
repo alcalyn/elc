@@ -1,0 +1,59 @@
+
+#el_core_options_type_extendedOptions_boardSize {
+    padding-right: 25px;
+}
+
+h3.gameVariant {
+    margin: 32px 0 16px 0;
+}
+h4 {
+    margin: 64px 0 16px 0;
+}
+.options .panel-body h4 {
+    margin: 16px 0 8px;
+}
+#variant-select {
+    font-size: 16px;
+    height: 38px;
+}
+
+.checkers-personalization label.col-sm-4 {
+    width: 64%;
+}
+
+.grid {
+    position: relative;
+    margin: 24px auto 48px auto;
+}
+.piece-over {
+    border: 2px solid #BBB !important;
+}
+.piece-king {
+    background-color: transparent;
+    border-width: 12px;
+    border-style: solid;
+}
+.grid-small .piece-king {
+    border-width: 9px;
+}
+.grid-large .piece-king {
+    border-width: 18px;
+}
+.piece-king.piece-draggable {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3), 0 2px 2px rgba(0, 0, 0, 0.3) inset;
+}
+.piece-king.piece-draggable:hover {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3), 0 3px 3px rgba(0, 0, 0, 0.3) inset;
+}
+.piece-king.piece.ui-draggable-dragging {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3), 0 5px 5px rgba(0, 0, 0, 0.3) inset;
+}
+
+.piece-huffable {
+    cursor: alias;
+}
+
+.illegalmove-illustration {
+    float: left;
+    margin-right: 1em;
+}

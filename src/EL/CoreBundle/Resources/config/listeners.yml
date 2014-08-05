@@ -1,4 +1,10 @@
 services:
+    el_core.user_exceptions_translation:
+        class: EL\CoreBundle\EventListener\UserExceptionsTranslation
+        arguments: [@session, @translator]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+            
     el_core.party_listener:
         class: EL\CoreBundle\EventListener\PartyListener
         tags:

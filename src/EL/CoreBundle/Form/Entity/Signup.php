@@ -98,7 +98,7 @@ class Signup
         $same = $this->getPassword() === $this->getPasswordRepeat();
         
         if ((!$same) && (null !== $context)) {
-            $context->addViolationAt('passwordRepeat', 'passwords.repeatition.fails', array(), null);
+            $context->addViolationAt('passwordRepeat', 'signuperror.passwords.repeatition', array(), null);
         }
         
         return $same;

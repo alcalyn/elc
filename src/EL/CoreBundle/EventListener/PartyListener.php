@@ -18,11 +18,11 @@ class PartyListener
         $nbPlayer       = $partyService->getNbPlayer();
         
         if ($nbPlayer < $nbPlayerMin) {
-            throw new ELUserException('cannot.start.notenoughplayer', -1, ELUserException::TYPE_WARNING);
+            throw new ELUserException('cannot.start.notenoughplayer', ELUserException::TYPE_WARNING);
         }
         
         if ($nbPlayer > $nbPlayerMax) {
-            throw new ELUserException('cannot.start.toomanyplayer', -1, ELUserException::TYPE_WARNING);
+            throw new ELUserException('cannot.start.toomanyplayer', ELUserException::TYPE_WARNING);
         }
     }
 }

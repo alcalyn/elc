@@ -147,11 +147,7 @@ class PartyController extends Controller
      */
     public function joinAction($_locale, $slugGame, $slugParty, PartyService $partyService)
     {
-        try {
-            $partyService->join();
-        } catch (ELUserException $e) {
-            $e->addFlashMessage($this->get('session'));
-        }
+        $partyService->join();
         
         return $this->redirectParty($_locale, $slugGame, $slugParty, $partyService->getParty());
     }
@@ -174,13 +170,7 @@ class PartyController extends Controller
         
         switch ($action) {
             case 'start':
-                
-                try {
-                    $partyService->start();
-                } catch (ELUserException $e) {
-                    $e->addFlashMessage($session);
-                }
-                
+                $partyService->start();
                 break;
             
             case 'cancel':
@@ -192,31 +182,18 @@ class PartyController extends Controller
                 break;
             
             case 'join':
-                
-                try {
-                    $partyService->join();
-                } catch (ELUserException $e) {
-                    $e->addFlashMessage($session);
-                }
-                
+                $partyService->join();
                 break;
             
             case 'remake':
-                
-                try {
-                    $remakeParty = $partyService->remake();
-                    $this->getDoctrine()->getManager()->flush();
-                    
-                    return $this->redirect($this->generateUrl('elcore_party_preparation', array(
-                        '_locale'   => $_locale,
-                        'slugGame'  => $remakeParty->getGame()->getSlug(),
-                        'slugParty' => $remakeParty->getSlug(),
-                    )));
-                } catch (ELUserException $e) {
-                    $e->addFlashMessage($session);
-                }
-                
-                break;
+                $remakeParty = $partyService->remake();
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirect($this->generateUrl('elcore_party_preparation', array(
+                    '_locale'   => $_locale,
+                    'slugGame'  => $remakeParty->getGame()->getSlug(),
+                    'slugParty' => $remakeParty->getSlug(),
+                )));
             
             default:
                 throw new ELCoreException('Unknown action : "'.$action.'"');

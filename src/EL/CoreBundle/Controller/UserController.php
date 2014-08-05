@@ -7,8 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use EL\CoreBundle\Exception\ELCoreException;
-use EL\CoreBundle\Exception\ELUserException;
+use EL\CoreBundle\Exception\LoginException;
 use EL\CoreBundle\Form\Entity\Signup;
 use EL\CoreBundle\Form\Entity\Login;
 use EL\CoreBundle\Form\Type\SignupType;
@@ -65,15 +64,13 @@ class UserController extends Controller
                 $session->login($login->getPseudo(), $login->getPassword());
 
                 return $this->redirect($this->generateUrl('elcore_home'));
-            } catch (ELUserException $e) {
-                $e->addFlashMessage($this->get('session'));
-
-                if ($e->getCode() === ELCoreException::LOGIN_PSEUDO_NOT_FOUND) {
-                    $loginForm->get('pseudo')->addError(new FormError('pseudo.not.found'));
+            } catch (LoginException $e) {
+                if ($e->getCode() === LoginException::LOGIN_PSEUDO_NOT_FOUND) {
+                    $loginForm->get('pseudo')->addError(new FormError('loginerror.pseudo.not.found'));
                 }
 
-                if ($e->getCode() === ELCoreException::LOGIN_PASSWORD_INVALID) {
-                    $loginForm->get('password')->addError(new FormError('pseudo.exists.password.invalid'));
+                if ($e->getCode() === LoginException::LOGIN_PASSWORD_INVALID) {
+                    $loginForm->get('password')->addError(new FormError('loginerror.password.invalid'));
                 }
             }
         }
@@ -118,11 +115,9 @@ class UserController extends Controller
                 $session->signup($signup->getPseudo(), $signup->getPassword());
 
                 return $this->redirect($this->generateUrl('elcore_home'));
-            } catch (ELUserException $e) {
-                $e->addFlashMessage($this->get('session'));
-                
-                if ($e->getCode() === ELCoreException::LOGIN_PSEUDO_UNAVAILABLE) {
-                    $signupForm->get('pseudo')->addError(new FormError('pseudo.unavailable'));
+            } catch (LoginException $e) {
+                if ($e->getCode() === LoginException::LOGIN_PSEUDO_UNAVAILABLE) {
+                    $signupForm->get('pseudo')->addError(new FormError('signuperror.pseudo.unavailable'));
                 }
             }
         }

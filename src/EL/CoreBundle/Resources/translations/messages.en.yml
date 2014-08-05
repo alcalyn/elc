@@ -13,16 +13,6 @@ black.es: Black
 black.s: Black
 cancel: Cancel
 
-cannot:
-    join:
-        party:
-            full: 'Cannot join, party is full'
-
-    start:
-        notenoughplayer: 'Cannot start, there is not enough players'
-        toomanyplayer: 'Cannot start, there is too much players.'
-        youarenothost: 'Cannot start, you are not the host of this game'
-
 change:
     slot: 'Change slot'
 

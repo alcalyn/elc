@@ -1,0 +1,9 @@
+cannot:
+    join:
+        party:
+            full: 'Il n''y a plus de place'
+
+    start:
+        notenoughplayer: 'La partie ne peut pas démarrer, il manque des joueurs'
+        toomanyplayer: 'La partie ne peut pas démarrer, il y a trop de joueurs'
+        youarenothost: 'Vous ne pouvez pas lancer la partie, vous n''êtes pas l''hôte'

@@ -39,7 +39,6 @@ class SlotController extends Controller
     
     public function openAction(PhaxAction $phaxAction)
     {
-        $em         = $this->getDoctrine()->getManager();
         $slugParty  = $phaxAction->slugParty;
         $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
@@ -58,7 +57,6 @@ class SlotController extends Controller
     
     public function ajaxJoinAction(PhaxAction $phaxAction)
     {
-        $em         = $this->getDoctrine()->getManager();
         $slugParty  = $phaxAction->slugParty;
         $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();
@@ -76,7 +74,6 @@ class SlotController extends Controller
     
     public function banAction(PhaxAction $phaxAction)
     {
-        $em         = $this->getDoctrine()->getManager();
         $slugParty  = $phaxAction->slugParty;
         $slugGame   = $phaxAction->slugGame;
         $_locale    = $phaxAction->getLocale();

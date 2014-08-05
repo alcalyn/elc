@@ -165,7 +165,6 @@ class PartyController extends Controller
     public function prepareActionAction($_locale, $slugGame, $slugParty, PartyService $partyService, Request $request)
     {
         $party      = $partyService->getParty();
-        $session    = $this->get('session');
         $action     = $request->request->get('action');
         
         switch ($action) {

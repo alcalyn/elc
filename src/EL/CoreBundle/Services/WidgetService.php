@@ -20,7 +20,7 @@ class WidgetService
     
     private function init()
     {
-        $this->add('CoreBundle:Widget:myParties');
+        //$this->add('CoreBundle:Widget:myParties');
     }
     
     /**

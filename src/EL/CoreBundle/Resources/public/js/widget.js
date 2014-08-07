@@ -9,9 +9,9 @@ var widget = {
         $('.widget.my-games input[name="my-turn"]').change(widget.myPartiesRefreshMyTurnFilter);
         widget.myPartiesRefreshMyTurnFilter();
         
-        setInterval(function () {
-            phax.action('widget', 'myParties', {_locale: jsContext.locale});
-        }, 3000);
+//        setInterval(function () {
+//            phax.action('widget', 'myParties', {_locale: jsContext.locale});
+//        }, 3000);
     },
     
     myPartiesRefreshMyTurnFilter: function ()

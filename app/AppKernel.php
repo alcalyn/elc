@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
+            new JDare\ClankBundle\JDareClankBundle(),
             new Phax\CoreBundle\PhaxCoreBundle(),
             new EL\CoreBundle\CoreBundle(),
             new EL\AbstractGameBundle\AbstractGameBundle(),

@@ -29,6 +29,9 @@ services:
     el_core.widgets:
         class: %el_core.widget.class%
         
+    el_core.chat:
+        class: EL\CoreBundle\Services\ChatService
+        
     el_core.score:
         class: %el_core.score.class%
         arguments: [@doctrine.orm.entity_manager]

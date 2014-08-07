@@ -1,0 +1,37 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li class="active">{{ 'chat'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+<div class="chatroom general">
+    <h2>General Chatroom</h2>
+    <div id="general-fr" class="chat">
+        <ul class="messages list-unstyled">
+            <li><a href="#" class="pseudo">Alcalyn</a> : Hello</li>
+            <li>
+                <a href="#" class="pseudo">Alcalyn</a> :
+                Hello Hello Hello Hello Hello Hello Hello
+                Hello Hello Hello Hello Hello Hello Hello
+                Hello Hello Hello Hello Hello Hello Hello
+                Hello Hello Hello Hello Hello Hello Hello
+                Hello Hello Hello Hello Hello Hello Hello
+                Hello Hello Hello Hello Hello Hello Hello
+            </li>
+            <li><a href="#" class="pseudo">Alcalyn</a> : Hello</li>
+        </ul>
+        <form class="submit">
+            <div class="input-group">
+                <input type="text" name="content" class="form-control message-input">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Envoyer</button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

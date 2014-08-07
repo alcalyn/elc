@@ -28,6 +28,7 @@ class CoreExtension extends Extension
         
         $aAsseticBundle = $container->getParameter('assetic.bundles');
         $aAsseticBundle[] = 'CoreBundle';
+        $aAsseticBundle[] = 'JDareClankBundle';
         $container->setParameter('assetic.bundles', $aAsseticBundle);
     }
 }

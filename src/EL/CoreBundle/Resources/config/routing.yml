@@ -18,6 +18,10 @@ elcore_user_controller:
     resource: "@CoreBundle/Controller/UserController.php"
     type:     annotation
 
+elcore_chat_controller:
+    resource: "@CoreBundle/Controller/ChatController.php"
+    type:     annotation
+
 login_check:
     pattern: /login_check
 

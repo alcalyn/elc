@@ -82,6 +82,7 @@
                                 {# Community page hidden for now
                                 <li><a href="#">{{ 'community'|trans }}</a></li>
                                 #}
+                                <li><a href="{{ path('elcore_chat') }}">{{ 'chat'|trans }}</a></li>
                                 <li><a href="{{ path('elcore_about') }}">{{ 'about'|trans }}</a></li>
                                 <li><a href="{{ path('elcore_faq') }}">{{ 'faq'|trans }}</a></li>
                             </ul>
@@ -205,7 +206,12 @@
             <script type="text/javascript" src="{{ jsUri }}"></script>
         {% endfor %}
         
+        {# Clank WebSocket Client #}
+        {{ clank_client() }}
+        
         {% javascripts
+            '@CoreBundle/Resources/public/js/main.js'
+            '@CoreBundle/Resources/public/js/clank.js'
             '@CoreBundle/Resources/public/js/*'
             '@PhaxCoreBundle/Resources/public/js/*'
         %}

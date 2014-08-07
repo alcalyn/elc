@@ -15,3 +15,18 @@ services:
         arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
+            
+    el_core.configure_clank:
+        class: EL\CoreBundle\EventListener\ConfigureClank
+        arguments: [@el_core.js_vars, %clank_host%, %clank_port%]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            
+    el_core.clank_listener:
+        class: EL\CoreBundle\EventListener\ClankEventListener
+        arguments: [@el_core.session]
+        tags:
+            - { name: kernel.event_listener, event: clank.server.launched , method: onServerLaunched }
+            - { name: kernel.event_listener, event: clank.client.connected, method: onClientConnect, priority: 5 }
+            - { name: kernel.event_listener, event: clank.client.disconnected, method: onClientDisconnect, priority: 5 }
+            - { name: kernel.event_listener, event: clank.client.error, method: onClientError, priority: 5 }

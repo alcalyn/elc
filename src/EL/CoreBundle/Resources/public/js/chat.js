@@ -22,55 +22,56 @@ function Chat(id)
     /**
      * @type Chat
      */
-    var _this = this;
+    var self = this;
     
     /**
      * Init chat
      */
     this.init = function ()
     {
-        _this.bindSubmitButton();
+        self.bindSubmitButton();
     };
     
+    /**
+     * Add message to chat
+     * 
+     * @param {Object} message
+     */
     this.addMessage = function (message)
     {
-        if (!message || !message.pseudo || !message.content) {
+        if (!message || !message.content) {
             console.log('message mal formatté : ', message);
             return;
         }
         
         var $message = jQuery('<li class="message">');
         
-        $message.append('<a href="#">'+message.pseudo+'</a> : '+message.content);
+        if (message.pseudo) {
+            $message.append('<a href="#">'+message.pseudo+'</a> : '+message.content);
+        } else {
+            $message.append(message.content);
+        }
         
-        _this.$chat.find('.messages').append($message);
+        self.$chat.find('.messages').append($message);
     };
     
+    /**
+     * Clear message input
+     */
     this.clearInput = function ()
     {
-        _this.$chat.find('input.message-input').val('');
+        self.$chat.find('input.message-input').val('');
     };
     
+    /**
+     * Send message on submit
+     */
     this.bindSubmitButton = function ()
     {
-        _this.$chat.find('form.submit').submit(function () {
-            var formSerial = jQuery(this).serializeArray();
+        self.$chat.find('form.submit').submit(function () {
+            clankSession.publish('chat/general-fr', jQuery('.message-input').val());
             
-            var formJson = {};
-            
-            jQuery.each(formSerial, function (key, value) {
-                formJson[value['name']] = value['value'];
-            });
-            
-            if (0 === jQuery.trim(formJson.content).length) {
-                return false;
-            }
-            
-            console.log('submit', formJson);
-            
-            clankSession.publish('chat/general-fr', formJson);
-            
-            _this.clearInput();
+            self.clearInput();
             
             return false;
         });

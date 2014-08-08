@@ -33,7 +33,7 @@ class ClankEventListener
     {
         $this->session->start();
         
-        echo 'Session initialized.'.PHP_EOL;
+        echo 'Session initialized'.PHP_EOL;
     }
     
     /**
@@ -45,6 +45,7 @@ class ClankEventListener
     public function onClientConnect(ClientEvent $event)
     {
         $conn = $event->getConnection();
+        
         $conn->Session->start();
         $conn->elSession = new ELSession($conn->Session);
 
@@ -62,7 +63,7 @@ class ClankEventListener
     {
         $conn = $event->getConnection();
 
-        echo $conn->elSession->getPlayer()->getPseudo() . ' disconnected' . PHP_EOL;
+        echo $conn->elSession->getPlayerPseudo() . ' disconnected' . PHP_EOL;
         
         $event->stopPropagation();
     }

@@ -26,12 +26,18 @@ class ChatTopic implements TopicInterface
      *
      * @param ConnectionInterface $conn
      * @param $topic
-     * @return void
      */
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
-        //this will broadcast the message to ALL subscribers of this topic.
-        $topic->broadcast($conn->resourceId . ' has joined ' . $topic->getId());
+        $player = $conn->elSession->getPlayer();
+        
+        $topic->broadcast(array(
+            'sender'    => $conn->resourceId,
+            'topic'     => $topic->getId(),
+            'message'   => array(
+                'content' => $player->getPseudo().' a rejoint le chat.',
+            ),
+        ));
     }
 
     /**
@@ -39,12 +45,18 @@ class ChatTopic implements TopicInterface
      *
      * @param ConnectionInterface $conn
      * @param $topic
-     * @return void
      */
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
-        //this will broadcast the message to ALL subscribers of this topic.
-        $topic->broadcast($conn->resourceId . ' has left ' . $topic->getId());
+        $player = $conn->elSession->getPlayer();
+        
+        $topic->broadcast(array(
+            'sender'    => $conn->resourceId,
+            'topic'     => $topic->getId(),
+            'message'   => array(
+                'content' => $player->getPseudo().' a quitté le chat.',
+            ),
+        ));
     }
 
     /**
@@ -55,18 +67,18 @@ class ChatTopic implements TopicInterface
      * @param $event
      * @param array $exclude
      * @param array $eligible
-     * @return mixed|void
      */
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
         $player = $conn->elSession->getPlayer();
         
-        $event['pseudo'] = $player->getPseudo();
-        
         $topic->broadcast(array(
             'sender'    => $conn->resourceId,
             'topic'     => $topic->getId(),
-            'message'   => $event,
+            'message'   => array(
+                'content'   => $event,
+                'pseudo'    => $player->getPseudo(),
+            ),
         ));
     }
 }

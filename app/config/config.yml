@@ -94,7 +94,7 @@ clank:
         port: %clank_port%
     session_handler: session.handler.pdo
     topic:
-        - { name: "chat", service: "el_core.chat" }
+        - { name: "chat", service: "el_core.topic.chat" }
     # Add as many as you need
     #    -
     #        name: "other"

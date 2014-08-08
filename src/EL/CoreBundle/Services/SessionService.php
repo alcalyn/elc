@@ -4,49 +4,54 @@ namespace EL\CoreBundle\Services;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManager;
+use EL\CoreBundle\Exception\ELCoreException;
+use EL\CoreBundle\Model\ELSession;
 use EL\CoreBundle\Exception\LoginException;
 use EL\CoreBundle\Entity\Player;
 
 class SessionService
 {
     /**
-     * @var \Symfony\Component\HttpFoundation\Session\Session
+     * @var Session
      */
     private $session;
     
     /**
-     *
+     * @var ELSession
+     */
+    private $elSession;
+    
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
     
-    
-    
+    /**
+     * @param \Symfony\Component\HttpFoundation\Session\Session $session
+     * @param \Doctrine\ORM\EntityManager $em
+     */
     public function __construct(Session $session, EntityManager $em)
     {
-        $this->session          = $session;
-        $this->em               = $em;
+        $this->session      = $session;
+        $this->elSession    = new ELSession($session);
+        $this->em           = $em;
         
         $this->start();
     }
     
     /**
      * Init session, create a guest if first connexion
-     * 
-     * @return Player logged
      */
     public function start()
     {
         $this->session->start();
         
-        if ($this->session->has('player')) {
+        if ($this->elSession->hasPlayer()) {
             $this->resyncronizePlayer();
-            return $this->getPlayer();
         } else {
             $guest = self::generateGuest('en');
             $this->setPlayer($guest);
             $this->savePlayer();
-            return $guest;
         }
     }
     
@@ -91,11 +96,11 @@ class SessionService
      */
     public function logout()
     {
-        if ($this->getPlayer()->getInvited()) {
-            
-        } else {
+        if ($this->isLogged()) {
             $this->session->invalidate();
             $this->session->start();
+        } else {
+            throw new ELCoreException('Try to logout but not logged');
         }
         
         return $this;
@@ -164,7 +169,7 @@ class SessionService
      */
     public function getPlayer()
     {
-        return $this->session->get('player');
+        return $this->elSession->getPlayer();
     }
     
     /**
@@ -176,7 +181,7 @@ class SessionService
      */
     public function setPlayer($player)
     {
-        $this->session->set('player', $player);
+        $this->elSession->setPlayer($player);
         
         return $this;
     }
@@ -195,7 +200,7 @@ class SessionService
     
     /**
      * Syncronize player instance in session with entitymanager,
-     * recreate it if not exists
+     * recreate it if not exists (when fixtures reloaded)
      */
     private function resyncronizePlayer()
     {
@@ -224,6 +229,11 @@ class SessionService
         return md5($salt.$password.$salt);
     }
     
+    /**
+     * @param string $locale
+     * 
+     * @return \EL\CoreBundle\Entity\Player
+     */
     public static function generateGuest($locale = 'en')
     {
         $guest = new Player();
@@ -236,6 +246,11 @@ class SessionService
         return $guest;
     }
     
+    /**
+     * @param string $locale
+     * 
+     * @return string
+     */
     public static function generateGuestName($locale = 'en')
     {
         return 'Guest '.rand(10000, 99999);

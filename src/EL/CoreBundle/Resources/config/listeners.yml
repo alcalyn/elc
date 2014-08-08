@@ -24,7 +24,7 @@ services:
             
     el_core.clank_listener:
         class: EL\CoreBundle\EventListener\ClankEventListener
-        arguments: [@el_core.session]
+        arguments: [@session]
         tags:
             - { name: kernel.event_listener, event: clank.server.launched , method: onServerLaunched }
             - { name: kernel.event_listener, event: clank.client.connected, method: onClientConnect, priority: 5 }

@@ -2,33 +2,43 @@
 
 namespace EL\CoreBundle\EventListener;
 
+use Symfony\Component\HttpFoundation\Session\Session;
 use JDare\ClankBundle\Event\ServerEvent;
 use JDare\ClankBundle\Event\ClientEvent;
 use JDare\ClankBundle\Event\ClientErrorEvent;
-use EL\CoreBundle\Services\SessionService;
+use EL\CoreBundle\Model\ELSession;
 
 class ClankEventListener
 {
     /**
-     * @var SessionService
+     * @var Session
      */
     private $session;
     
     /**
-     * @param \EL\CoreBundle\Services\SessionService $session
+     * @param Session $session
      */
-    public function __construct(SessionService $session)
+    public function __construct(Session $session)
     {
         $this->session = $session;
     }
     
+    /**
+     * Called on clank server launched.
+     * Force this service to load and initialize session at server loading.
+     * 
+     * @param \JDare\ClankBundle\Event\ServerEvent $event
+     */
     public function onServerLaunched(ServerEvent $event)
     {
-        echo 'Player session initialized'.PHP_EOL;
+        $this->session->start();
+        
+        echo 'Session initialized.'.PHP_EOL;
     }
     
     /**
-     * Called whenever a client connects
+     * Called whenever a client connects,
+     * Start player session
      *
      * @param ClientEvent $event
      */
@@ -36,8 +46,9 @@ class ClankEventListener
     {
         $conn = $event->getConnection();
         $conn->Session->start();
+        $conn->elSession = new ELSession($conn->Session);
 
-        echo $conn->resourceId . " connected" . PHP_EOL;
+        echo $conn->elSession->getPlayerPseudo() . ' connected' . PHP_EOL;
         
         $event->stopPropagation();
     }
@@ -51,7 +62,7 @@ class ClankEventListener
     {
         $conn = $event->getConnection();
 
-        echo $conn->resourceId . " disconnected" . PHP_EOL;
+        echo $conn->elSession->getPlayer()->getPseudo() . ' disconnected' . PHP_EOL;
         
         $event->stopPropagation();
     }
@@ -66,7 +77,7 @@ class ClankEventListener
         $conn = $event->getConnection();
         $e = $event->getException();
 
-        echo "connection error occurred: " . $e->getMessage() . PHP_EOL;
+        echo 'connection error occurred: ' . $e->getMessage() . PHP_EOL;
         
         $event->stopPropagation();
     }

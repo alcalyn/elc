@@ -25,6 +25,7 @@ class CoreExtension extends Extension
         $loader->load('extensions.yml');
         $loader->load('paramConverters.yml');
         $loader->load('phaxControllers.yml');
+        $loader->load('topics.yml');
         
         $aAsseticBundle = $container->getParameter('assetic.bundles');
         $aAsseticBundle[] = 'CoreBundle';

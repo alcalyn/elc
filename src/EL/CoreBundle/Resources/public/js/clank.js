@@ -1,10 +1,11 @@
+jQuery(function () {
+    connectClank();
+});
 
 /**
- * Connect clank and call callback() once connected
- * 
- * @param {Function} callback
+ * Connect clank
  */
-function connectClank(callback) {
+function connectClank() {
     console.log('Connecting Clank...');
     
     var conf = jsContext.clank;
@@ -16,14 +17,12 @@ function connectClank(callback) {
     }
     
     var clank = Clank.connect(uri);
+    window['clank'] = clank;
     
     clank.on('socket/connect', function (session) {
         console.log('Clank connected');
         
-        window['clank'] = clank;
         window['clankSession'] = session;
-        
-        callback();
     });
     
     clank.on('socket/disconnect', function (error) {

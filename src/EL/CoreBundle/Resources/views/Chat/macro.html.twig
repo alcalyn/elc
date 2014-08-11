@@ -1,0 +1,14 @@
+{% macro panel(id) %}
+    <div id="{{ id }}" class="chat">
+        <ul class="messages list-unstyled">
+        </ul>
+        <form class="submit">
+            <div class="input-group">
+                <input type="text" name="content" class="form-control message-input" autocomplete="off">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Envoyer</button>
+                </span>
+            </div>
+        </form>
+    </div>
+{% endmacro %}

@@ -76,8 +76,9 @@ class ChatTopic implements TopicInterface
             'sender'    => $conn->resourceId,
             'topic'     => $topic->getId(),
             'message'   => array(
-                'content'   => $event,
-                'pseudo'    => $player->getPseudo(),
+                'content'       => $this->chat->parseMessage($event),
+                'pseudo'        => htmlspecialchars($player->getPseudo()),
+                'pseudoLink'    => '#',
             ),
         ));
     }

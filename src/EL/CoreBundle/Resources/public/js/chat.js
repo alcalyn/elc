@@ -1,7 +1,6 @@
 jQuery(function () {
-    initChat();
+    initChats();
 });
-
 
 function Chat(id)
 {
@@ -29,7 +28,15 @@ function Chat(id)
      */
     this.init = function ()
     {
+        if (1 !== this.$chat.size()) {
+            console.warn(this.$chat.size()+' instance of chat "'+self.id+'" was found. Impossible to init.');
+            return;
+        }
+        
+        self.setEnabledInput(false);
+        self.listenClank();
         self.bindSubmitButton();
+        self.unsuscribeOnLeave();
     };
     
     /**
@@ -47,12 +54,17 @@ function Chat(id)
         var $message = jQuery('<li class="message">');
         
         if (message.pseudo) {
-            $message.append('<a href="#">'+message.pseudo+'</a> : '+message.content);
+            if (message.pseudoLink) {
+                $message.append('<a href="'+message.pseudoLink+'">'+message.pseudo+'</a> : '+message.content);
+            } else {
+                $message.append(message.pseudo+' : '+message.content);
+            }
         } else {
             $message.append(message.content);
         }
         
         self.$chat.find('.messages').append($message);
+        self.scrollToBottom();
     };
     
     /**
@@ -69,26 +81,123 @@ function Chat(id)
     this.bindSubmitButton = function ()
     {
         self.$chat.find('form.submit').submit(function () {
-            clankSession.publish('chat/general-fr', jQuery('.message-input').val());
+            var message = jQuery.trim(jQuery('.message-input').val());
             
-            self.clearInput();
+            if (message.length > 0) {
+                clankSession.publish('chat/general-fr', message);
+
+                self.clearInput();
+            }
             
             return false;
         });
     };
     
+    /**
+     * Scroll to bottom to follow discuss
+     */
+    this.scrollToBottom = function ()
+    {
+        var $messages = self.$chat.find('.messages');
+        var messagesHeight = $messages.scrollTop() + $messages.innerHeight();
+        var currentScroll = $messages[0].scrollHeight - $messages.find('.message').last().innerHeight();
+        var isAtBottom = messagesHeight >= currentScroll;
+        
+        if (isAtBottom) {
+            $messages.animate({ scrollTop: $messages[0].scrollHeight}, 200);
+        }
+    };
+    
+    /**
+     * Enable or disable input to avoid submit while websocket not connected
+     * 
+     * @param {Boolean} enabled
+     */
+    this.setEnabledInput = function (enabled)
+    {
+        self.$chat.find('form [type=submit]').prop('disabled', !enabled);
+    };
+    
+    /**
+     * Called when clank is connected
+     */
+    this.onConnect = function ()
+    {
+        console.log('chat '+self.id+' connected');
+        
+        self.subscribe();
+        self.setEnabledInput(true);
+    };
+    
+    /**
+     * Called when clank is disconnected
+     */
+    this.onDisConnect = function ()
+    {
+        console.log('chat '+self.id+' disconnected');
+        
+        self.setEnabledInput(false);
+    };
+    
+    /**
+     * Listen clank connects and disconnects
+     */
+    this.listenClank = function ()
+    {
+        clank.on('socket/connect', function () {
+            self.onConnect();
+        });
+        
+        clank.on('socket/disconnect', function () {
+            self.onDisConnect();
+        });
+        
+        // Call onConnect() if websocket is already connected
+        if ((typeof clankSession !== 'undefined') && clankSession._websocket_connected) {
+            self.onConnect();
+        }
+    };
+    
+    /**
+     * subscribe to chat topic
+     */
+    this.subscribe = function ()
+    {
+        clankSession.subscribe('chat/'+self.id, function (uri, data) {
+            self.addMessage(data.message);
+        });
+    };
+    
+    /**
+     * unsuscribe to chat topic
+     */
+    this.unsuscribe = function ()
+    {
+        clankSession.unsubscribe('chat/'+self.id);
+    };
+    
+    /**
+     * Listen window unload event to unsuscribe when user leave the page
+     */
+    this.unsuscribeOnLeave = function ()
+    {
+        window.onbeforeunload = function() {
+            self.unsubscribe();
+        };
+    };
+    
+    // Init chat instance
     this.init();
 }
 
-function initChat() {
-    var chat = new Chat('general-fr');
-    window['chat'] = chat;
+function initChats () {
+    var chats = {};
     
-    connectClank(function () {
-        clankSession.subscribe('chat/general-fr', function (uri, data) {
-            console.log(uri, data);
-            
-            chat.addMessage(data.message);
-        });
+    jQuery('.chat').each(function () {
+        var id = jQuery(this).attr('id');
+        
+        chats[id] = new Chat(id);
     });
+    
+    window['chats'] = chats;
 }

@@ -669,6 +669,6 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
     padding: 4px;
     border-radius: 4px;
 }
-.messages li:nth-child(even) {
+.messages li:nth-child(odd) {
     background-color: #f8f8f8;
 }

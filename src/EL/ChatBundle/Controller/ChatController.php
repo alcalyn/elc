@@ -24,6 +24,8 @@ class ChatController extends Controller
         $topicName = 'general-'.$_locale;
         $title = $this->get('translator')->trans('chat.general');
         
+        $this->get('el_core.js_vars')->useTrans('chat.you.quit');
+        
         return array(
             'title' => $title,
             'topicName' => $topicName,

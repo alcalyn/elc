@@ -182,7 +182,8 @@ function Chat(id)
     this.unsuscribeOnLeave = function ()
     {
         window.onbeforeunload = function() {
-            self.unsubscribe();
+            self.unsuscribe();
+            self.addMessage({content: t('chat.you.quit')});
         };
     };
     

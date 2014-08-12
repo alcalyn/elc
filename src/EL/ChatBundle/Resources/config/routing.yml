@@ -1,0 +1,3 @@
+elcore_chat_controller:
+    resource: "@ChatBundle/Controller/ChatController.php"
+    type:     annotation

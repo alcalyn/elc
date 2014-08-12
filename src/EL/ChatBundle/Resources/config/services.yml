@@ -1,0 +1,4 @@
+services:
+    el_chat.chat:
+        class: EL\ChatBundle\Services\ChatService
+        arguments: [@el_core.player, @translator, %chat.enable_logs%, %kernel.logs_dir%]

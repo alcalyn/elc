@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\DependencyInjection;
+namespace EL\ChatBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class CoreExtension extends Extension
+class ChatExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -20,15 +20,12 @@ class CoreExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('parameters.yml');
         $loader->load('services.yml');
-        $loader->load('listeners.yml');
-        $loader->load('extensions.yml');
-        $loader->load('paramConverters.yml');
-        $loader->load('phaxControllers.yml');
+        $loader->load('topics.yml');
         
         $aAsseticBundle = $container->getParameter('assetic.bundles');
-        $aAsseticBundle[] = 'CoreBundle';
-        $aAsseticBundle[] = 'JDareClankBundle';
+        $aAsseticBundle[] = 'ChatBundle';
         $container->setParameter('assetic.bundles', $aAsseticBundle);
     }
 }

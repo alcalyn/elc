@@ -1,0 +1,17 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% import "ChatBundle:Chat:macro.html.twig" as chat %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('elcore_home') }}">{{ 'home'|trans }}</a></li>
+        <li class="active">{{ 'chat'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+<div class="chatroom general">
+    <h2>{{ title }}</h2>
+    {{ chat.panel(topicName) }}
+</div>
+{% endblock %}

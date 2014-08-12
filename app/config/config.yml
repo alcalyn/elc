@@ -17,13 +17,13 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  false
     trusted_proxies: ~
-    session:         ~
     fragments:       ~
     http_method_override: true
     session:
         #cookie_lifetime: 0
         #save_path: %kernel.root_dir%/var/sessions
         #cookie_domain: .my-domain.com
+        handler_id: session.handler.pdo
         name: ElectronLibreSession
 
 # Twig Configuration
@@ -86,3 +86,37 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+# Clank Configuration
+clank:
+    web_socket_server:
+        host: %clank_host%
+        port: %clank_port%
+    session_handler: session.handler.pdo
+    topic:
+        - { name: "chat", service: "el_chat.topic.chat" }
+    # Add as many as you need
+    #    -
+    #        name: "other"
+    #        service: "acme_hello.topic_other_service"
+
+parameters:
+    pdo.db_options:
+        db_table:    el_session
+        db_id_col:   session_id
+        db_data_col: session_value
+        db_time_col: session_time
+
+services:
+    pdo:
+        class: PDO
+        arguments:
+            dsn:      "mysql:dbname=%database_name%"
+            user:     %database_user%
+            password: %database_password%
+        calls:
+            - [setAttribute, [3, 2]] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+
+    session.handler.pdo:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        arguments: [@pdo, %pdo.db_options%]

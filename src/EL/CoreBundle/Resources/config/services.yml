@@ -1,5 +1,6 @@
 parameters:
     el_core.session.class:              EL\CoreBundle\Services\SessionService
+    el_core.player.class:               EL\CoreBundle\Services\PlayerService
     el_core.js_vars.class:              EL\CoreBundle\Services\JsVarsService
     el_core.party.class:                EL\CoreBundle\Services\PartyService
     el_core.game.class:                 EL\CoreBundle\Services\GameService
@@ -13,6 +14,10 @@ services:
     el_core.session:
         class: %el_core.session.class%
         arguments: [@session, @doctrine.orm.entity_manager]
+        
+    el_core.player:
+        class: %el_core.player.class%
+        arguments: [@doctrine.orm.entity_manager]
         
     el_core.js_vars:
         class: %el_core.js_vars.class%

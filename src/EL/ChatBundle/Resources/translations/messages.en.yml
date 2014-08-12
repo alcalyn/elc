@@ -1,0 +1,5 @@
+chat: 'Chat'
+chat.general: 'English channel'
+chat.join.%pseudo%: '%pseudo% has join the channel.'
+chat.leave.%pseudo%: '%pseudo% has leave the channel.'
+chat.you.quit: 'You quit the channel.'

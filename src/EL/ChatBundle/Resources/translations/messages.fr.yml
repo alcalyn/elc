@@ -1,0 +1,4 @@
+chat: 'Chat'
+chat.general: 'Canal Français'
+chat.join.%pseudo%: '%pseudo% a rejoint le chat.'
+chat.leave.%pseudo%: '%pseudo% a quitté le chat.'

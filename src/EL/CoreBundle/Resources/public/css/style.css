@@ -656,19 +656,3 @@ input[type=checkbox]:not(:checked).cb-restyle ~ .cb-true {
     cursor: -webkit-grabbing;
     cursor: -moz-grabbing;
 }
-
-/* chat */
-.messages {
-    background: none repeat scroll 0 0 #eee;
-    border-radius: 4px;
-    height: 400px;
-    padding: 4px;
-    overflow-y: auto;
-}
-.messages li {
-    padding: 4px;
-    border-radius: 4px;
-}
-.messages li:nth-child(odd) {
-    background-color: #f8f8f8;
-}

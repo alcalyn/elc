@@ -1,0 +1,3 @@
+parameters:
+    # set to true to logs chats messages. Restart WsServer to apply
+    chat.enable_logs: false

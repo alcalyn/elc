@@ -5,3 +5,7 @@ phax:
 el_core:
     resource: "@CoreBundle/Resources/config/routing.yml"
     prefix:   /
+
+chat:
+    resource: "@ChatBundle/Resources/config/routing.yml"
+    prefix:   /

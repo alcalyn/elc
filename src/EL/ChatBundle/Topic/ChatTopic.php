@@ -1,20 +1,20 @@
 <?php
 
-namespace EL\CoreBundle\Topic;
+namespace EL\ChatBundle\Topic;
 
 use Ratchet\ConnectionInterface;
 use JDare\ClankBundle\Topic\TopicInterface;
-use EL\CoreBundle\Services\ChatService;
+use EL\ChatBundle\Services\ChatService;
 
 class ChatTopic implements TopicInterface
 {
     /**
-     * @var \EL\CoreBundle\Services\ChatService
+     * @var ChatService
      */
     private $chat;
     
     /**
-     * @param \EL\CoreBundle\Services\ChatService $chat
+     * @param ChatService $chat
      */
     public function __construct(ChatService $chat)
     {
@@ -30,14 +30,18 @@ class ChatTopic implements TopicInterface
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
         $player = $conn->elSession->getPlayer();
+        $locale = $conn->locale;
+        $message = $this->chat->getJoinMessage($player, $locale);
         
         $topic->broadcast(array(
             'sender'    => $conn->resourceId,
             'topic'     => $topic->getId(),
             'message'   => array(
-                'content' => $player->getPseudo().' a rejoint le chat.',
+                'content' => $message,
             ),
         ));
+        
+        $this->chat->log($topic, $message);
     }
 
     /**
@@ -49,14 +53,18 @@ class ChatTopic implements TopicInterface
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
         $player = $conn->elSession->getPlayer();
+        $locale = $conn->locale;
+        $message = $this->chat->getLeaveMessage($player, $locale);
         
         $topic->broadcast(array(
             'sender'    => $conn->resourceId,
             'topic'     => $topic->getId(),
             'message'   => array(
-                'content' => $player->getPseudo().' a quitté le chat.',
+                'content' => $message,
             ),
         ));
+        
+        $this->chat->log($topic, $message);
     }
 
     /**
@@ -78,8 +86,10 @@ class ChatTopic implements TopicInterface
             'message'   => array(
                 'content'       => $this->chat->parseMessage($event),
                 'pseudo'        => htmlspecialchars($player->getPseudo()),
-                'pseudoLink'    => '#',
+                'pseudoLink'    => $this->chat->getPlayerLink($player),
             ),
         ));
+        
+        $this->chat->log($topic, $event, $player);
     }
 }

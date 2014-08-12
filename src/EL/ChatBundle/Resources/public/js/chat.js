@@ -84,7 +84,7 @@ function Chat(id)
             var message = jQuery.trim(jQuery('.message-input').val());
             
             if (message.length > 0) {
-                clankSession.publish('chat/general-fr', message);
+                clankSession.publish('chat/'+self.id, message);
 
                 self.clearInput();
             }

@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\Controller;
+namespace EL\ChatBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,9 +19,14 @@ class ChatController extends Controller
      * )
      * @Template
      */
-    public function generalAction()
+    public function generalAction($_locale)
     {
+        $topicName = 'general-'.$_locale;
+        $title = $this->get('translator')->trans('chat.general');
+        
         return array(
+            'title' => $title,
+            'topicName' => $topicName,
         );
     }
 }

@@ -48,6 +48,7 @@ class ClankEventListener
         
         $conn->Session->start();
         $conn->elSession = new ELSession($conn->Session);
+        $conn->locale = $conn->WebSocket->request->getCookies()['hl'];
 
         echo $conn->elSession->getPlayerPseudo() . ' connected' . PHP_EOL;
         
@@ -75,7 +76,6 @@ class ClankEventListener
      */
     public function onClientError(ClientErrorEvent $event)
     {
-        $conn = $event->getConnection();
         $e = $event->getException();
 
         echo 'connection error occurred: ' . $e->getMessage() . PHP_EOL;

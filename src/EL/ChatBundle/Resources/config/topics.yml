@@ -1,0 +1,4 @@
+services:
+    el_chat.topic.chat:
+        class: EL\ChatBundle\Topic\ChatTopic
+        arguments: [@el_chat.chat]

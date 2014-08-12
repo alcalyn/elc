@@ -1,6 +1,6 @@
 {% extends "CoreBundle::layout.html.twig" %}
 
-{% import "CoreBundle:Chat:macro.html.twig" as chat %}
+{% import "ChatBundle:Chat:macro.html.twig" as chat %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
@@ -11,7 +11,7 @@
 
 {% block body %}
 <div class="chatroom general">
-    <h2>General Chatroom</h2>
-    {{ chat.panel('general-fr') }}
+    <h2>{{ title }}</h2>
+    {{ chat.panel(topicName) }}
 </div>
 {% endblock %}

@@ -39,4 +39,38 @@ class PlayerRepository extends EntityRepository
                     'passwordHash'  => $passwordHash,
                 ));
     }
+    
+    public function getPlayersByPseudoCI($pseudo)
+    {
+        return $this->_em
+            ->createQuery(
+                '
+                    select p
+                    from CoreBundle:Player p
+                    where lower(p.pseudo) like :pseudo
+                '
+            )
+            ->setParameters(array(
+                'pseudo' => '%'.strtolower($pseudo).'%',
+            ))
+            ->getResult()
+        ;
+    }
+    
+    public function getPlayerByPseudoCI($pseudo)
+    {
+        return $this->_em
+            ->createQuery(
+                '
+                    select p
+                    from CoreBundle:Player p
+                    where lower(p.pseudo) like :pseudo
+                '
+            )
+            ->setParameters(array(
+                'pseudo' => strtolower($pseudo),
+            ))
+            ->getOneOrNullResult()
+        ;
+    }
 }

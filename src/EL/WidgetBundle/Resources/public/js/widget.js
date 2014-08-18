@@ -1,7 +1,17 @@
 
 
-var widget = {
+var widget =
+{
+    /**
+     * Contains widget objects
+     * 
+     * @type Array
+     */
+    widgets: [],
     
+    /**
+     * Init widgets
+     */
     init: function ()
     {
         console.log('widget init');
@@ -9,9 +19,9 @@ var widget = {
         $('.widget.my-games input[name="my-turn"]').change(widget.myPartiesRefreshMyTurnFilter);
         widget.myPartiesRefreshMyTurnFilter();
         
-//        setInterval(function () {
-//            phax.action('widget', 'myParties', {_locale: jsContext.locale});
-//        }, 3000);
+        setInterval(function () {
+            phax.action('widget', 'myParties', {_locale: jsContext.locale});
+        }, 3000);
     },
     
     myPartiesRefreshMyTurnFilter: function ()
@@ -23,11 +33,11 @@ var widget = {
         }
     },
     
+    /**
+     * Update parties list
+     */
     myPartiesReaction: function (r)
     {
-        /**
-         * Update parties list
-         */
         var $partiesList = $('.widget.my-games .list-group');
         
         $partiesList.find('.list-group-item').remove();

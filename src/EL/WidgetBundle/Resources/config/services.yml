@@ -1,0 +1,3 @@
+services:
+    el_core.widgets:
+        class: EL\WidgetBundle\Services\WidgetService

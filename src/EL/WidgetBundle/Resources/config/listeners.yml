@@ -1,0 +1,6 @@
+services:
+    el_widget.my_parties:
+        class: EL\WidgetBundle\EventListener\MyPartiesEventListener
+        arguments: []
+        tags:
+            - { name: kernel.event_listener, event: event.party.start.after, method: onPartyStartAfter }

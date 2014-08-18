@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new JDare\ClankBundle\JDareClankBundle(),
             new Phax\CoreBundle\PhaxCoreBundle(),
             new EL\CoreBundle\CoreBundle(),
+            new EL\WidgetBundle\WidgetBundle(),
             new EL\ChatBundle\ChatBundle(),
             new EL\AbstractGameBundle\AbstractGameBundle(),
             new EL\TicTacToeBundle\TicTacToeBundle(),

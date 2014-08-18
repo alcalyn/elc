@@ -231,7 +231,7 @@ class PartyController extends Controller
         }
         
         $widgetService = $this->get('el_core.widgets');
-        $widgetService->add('CoreBundle:Widget:currentParty', array(), 0);
+        $widgetService->add('WidgetBundle:Widget:currentParty', array(), 0);
         
         $this->get('el_core.js_vars')
             ->initPhaxController('party')

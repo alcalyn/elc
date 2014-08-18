@@ -10,6 +10,6 @@ services:
             - [setContainer, ["@service_container"]]
             
     phax.widget:
-        class: EL\CoreBundle\Controller\WidgetController
+        class: EL\WidgetBundle\Controller\WidgetController
         calls:
             - [setContainer, ["@service_container"]]

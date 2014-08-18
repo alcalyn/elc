@@ -1,26 +1,29 @@
 <?php
 
-namespace EL\CoreBundle\Services;
+namespace EL\WidgetBundle\Services;
 
 class WidgetService
 {
-    
     /**
      * @var array of widget to display
      */
     private $widgets;
     
-    
-    
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->widgets = array();
         $this->init();
     }
     
+    /**
+     * Add global widgets
+     */
     private function init()
     {
-        //$this->add('CoreBundle:Widget:myParties');
+        $this->add('WidgetBundle:Widget:myParties');
     }
     
     /**

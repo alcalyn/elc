@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\CoreBundle\Controller;
+namespace EL\WidgetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -23,7 +23,7 @@ class WidgetController extends Controller
 
             $game                       = $party->getGame();
             $gamesList[$game->getId()]  = $game->getTitle();
-            $gameInterface               = $partyService->getGameInterface();
+            $gameInterface              = $partyService->getGameInterface();
             $partyDescription           = $gameInterface->getCurrentDescription($_locale, $partyService);
             $myTurn                     = $gameInterface->isMyTurn($partyService);
 
@@ -31,15 +31,15 @@ class WidgetController extends Controller
                 'game'          => $game,
                 'party'         => $party,
                 'description'   => $partyDescription,
-                'myTurn'       => $myTurn,
+                'myTurn'        => $myTurn,
                 'link'          => $this->generateUrl('elcore_party', array(
-                    'slugGame'     => $game->getSlug(),
-                    'slugParty'    => $party->getSlug(),
+                    'slugGame'      => $game->getSlug(),
+                    'slugParty'     => $party->getSlug(),
                 )),
             );
         }
 
-        return $this->get('phax')->render('CoreBundle:Widget/MyParties:my-parties.html.twig', array(
+        return $this->get('phax')->render('WidgetBundle:MyParties:widget.html.twig', array(
             'currentParties'   => $partiesList,
             'gamesList'        => $gamesList,
         ));
@@ -59,7 +59,7 @@ class WidgetController extends Controller
         $party              = $partyService->getParty();
         $game               = $partyService->getGame();
         $players            = $partyService->getPlayers();
-        $gameInterface       = $partyService->getGameInterface();
+        $gameInterface      = $partyService->getGameInterface();
         $extendedOptions    = $gameInterface->loadParty($party);
         $options            = $gameInterface->getDisplayOptionsTemplate($party, $extendedOptions);
         $optionsTemplate    = is_array($options) ? $options['template'] : $options ;
@@ -67,7 +67,7 @@ class WidgetController extends Controller
         
         $scoreService->badgePlayers($players, $game);
         
-        return $this->get('phax')->render('CoreBundle:Widget/CurrentParty:current-party.html.twig', array(
+        return $this->get('phax')->render('WidgetBundle:CurrentParty:widget.html.twig', array(
             'locale'                    => $_locale,
             'coreParty'                 => $party,
             'game'                      => $game,

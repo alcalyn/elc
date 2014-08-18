@@ -9,3 +9,7 @@ el_core:
 chat:
     resource: "@ChatBundle/Resources/config/routing.yml"
     prefix:   /
+
+widget:
+    resource: "@WidgetBundle/Resources/config/routing.yml"
+    prefix:   /

@@ -10,12 +10,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: event.party.start.before, method: onPartyStartBefore }
             
-    el_core.flush_later_listener:
-        class: EL\CoreBundle\EventListener\FlushOnKernelTerminate
-        arguments: [@doctrine.orm.entity_manager]
-        tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
-            
     el_core.configure_clank:
         class: EL\CoreBundle\EventListener\ConfigureClank
         arguments: [@el_core.js_vars, %clank_host%, %clank_port%]

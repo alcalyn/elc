@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new JDare\ClankBundle\JDareClankBundle(),
             new Phax\CoreBundle\PhaxCoreBundle(),
+            new Alcalyn\FlushOnKernelTerminateBundle\AlcalynFlushOnKernelTerminateBundle(),
             new EL\CoreBundle\CoreBundle(),
             new EL\ChatBundle\ChatBundle(),
             new EL\AbstractGameBundle\AbstractGameBundle(),

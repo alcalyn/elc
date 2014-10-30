@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new Phax\CoreBundle\PhaxCoreBundle(),
+            new Alcalyn\FlushOnKernelTerminateBundle\AlcalynFlushOnKernelTerminateBundle(),
             new EL\CoreBundle\CoreBundle(),
             new EL\AbstractGameBundle\AbstractGameBundle(),
             new EL\TicTacToeBundle\TicTacToeBundle(),

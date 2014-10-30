@@ -9,9 +9,3 @@ services:
         class: EL\CoreBundle\EventListener\PartyListener
         tags:
             - { name: kernel.event_listener, event: event.party.start.before, method: onPartyStartBefore }
-            
-    el_core.flush_later_listener:
-        class: EL\CoreBundle\EventListener\FlushOnKernelTerminate
-        arguments: [@doctrine.orm.entity_manager]
-        tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }

@@ -22,6 +22,7 @@
         "sensio/generator-bundle": "2.3.*",
         "jms/i18n-routing-bundle": "1.1.x",
         "incenteev/composer-parameter-handler": "~2.0",
+        "alcalyn/flush-on-kernel-terminate-bundle": "dev-master",
         "phax/phax-bundle": "0.*"
     },
     "scripts": {

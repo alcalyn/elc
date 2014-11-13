@@ -1,0 +1,46 @@
+parameters:
+    el_core.session.class:              EL\Bundle\CoreBundle\Services\SessionService
+    el_core.js_vars.class:              EL\Bundle\CoreBundle\Services\JsVarsService
+    el_core.party.class:                EL\Bundle\CoreBundle\Services\PartyService
+    el_core.game.class:                 EL\Bundle\CoreBundle\Services\GameService
+    el_core.widget.class:               EL\Bundle\CoreBundle\Services\WidgetService
+    el_core.score.class:                EL\Bundle\CoreBundle\Services\ScoreService
+    el_core.points.class:               EL\Bundle\CoreBundle\Services\PointsService
+    el_core.elo.class:                  EL\Bundle\CoreBundle\Services\EloService
+    el_core.wld.class:                  EL\Bundle\CoreBundle\Services\WLDService
+
+services:
+    el_core.session:
+        class: %el_core.session.class%
+        arguments: [@session, @doctrine.orm.entity_manager]
+        
+    el_core.js_vars:
+        class: %el_core.js_vars.class%
+        arguments: [@router, @el_core.session, @translator]
+        
+    el_core.game:
+        class: %el_core.game.class%
+        arguments: [@doctrine.orm.entity_manager]
+        
+    el_core.party:
+        class: %el_core.party.class%
+        arguments: [@doctrine.orm.entity_manager, @el_core.session, @event_dispatcher]
+        
+    el_core.widgets:
+        class: %el_core.widget.class%
+        
+    el_core.score:
+        class: %el_core.score.class%
+        arguments: [@doctrine.orm.entity_manager]
+        
+    el_core.score.points:
+        class: %el_core.points.class%
+        arguments: [@doctrine.orm.entity_manager]
+        
+    el_core.score.elo:
+        class: %el_core.elo.class%
+        arguments: [@doctrine.orm.entity_manager]
+        
+    el_core.score.wld:
+        class: %el_core.wld.class%
+        arguments: [@doctrine.orm.entity_manager]

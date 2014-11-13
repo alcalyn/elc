@@ -2,8 +2,8 @@
 
 namespace EL\AbstractGameBundle\Model;
 
-use EL\CoreBundle\Entity\Party as CoreParty;
-use EL\CoreBundle\Services\PartyService;
+use EL\Bundle\CoreBundle\Entity\Party as CoreParty;
+use EL\Bundle\CoreBundle\Services\PartyService;
 
 interface ELGameInterface
 {

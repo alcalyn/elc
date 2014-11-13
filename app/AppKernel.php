@@ -22,11 +22,11 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new Phax\CoreBundle\PhaxCoreBundle(),
             new Alcalyn\FlushOnKernelTerminateBundle\AlcalynFlushOnKernelTerminateBundle(),
-            new EL\CoreBundle\CoreBundle(),
+            new EL\Bundle\CoreBundle\CoreBundle(),
             new EL\AbstractGameBundle\AbstractGameBundle(),
-            new EL\TicTacToeBundle\TicTacToeBundle(),
-            new EL\AwaleBundle\AwaleBundle(),
-            new EL\CheckersBundle\CheckersBundle(),
+            new EL\Bundle\Game\TicTacToeBundle\GameTicTacToeBundle(),
+            new EL\Bundle\Game\AwaleBundle\GameAwaleBundle(),
+            new EL\Bundle\Game\CheckersBundle\GameCheckersBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

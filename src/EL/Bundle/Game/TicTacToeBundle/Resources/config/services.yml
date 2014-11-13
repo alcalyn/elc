@@ -1,0 +1,13 @@
+parameters:
+#    el_tic_tac_toe.example.class: EL\Bundle\Game\TicTacToeBundle\Example
+
+services:
+    el_games.tictactoe:
+        class: EL\Bundle\Game\TicTacToeBundle\Services\TicTacToeInterface
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [init]
+    phax.tictactoe:
+        class: EL\Bundle\Game\TicTacToeBundle\Controller\TicTacToeAjaxController
+        calls:
+            - [setContainer, ["@service_container"]]

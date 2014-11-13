@@ -1,0 +1,15 @@
+services:
+    phax.party:
+        class: EL\Bundle\CoreBundle\Controller\PartyAjaxController
+        calls:
+            - [setContainer, ["@service_container"]]
+            
+    phax.slot:
+        class: EL\Bundle\CoreBundle\Controller\SlotController
+        calls:
+            - [setContainer, ["@service_container"]]
+            
+    phax.widget:
+        class: EL\Bundle\CoreBundle\Controller\WidgetController
+        calls:
+            - [setContainer, ["@service_container"]]

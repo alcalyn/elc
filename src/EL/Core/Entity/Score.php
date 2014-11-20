@@ -1,8 +1,6 @@
 <?php
 
 namespace EL\Core\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
 use EL\Core\Entity\Player;
 use EL\Core\Entity\GameVariant;
 

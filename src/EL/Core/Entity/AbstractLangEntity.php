@@ -1,7 +1,6 @@
 <?php
 
 namespace EL\Core\Entity;
-
 /**
  * class AbstractLangEntity
  * 

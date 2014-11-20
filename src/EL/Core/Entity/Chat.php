@@ -2,8 +2,6 @@
 
 namespace EL\Core\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Chat
  */

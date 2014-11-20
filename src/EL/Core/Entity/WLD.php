@@ -2,8 +2,6 @@
 
 namespace EL\Core\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * WLD
  * Save a win/loss/draw party in time

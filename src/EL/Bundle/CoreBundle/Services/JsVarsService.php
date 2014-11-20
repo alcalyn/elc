@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\Services;
 
 use Symfony\Component\Routing\Router;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use EL\Bundle\CoreBundle\Services\SessionService;
 
 class JsVarsService
@@ -31,14 +31,14 @@ class JsVarsService
     private $session;
     
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     private $translator;
     
     
     
     
-    public function __construct(Router $router, SessionService $session, Translator $translator)
+    public function __construct(Router $router, SessionService $session, TranslatorInterface $translator)
     {
         $this->router       = $router;
         $this->session      = $session;

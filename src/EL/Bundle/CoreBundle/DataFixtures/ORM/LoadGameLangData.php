@@ -5,7 +5,7 @@ namespace EL\Bundle\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use EL\Bundle\CoreBundle\Entity\GameLang;
+use EL\Core\Entity\GameLang;
 
 class LoadGameLangData extends AbstractFixture implements OrderedFixtureInterface
 {

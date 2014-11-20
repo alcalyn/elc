@@ -4,10 +4,10 @@ namespace EL\Bundle\Game\CheckersBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Util\Coords;
 use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\Bundle\Game\CheckersBundle\Entity\CheckersParty;
+use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Checkers\CheckersIllegalMoveException;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 use EL\Bundle\Game\CheckersBundle\Services\Checkers;
@@ -173,7 +173,7 @@ class CheckersController extends Controller
     /**
      * End party
      * 
-     * @param \EL\Bundle\Game\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
      * @param mixed $winner Checkers WHITE, BLACK or DRAW
      * @param string $variantName
      */

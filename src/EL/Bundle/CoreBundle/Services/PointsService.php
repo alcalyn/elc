@@ -3,12 +3,12 @@
 namespace EL\Bundle\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use EL\Bundle\CoreBundle\Entity\Player;
-use EL\Bundle\CoreBundle\Entity\Game;
-use EL\Bundle\CoreBundle\Entity\GameVariant;
+use EL\Core\Entity\Player;
+use EL\Core\Entity\Game;
+use EL\Core\Entity\GameVariant;
 use EL\Bundle\CoreBundle\Services\ScoreService;
-use EL\Bundle\CoreBundle\Entity\Party;
-use EL\Bundle\CoreBundle\Entity\Points;
+use EL\Core\Entity\Party;
+use EL\Core\Entity\Points;
 
 class PointsService extends ScoreService
 {
@@ -21,9 +21,9 @@ class PointsService extends ScoreService
     /**
      * Add a points value in time for history
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
-     * @param \EL\Bundle\CoreBundle\Entity\GameVariant $gameVariant
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Player $player
+     * @param \EL\Core\Entity\GameVariant $gameVariant
+     * @param \EL\Core\Entity\Party $party
      * @param double $value
      * 
      * @return Points
@@ -47,12 +47,12 @@ class PointsService extends ScoreService
      * Example of use :
      *      $this->get('el_core.score.points')->update($player, $game, 1000);
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
+     * @param \EL\Core\Entity\Player $player
      * @param Game|GameVariant $game
      * @param float $points
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      * 
-     * @return \EL\Bundle\CoreBundle\Entity\Score
+     * @return \EL\Core\Entity\Score
      */
     public function update(Player $player, $game, $points, Party $party = null)
     {

@@ -1,0 +1,16 @@
+EL\Core\Entity\PlayerChat:
+    type: entity
+    table: el_core_player_chat
+    repositoryClass: EL\Bundle\CoreBundle\Repository\PlayerChatRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    lifecycleCallbacks: {  }

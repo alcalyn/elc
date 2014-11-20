@@ -1,0 +1,53 @@
+EL\Core\Entity\Player:
+    type: entity
+    table: el_core_player
+    repositoryClass: EL\Bundle\CoreBundle\Repository\PlayerRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        pseudo:
+            type: string
+            scale: 0
+            length: 31
+            unique: false
+            nullable: false
+            precision: 0
+        passwordHash:
+            type: string
+            scale: 0
+            length: 32
+            unique: false
+            nullable: true
+            precision: 0
+            column: password_hash
+        invited:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        bot:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        dateCreate:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: date_create
+    lifecycleCallbacks: {  }

@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 use EL\Bundle\CoreBundle\Exception\ELUserException;
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Bundle\CoreBundle\Form\Entity\Options;
 use EL\Bundle\CoreBundle\Form\Type\OptionsType;
@@ -277,7 +277,7 @@ class PartyController extends Controller
      * @param string $_locale
      * @param string $slugGame
      * @param string $slugParty
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * 

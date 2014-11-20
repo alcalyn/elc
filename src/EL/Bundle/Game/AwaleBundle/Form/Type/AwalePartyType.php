@@ -34,7 +34,7 @@ class AwalePartyType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\Bundle\Game\AwaleBundle\Entity\AwaleParty'
+            'data_class' => 'EL\Game\Awale\Entity\AwaleParty'
         ));
     }
     

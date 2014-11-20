@@ -5,11 +5,11 @@ namespace EL\Bundle\Game\TicTacToeBundle\Services;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\Bundle\CoreBundle\Event\PartyEvent;
 use EL\Bundle\CoreBundle\Event\PartyRemakeEvent;
-use EL\Bundle\CoreBundle\Entity\Party as CoreParty;
+use EL\Core\Entity\Party as CoreParty;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\Bundle\Game\TicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
-use EL\Bundle\Game\TicTacToeBundle\Entity\TicTacToeParty;
+use EL\Game\TicTacToe\Entity\TicTacToeParty;
 
 class TicTacToeInterface extends ELGameAdapter implements EventSubscriberInterface
 {
@@ -78,7 +78,7 @@ class TicTacToeInterface extends ELGameAdapter implements EventSubscriberInterfa
             $em = $this->getDoctrine()->getManager();
 
             $party = $em
-                    ->getRepository('GameTicTacToeBundle:TicTacToeParty')
+                    ->getRepository('TicTacToe:TicTacToeParty')
                     ->findOneByCoreParty($coreParty)
             ;
             

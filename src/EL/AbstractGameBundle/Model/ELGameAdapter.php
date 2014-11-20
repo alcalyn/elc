@@ -4,7 +4,7 @@ namespace EL\AbstractGameBundle\Model;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\Bundle\CoreBundle\Entity\Party as CoreParty;
+use EL\Core\Entity\Party as CoreParty;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 use EL\AbstractGameBundle\Form\Entity\AdapterOptions;
 use EL\AbstractGameBundle\Form\Type\AdapterOptionsType;

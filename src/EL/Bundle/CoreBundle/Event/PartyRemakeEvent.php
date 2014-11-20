@@ -2,7 +2,7 @@
 
 namespace EL\Bundle\CoreBundle\Event;
 
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameInterface;
 

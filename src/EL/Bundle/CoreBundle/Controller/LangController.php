@@ -17,7 +17,7 @@ class LangController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $langs = $em
-                ->getRepository('CoreBundle:Lang')
+                ->getRepository('Core:Lang')
                 ->findAllExcept($_locale)
         ;
         

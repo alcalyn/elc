@@ -4,10 +4,10 @@ namespace EL\Bundle\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\Bundle\CoreBundle\Entity\Game;
-use EL\Bundle\CoreBundle\Entity\GameVariant;
-use EL\Bundle\CoreBundle\Entity\Score;
-use EL\Bundle\CoreBundle\Entity\Player;
+use EL\Core\Entity\Game;
+use EL\Core\Entity\GameVariant;
+use EL\Core\Entity\Score;
+use EL\Core\Entity\Player;
 
 class ScoreService
 {
@@ -29,7 +29,7 @@ class ScoreService
      * @param Game $game
      * @param string $variantName
      * 
-     * @return \EL\Bundle\CoreBundle\Entity\GameVariant
+     * @return \EL\Core\Entity\GameVariant
      */
     public function getGameVariant(Game $game, $variantName = null)
     {
@@ -38,7 +38,7 @@ class ScoreService
         }
         
         $gameVariant = $this->em
-            ->getRepository('CoreBundle:GameVariant')
+            ->getRepository('Core:GameVariant')
             ->get($game, $variantName)
         ;
         
@@ -62,7 +62,7 @@ class ScoreService
      * 
      * @param Game|GameVariant $var
      * 
-     * @return \EL\Bundle\CoreBundle\Entity\GameVariant
+     * @return \EL\Core\Entity\GameVariant
      */
     protected function asGameVariant($var)
     {
@@ -88,7 +88,7 @@ class ScoreService
         $gameVariant = $this->asGameVariant($game);
         
         $score = $this->em
-                ->getRepository('CoreBundle:Score')
+                ->getRepository('Core:Score')
                 ->get($player, $gameVariant)
         ;
         
@@ -123,7 +123,7 @@ class ScoreService
         $gameVariant = $this->asGameVariant($game);
         
         $scores = $this->em
-                ->getRepository('CoreBundle:Score')
+                ->getRepository('Core:Score')
                 ->getMultiple($players, $gameVariant)
         ;
         
@@ -199,7 +199,7 @@ class ScoreService
         }
         
         return $this->em
-                ->getRepository('CoreBundle:Score')
+                ->getRepository('Core:Score')
                 ->getRanking($gameVariant, $order, $length, $offset)
         ;
     }

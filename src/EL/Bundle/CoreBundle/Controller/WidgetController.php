@@ -14,7 +14,7 @@ class WidgetController extends Controller
         $partyService   = $this->get('el_core.party');
         
         $parties = $em
-                ->getRepository('CoreBundle:Party')
+                ->getRepository('Core:Party')
                 ->findCurrentPartiesForPlayer($_locale, $this->get('el_core.session')->getPlayer())
         ;
 

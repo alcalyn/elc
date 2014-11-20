@@ -4,11 +4,11 @@ namespace EL\Bundle\Game\AwaleBundle\Services;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\Bundle\CoreBundle\Event\PartyEvent;
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\Bundle\Game\AwaleBundle\Form\Type\AwalePartyType;
-use EL\Bundle\Game\AwaleBundle\Entity\AwaleParty;
+use EL\Game\Awale\Entity\AwaleParty;
 
 class Awale extends ELGameAdapter implements EventSubscriberInterface
 {
@@ -64,7 +64,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
             $em = $this->getDoctrine()->getManager();
 
             $party = $em
-                    ->getRepository('GameAwaleBundle:AwaleParty')
+                    ->getRepository('Awale:AwaleParty')
                     ->findOneBy(array(
                         'party' => $coreParty,
                     ))

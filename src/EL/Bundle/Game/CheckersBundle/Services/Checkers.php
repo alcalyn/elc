@@ -8,7 +8,7 @@ use EL\Bundle\Game\CheckersBundle\Checkers\CheckersIllegalMoveException;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 use EL\Bundle\Game\CheckersBundle\Checkers\Piece;
 use EL\Bundle\Game\CheckersBundle\Checkers\Move;
-use EL\Bundle\Game\CheckersBundle\Entity\CheckersParty;
+use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Checkers\CapturesAnticipatorCache;
 use EL\Bundle\Game\CheckersBundle\Checkers\CapturesEvaluator;
 use EL\Bundle\Game\CheckersBundle\Checkers\MoveAnticipator;
@@ -21,7 +21,7 @@ class Checkers
     const DRAW  = 'draw';
     
     /**
-     * @var CheckersVariants 
+     * @var CheckersVariants
      */
     private $checkersVariants;
     
@@ -97,7 +97,7 @@ class Checkers
      * Perform a piece move on $checkersParty, by $playerPosition,
      * from square $from to $to.
      * 
-     * @param \EL\Bundle\Game\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
      * @param \EL\Bundle\CoreBundle\Util\Coords $from
      * @param \EL\Bundle\CoreBundle\Util\Coords $to
      * 
@@ -430,7 +430,7 @@ class Checkers
     /**
      * A player tries to huff a piece
      * 
-     * @param \EL\Bundle\Game\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
      * @param \EL\Bundle\CoreBundle\Util\Coords $coords where the piece to huff is
      */
     public function huff(CheckersParty $checkersParty, Coords $coords)
@@ -498,7 +498,7 @@ class Checkers
     /**
      * Save all coords which can be huffed by opponent
      * 
-     * @param \EL\Bundle\Game\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
      * @param \EL\Bundle\Game\CheckersBundle\Checkers\CapturesAnticipatorCache $capturesAnticipator
      * @param \EL\Bundle\Game\CheckersBundle\Checkers\Move $move
      * @return \stdClass huff
@@ -561,7 +561,7 @@ class Checkers
     /**
      * Check for party end, returns if a player won or party is draw
      * 
-     * @param \EL\Bundle\Game\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
      * 
      * @return mixed one of these following:
      *          Checkers::WHITE
@@ -638,7 +638,7 @@ class Checkers
     /**
      * Return true if party can be draw because just a king moved and no captures made
      * 
-     * @param \EL\Bundle\Game\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
      * 
      * @return boolean
      */

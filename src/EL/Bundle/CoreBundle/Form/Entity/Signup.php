@@ -41,7 +41,7 @@ class Signup
     
     /**
      *
-     * @var boolean 
+     * @var boolean
      */
     private $rememberMe;
     

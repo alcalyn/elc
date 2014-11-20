@@ -17,7 +17,7 @@ class TicTacToePartyRepository extends EntityRepository
         $query = $this->_em->createQuery(
             '
                 select p, cp
-                from GameTicTacToeBundle:TicTacToeParty p
+                from TicTacToe:TicTacToeParty p
                 join p.party cp
                 where cp.id = :core_party_id
             '
@@ -34,7 +34,7 @@ class TicTacToePartyRepository extends EntityRepository
         $query = $this->_em->createQuery(
             '
                 select p, cp
-                from GameTicTacToeBundle:TicTacToeParty p
+                from TicTacToe:TicTacToeParty p
                 join p.party cp
                 where cp.slug = :corePartySlug
             '

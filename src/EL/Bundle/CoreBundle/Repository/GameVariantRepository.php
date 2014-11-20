@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use EL\Bundle\CoreBundle\Entity\Game;
+use EL\Core\Entity\Game;
 
 /**
  * GameVariantRepository
@@ -18,7 +18,7 @@ class GameVariantRepository extends EntityRepository
         return $this->_em->createQuery(
             '
                 select g, gv
-                from CoreBundle:GameVariant gv
+                from Core:GameVariant gv
                 left join gv.game g
                 where g.id = :gameId
                 and gv.name = :variantName

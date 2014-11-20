@@ -1,0 +1,38 @@
+EL\Core\Entity\Category:
+    type: entity
+    table: el_core_category
+    repositoryClass: EL\Bundle\CoreBundle\Repository\CategoryRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        name:
+            type: string
+            scale: 0
+            length: 31
+            unique: false
+            nullable: false
+            precision: 0
+    oneToMany:
+        games:
+            targetEntity: EL\Core\Entity\Game
+            cascade: {  }
+            mappedBy: category
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        langs:
+            targetEntity: EL\Core\Entity\CategoryLang
+            cascade: {  }
+            mappedBy: category
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

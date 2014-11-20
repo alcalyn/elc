@@ -1,0 +1,59 @@
+EL\Core\Entity\Points:
+    type: entity
+    table: el_core_points
+    repositoryClass: EL\Bundle\CoreBundle\Repository\PointsRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        value:
+            type: float
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        dateCreate:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: date_create
+    manyToOne:
+        player:
+            targetEntity: EL\Core\Entity\Player
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                player_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        gameVariant:
+            targetEntity: EL\Core\Entity\GameVariant
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                gameVariant_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        party:
+            targetEntity: EL\Core\Entity\Party
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                party_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

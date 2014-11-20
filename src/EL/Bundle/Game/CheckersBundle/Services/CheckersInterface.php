@@ -2,12 +2,12 @@
 
 namespace EL\Bundle\Game\CheckersBundle\Services;
 
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
+use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Bundle\CoreBundle\Services\SessionService;
 use EL\AbstractGameBundle\Model\ELGameAdapter;
 use EL\Bundle\Game\CheckersBundle\EventListener\PartyEventListener;
-use EL\Bundle\Game\CheckersBundle\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Form\Type\CheckersOptionsType;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 
@@ -74,7 +74,7 @@ class CheckersInterface extends ELGameAdapter
         $em = $this->getDoctrine()->getManager();
         
         $party = $em
-                ->getRepository('GameCheckersBundle:CheckersParty')
+                ->getRepository('Checkers:CheckersParty')
                 ->findOneBy(array(
                     'party' => $coreParty,
                 ))

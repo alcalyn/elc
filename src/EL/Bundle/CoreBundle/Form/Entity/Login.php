@@ -29,7 +29,7 @@ class Login
     
     /**
      *
-     * @var boolean 
+     * @var boolean
      */
     private $rememberMe;
     

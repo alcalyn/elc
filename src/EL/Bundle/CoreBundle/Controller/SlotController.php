@@ -4,14 +4,14 @@ namespace EL\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 
 class SlotController extends Controller
 {
     /**
      * Return a response with an updated party instance
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      * @return \Symfony\Component\HttpFoundation\Response
      */
     private function party(Party $party)

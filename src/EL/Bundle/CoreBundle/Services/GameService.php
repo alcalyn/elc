@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
-use EL\Bundle\CoreBundle\Entity\Game;
+use EL\Core\Entity\Game;
 use EL\AbstractGameBundle\Model\ELGameInterface;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 
@@ -15,7 +15,7 @@ class GameService
     protected $em;
     
     /**
-     * @var Game 
+     * @var Game
      */
     private $game = null;
     
@@ -38,7 +38,7 @@ class GameService
     
     
     /**
-     * @param \EL\Bundle\CoreBundle\Entity\Game $game
+     * @param \EL\Core\Entity\Game $game
      * @return \EL\Bundle\CoreBundle\Services\GameService
      */
     public function setGame(Game $game, Container $container = null)
@@ -61,7 +61,7 @@ class GameService
     {
         try {
             $game = $this->em
-                    ->getRepository('CoreBundle:Game')
+                    ->getRepository('Core:Game')
                     ->findByLang($locale, $slug)
             ;
         } catch (\Doctrine\ORM\NoResultException $e) {
@@ -112,7 +112,7 @@ class GameService
         }
         
         $parties = $this->em
-                ->getRepository('CoreBundle:Party')
+                ->getRepository('Core:Party')
                 ->findBy($criteria)
         ;
         

@@ -5,7 +5,7 @@ namespace EL\Bundle\Game\TicTacToeBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use EL\Bundle\Game\TicTacToeBundle\Entity\TicTacToeParty;
+use EL\Game\TicTacToe\Entity\TicTacToeParty;
 
 class TicTacToePartyOptionsType extends AbstractType
 {
@@ -36,7 +36,7 @@ class TicTacToePartyOptionsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\Bundle\Game\TicTacToeBundle\Entity\TicTacToeParty',
+            'data_class' => 'EL\Game\TicTacToe\Entity\TicTacToeParty',
         ));
     }
 

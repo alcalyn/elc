@@ -2,8 +2,8 @@
 
 namespace EL\Bundle\CoreBundle\Request\ParamConverter;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ class PartyServiceConverter implements ParamConverterInterface
      *
      * @throws NotFoundHttpException When game/party with these slugs not found
      */
-    public function apply(Request $request, ConfigurationInterface $configuration)
+    public function apply(Request $request, ParamConverter $configuration)
     {
         $options    = $this->getOptions($configuration);
         $locale     = $request->getLocale();
@@ -58,7 +58,7 @@ class PartyServiceConverter implements ParamConverterInterface
     /**
      * @{inheritdoc}
      */
-    public function supports(ConfigurationInterface $configuration)
+    public function supports(ParamConverter $configuration)
     {
         return 'EL\Bundle\CoreBundle\Services\PartyService' === $configuration->getClass();
     }
@@ -66,10 +66,10 @@ class PartyServiceConverter implements ParamConverterInterface
     /**
      * Use Doctrine getOptions to return default values for non-provided values
      * 
-     * @param ConfigurationInterface $configuration
+     * @param ParamConverter $configuration
      * @return array
      */
-    protected function getOptions(ConfigurationInterface $configuration)
+    protected function getOptions(ParamConverter $configuration)
     {
         return array_replace(array(
             'slugGame'  => 'slugGame',

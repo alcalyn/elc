@@ -5,17 +5,17 @@ namespace EL\Bundle\Game\CheckersBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class CheckersOptionsType extends AbstractType
 {
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     private $t;
     
     
-    public function __construct(Translator $translator)
+    public function __construct(TranslatorInterface $translator)
     {
         $this->t = $translator;
     }

@@ -4,12 +4,12 @@ namespace EL\Bundle\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\Bundle\CoreBundle\Entity\WLD;
-use EL\Bundle\CoreBundle\Entity\Player;
-use EL\Bundle\CoreBundle\Entity\Party;
-use EL\Bundle\CoreBundle\Entity\Score;
-use EL\Bundle\CoreBundle\Entity\Game;
-use EL\Bundle\CoreBundle\Entity\GameVariant;
+use EL\Core\Entity\WLD;
+use EL\Core\Entity\Player;
+use EL\Core\Entity\Party;
+use EL\Core\Entity\Score;
+use EL\Core\Entity\Game;
+use EL\Core\Entity\GameVariant;
 
 class WLDService extends ScoreService
 {

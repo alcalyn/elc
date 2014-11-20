@@ -16,7 +16,7 @@ class CategoryRepository extends EntityRepository
     {
         return $this->_em->createQueryBuilder()
                 ->select('c, cl, l')
-                ->from('CoreBundle:Category', 'c')
+                ->from('Core:Category', 'c')
                 ->leftJoin('c.langs', 'cl')
                 ->leftJoin('cl.lang', 'l')
                 ->where('l.locale = :locale')

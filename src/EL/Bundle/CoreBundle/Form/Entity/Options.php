@@ -2,7 +2,7 @@
 
 namespace EL\Bundle\CoreBundle\Form\Entity;
 
-use EL\Bundle\CoreBundle\Entity\Party as CoreParty;
+use EL\Core\Entity\Party as CoreParty;
 
 class Options
 {

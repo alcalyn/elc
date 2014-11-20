@@ -17,7 +17,7 @@ class PlayerRepository extends EntityRepository
         return $this->_em->createQuery(
             '
                 select count(p.id)
-                from CoreBundle:Player p
+                from Core:Player p
                 where p.pseudo = :pseudo
                 and p.invited = 0
             '
@@ -31,7 +31,7 @@ class PlayerRepository extends EntityRepository
     public function loginQuery($pseudo, $passwordHash)
     {
         return $this->_em
-                ->getRepository('CoreBundle:Player')
+                ->getRepository('Core:Player')
                 ->findBy(array(
                     'invited'       => 0,
                     'bot'           => 0,

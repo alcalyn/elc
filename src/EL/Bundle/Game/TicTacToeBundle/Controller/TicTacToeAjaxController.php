@@ -4,8 +4,8 @@ namespace EL\Bundle\Game\TicTacToeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
-use EL\Bundle\CoreBundle\Entity\Party as CoreParty;
-use EL\Bundle\Game\TicTacToeBundle\Entity\TicTacToeParty;
+use EL\Core\Entity\Party as CoreParty;
+use EL\Game\TicTacToe\Entity\TicTacToeParty;
 
 class TicTacToeAjaxController extends Controller
 {
@@ -18,7 +18,7 @@ class TicTacToeAjaxController extends Controller
          * Load Tic Tac Toe party
          */
         $extendedParty = $em
-                ->getRepository('GameTicTacToeBundle:TicTacToeParty')
+                ->getRepository('TicTacToe:TicTacToeParty')
                 ->findOneByExtendedPartyId($phaxAction->extendedPartyId)
         ;
         
@@ -95,7 +95,7 @@ class TicTacToeAjaxController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $extendedParty = $em
-                ->getRepository('GameTicTacToeBundle:TicTacToeParty')
+                ->getRepository('TicTacToe:TicTacToeParty')
                 ->findOneByExtendedPartyId($phaxAction->extendedPartyId)
         ;
         

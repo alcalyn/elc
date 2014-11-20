@@ -16,7 +16,7 @@ class LangRepository extends EntityRepository
     {
         return $this->_em->createQueryBuilder()
                 ->select('l')
-                ->from('CoreBundle:Lang', 'l')
+                ->from('Core:Lang', 'l')
                 ->where('l.locale != :locale')
                 ->setParameter(':locale', $locale)
                 ->getQuery()

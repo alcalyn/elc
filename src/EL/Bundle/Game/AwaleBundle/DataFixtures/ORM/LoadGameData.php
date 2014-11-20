@@ -5,7 +5,7 @@ namespace EL\Bundle\Game\AwaleBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use EL\Bundle\CoreBundle\Entity\Game;
+use EL\Core\Entity\Game;
 
 class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 {

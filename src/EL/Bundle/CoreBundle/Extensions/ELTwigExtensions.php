@@ -2,7 +2,7 @@
 
 namespace EL\Bundle\CoreBundle\Extensions;
 
-use EL\Bundle\CoreBundle\Entity\Score;
+use EL\Core\Entity\Score;
 
 class ELTwigExtensions extends \Twig_Extension
 {

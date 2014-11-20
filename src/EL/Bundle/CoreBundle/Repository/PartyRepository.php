@@ -3,8 +3,8 @@
 namespace EL\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use EL\Bundle\CoreBundle\Entity\Party;
-use EL\Bundle\CoreBundle\Entity\Player;
+use EL\Core\Entity\Party;
+use EL\Core\Entity\Player;
 
 /**
  * PartyRepository
@@ -19,7 +19,7 @@ class PartyRepository extends EntityRepository
         $query = $this->_em->createQuery(
             '
                 select p, g, gl, s, pl
-                from CoreBundle:Party p
+                from Core:Party p
                 left join p.slots s
                 left join s.player pl
                 left join p.game g
@@ -50,7 +50,7 @@ class PartyRepository extends EntityRepository
         return $this->_em->createQuery(
             '
                 select p, g, gl, s, pl
-                from CoreBundle:Party p
+                from Core:Party p
                 left join p.slots _s
                 left join _s.player _pl
                 left join p.slots s
@@ -80,7 +80,7 @@ class PartyRepository extends EntityRepository
     {
         return $this->_em->createQueryBuilder()
                 ->select('p, pr, s, pl')
-                ->from('CoreBundle:Party', 'p')
+                ->from('Core:Party', 'p')
                 ->leftJoin('p.remake', 'pr')
                 ->leftJoin('pr.slots', 's')
                 ->leftJoin('s.player', 'pl')
@@ -99,7 +99,7 @@ class PartyRepository extends EntityRepository
         $query = $this->_em->createQuery(
             '
                 select count(p)
-                from CoreBundle:Party p
+                from Core:Party p
                 where  p.slug = :slug
             '
         )->setParameters(array(

@@ -1,0 +1,57 @@
+EL\Core\Entity\Slot:
+    type: entity
+    table: el_core_slot
+    repositoryClass: EL\Bundle\CoreBundle\Repository\SlotRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        position:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        open:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        score:
+            type: float
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+    manyToOne:
+        player:
+            targetEntity: EL\Core\Entity\Player
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                player_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        party:
+            targetEntity: EL\Core\Entity\Party
+            cascade:
+                - persist
+            mappedBy: null
+            inversedBy: slots
+            joinColumns:
+                party_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

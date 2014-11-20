@@ -3,7 +3,7 @@
 namespace EL\Bundle\Game\CheckersBundle\Checkers;
 
 use EL\Bundle\CoreBundle\Util\Coords;
-use EL\Bundle\Game\CheckersBundle\Entity\CheckersParty;
+use EL\Game\Checkers\Entity\CheckersParty;
 
 class CapturesAnticipatorCache
 {

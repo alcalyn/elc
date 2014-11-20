@@ -1,0 +1,23 @@
+EL\Core\Entity\Chat:
+    type: entity
+    table: el_core_chat
+    repositoryClass: EL\Bundle\CoreBundle\Repository\ChatRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        title:
+            type: string
+            scale: 0
+            length: 63
+            unique: false
+            nullable: false
+            precision: 0
+    lifecycleCallbacks: {  }

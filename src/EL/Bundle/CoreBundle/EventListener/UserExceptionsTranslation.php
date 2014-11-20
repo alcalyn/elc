@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use EL\Bundle\CoreBundle\Exception\ELUserException;
 
 class UserExceptionsTranslation
@@ -17,14 +17,14 @@ class UserExceptionsTranslation
     private $flashBag;
     
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     private $translator;
     
     /**
      * @param \Symfony\Component\HttpFoundation\Session\Session $session
      */
-    public function __construct(Session $session, Translator $translator)
+    public function __construct(Session $session, TranslatorInterface $translator)
     {
         $this->flashBag = $session->getFlashBag();
         $this->translator = $translator;

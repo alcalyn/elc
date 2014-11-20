@@ -32,7 +32,7 @@ class PartyType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\Bundle\CoreBundle\Entity\Party',
+            'data_class' => 'EL\Core\Entity\Party',
         ));
     }
 

@@ -4,7 +4,7 @@ namespace EL\Bundle\Game\CheckersBundle\Checkers;
 
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 use EL\Bundle\CoreBundle\Util\Coords;
-use EL\Bundle\Game\CheckersBundle\Entity\CheckersParty;
+use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 
 class MoveAnticipator
@@ -61,7 +61,7 @@ class MoveAnticipator
     /**
      * Return true if $player (default is current) can move
      * 
-     * @param \EL\Bundle\Game\CheckersBundle\Entity\CheckersParty $checkersParty
+     * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
      * 
      * @return boolean
      */

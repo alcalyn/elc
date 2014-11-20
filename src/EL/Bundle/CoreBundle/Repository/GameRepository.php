@@ -3,9 +3,9 @@
 namespace EL\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use EL\Bundle\CoreBundle\Entity\Game;
-use EL\Bundle\CoreBundle\Entity\GameVariant;
-use EL\Bundle\CoreBundle\Entity\Player;
+use EL\Core\Entity\Game;
+use EL\Core\Entity\GameVariant;
+use EL\Core\Entity\Player;
 
 /**
  * GameRepository
@@ -20,14 +20,14 @@ class GameRepository extends EntityRepository
      * If Player is provided, returns also its score data
      * 
      * @param string $locale
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
+     * @param \EL\Core\Entity\Player $player
      * @return type
      */
     public function findAllByLang($locale, Player $player = null)
     {
         $query = $this->_em->createQueryBuilder()
                 ->select('g, gl')
-                ->from('CoreBundle:Game', 'g')
+                ->from('Core:Game', 'g')
                 ->leftJoin('g.langs', 'gl')
                 ->leftJoin('gl.lang', 'l')
                 ->where('l.locale = :locale')
@@ -56,7 +56,7 @@ class GameRepository extends EntityRepository
         $query = $this->_em->createQuery(
             '
                 select g, gl
-                from CoreBundle:Game g
+                from Core:Game g
                 left join g.langs gl
                 left join gl.lang l
                 where l.locale = :locale

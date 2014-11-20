@@ -1,0 +1,132 @@
+EL\Core\Entity\Party:
+    type: entity
+    table: el_core_party
+    repositoryClass: EL\Bundle\CoreBundle\Repository\PartyRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        title:
+            type: string
+            scale: 0
+            length: 63
+            unique: false
+            nullable: false
+            precision: 0
+        slug:
+            type: string
+            scale: 0
+            length: 63
+            unique: false
+            nullable: true
+            precision: 0
+            gedmo:
+                slug:
+                    fields:
+                        - title
+        state:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        private:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        room:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        disallowChat:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: disallow_chat
+        disallowObservers:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: disallow_observers
+        dateCreate:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: date_create
+        dateStarted:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: date_started
+        dateEnded:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: date_ended
+    manyToOne:
+        game:
+            targetEntity: EL\Core\Entity\Game
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                game_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        host:
+            targetEntity: EL\Core\Entity\Player
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                host_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        slots:
+            targetEntity: EL\Core\Entity\Slot
+            cascade: {  }
+            mappedBy: party
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    oneToOne:
+        remake:
+            targetEntity: EL\Core\Entity\Party
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                remake_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

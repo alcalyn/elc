@@ -1,0 +1,83 @@
+EL\Game\TicTacToe\Entity\TicTacToeParty:
+    type: entity
+    table: el_games_tictactoe_party
+    repositoryClass: EL\Bundle\Game\TicTacToeBundle\Repository\TicTacToePartyRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        firstPlayer:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: first_player
+        numberOfParties:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: number_of_parties
+        victoryCondition:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: victory_condition
+        grid:
+            type: string
+            scale: 0
+            length: 9
+            unique: false
+            nullable: true
+            precision: 0
+            options:
+                default: '---------'
+        currentPlayer:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: current_player
+        partyNumber:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: party_number
+        lastPartyEnd:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: last_party_end
+    oneToOne:
+        party:
+            targetEntity: EL\Core\Entity\Party
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                party_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

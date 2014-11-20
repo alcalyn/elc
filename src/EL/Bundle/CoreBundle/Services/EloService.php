@@ -4,12 +4,12 @@ namespace EL\Bundle\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\Bundle\CoreBundle\Entity\Player;
-use EL\Bundle\CoreBundle\Entity\Elo;
-use EL\Bundle\CoreBundle\Entity\Game;
-use EL\Bundle\CoreBundle\Entity\GameVariant;
+use EL\Core\Entity\Player;
+use EL\Core\Entity\Elo;
+use EL\Core\Entity\Game;
+use EL\Core\Entity\GameVariant;
 use EL\Bundle\CoreBundle\Services\ScoreService;
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 
 class EloService extends ScoreService
 {
@@ -23,7 +23,7 @@ class EloService extends ScoreService
      * Return current elo score for a player on a game or game variant.
      * You should use ScoreService::get() if you need others score statistics too (WLD)
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
+     * @param \EL\Core\Entity\Player $player
      * @param Game|GameVariant $game
      * 
      * @return double
@@ -38,10 +38,10 @@ class EloService extends ScoreService
     /**
      * Create a statistic point in time
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
+     * @param \EL\Core\Entity\Player $player
      * @param float $newElo
-     * @param \EL\Bundle\CoreBundle\Entity\GameVariant $gameVariant
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\GameVariant $gameVariant
+     * @param \EL\Core\Entity\Party $party
      * 
      * @return Elo created
      */
@@ -67,8 +67,8 @@ class EloService extends ScoreService
      *      $this->get('el_core.score.elo')->win($p0, $p1, $game);
      *      $this->get('el_core.score.elo')->update($p0, $p1, $game, $party, 1);
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p0
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p1
+     * @param \EL\Core\Entity\Player $p0
+     * @param \EL\Core\Entity\Player $p1
      * @param Game|GameVariant $game
      * @param Party $party in which update is linked to
      * @param integer $win :
@@ -163,8 +163,8 @@ class EloService extends ScoreService
     /**
      * $p0 beat $p1
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p0
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p1
+     * @param \EL\Core\Entity\Player $p0
+     * @param \EL\Core\Entity\Player $p1
      * @param Game|GameVariant $game
      * @param Party $party in which update is linked to
      * 
@@ -178,8 +178,8 @@ class EloService extends ScoreService
     /**
      * $p0 beaten by $p1
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p0
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p1
+     * @param \EL\Core\Entity\Player $p0
+     * @param \EL\Core\Entity\Player $p1
      * @param Game|GameVariant $game
      * @param Party $party in which update is linked to
      * 
@@ -193,8 +193,8 @@ class EloService extends ScoreService
     /**
      * $p0 and $p1 draw a party
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p0
-     * @param \EL\Bundle\CoreBundle\Entity\Player $p1
+     * @param \EL\Core\Entity\Player $p0
+     * @param \EL\Core\Entity\Player $p1
      * @param Game|GameVariant $game
      * @param Party $party in which update is linked to
      * 

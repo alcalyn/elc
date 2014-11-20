@@ -8,9 +8,9 @@ use EL\Bundle\CoreBundle\Event\PartyEvent;
 use EL\Bundle\CoreBundle\Event\PartyRemakeEvent;
 use Doctrine\ORM\EntityManager;
 use EL\Bundle\CoreBundle\Services\GameService;
-use EL\Bundle\CoreBundle\Entity\Party;
-use EL\Bundle\CoreBundle\Entity\Slot;
-use EL\Bundle\CoreBundle\Entity\Player;
+use EL\Core\Entity\Party;
+use EL\Core\Entity\Slot;
+use EL\Core\Entity\Player;
 use EL\Bundle\CoreBundle\Services\SessionService;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 use EL\Bundle\CoreBundle\Exception\ELUserException;
@@ -60,7 +60,7 @@ class PartyService extends GameService
     
     
     /**
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      * @return \EL\Bundle\CoreBundle\Services\PartyService
      */
     public function setParty(Party $party, Container $container = null)
@@ -86,7 +86,7 @@ class PartyService extends GameService
     {
         try {
             $party = $this->em
-                    ->getRepository('CoreBundle:Party')
+                    ->getRepository('Core:Party')
                     ->findByLang($locale, $slugParty, $slugGame)
             ;
         } catch (\Doctrine\ORM\NoResultException $e) {
@@ -128,7 +128,7 @@ class PartyService extends GameService
     /**
      * Init a party and slots configuration after player has created it
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Party $coreParty
+     * @param \EL\Core\Entity\Party $coreParty
      * @param ELGameInterface $gameInterface
      * @param \stdClass $extendedOptions
      */
@@ -210,7 +210,7 @@ class PartyService extends GameService
      * throw ELUserException if player cant join,
      * else return true if he can join
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
+     * @param \EL\Core\Entity\Player $player
      * @param integer $slotIndex preference. If defined and free, join this slot. Else join first free slot.
      * @param boolean $join false to not join even if possible
      * @param Party $party to join
@@ -260,9 +260,9 @@ class PartyService extends GameService
     /**
      * Assign a player to a slot
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
-     * @param \EL\Bundle\CoreBundle\Entity\Slot $slot
-     * @param \EL\Bundle\CoreBundle\Entity\Slot $oldSlot the slot the player occupies actually
+     * @param \EL\Core\Entity\Player $player
+     * @param \EL\Core\Entity\Slot $slot
+     * @param \EL\Core\Entity\Slot $oldSlot the slot the player occupies actually
      */
     private function doJoin(Player $player, Slot $slot, Slot $oldSlot = null)
     {
@@ -280,7 +280,7 @@ class PartyService extends GameService
     /**
      * Check if can join this party depending on its state
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      * 
      * @throws ELUserException
      */
@@ -380,9 +380,9 @@ class PartyService extends GameService
     /**
      * Just check if can join or not, return a boolean
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
+     * @param \EL\Core\Entity\Player $player
      * @param integer $slotIndex
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      * 
      * @return boolean if he can join
      */
@@ -401,8 +401,8 @@ class PartyService extends GameService
      * Return the position index of $player (default is current)
      * in $party (default is current)
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Player $player
+     * @param \EL\Core\Entity\Party $party
      * 
      * @return integer
      */
@@ -435,8 +435,8 @@ class PartyService extends GameService
     /**
      * Return if $player (default is current) is in $party (default is current)
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Player $player
+     * @param \EL\Core\Entity\Party $party
      * 
      * @return boolean
      */
@@ -478,7 +478,7 @@ class PartyService extends GameService
         }
         
         $slot = $this->em
-            ->getRepository('CoreBundle:Slot')
+            ->getRepository('Core:Slot')
             ->findOneByPlayerAndParty($playerId, $this->getParty()->getId())
         ;
         
@@ -547,7 +547,7 @@ class PartyService extends GameService
     /**
      * Check if $player is the host of this party
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
+     * @param \EL\Core\Entity\Player $player
      * @return boolean
      */
     public function isHost(Player $player = null)
@@ -596,7 +596,7 @@ class PartyService extends GameService
     /**
      * Start party and dispatch events.
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      */
     private function doStart(Party $party)
     {
@@ -622,7 +622,7 @@ class PartyService extends GameService
     /**
      * Active party and dispatch events.
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Party $party
+     * @param \EL\Core\Entity\Party $party
      */
     private function doActive(Party $party)
     {
@@ -738,7 +738,7 @@ class PartyService extends GameService
     /**
      * Create a remake party from an old party
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Party $oldParty
+     * @param \EL\Core\Entity\Party $oldParty
      * 
      * @return Party
      */
@@ -769,7 +769,7 @@ class PartyService extends GameService
         $this->needParty();
         
         $party = $this->em
-                ->getRepository('CoreBundle:Party')
+                ->getRepository('Core:Party')
                 ->findPlayersInRemakeParty($this->getParty())
         ;
         

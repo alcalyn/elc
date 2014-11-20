@@ -1,0 +1,42 @@
+EL\Core\Entity\CategoryLang:
+    type: entity
+    table: el_core_category_lang
+    repositoryClass: EL\Bundle\CoreBundle\Repository\CategoryLangRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        title:
+            type: string
+            scale: 0
+            length: 31
+            unique: false
+            nullable: false
+            precision: 0
+    manyToOne:
+        category:
+            targetEntity: EL\Core\Entity\Category
+            cascade: {  }
+            mappedBy: null
+            inversedBy: langs
+            joinColumns:
+                category_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lang:
+            targetEntity: EL\Core\Entity\Lang
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lang_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

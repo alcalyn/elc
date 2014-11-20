@@ -76,7 +76,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get boardSize
      *
-     * @return integer 
+     * @return integer
      */
     public function getBoardSize()
     {
@@ -97,7 +97,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get squareUsed
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSquareUsed()
     {
@@ -118,7 +118,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get rightSquare
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRightSquare()
     {
@@ -139,7 +139,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get backwardCapture
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getBackwardCapture()
     {
@@ -160,7 +160,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get longRangeKing
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getLongRangeKing()
     {
@@ -181,7 +181,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get menJumpKing
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getMenJumpKing()
     {
@@ -202,7 +202,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get kingPassing
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getKingPassing()
     {
@@ -223,7 +223,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get blowUp
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getBlowUp()
     {
@@ -244,7 +244,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get firstPlayer
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFirstPlayer()
     {
@@ -265,7 +265,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get forceCapture
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getForceCapture()
     {
@@ -286,7 +286,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get forceCapture by quantity
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getForceCaptureQuantity()
     {
@@ -307,7 +307,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get forceCapture by quality
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getForceCaptureQuality()
     {
@@ -328,7 +328,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get forceCapture by KingOrder
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getForceCaptureKingOrder()
     {
@@ -349,7 +349,7 @@ class Variant extends BitwiseValue implements \JsonSerializable
     /**
      * Get forceCapture by Preference
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getForceCapturePreference()
     {

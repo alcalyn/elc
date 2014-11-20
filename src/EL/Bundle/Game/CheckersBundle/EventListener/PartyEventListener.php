@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\Bundle\CoreBundle\Event\PartyEvent;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 use EL\Bundle\Game\CheckersBundle\Checkers\Move;
-use EL\Bundle\Game\CheckersBundle\Entity\CheckersParty;
+use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Services\Checkers;
 
 class PartyEventListener implements EventSubscriberInterface

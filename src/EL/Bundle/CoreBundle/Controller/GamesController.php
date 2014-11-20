@@ -5,7 +5,7 @@ namespace EL\Bundle\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\GameService;
 
 class GamesController extends Controller
@@ -28,12 +28,12 @@ class GamesController extends Controller
         $sessionService = $this->get('el_core.session');
         
         $categories = $em
-                ->getRepository('CoreBundle:Category')
+                ->getRepository('Core:Category')
                 ->findAllForLang($_locale)
         ;
         
         $games = $em
-                ->getRepository('CoreBundle:Game')
+                ->getRepository('Core:Game')
                 ->findAllByLang($_locale, $sessionService->getPlayer())
         ;
 

@@ -1,0 +1,57 @@
+EL\Game\Awale\Entity\AwaleParty:
+    type: entity
+    table: el_games_awale_party
+    repositoryClass: EL\Bundle\Game\AwaleBundle\Repository\AwalePartyRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        seedsPerContainer:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: seeds_per_container
+        currentPlayer:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: current_player
+        grid:
+            type: string
+            scale: 0
+            length: 63
+            unique: false
+            nullable: false
+            precision: 0
+        lastMove:
+            type: string
+            scale: 0
+            length: 7
+            unique: false
+            nullable: false
+            precision: 0
+            column: last_move
+    oneToOne:
+        party:
+            targetEntity: EL\Core\Entity\Party
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                party_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

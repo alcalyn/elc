@@ -5,7 +5,7 @@ namespace EL\Bundle\CoreBundle\Services;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManager;
 use EL\Bundle\CoreBundle\Exception\LoginException;
-use EL\Bundle\CoreBundle\Entity\Player;
+use EL\Core\Entity\Player;
 
 class SessionService
 {
@@ -63,7 +63,7 @@ class SessionService
     public function login($pseudo, $password)
     {
         $player = $this->em
-                ->getRepository('CoreBundle:Player')
+                ->getRepository('Core:Player')
                 ->findOneBy(array(
                     'pseudo'    => $pseudo,
                     'invited'   => false,
@@ -140,7 +140,7 @@ class SessionService
     public function pseudoExists($pseudo)
     {
         $count = $this->em
-                ->getRepository('CoreBundle:Player')
+                ->getRepository('Core:Player')
                 ->pseudoCount($pseudo)
         ;
         

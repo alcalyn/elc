@@ -1,0 +1,23 @@
+EL\Core\Entity\Country:
+    type: entity
+    table: el_core_country
+    repositoryClass: EL\Bundle\CoreBundle\Repository\CountryRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        locale:
+            type: string
+            scale: 0
+            length: 3
+            unique: true
+            nullable: false
+            precision: 0
+    lifecycleCallbacks: {  }

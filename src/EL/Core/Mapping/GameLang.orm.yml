@@ -1,0 +1,73 @@
+EL\Core\Entity\GameLang:
+    type: entity
+    table: el_core_game_lang
+    repositoryClass: EL\Bundle\CoreBundle\Repository\GameLangRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        title:
+            type: string
+            scale: 0
+            length: 31
+            unique: false
+            nullable: false
+            precision: 0
+        slug:
+            type: string
+            scale: 0
+            length: 31
+            unique: false
+            nullable: false
+            precision: 0
+        shortDesc:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+            column: short_desc
+        longDesc:
+            type: string
+            scale: 0
+            length: 1023
+            unique: false
+            nullable: false
+            precision: 0
+            column: long_desc
+        pictureHome:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+            column: picture_home
+    manyToOne:
+        game:
+            targetEntity: EL\Core\Entity\Game
+            cascade: {  }
+            mappedBy: null
+            inversedBy: langs
+            joinColumns:
+                game_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lang:
+            targetEntity: EL\Core\Entity\Lang
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lang_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

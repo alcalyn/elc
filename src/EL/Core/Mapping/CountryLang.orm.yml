@@ -1,0 +1,49 @@
+EL\Core\Entity\CountryLang:
+    type: entity
+    table: el_core_country_lang
+    repositoryClass: EL\Bundle\CoreBundle\Repository\CountryLangRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        title:
+            type: string
+            scale: 0
+            length: 63
+            unique: false
+            nullable: false
+            precision: 0
+        habitant:
+            type: string
+            scale: 0
+            length: 63
+            unique: false
+            nullable: false
+            precision: 0
+    manyToOne:
+        country:
+            targetEntity: EL\Core\Entity\Country
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                country_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lang:
+            targetEntity: EL\Core\Entity\Lang
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lang_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -3,12 +3,11 @@
 namespace EL\Bundle\Game\AwaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Phax\CoreBundle\Model\PhaxAction;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\Bundle\CoreBundle\Entity\Party;
+use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\Bundle\Game\AwaleBundle\Entity\AwaleParty;
+use EL\Game\Awale\Entity\AwaleParty;
 use EL\Bundle\Game\AwaleBundle\Services\AwaleCore;
 
 class AwaleController extends Controller
@@ -51,12 +50,12 @@ class AwaleController extends Controller
     public function playAction(PhaxAction $phaxAction, $slugParty, $slugGame, $box)
     {
         $box            = intval($box);
-        $t              = $this->get('translator');             /* @var $t Translator */
+        $t              = $this->get('translator');
         $partyService   = $this->get('el_core.party');          /* @var $partyService PartyService */
         
         $partyService->setPartyBySlug($slugParty, $slugGame, $phaxAction->getLocale(), $this->container);
         
-        $coreParty      = $partyService->getParty();            /* @var $coreParty \EL\Bundle\CoreBundle\Entity\Party */
+        $coreParty      = $partyService->getParty();            /* @var $coreParty \EL\Core\Entity\Party */
         $extendedParty  = $partyService->loadExtendedParty();   /* @var $extendedParty AwaleParty */
         
         // Check value box
@@ -107,8 +106,8 @@ class AwaleController extends Controller
         ;
         
         // Update scores
-        $slot0 = $slots->get(0);    /* @var $slot0 \EL\Bundle\CoreBundle\Entity\Slot */
-        $slot1 = $slots->get(1);    /* @var $slot1 \EL\Bundle\CoreBundle\Entity\Slot */
+        $slot0 = $slots->get(0);    /* @var $slot0 \EL\Core\Entity\Slot */
+        $slot1 = $slots->get(1);    /* @var $slot1 \EL\Core\Entity\Slot */
         
         $slot0->setScore($newGrid[0]['attic']);
         $slot1->setScore($newGrid[1]['attic']);
@@ -139,7 +138,7 @@ class AwaleController extends Controller
     /**
      * Stop $coreParty and add elo and wld score to players
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Party $coreParty
+     * @param \EL\Core\Entity\Party $coreParty
      */
     private function stopAndScoreParty(Party $coreParty)
     {
@@ -150,8 +149,8 @@ class AwaleController extends Controller
         $coreParty->setState(Party::ENDED);
         
         $slots      = $coreParty->getSlots();   /* @var $slots \Doctrine\Common\Collections\Collection */
-        $slot0      = $slots->get(0);           /* @var $slot0 \EL\Bundle\CoreBundle\Entity\Slot */
-        $slot1      = $slots->get(1);           /* @var $slot1 \EL\Bundle\CoreBundle\Entity\Slot */
+        $slot0      = $slots->get(0);           /* @var $slot0 \EL\Core\Entity\Slot */
+        $slot1      = $slots->get(1);           /* @var $slot1 \EL\Core\Entity\Slot */
         $score0     = $slot0->getScore();
         $score1     = $slot1->getScore();
         $player0    = $slot0->getPlayer();

@@ -3,8 +3,8 @@
 namespace EL\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use EL\Bundle\CoreBundle\Entity\Player;
-use EL\Bundle\CoreBundle\Entity\GameVariant;
+use EL\Core\Entity\Player;
+use EL\Core\Entity\GameVariant;
 
 /**
  * ScoreRepository
@@ -17,8 +17,8 @@ class ScoreRepository extends EntityRepository
     /**
      * Get a Score data for a player on a game variant
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\Player $player
-     * @param \EL\Bundle\CoreBundle\Entity\GameVariant $gameVariant
+     * @param \EL\Core\Entity\Player $player
+     * @param \EL\Core\Entity\GameVariant $gameVariant
      * 
      * @return mixed
      */
@@ -27,7 +27,7 @@ class ScoreRepository extends EntityRepository
         return $this->_em->createQuery(
             '
                 select s
-                from CoreBundle:Score s
+                from Core:Score s
                 left join s.player p
                 left join s.gameVariant gv
                 where p.id = :playerId
@@ -43,7 +43,7 @@ class ScoreRepository extends EntityRepository
      * Get multiple scores data for players on a game variant
      * 
      * @param array $players
-     * @param \EL\Bundle\CoreBundle\Entity\GameVariant $gameVariant
+     * @param \EL\Core\Entity\GameVariant $gameVariant
      * 
      * @return mixed
      */
@@ -52,7 +52,7 @@ class ScoreRepository extends EntityRepository
         return $this->_em->createQuery(
             '
                 select p, s
-                from CoreBundle:Score s
+                from Core:Score s
                 left join s.player p
                 left join s.gameVariant gv
                 where p in (:players)
@@ -67,7 +67,7 @@ class ScoreRepository extends EntityRepository
     /**
      * Return a top-$length ranking board from $offset
      * 
-     * @param \EL\Bundle\CoreBundle\Entity\GameVariant $gameVariant
+     * @param \EL\Core\Entity\GameVariant $gameVariant
      * @param array $order
      * @param integer $length
      * @param integer $offset
@@ -78,7 +78,7 @@ class ScoreRepository extends EntityRepository
     {
         $query = $this->_em->createQueryBuilder()
                 ->select('s, p')
-                ->from('CoreBundle:Score', 's')
+                ->from('Core:Score', 's')
                 ->leftJoin('s.gameVariant', 'gv')
                 ->leftJoin('s.player', 'p')
                 ->where('gv.id = :gameVariantId')

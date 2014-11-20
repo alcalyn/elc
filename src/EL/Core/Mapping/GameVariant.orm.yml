@@ -1,0 +1,48 @@
+EL\Core\Entity\GameVariant:
+    type: entity
+    table: el_core_game_variant
+    repositoryClass: EL\Bundle\CoreBundle\Repository\GameVariantRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        name:
+            type: string
+            scale: 0
+            length: 31
+            unique: false
+            nullable: false
+            precision: 0
+    manyToOne:
+        game:
+            targetEntity: EL\Core\Entity\Game
+            cascade: {  }
+            mappedBy: null
+            inversedBy: gameVariants
+            joinColumns:
+                game_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        scores:
+            targetEntity: EL\Core\Entity\Score
+            cascade: {  }
+            mappedBy: gameVariant
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        langs:
+            targetEntity: EL\Core\Entity\GameVariantLang
+            cascade: {  }
+            mappedBy: gameVariant
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

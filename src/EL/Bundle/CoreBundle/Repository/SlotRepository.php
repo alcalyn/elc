@@ -17,7 +17,7 @@ class SlotRepository extends EntityRepository
         $query = $this->_em->createQuery(
             '
                 select s
-                from CoreBundle:Slot s
+                from Core:Slot s
                 join s.player player
                 join s.party party
                 where player.id = :playerId

@@ -1,0 +1,31 @@
+EL\Core\Entity\Message:
+    type: entity
+    table: el_core_message
+    repositoryClass: EL\Bundle\CoreBundle\Repository\MessageRepository
+    fields:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+        content:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        dateCreate:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: date_create
+    lifecycleCallbacks: {  }

@@ -2,7 +2,7 @@
 
 namespace EL\Bundle\Game\CheckersBundle\Services;
 
-use EL\Bundle\CoreBundle\Util\Coords;
+use EL\Core\Util\Coords;
 use EL\Bundle\Game\CheckersBundle\Checkers\CheckersException;
 use EL\Bundle\Game\CheckersBundle\Checkers\CheckersIllegalMoveException;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
@@ -98,8 +98,8 @@ class Checkers
      * from square $from to $to.
      * 
      * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
-     * @param \EL\Bundle\CoreBundle\Util\Coords $from
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $from
+     * @param Coords $to
      * 
      * @return Move performed
      * 
@@ -431,7 +431,7 @@ class Checkers
      * A player tries to huff a piece
      * 
      * @param \EL\Game\Checkers\Entity\CheckersParty $checkersParty
-     * @param \EL\Bundle\CoreBundle\Util\Coords $coords where the piece to huff is
+     * @param Coords $coords where the piece to huff is
      */
     public function huff(CheckersParty $checkersParty, Coords $coords)
     {
@@ -699,7 +699,7 @@ class Checkers
      * If $set is set, update grid.
      * 
      * @param array $grid
-     * @param \EL\Bundle\CoreBundle\Util\Coords $coords
+     * @param Coords $coords
      * @param integer|Coords $set
      * 
      * @return \EL\Bundle\Game\CheckersBundle\Checkers\Piece
@@ -718,7 +718,7 @@ class Checkers
      * Promote a piece at $coords on $grid
      * 
      * @param array $grid
-     * @param \EL\Bundle\CoreBundle\Util\Coords $coords
+     * @param Coords $coords
      * 
      * @return \EL\Bundle\Game\CheckersBundle\Checkers\Piece
      * 

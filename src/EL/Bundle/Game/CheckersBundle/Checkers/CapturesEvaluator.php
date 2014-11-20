@@ -2,7 +2,7 @@
 
 namespace EL\Bundle\Game\CheckersBundle\Checkers;
 
-use EL\Bundle\CoreBundle\Util\Coords;
+use EL\Core\Util\Coords;
 use EL\Bundle\Game\CheckersBundle\Checkers\CheckersException;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 use EL\Bundle\Game\CheckersBundle\Checkers\Move;
@@ -240,7 +240,7 @@ class CapturesEvaluator
      * Return piece at coords on grid.
      * 
      * @param array $grid
-     * @param \EL\Bundle\CoreBundle\Util\Coords $coords
+     * @param Coords $coords
      * 
      * @return \EL\Bundle\Game\CheckersBundle\Checkers\Piece
      */

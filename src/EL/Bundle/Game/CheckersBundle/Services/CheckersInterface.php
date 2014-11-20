@@ -6,7 +6,7 @@ use EL\Core\Entity\Party;
 use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Bundle\CoreBundle\Services\SessionService;
-use EL\AbstractGameBundle\Model\ELGameAdapter;
+use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameAdapter;
 use EL\Bundle\Game\CheckersBundle\EventListener\PartyEventListener;
 use EL\Bundle\Game\CheckersBundle\Form\Type\CheckersOptionsType;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;

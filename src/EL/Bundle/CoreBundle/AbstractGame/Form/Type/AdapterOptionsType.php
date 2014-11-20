@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\AbstractGameBundle\Form\Type;
+namespace EL\Bundle\CoreBundle\AbstractGame\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +15,7 @@ class AdapterOptionsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EL\AbstractGameBundle\Form\Entity\AdapterOptions',
+            'data_class' => 'EL\Bundle\CoreBundle\AbstractGame\Form\Entity\AdapterOptions',
         ));
     }
 

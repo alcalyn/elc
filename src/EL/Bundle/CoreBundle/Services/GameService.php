@@ -4,7 +4,7 @@ namespace EL\Bundle\CoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use EL\Core\Entity\Game;
-use EL\AbstractGameBundle\Model\ELGameInterface;
+use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 
 class GameService
@@ -122,7 +122,7 @@ class GameService
     /**
      * Return extended game service
      * 
-     * @return \EL\AbstractGameBundle\Model\ELGameInterface
+     * @return \EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface
      */
     public function getGameInterface()
     {
@@ -144,7 +144,7 @@ class GameService
             $this->gameInterface = $gameInterface;
             return $this;
         } else {
-            throw new ELCoreException('Your game service must implement EL\AbstractGameBundle\Model\ELGameInterface');
+            throw new ELCoreException('Your game service must implement EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface');
         }
     }
     

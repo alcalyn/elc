@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\Bundle\CoreBundle\Event\PartyEvent;
 use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\AbstractGameBundle\Model\ELGameAdapter;
+use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameAdapter;
 use EL\Bundle\Game\AwaleBundle\Form\Type\AwalePartyType;
 use EL\Game\Awale\Entity\AwaleParty;
 

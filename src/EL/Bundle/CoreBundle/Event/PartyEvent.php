@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\Event;
 
 use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\AbstractGameBundle\Model\ELGameInterface;
+use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 
 class PartyEvent extends ELCoreEvent
 {
@@ -115,7 +115,7 @@ class PartyEvent extends ELCoreEvent
      * Constructor
      * 
      * @param \EL\Bundle\CoreBundle\Services\PartyService $partyService
-     * @param \EL\AbstractGameBundle\Model\ELGameInterface $gameInterface
+     * @param \EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface $gameInterface
      * @param \stdClass $extOptions
      */
     public function __construct(PartyService $partyService, ELGameInterface $gameInterface = null, $extOptions = null)

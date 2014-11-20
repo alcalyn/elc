@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\AbstractGameBundle\Form\Entity;
+namespace EL\Bundle\CoreBundle\AbstractGame\Form\Entity;
 
 /**
  *

@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\AbstractGameBundle\Model;
+namespace EL\Bundle\CoreBundle\AbstractGame\Model;
 
 use EL\Core\Entity\Party as CoreParty;
 use EL\Bundle\CoreBundle\Services\PartyService;

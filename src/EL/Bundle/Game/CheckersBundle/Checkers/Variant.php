@@ -4,7 +4,7 @@ namespace EL\Bundle\Game\CheckersBundle\Checkers;
 
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use EL\Bundle\CoreBundle\Util\BitwiseValue;
+use EL\Core\Util\BitwiseValue;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 
 /**

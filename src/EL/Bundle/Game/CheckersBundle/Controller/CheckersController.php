@@ -5,7 +5,7 @@ namespace EL\Bundle\Game\CheckersBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
 use EL\Core\Entity\Party;
-use EL\Bundle\CoreBundle\Util\Coords;
+use EL\Core\Util\Coords;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Checkers\CheckersIllegalMoveException;

@@ -14,7 +14,7 @@ use EL\Core\Entity\Player;
 use EL\Bundle\CoreBundle\Services\SessionService;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
 use EL\Bundle\CoreBundle\Exception\ELUserException;
-use EL\AbstractGameBundle\Model\ELGameInterface;
+use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 
 class PartyService extends GameService
 {

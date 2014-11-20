@@ -7,7 +7,7 @@ use EL\Bundle\CoreBundle\Event\PartyEvent;
 use EL\Bundle\CoreBundle\Event\PartyRemakeEvent;
 use EL\Core\Entity\Party as CoreParty;
 use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\AbstractGameBundle\Model\ELGameAdapter;
+use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameAdapter;
 use EL\Bundle\Game\TicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
 use EL\Game\TicTacToe\Entity\TicTacToeParty;
 

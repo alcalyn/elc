@@ -2,7 +2,7 @@
 
 namespace EL\Bundle\Game\CheckersBundle\Checkers;
 
-use EL\Bundle\CoreBundle\Util\Coords;
+use EL\Core\Util\Coords;
 
 class Move implements \JsonSerializable
 {

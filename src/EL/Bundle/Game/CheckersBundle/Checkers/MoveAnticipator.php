@@ -3,7 +3,7 @@
 namespace EL\Bundle\Game\CheckersBundle\Checkers;
 
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\Bundle\CoreBundle\Util\Coords;
+use EL\Core\Util\Coords;
 use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 
@@ -268,7 +268,7 @@ class MoveAnticipator
      * If $set is set, update grid.
      * 
      * @param array $grid
-     * @param \EL\Bundle\CoreBundle\Util\Coords $coords
+     * @param Coords $coords
      * @param integer|Piece $set
      * 
      * @return \EL\Bundle\Game\CheckersBundle\Checkers\Piece or null if $coords is outside board

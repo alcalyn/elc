@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Util;
+namespace EL\Core\Util;
 
 class BitwiseValue
 {

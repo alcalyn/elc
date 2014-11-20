@@ -23,7 +23,6 @@ class AppKernel extends Kernel
             new Phax\CoreBundle\PhaxCoreBundle(),
             new Alcalyn\FlushOnKernelTerminateBundle\AlcalynFlushOnKernelTerminateBundle(),
             new EL\Bundle\CoreBundle\CoreBundle(),
-            new EL\AbstractGameBundle\AbstractGameBundle(),
             new EL\Bundle\Game\TicTacToeBundle\GameTicTacToeBundle(),
             new EL\Bundle\Game\AwaleBundle\GameAwaleBundle(),
             new EL\Bundle\Game\CheckersBundle\GameCheckersBundle(),

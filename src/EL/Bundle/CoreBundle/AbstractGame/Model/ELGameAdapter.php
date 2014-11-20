@@ -1,13 +1,13 @@
 <?php
 
-namespace EL\AbstractGameBundle\Model;
+namespace EL\Bundle\CoreBundle\AbstractGame\Model;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Core\Entity\Party as CoreParty;
 use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\AbstractGameBundle\Form\Entity\AdapterOptions;
-use EL\AbstractGameBundle\Form\Type\AdapterOptionsType;
+use EL\Bundle\CoreBundle\AbstractGame\Form\Entity\AdapterOptions;
+use EL\Bundle\CoreBundle\AbstractGame\Form\Type\AdapterOptionsType;
 
 class ELGameAdapter extends Controller implements ELGameInterface
 {

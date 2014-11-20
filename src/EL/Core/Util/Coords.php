@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Util;
+namespace EL\Core\Util;
 
 class Coords implements \JsonSerializable
 {
@@ -46,7 +46,7 @@ class Coords implements \JsonSerializable
     /**
      * Return true if coords are in same line to $to
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * @return boolean
      */
     public function isSameLine(Coords $to)
@@ -57,7 +57,7 @@ class Coords implements \JsonSerializable
     /**
      * Return true if coords are in same col to $to
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * @return boolean
      */
     public function isSameCol(Coords $to)
@@ -68,7 +68,7 @@ class Coords implements \JsonSerializable
     /**
      * Return true if coords are in same diagonal
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * @return boolean
      */
     public function isSameDiagonal(Coords $to)
@@ -99,9 +99,9 @@ class Coords implements \JsonSerializable
     /**
      * Add coords to this and return new Coords
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $c
+     * @param Coords $c
      * 
-     * @return \EL\Bundle\CoreBundle\Util\Coords
+     * @return Coords
      */
     public function add(Coords $c)
     {
@@ -111,9 +111,9 @@ class Coords implements \JsonSerializable
     /**
      * Substract coords to this and return new Coords
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $c
+     * @param Coords $c
      * 
-     * @return \EL\Bundle\CoreBundle\Util\Coords
+     * @return Coords
      */
     public function sub(Coords $c)
     {
@@ -125,7 +125,7 @@ class Coords implements \JsonSerializable
      * 
      * @param integer $n
      * 
-     * @return \EL\Bundle\CoreBundle\Util\Coords
+     * @return Coords
      */
     public function mul($n)
     {
@@ -137,7 +137,7 @@ class Coords implements \JsonSerializable
      * 
      * @param integer $n
      * 
-     * @return \EL\Bundle\CoreBundle\Util\Coords
+     * @return Coords
      */
     public function div($n)
     {
@@ -147,9 +147,9 @@ class Coords implements \JsonSerializable
     /**
      * Return the discret middle Coords between this and $to
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * 
-     * @return \EL\Bundle\CoreBundle\Util\Coords, or null if there is no discret middle
+     * @return Coords, or null if there is no discret middle
      */
     public function middle(Coords $to)
     {
@@ -196,7 +196,7 @@ class Coords implements \JsonSerializable
      * Return all coords between $this and $to.
      * Must be same diagonal, line or column
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * 
      * @return array of Coords
      */
@@ -223,7 +223,7 @@ class Coords implements \JsonSerializable
      * Return a generator which iterate every Coords between this
      * and the board side iterated by $iterator
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $iterator
+     * @param Coords $iterator
      * @param integer $boardSize or null to iterate limitless
      * 
      * @return \Generator
@@ -241,7 +241,7 @@ class Coords implements \JsonSerializable
     /**
      * Return line distance to $to
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * 
      * @return integer
      */
@@ -253,7 +253,7 @@ class Coords implements \JsonSerializable
     /**
      * Return col distance to $to
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * 
      * @return integer
      */
@@ -265,7 +265,7 @@ class Coords implements \JsonSerializable
     /**
      * Return Manhattan distance to $to
      * 
-     * @param \EL\Bundle\CoreBundle\Util\Coords $to
+     * @param Coords $to
      * 
      * @return integer
      */

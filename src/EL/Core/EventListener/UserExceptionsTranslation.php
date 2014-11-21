@@ -1,13 +1,13 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\EventListener;
+namespace EL\Core\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Translation\TranslatorInterface;
-use EL\Bundle\CoreBundle\Exception\ELUserException;
+use EL\Core\Exception\UserException;
 
 class UserExceptionsTranslation
 {
@@ -37,7 +37,7 @@ class UserExceptionsTranslation
     {
         $exception = $event->getException();
         
-        if ($exception instanceof ELUserException) {
+        if ($exception instanceof UserException) {
             $this->displayErrorMessage($exception);
             
             // Redirect to the current page
@@ -51,9 +51,9 @@ class UserExceptionsTranslation
     /**
      * Add a flashbag displaying translated error message from $exception
      * 
-     * @param \EL\Bundle\CoreBundle\Exception\ELUserException $exception
+     * @param \EL\Core\Exception\UserException $exception
      */
-    public function displayErrorMessage(ELUserException $exception)
+    public function displayErrorMessage(UserException $exception)
     {
         $translatedMessage = $this->translator->trans($exception->getMessage(), array(), 'exceptions');
         $this->flashBag->add($exception->getType(), $translatedMessage);

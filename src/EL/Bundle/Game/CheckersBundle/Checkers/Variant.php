@@ -5,7 +5,7 @@ namespace EL\Bundle\Game\CheckersBundle\Checkers;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use EL\Core\Util\BitwiseValue;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 
 /**
  * @method Variant set($criteria, $boolean)
@@ -60,11 +60,11 @@ class Variant extends BitwiseValue implements \JsonSerializable
     public function setBoardSize($boardSize)
     {
         if ($boardSize > self::$BOARD_SIZE) {
-            throw new ELCoreException('Board size must be <= '.self::$BOARD_SIZE.', got '.$boardSize);
+            throw new Exception('Board size must be <= '.self::$BOARD_SIZE.', got '.$boardSize);
         }
         
         if ($boardSize < 0) {
-            throw new ELCoreException('Board size must be >= 0, got '.$boardSize);
+            throw new Exception('Board size must be >= 0, got '.$boardSize);
         }
         
         $this->value = $this->value & (~self::$BOARD_SIZE);

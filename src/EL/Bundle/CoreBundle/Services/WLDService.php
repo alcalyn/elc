@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 use EL\Core\Entity\WLD;
 use EL\Core\Entity\Player;
 use EL\Core\Entity\Party;
@@ -33,12 +33,12 @@ class WLDService extends ScoreService
      * 
      * @return Score score data just updated of $player
      * 
-     * @throws ELCoreException if $wldValue not WLD::WIN, WLD::LOSS or WLD::DRAW
+     * @throws Exception if $wldValue not WLD::WIN, WLD::LOSS or WLD::DRAW
      */
     public function update(Player $player, $game, $wldValue, Party $party = null)
     {
         if (!in_array($wldValue, array(WLD::WIN, WLD::LOSS, WLD::DRAW))) {
-            throw new ELCoreException('$wldValue must be WLD::WIN, WLD::LOSS or WLD::DRAW, got "'.$wldValue.'"');
+            throw new Exception('$wldValue must be WLD::WIN, WLD::LOSS or WLD::DRAW, got "'.$wldValue.'"');
         }
         
         /**

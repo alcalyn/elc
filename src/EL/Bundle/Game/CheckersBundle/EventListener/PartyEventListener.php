@@ -3,7 +3,7 @@
 namespace EL\Bundle\Game\CheckersBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use EL\Bundle\CoreBundle\Event\PartyEvent;
+use EL\Core\Event\PartyEvent;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
 use EL\Bundle\Game\CheckersBundle\Checkers\Move;
 use EL\Game\Checkers\Entity\CheckersParty;
@@ -39,7 +39,7 @@ class PartyEventListener implements EventSubscriberInterface
     }
     
     /**
-     * @param \EL\Bundle\CoreBundle\Event\PartyEvent $event
+     * @param \EL\Core\Event\PartyEvent $event
      */
     public function onPartyCreateBefore(PartyEvent $event)
     {
@@ -57,7 +57,7 @@ class PartyEventListener implements EventSubscriberInterface
     }
     
     /**
-     * @param \EL\Bundle\CoreBundle\Event\PartyEvent $event
+     * @param \EL\Core\Event\PartyEvent $event
      */
     public function onPartyActiveAfter(PartyEvent $event)
     {

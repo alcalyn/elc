@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use EL\Bundle\CoreBundle\Exception\LoginException;
+use EL\Core\Exception\LoginException;
 use EL\Bundle\CoreBundle\Form\Entity\Signup;
 use EL\Bundle\CoreBundle\Form\Entity\Login;
 use EL\Bundle\CoreBundle\Form\Type\SignupType;

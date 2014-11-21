@@ -4,7 +4,7 @@ namespace EL\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 
 class PartyAjaxController extends Controller
 {
@@ -109,13 +109,13 @@ class PartyAjaxController extends Controller
      * Check if needed request parameters are defined
      * 
      * @param \Phax\CoreBundle\Model\PhaxAction $phaxAction
-     * @throws ELCoreException
+     * @throws Exception
      */
     private static function checkAction(PhaxAction $phaxAction)
     {
         foreach (array('locale', 'slugGame', 'slugParty') as $parameter) {
             if (!$phaxAction->has($parameter)) {
-                throw new ELCoreException(
+                throw new Exception(
                     "partyAjax::refreshAction : $parameter must be defined"
                 );
             }

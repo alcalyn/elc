@@ -5,7 +5,7 @@ namespace EL\Bundle\CoreBundle\Services;
 use Symfony\Component\DependencyInjection\Container;
 use EL\Core\Entity\Game;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 
 class GameService
 {
@@ -65,7 +65,7 @@ class GameService
                     ->findByLang($locale, $slug)
             ;
         } catch (\Doctrine\ORM\NoResultException $e) {
-            throw new ELCoreException('Game "'.$slug.'" unknown');
+            throw new Exception('Game "'.$slug.'" unknown');
         }
         
         $this->setGame($game, $container);
@@ -144,7 +144,7 @@ class GameService
             $this->gameInterface = $gameInterface;
             return $this;
         } else {
-            throw new ELCoreException('Your game service must implement EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface');
+            throw new Exception('Your game service must implement EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface');
         }
     }
     

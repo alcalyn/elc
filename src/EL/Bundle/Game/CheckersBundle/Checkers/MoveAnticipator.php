@@ -2,7 +2,7 @@
 
 namespace EL\Bundle\Game\CheckersBundle\Checkers;
 
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 use EL\Core\Util\Coords;
 use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
@@ -135,7 +135,7 @@ class MoveAnticipator
             if (in_array($this->grid[$coords->line][$coords->col], $colorMatch)) {
                 $this->anticipateCapturesRecursive($this->grid, new Move(0, array($coords)));
             } else {
-                throw new ELCoreException('piece on $coords is empty or is not owned by player');
+                throw new Exception('piece on $coords is empty or is not owned by player');
             }
         }
         
@@ -153,7 +153,7 @@ class MoveAnticipator
         $jumpAgain = false;
         
         if (null === $pieceFrom) {
-            throw new ELCoreException('No pieces at '.$coordsFrom);
+            throw new Exception('No pieces at '.$coordsFrom);
         }
         
         if (!$pieceFrom->isKing()) {

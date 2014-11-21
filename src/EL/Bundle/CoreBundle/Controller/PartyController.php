@@ -7,8 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\Bundle\CoreBundle\Exception\ELUserException;
+use EL\Core\Exception\Exception;
+use EL\Core\Exception\UserException;
 use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Bundle\CoreBundle\Form\Entity\Options;
@@ -195,7 +195,7 @@ class PartyController extends Controller
                 )));
             
             default:
-                throw new ELCoreException('Unknown action : "'.$action.'"');
+                throw new Exception('Unknown action : "'.$action.'"');
         }
         
         return $this->redirectParty($_locale, $slugGame, $slugParty, $party);
@@ -225,7 +225,7 @@ class PartyController extends Controller
         $extendedParty  = $gameInterface->loadParty($party);
         
         if (!($extendedParty instanceof \JsonSerializable)) {
-            throw new ELCoreException(
+            throw new Exception(
                     'Your class ('.get_class($extendedParty).') must implement JsonSerializable'
             );
         }
@@ -281,7 +281,7 @@ class PartyController extends Controller
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * 
-     * @throws ELCoreException
+     * @throws Exception
      */
     private function redirectParty($_locale, $slugGame, $slugParty, Party $party = null)
     {
@@ -311,7 +311,7 @@ class PartyController extends Controller
                 return $this->redirect($this->generateUrl('elcore_party_ended', $parameters));
             
             default:
-                throw new ELCoreException('Unknown party state : #'.$party->getState());
+                throw new Exception('Unknown party state : #'.$party->getState());
         }
     }
 }

@@ -20,6 +20,7 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "sensio/generator-bundle": "2.3.*",
+        "khepin/yaml-fixtures-bundle": "~0.8.1",
         "jms/i18n-routing-bundle": "1.1.x",
         "incenteev/composer-parameter-handler": "~2.0",
         "alcalyn/flush-on-kernel-terminate-bundle": "dev-master",

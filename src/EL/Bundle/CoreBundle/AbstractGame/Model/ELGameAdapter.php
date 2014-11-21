@@ -5,7 +5,7 @@ namespace EL\Bundle\CoreBundle\AbstractGame\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Core\Entity\Party as CoreParty;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 use EL\Bundle\CoreBundle\AbstractGame\Form\Entity\AdapterOptions;
 use EL\Bundle\CoreBundle\AbstractGame\Form\Type\AdapterOptionsType;
 
@@ -148,7 +148,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
             return 'Ended.';
         }
         
-        throw new ELCoreException('Unknown party state : '.$party->getState());
+        throw new Exception('Unknown party state : '.$party->getState());
     }
     
     /**
@@ -169,7 +169,7 @@ class ELGameAdapter extends Controller implements ELGameInterface
         if ($defaultOptions instanceof AdapterOptions) {
             return $defaultOptions;
         } else {
-            throw new ELCoreException('You must implement getOptions()');
+            throw new Exception('You must implement getOptions()');
         }
     }
 }

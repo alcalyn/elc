@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Request\ParamConverter;
+namespace EL\Bundle\CoreBundle\Extension\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 
 class PartyServiceConverter implements ParamConverterInterface
 {
@@ -46,7 +46,7 @@ class PartyServiceConverter implements ParamConverterInterface
         
         try {
             $this->partyService->setPartyBySlug($slugParty, $slugGame, $locale, $this->container);
-        } catch (ELCoreException $e) {
+        } catch (Exception $e) {
             throw new NotFoundHttpException('No party "'.$slugParty.'" for game "'.$slugGame.'"');
         }
 

@@ -4,7 +4,7 @@ namespace EL\Bundle\CoreBundle\Services;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManager;
-use EL\Bundle\CoreBundle\Exception\LoginException;
+use EL\Core\Exception\LoginException;
 use EL\Core\Entity\Player;
 
 class SessionService

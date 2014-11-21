@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 use EL\Core\Entity\Player;
 use EL\Core\Entity\Elo;
 use EL\Core\Entity\Game;
@@ -81,7 +81,7 @@ class EloService extends ScoreService
     public function update(Player $p0, Player $p1, $game, Party $party = null, $win = 1)
     {
         if (($win < 0) || ($win > 1)) {
-            throw new ELCoreException('win must be in range [0;1]');
+            throw new Exception('win must be in range [0;1]');
         }
         
         /**

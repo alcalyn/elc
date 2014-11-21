@@ -1,11 +1,11 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Event;
+namespace EL\Core\Event;
 
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 
-class PartyEvent extends ELCoreEvent
+class PartyEvent extends Event
 {
     /**
      * The event.party.create.before event is thrown before

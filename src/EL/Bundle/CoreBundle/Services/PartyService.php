@@ -4,16 +4,16 @@ namespace EL\Bundle\CoreBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use EL\Bundle\CoreBundle\Event\PartyEvent;
-use EL\Bundle\CoreBundle\Event\PartyRemakeEvent;
+use EL\Core\Event\PartyEvent;
+use EL\Core\Event\PartyRemakeEvent;
 use Doctrine\ORM\EntityManager;
 use EL\Bundle\CoreBundle\Services\GameService;
 use EL\Core\Entity\Party;
 use EL\Core\Entity\Slot;
 use EL\Core\Entity\Player;
 use EL\Bundle\CoreBundle\Services\SessionService;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
-use EL\Bundle\CoreBundle\Exception\ELUserException;
+use EL\Core\Exception\Exception;
+use EL\Core\Exception\UserException;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 
 class PartyService extends GameService
@@ -90,7 +90,7 @@ class PartyService extends GameService
                     ->findByLang($locale, $slugParty, $slugGame)
             ;
         } catch (\Doctrine\ORM\NoResultException $e) {
-            throw new ELCoreException('No party "'.$slugParty.'" for game "'.$slugGame.'"');
+            throw new Exception('No party "'.$slugParty.'" for game "'.$slugGame.'"');
         }
         
         $this->setParty($party, $container);
@@ -207,7 +207,7 @@ class PartyService extends GameService
      * If join is true, the player join the party if he can.
      * If player has already join party, he just change slot.
      * 
-     * throw ELUserException if player cant join,
+     * throw UserException if player cant join,
      * else return true if he can join
      * 
      * @param \EL\Core\Entity\Player $player
@@ -217,7 +217,7 @@ class PartyService extends GameService
      * 
      * @return PartyService
      * 
-     * @throws ELUserException if cannot join
+     * @throws UserException if cannot join
      */
     public function join(Player $player = null, $slotIndex = -1, $join = true, Party $party = null)
     {
@@ -245,7 +245,7 @@ class PartyService extends GameService
             if ($slots->get($slotIndex)->isFree()) {
                 $nextFreeSlot = $slots->get($slotIndex);
             } else {
-                throw new ELUserException('slot.notfree');
+                throw new UserException('slot.notfree');
             }
         }
             
@@ -282,18 +282,18 @@ class PartyService extends GameService
      * 
      * @param \EL\Core\Entity\Party $party
      * 
-     * @throws ELUserException
+     * @throws UserException
      */
     private function checkJoinOnPartyState(Party $party)
     {
         $state = $party->getState();
         
         if ($state === Party::ENDED) {
-            throw new ELUserException('cannot.join.party.ended');
+            throw new UserException('cannot.join.party.ended');
         }
         
         if (($state !== Party::PREPARATION) && !$party->getRoom()) {
-            throw new ELUserException('cannot.join.party.started');
+            throw new UserException('cannot.join.party.started');
         }
     }
     
@@ -303,12 +303,12 @@ class PartyService extends GameService
      * @param Slot[] $slots
      * @param integer $slotIndex
      * 
-     * @throws ELUserException
+     * @throws UserException
      */
     private function checkSlotsExists($slots, $slotIndex)
     {
         if ($slotIndex >= $slots->count()) {
-            throw new ELUserException('slot.notexists');
+            throw new UserException('slot.notexists');
         }
     }
     
@@ -319,19 +319,19 @@ class PartyService extends GameService
      * @param Slot $alreadyJoinSlot
      * @param integer $slotIndex if user want to join a specific slot
      * 
-     * @throws ELUserException if any error
+     * @throws UserException if any error
      */
     private function checkAlreadyJoinOrFull(Slot $nextFreeSlot = null, Slot $alreadyJoinSlot = null, $slotIndex = -1)
     {
         if (!$nextFreeSlot) {
             if ($alreadyJoinSlot) {
                 if ($slotIndex < 0) {
-                    throw new ELUserException('youhave.already.join');
+                    throw new UserException('youhave.already.join');
                 } else {
-                    throw new ELUserException('cannot.join.thisslot');
+                    throw new UserException('cannot.join.thisslot');
                 }
             } else {
-                throw new ELUserException('cannot.join.nofreeslot');
+                throw new UserException('cannot.join.nofreeslot');
             }
         }
     }
@@ -391,7 +391,7 @@ class PartyService extends GameService
         try {
             $this->join($player, $slotIndex, false, $party);
             return true;
-        } catch (ELUserException $e) {
+        } catch (UserException $e) {
             return false;
         }
     }
@@ -454,7 +454,7 @@ class PartyService extends GameService
     public function ban($playerId)
     {
         if (!$this->isHost()) {
-            throw new ELUserException('cannot.ban.nothost');
+            throw new UserException('cannot.ban.nothost');
         }
         
         $this->quitParty($playerId);
@@ -569,9 +569,9 @@ class PartyService extends GameService
      * 
      * @param boolean $start set to false to just check if party can be started
      * 
-     * @return boolean|null true, or throws ELUserException
+     * @return boolean|null true, or throws UserException
      * 
-     * @throws ELUserException if party cannot be started
+     * @throws UserException if party cannot be started
      */
     public function start($start = true)
     {
@@ -580,11 +580,11 @@ class PartyService extends GameService
         $isHost = is_object($party->getHost()) && ($player->getId() === $party->getHost()->getId());
         
         if (!$isHost) {
-            throw new ELUserException('cannot.start.youarenothost');
+            throw new UserException('cannot.start.youarenothost');
         }
         
         if ($party->getState() !== Party::PREPARATION) {
-            throw new ELUserException('cannot.start.already.started');
+            throw new UserException('cannot.start.already.started');
         }
             
         if ($start) {
@@ -664,7 +664,7 @@ class PartyService extends GameService
      * 
      * @return boolean
      * 
-     * @throws ELCoreException
+     * @throws Exception
      */
     public function end()
     {
@@ -678,7 +678,7 @@ class PartyService extends GameService
             
             return true;
         } else {
-            throw new ELCoreException('Party cannot be ended because not active');
+            throw new Exception('Party cannot be ended because not active');
         }
     }
     
@@ -689,7 +689,7 @@ class PartyService extends GameService
      * 
      * @return Party
      * 
-     * @throws ELUserException
+     * @throws UserException
      */
     public function remake()
     {
@@ -700,7 +700,7 @@ class PartyService extends GameService
         
         // Check if party ended
         if ($oldCoreParty->getState() !== Party::ENDED) {
-            throw new ELUserException('party.cannot.remake.notended');
+            throw new UserException('party.cannot.remake.notended');
         }
         
         // Check if party already remade, then join

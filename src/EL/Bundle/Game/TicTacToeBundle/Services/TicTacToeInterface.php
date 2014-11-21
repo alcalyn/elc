@@ -3,8 +3,8 @@
 namespace EL\Bundle\Game\TicTacToeBundle\Services;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use EL\Bundle\CoreBundle\Event\PartyEvent;
-use EL\Bundle\CoreBundle\Event\PartyRemakeEvent;
+use EL\Core\Event\PartyEvent;
+use EL\Core\Event\PartyRemakeEvent;
 use EL\Core\Entity\Party as CoreParty;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameAdapter;

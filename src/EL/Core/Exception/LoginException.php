@@ -1,8 +1,8 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Exception;
+namespace EL\Core\Exception;
 
-class LoginException extends ELUserException
+class LoginException extends UserException
 {
     /**
      * @var integer
@@ -30,6 +30,6 @@ class LoginException extends ELUserException
      */
     public function __construct($message, $code)
     {
-        parent::__construct($message, ELUserException::TYPE_WARNING, $code);
+        parent::__construct($message, UserException::TYPE_WARNING, $code);
     }
 }

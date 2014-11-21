@@ -5,7 +5,7 @@ services:
             - { name: twig.extension }
             
     el_core.twig.el_twig_extensions:
-        class: EL\Bundle\CoreBundle\Extensions\ELTwigExtensions
+        class: EL\Bundle\CoreBundle\Extension\Twig\Extension
         arguments:
             - @request_stack
         tags:

@@ -4,7 +4,7 @@ namespace EL\Bundle\Game\AwaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;
 use EL\Game\Awale\Entity\AwaleParty;
@@ -158,7 +158,7 @@ class AwaleController extends Controller
         $game       = $coreParty->getGame();
         
         if ((null === $player0) || (null === $player1)) {
-            throw new ELCoreException('Cannot update score because there is only one player in party');
+            throw new Exception('Cannot update score because there is only one player in party');
         }
         
         // player 0 wins

@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Event;
+namespace EL\Core\Event;
 
 use EL\Core\Entity\Party;
 use EL\Bundle\CoreBundle\Services\PartyService;

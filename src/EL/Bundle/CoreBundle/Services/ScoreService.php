@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 use EL\Core\Entity\Game;
 use EL\Core\Entity\GameVariant;
 use EL\Core\Entity\Score;
@@ -209,7 +209,7 @@ class ScoreService
      * 
      * @param mixed $var
      * 
-     * @throws ELCoreException if $var is not a Game or GameVariant
+     * @throws Exception if $var is not a Game or GameVariant
      */
     protected function checkGameOrGameVariant($var)
     {
@@ -217,7 +217,7 @@ class ScoreService
         $isGameVariant  = ($var instanceof GameVariant);
         
         if (!($isGame || $isGameVariant)) {
-            throw new ELCoreException('Expected instance of Game or GameVariant, got '.get_class($var));
+            throw new Exception('Expected instance of Game or GameVariant, got '.get_class($var));
         }
     }
 }

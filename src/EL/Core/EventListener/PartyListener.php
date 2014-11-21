@@ -1,14 +1,14 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\EventListener;
+namespace EL\Core\EventListener;
 
-use EL\Bundle\CoreBundle\Event\PartyEvent;
-use EL\Bundle\CoreBundle\Exception\ELUserException;
+use EL\Core\Event\PartyEvent;
+use EL\Core\Exception\UserException;
 
 class PartyListener
 {
     /**
-     * @param \EL\Bundle\CoreBundle\Event\PartyEvent $event
+     * @param \EL\Core\Event\PartyEvent $event
      */
     public function onPartyStartBefore(PartyEvent $event)
     {
@@ -18,11 +18,11 @@ class PartyListener
         $nbPlayer       = $partyService->getNbPlayer();
         
         if ($nbPlayer < $nbPlayerMin) {
-            throw new ELUserException('cannot.start.notenoughplayer', ELUserException::TYPE_WARNING);
+            throw new UserException('cannot.start.notenoughplayer', UserException::TYPE_WARNING);
         }
         
         if ($nbPlayer > $nbPlayerMax) {
-            throw new ELUserException('cannot.start.toomanyplayer', ELUserException::TYPE_WARNING);
+            throw new UserException('cannot.start.toomanyplayer', UserException::TYPE_WARNING);
         }
     }
 }

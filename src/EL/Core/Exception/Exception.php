@@ -1,8 +1,8 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Exception;
+namespace EL\Core\Exception;
 
-class ELCoreException extends \Exception
+class Exception extends \Exception
 {
     /**
      * @param string $message

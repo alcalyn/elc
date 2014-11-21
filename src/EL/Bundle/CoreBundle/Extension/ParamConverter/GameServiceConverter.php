@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Request\ParamConverter;
+namespace EL\Bundle\CoreBundle\Extension\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use EL\Bundle\CoreBundle\Services\GameService;
-use EL\Bundle\CoreBundle\Exception\ELCoreException;
+use EL\Core\Exception\Exception;
 
 class GameServiceConverter implements ParamConverterInterface
 {
@@ -45,7 +45,7 @@ class GameServiceConverter implements ParamConverterInterface
         
         try {
             $this->gameService->setGameBySlug($slug, $locale);
-        } catch (ELCoreException $e) {
+        } catch (Exception $e) {
             throw new NotFoundHttpException('Game "'.$slug.'" not installed');
         }
 

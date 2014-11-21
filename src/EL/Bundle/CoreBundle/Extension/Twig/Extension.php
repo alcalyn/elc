@@ -1,10 +1,10 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Extensions;
+namespace EL\Bundle\CoreBundle\Extension\Twig;
 
 use EL\Core\Entity\Score;
 
-class ELTwigExtensions extends \Twig_Extension
+class Extension extends \Twig_Extension
 {
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack

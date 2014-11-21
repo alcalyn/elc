@@ -1,8 +1,8 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Exception;
+namespace EL\Core\Exception;
 
-class ELUserException extends ELCoreException
+class UserException extends Exception
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class ELUserException extends ELCoreException
      * 
      * @param string $type
      * 
-     * @throws ELCoreException
+     * @throws Exception
      */
     private function checkType($type)
     {
@@ -55,7 +55,7 @@ class ELUserException extends ELCoreException
         );
         
         if (!in_array($type, $availableTypes)) {
-            throw new ELCoreException(
+            throw new Exception(
                 get_class($this).'::type can be "'.implode('", "', $availableTypes).'", got "'.$type.'"'
             );
         }

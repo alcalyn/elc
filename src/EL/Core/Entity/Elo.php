@@ -30,33 +30,21 @@ class Elo
     
     /**
      * @var Player
-     * 
-
-
      */
     private $player;
     
     /**
      * @var GameVariant
-     * 
-
-
      */
     private $gameVariant;
     
     /**
      * @var Player
-     * 
-
-
      */
     private $opponent;
     
     /**
      * @var Party
-     * 
-
-
      */
     private $party;
     
@@ -130,10 +118,10 @@ class Elo
     /**
      * Set player
      *
-     * @param \EL\Core\Entity\Player $player
+     * @param Player $player
      * @return Elo
      */
-    public function setPlayer(\EL\Core\Entity\Player $player)
+    public function setPlayer(Player $player)
     {
         $this->player = $player;
     
@@ -143,7 +131,7 @@ class Elo
     /**
      * Get player
      *
-     * @return \EL\Core\Entity\Player
+     * @return Player
      */
     public function getPlayer()
     {
@@ -153,10 +141,10 @@ class Elo
     /**
      * Set party
      *
-     * @param \EL\Core\Entity\Party $party
+     * @param Party $party
      * @return Elo
      */
-    public function setParty(\EL\Core\Entity\Party $party = null)
+    public function setParty(Party $party = null)
     {
         $this->party = $party;
     
@@ -166,7 +154,7 @@ class Elo
     /**
      * Get party
      *
-     * @return \EL\Core\Entity\Party
+     * @return Party
      */
     public function getParty()
     {
@@ -176,10 +164,10 @@ class Elo
     /**
      * Set gameVariant
      *
-     * @param \EL\Core\Entity\GameVariant $gameVariant
+     * @param GameVariant $gameVariant
      * @return Elo
      */
-    public function setGameVariant(\EL\Core\Entity\GameVariant $gameVariant)
+    public function setGameVariant(GameVariant $gameVariant)
     {
         $this->gameVariant = $gameVariant;
     
@@ -189,7 +177,7 @@ class Elo
     /**
      * Get gameVariant
      *
-     * @return \EL\Core\Entity\GameVariant
+     * @return GameVariant
      */
     public function getGameVariant()
     {
@@ -199,10 +187,10 @@ class Elo
     /**
      * Set opponent
      *
-     * @param \EL\Core\Entity\Player $opponent
+     * @param Player $opponent
      * @return Elo
      */
-    public function setOpponent(\EL\Core\Entity\Player $opponent)
+    public function setOpponent(Player $opponent)
     {
         $this->opponent = $opponent;
     
@@ -212,7 +200,7 @@ class Elo
     /**
      * Get opponent
      *
-     * @return \EL\Core\Entity\Player
+     * @return Player
      */
     public function getOpponent()
     {

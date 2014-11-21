@@ -14,25 +14,16 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     
     /**
      * @var EL\Bundle\CoreBundle\Category
-     * 
-
-
      */
     private $category;
     
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * 
-
-
      */
     protected $langs;
     
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * 
-
-
      */
     private $gameVariants;
 
@@ -220,10 +211,10 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     /**
      * Set category
      *
-     * @param \EL\Core\Entity\Category $category
+     * @param Category $category
      * @return Game
      */
-    public function setCategory(\EL\Core\Entity\Category $category = null)
+    public function setCategory(Category $category = null)
     {
         $this->category = $category;
     
@@ -233,7 +224,7 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     /**
      * Get category
      *
-     * @return \EL\Core\Entity\Category
+     * @return Category
      */
     public function getCategory()
     {
@@ -259,10 +250,10 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     /**
      * Add langs
      *
-     * @param \EL\Core\Entity\GameLang $langs
+     * @param GameLang $langs
      * @return Game
      */
-    public function addLang(\EL\Core\Entity\GameLang $langs)
+    public function addLang(GameLang $langs)
     {
         $this->langs[] = $langs;
     
@@ -272,9 +263,9 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     /**
      * Remove langs
      *
-     * @param \EL\Core\Entity\GameLang $langs
+     * @param GameLang $langs
      */
-    public function removeLang(\EL\Core\Entity\GameLang $langs)
+    public function removeLang(GameLang $langs)
     {
         $this->langs->removeElement($langs);
     }
@@ -384,10 +375,10 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     /**
      * Add gameVariants
      *
-     * @param \EL\Core\Entity\GameVariant $gameVariants
+     * @param GameVariant $gameVariants
      * @return Game
      */
-    public function addGameVariant(\EL\Core\Entity\GameVariant $gameVariants)
+    public function addGameVariant(GameVariant $gameVariants)
     {
         $this->gameVariants[] = $gameVariants;
     
@@ -397,9 +388,9 @@ class Game extends AbstractLangEntity implements \JsonSerializable
     /**
      * Remove gameVariants
      *
-     * @param \EL\Core\Entity\GameVariant $gameVariants
+     * @param GameVariant $gameVariants
      */
-    public function removeGameVariant(\EL\Core\Entity\GameVariant $gameVariants)
+    public function removeGameVariant(GameVariant $gameVariants)
     {
         $this->gameVariants->removeElement($gameVariants);
     }

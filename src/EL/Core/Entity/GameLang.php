@@ -14,17 +14,11 @@ class GameLang
     
     /**
      * @var Game
-     * 
-
-
      */
     private $game;
     
     /**
      * @var Lang
-     * 
-
-
      */
     private $lang;
 
@@ -35,8 +29,6 @@ class GameLang
 
     /**
      * @var string
-     * 
-
      */
     private $slug;
 
@@ -55,8 +47,6 @@ class GameLang
      * Can be "http://..." or "bundles/tictactoe/img/home.jpg"
      * 
      * @var string
-     * 
-
      */
     private $pictureHome;
     
@@ -166,10 +156,10 @@ class GameLang
     /**
      * Set game
      *
-     * @param \EL\Core\Entity\Game $game
+     * @param Game $game
      * @return GameLang
      */
-    public function setGame(\EL\Core\Entity\Game $game)
+    public function setGame(Game $game)
     {
         $this->game = $game;
     
@@ -179,7 +169,7 @@ class GameLang
     /**
      * Get game
      *
-     * @return \EL\Core\Entity\Game
+     * @return Game
      */
     public function getGame()
     {
@@ -189,10 +179,10 @@ class GameLang
     /**
      * Set lang
      *
-     * @param \EL\Core\Entity\Lang $lang
+     * @param Lang $lang
      * @return GameLang
      */
-    public function setLang(\EL\Core\Entity\Lang $lang)
+    public function setLang(Lang $lang)
     {
         $this->lang = $lang;
     
@@ -202,7 +192,7 @@ class GameLang
     /**
      * Get lang
      *
-     * @return \EL\Core\Entity\Lang
+     * @return Lang
      */
     public function getLang()
     {

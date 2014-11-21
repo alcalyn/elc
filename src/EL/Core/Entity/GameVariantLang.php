@@ -14,17 +14,11 @@ class GameVariantLang
     
     /**
      * @var GameVariant
-     * 
-
-
      */
     private $gameVariant;
     
     /**
      * @var Lang
-     * 
-
-
      */
     private $lang;
 
@@ -70,10 +64,10 @@ class GameVariantLang
     /**
      * Set gameVariant
      *
-     * @param \EL\Core\Entity\GameVariant $gameVariant
+     * @param GameVariant $gameVariant
      * @return GameVariantLang
      */
-    public function setGameVariant(\EL\Core\Entity\GameVariant $gameVariant)
+    public function setGameVariant(GameVariant $gameVariant)
     {
         $this->gameVariant = $gameVariant;
     
@@ -83,7 +77,7 @@ class GameVariantLang
     /**
      * Get gameVariant
      *
-     * @return \EL\Core\Entity\GameVariant
+     * @return GameVariant
      */
     public function getGameVariant()
     {
@@ -93,10 +87,10 @@ class GameVariantLang
     /**
      * Set lang
      *
-     * @param \EL\Core\Entity\Lang $lang
+     * @param Lang $lang
      * @return GameVariantLang
      */
-    public function setLang(\EL\Core\Entity\Lang $lang)
+    public function setLang(Lang $lang)
     {
         $this->lang = $lang;
     
@@ -106,7 +100,7 @@ class GameVariantLang
     /**
      * Get lang
      *
-     * @return \EL\Core\Entity\Lang
+     * @return Lang
      */
     public function getLang()
     {

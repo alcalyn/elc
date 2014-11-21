@@ -66,10 +66,10 @@ class Category extends AbstractLangEntity
     /**
      * Add games
      *
-     * @param \EL\Core\Entity\Game $games
+     * @param Game $games
      * @return Category
      */
-    public function addGame(\EL\Core\Entity\Game $games)
+    public function addGame(Game $games)
     {
         $this->games[] = $games;
     
@@ -79,9 +79,9 @@ class Category extends AbstractLangEntity
     /**
      * Remove games
      *
-     * @param \EL\Core\Entity\Game $games
+     * @param Game $games
      */
-    public function removeGame(\EL\Core\Entity\Game $games)
+    public function removeGame(Game $games)
     {
         $this->games->removeElement($games);
     }
@@ -99,10 +99,10 @@ class Category extends AbstractLangEntity
     /**
      * Add langs
      *
-     * @param \EL\Core\Entity\CategoryLang $langs
+     * @param CategoryLang $langs
      * @return Category
      */
-    public function addLang(\EL\Core\Entity\CategoryLang $langs)
+    public function addLang(CategoryLang $langs)
     {
         $this->langs[] = $langs;
     
@@ -112,9 +112,9 @@ class Category extends AbstractLangEntity
     /**
      * Remove langs
      *
-     * @param \EL\Core\Entity\CategoryLang $langs
+     * @param CategoryLang $langs
      */
-    public function removeLang(\EL\Core\Entity\CategoryLang $langs)
+    public function removeLang(CategoryLang $langs)
     {
         $this->langs->removeElement($langs);
     }

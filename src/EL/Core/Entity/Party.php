@@ -43,24 +43,16 @@ class Party implements \JsonSerializable
     
     /**
      * @var Game
-     * 
-
-
      */
     private $game;
     
     /**
      * @var Player
-     * 
-
-
      */
     private $host;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * 
-
      */
     private $slots;
 
@@ -102,8 +94,6 @@ class Party implements \JsonSerializable
      * @var boolean
      * 
      * If the chat is enabled for this party
-     * 
-
      */
     private $disallowChat;
     
@@ -111,17 +101,12 @@ class Party implements \JsonSerializable
      * @var boolean
      * 
      * If this party allows observers
-     * 
-
      */
     private $disallowObservers;
     
     /**
      * Contains party which is the clone of this
      * created by the player who has remade an older party
-     * 
-
-
      */
     private $remake;
     
@@ -399,10 +384,10 @@ class Party implements \JsonSerializable
     /**
      * Set game
      *
-     * @param \EL\Core\Entity\Game $game
+     * @param Game $game
      * @return Party
      */
-    public function setGame(\EL\Core\Entity\Game $game)
+    public function setGame(Game $game)
     {
         $this->game = $game;
     
@@ -412,7 +397,7 @@ class Party implements \JsonSerializable
     /**
      * Get game
      *
-     * @return \EL\Core\Entity\Game
+     * @return Game
      */
     public function getGame()
     {
@@ -422,10 +407,10 @@ class Party implements \JsonSerializable
     /**
      * Set host
      *
-     * @param \EL\Core\Entity\Player $host
+     * @param Player $host
      * @return Party
      */
-    public function setHost(\EL\Core\Entity\Player $host = null)
+    public function setHost(Player $host = null)
     {
         $this->host = $host;
     
@@ -435,7 +420,7 @@ class Party implements \JsonSerializable
     /**
      * Get host
      *
-     * @return \EL\Core\Entity\Player
+     * @return Player
      */
     public function getHost()
     {
@@ -445,10 +430,10 @@ class Party implements \JsonSerializable
     /**
      * Add slots
      *
-     * @param \EL\Core\Entity\Slot $slots
+     * @param Slot $slots
      * @return Party
      */
-    public function addSlot(\EL\Core\Entity\Slot $slots)
+    public function addSlot(Slot $slots)
     {
         $this->slots[] = $slots;
     
@@ -458,9 +443,9 @@ class Party implements \JsonSerializable
     /**
      * Remove slots
      *
-     * @param \EL\Core\Entity\Slot $slots
+     * @param Slot $slots
      */
-    public function removeSlot(\EL\Core\Entity\Slot $slots)
+    public function removeSlot(Slot $slots)
     {
         $this->slots->removeElement($slots);
     }
@@ -478,10 +463,10 @@ class Party implements \JsonSerializable
     /**
      * Set remake
      *
-     * @param \EL\Core\Entity\Party $remake
+     * @param Party $remake
      * @return Party
      */
-    public function setRemake(\EL\Core\Entity\Party $remake = null)
+    public function setRemake(Party $remake = null)
     {
         $this->remake = $remake;
     
@@ -491,7 +476,7 @@ class Party implements \JsonSerializable
     /**
      * Get remake
      *
-     * @return \EL\Core\Entity\Party
+     * @return Party
      */
     public function getRemake()
     {

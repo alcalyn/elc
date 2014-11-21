@@ -19,59 +19,41 @@ class Score
     
     /**
      * @var Player
-     * 
-
-
      */
     private $player;
     
     /**
      * @var GameVariant
-     * 
-
-
      */
     private $gameVariant;
     
     /**
      * @var float
-     * 
-
      */
     private $elo;
     
     /**
      * @var float
-     * 
-
      */
     private $eloReliability;
     
     /**
      * @var integer
-     * 
-
      */
     private $wins;
     
     /**
      * @var integer
-     * 
-
      */
     private $losses;
     
     /**
      * @var integer
-     * 
-
      */
     private $draws;
     
     /**
      * @var float
-     * 
-
      */
     private $points;
     
@@ -262,10 +244,10 @@ class Score
     /**
      * Set player
      *
-     * @param \EL\Core\Entity\Player $player
+     * @param Player $player
      * @return Score
      */
-    public function setPlayer(\EL\Core\Entity\Player $player)
+    public function setPlayer(Player $player)
     {
         $this->player = $player;
     
@@ -275,7 +257,7 @@ class Score
     /**
      * Get player
      *
-     * @return \EL\Core\Entity\Player
+     * @return Player
      */
     public function getPlayer()
     {
@@ -285,10 +267,10 @@ class Score
     /**
      * Set gameVariant
      *
-     * @param \EL\Core\Entity\GameVariant $gameVariant
+     * @param GameVariant $gameVariant
      * @return Score
      */
-    public function setGameVariant(\EL\Core\Entity\GameVariant $gameVariant)
+    public function setGameVariant(GameVariant $gameVariant)
     {
         $this->gameVariant = $gameVariant;
     
@@ -298,7 +280,7 @@ class Score
     /**
      * Get gameVariant
      *
-     * @return \EL\Core\Entity\GameVariant
+     * @return GameVariant
      */
     public function getGameVariant()
     {

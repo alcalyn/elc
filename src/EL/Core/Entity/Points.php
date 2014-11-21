@@ -14,25 +14,16 @@ class Points
     
     /**
      * @var Player
-     * 
-
-
      */
     private $player;
     
     /**
      * @var GameVariant
-     * 
-
-
      */
     private $gameVariant;
     
     /**
      * @var Party
-     * 
-
-
      */
     private $party;
 
@@ -106,10 +97,10 @@ class Points
     /**
      * Set player
      *
-     * @param \EL\Core\Entity\Player $player
+     * @param Player $player
      * @return Points
      */
-    public function setPlayer(\EL\Core\Entity\Player $player)
+    public function setPlayer(Player $player)
     {
         $this->player = $player;
     
@@ -119,7 +110,7 @@ class Points
     /**
      * Get player
      *
-     * @return \EL\Core\Entity\Player
+     * @return Player
      */
     public function getPlayer()
     {
@@ -129,10 +120,10 @@ class Points
     /**
      * Set gameVariant
      *
-     * @param \EL\Core\Entity\GameVariant $gameVariant
+     * @param GameVariant $gameVariant
      * @return Points
      */
-    public function setGameVariant(\EL\Core\Entity\GameVariant $gameVariant)
+    public function setGameVariant(GameVariant $gameVariant)
     {
         $this->gameVariant = $gameVariant;
     
@@ -142,7 +133,7 @@ class Points
     /**
      * Get gameVariant
      *
-     * @return \EL\Core\Entity\GameVariant
+     * @return GameVariant
      */
     public function getGameVariant()
     {
@@ -152,10 +143,10 @@ class Points
     /**
      * Set party
      *
-     * @param \EL\Core\Entity\Party $party
+     * @param Party $party
      * @return Points
      */
-    public function setParty(\EL\Core\Entity\Party $party = null)
+    public function setParty(Party $party = null)
     {
         $this->party = $party;
     
@@ -165,7 +156,7 @@ class Points
     /**
      * Get party
      *
-     * @return \EL\Core\Entity\Party
+     * @return Party
      */
     public function getParty()
     {

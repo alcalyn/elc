@@ -22,9 +22,6 @@ class WLD
     
     /**
      * @var GameVariant
-     * 
-
-
      */
     private $gameVariant;
     
@@ -100,10 +97,10 @@ class WLD
     /**
      * Set player
      *
-     * @param \EL\Core\Entity\Player $player
+     * @param Player $player
      * @return WLD
      */
-    public function setPlayer(\EL\Core\Entity\Player $player)
+    public function setPlayer(Player $player)
     {
         $this->player = $player;
     
@@ -113,7 +110,7 @@ class WLD
     /**
      * Get player
      *
-     * @return \EL\Core\Entity\Player
+     * @return Player
      */
     public function getPlayer()
     {
@@ -123,10 +120,10 @@ class WLD
     /**
      * Set party
      *
-     * @param \EL\Core\Entity\Party $party
+     * @param Party $party
      * @return WLD
      */
-    public function setParty(\EL\Core\Entity\Party $party = null)
+    public function setParty(Party $party = null)
     {
         $this->party = $party;
     
@@ -136,7 +133,7 @@ class WLD
     /**
      * Get party
      *
-     * @return \EL\Core\Entity\Party
+     * @return Party
      */
     public function getParty()
     {
@@ -146,10 +143,10 @@ class WLD
     /**
      * Set gameVariant
      *
-     * @param \EL\Core\Entity\GameVariant $gameVariant
+     * @param GameVariant $gameVariant
      * @return WLD
      */
-    public function setGameVariant(\EL\Core\Entity\GameVariant $gameVariant)
+    public function setGameVariant(GameVariant $gameVariant)
     {
         $this->gameVariant = $gameVariant;
     
@@ -159,7 +156,7 @@ class WLD
     /**
      * Get gameVariant
      *
-     * @return \EL\Core\Entity\GameVariant
+     * @return GameVariant
      */
     public function getGameVariant()
     {

@@ -86,10 +86,10 @@ class CountryLang
     /**
      * Set country
      *
-     * @param \EL\Core\Entity\Country $country
+     * @param Country $country
      * @return CountryLang
      */
-    public function setCountry(\EL\Core\Entity\Country $country)
+    public function setCountry(Country $country)
     {
         $this->country = $country;
     
@@ -99,7 +99,7 @@ class CountryLang
     /**
      * Get country
      *
-     * @return \EL\Core\Entity\Country
+     * @return Country
      */
     public function getCountry()
     {
@@ -109,10 +109,10 @@ class CountryLang
     /**
      * Set lang
      *
-     * @param \EL\Core\Entity\Lang $lang
+     * @param Lang $lang
      * @return CountryLang
      */
-    public function setLang(\EL\Core\Entity\Lang $lang)
+    public function setLang(Lang $lang)
     {
         $this->lang = $lang;
     
@@ -122,7 +122,7 @@ class CountryLang
     /**
      * Get lang
      *
-     * @return \EL\Core\Entity\Lang
+     * @return Lang
      */
     public function getLang()
     {

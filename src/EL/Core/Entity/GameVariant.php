@@ -26,29 +26,27 @@ class GameVariant extends AbstractLangEntity
     
     /**
      * @var Game
-     * 
-
-
      */
     private $game;
     
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * 
-
-
      */
     private $scores;
     
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * 
-
-
      */
     protected $langs;
-
-
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->langs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -81,21 +79,14 @@ class GameVariant extends AbstractLangEntity
     {
         return $this->name;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->langs = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Set game
      *
-     * @param \EL\Core\Entity\Game $game
+     * @param Game $game
      * @return GameVariant
      */
-    public function setGame(\EL\Core\Entity\Game $game)
+    public function setGame(Game $game)
     {
         $this->game = $game;
     
@@ -105,7 +96,7 @@ class GameVariant extends AbstractLangEntity
     /**
      * Get game
      *
-     * @return \EL\Core\Entity\Game
+     * @return Game
      */
     public function getGame()
     {
@@ -115,10 +106,10 @@ class GameVariant extends AbstractLangEntity
     /**
      * Add langs
      *
-     * @param \EL\Core\Entity\GameLang $langs
+     * @param GameLang $langs
      * @return GameVariant
      */
-    public function addLang(\EL\Core\Entity\GameLang $langs)
+    public function addLang(GameLang $langs)
     {
         $this->langs[] = $langs;
     
@@ -128,9 +119,9 @@ class GameVariant extends AbstractLangEntity
     /**
      * Remove langs
      *
-     * @param \EL\Core\Entity\GameLang $langs
+     * @param GameLang $langs
      */
-    public function removeLang(\EL\Core\Entity\GameLang $langs)
+    public function removeLang(GameLang $langs)
     {
         $this->langs->removeElement($langs);
     }
@@ -148,10 +139,10 @@ class GameVariant extends AbstractLangEntity
     /**
      * Add scores
      *
-     * @param \EL\Core\Entity\Score $scores
+     * @param Score $scores
      * @return GameVariant
      */
-    public function addScore(\EL\Core\Entity\Score $scores)
+    public function addScore(Score $scores)
     {
         $this->scores[] = $scores;
     
@@ -161,9 +152,9 @@ class GameVariant extends AbstractLangEntity
     /**
      * Remove scores
      *
-     * @param \EL\Core\Entity\Score $scores
+     * @param Score $scores
      */
-    public function removeScore(\EL\Core\Entity\Score $scores)
+    public function removeScore(Score $scores)
     {
         $this->scores->removeElement($scores);
     }

@@ -131,10 +131,10 @@ class Slot implements \JsonSerializable
     /**
      * Set player
      *
-     * @param \EL\Core\Entity\Player $player
+     * @param Player $player
      * @return Slot
      */
-    public function setPlayer(\EL\Core\Entity\Player $player = null)
+    public function setPlayer(Player $player = null)
     {
         $this->player = $player;
     
@@ -144,7 +144,7 @@ class Slot implements \JsonSerializable
     /**
      * Get player
      *
-     * @return \EL\Core\Entity\Player
+     * @return Player
      */
     public function getPlayer()
     {
@@ -164,10 +164,10 @@ class Slot implements \JsonSerializable
     /**
      * Set party
      *
-     * @param \EL\Core\Entity\Party $party
+     * @param Party $party
      * @return Slot
      */
-    public function setParty(\EL\Core\Entity\Party $party)
+    public function setParty(Party $party)
     {
         $this->party = $party;
     
@@ -177,7 +177,7 @@ class Slot implements \JsonSerializable
     /**
      * Get party
      *
-     * @return \EL\Core\Entity\Party
+     * @return Party
      */
     public function getParty()
     {

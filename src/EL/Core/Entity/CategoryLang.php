@@ -58,10 +58,10 @@ class CategoryLang
     /**
      * Set category
      *
-     * @param \EL\Core\Entity\Category $category
+     * @param Category $category
      * @return CategoryLang
      */
-    public function setCategory(\EL\Core\Entity\Category $category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
     
@@ -71,7 +71,7 @@ class CategoryLang
     /**
      * Get category
      *
-     * @return \EL\Core\Entity\Category
+     * @return Category
      */
     public function getCategory()
     {
@@ -81,10 +81,10 @@ class CategoryLang
     /**
      * Set lang
      *
-     * @param \EL\Core\Entity\Lang $lang
+     * @param Lang $lang
      * @return CategoryLang
      */
-    public function setLang(\EL\Core\Entity\Lang $lang)
+    public function setLang(Lang $lang)
     {
         $this->lang = $lang;
     
@@ -94,7 +94,7 @@ class CategoryLang
     /**
      * Get lang
      *
-     * @return \EL\Core\Entity\Lang
+     * @return Lang
      */
     public function getLang()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Core\EventListener;
+namespace EL\Bundle\CoreBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Session\Session;

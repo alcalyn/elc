@@ -1,8 +1,7 @@
 <?php
 
 namespace EL\Core\Entity;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use EL\Core\Entity\Slot;
 
 /**

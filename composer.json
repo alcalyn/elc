@@ -11,7 +11,6 @@
         "symfony/symfony": "2.6.*@dev",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2@dev",
-        "doctrine/doctrine-fixtures-bundle": "2.2.x",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
         "twig/extensions": "~1.0",
         "symfony/assetic-bundle": "~2.3",

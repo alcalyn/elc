@@ -1,6 +1,7 @@
 <?php
 
 namespace EL\Core\Entity;
+
 use EL\Core\Entity\Player;
 use EL\Core\Entity\GameVariant;
 

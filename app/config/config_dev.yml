@@ -27,5 +27,10 @@ monolog:
 assetic:
     use_controller: true
 
+khepin_yaml_fixtures:
+    directory: Resources/fixtures
+    resources:
+        - CoreBundle
+        
 #swiftmailer:
 #    delivery_address: me@example.com

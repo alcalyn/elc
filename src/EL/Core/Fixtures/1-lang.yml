@@ -1,0 +1,8 @@
+model: EL\Core\Entity\Lang
+fixtures:
+    lang-en:
+        locale: en
+        title: English
+    lang-fr:
+        locale: fr
+        title: Français

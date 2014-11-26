@@ -1,0 +1,6 @@
+model: EL\Core\Entity\Category
+fixtures:
+    category-strategy:
+        name: strategy
+    category-casino:
+        name: casino

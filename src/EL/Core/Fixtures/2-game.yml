@@ -1,0 +1,20 @@
+model: EL\Core\Entity\Game
+fixtures:
+    game-chess:
+        name: chess
+        nbplayermin: 2
+        nbplayermax: 2
+        visible: false
+        category: strategy
+        rankingColumns: 'parties,wins,losses,draws,ratio,elo,points'
+        rankingOrder: 'wins:d,draws:d'
+        rankingReference: wins
+    game-notvisible:
+        name: 'not.visible'
+        nbplayermin: 2
+        nbplayermax: 8
+        visible: false
+        category: casino
+        rankingColumns: 'parties,wins,losses,draws,ratio,elo,points'
+        rankingOrder: 'wins:d,draws:d'
+        rankingReference: wins

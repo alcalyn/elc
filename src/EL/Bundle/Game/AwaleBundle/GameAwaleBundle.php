@@ -14,5 +14,7 @@ class GameAwaleBundle extends Bundle
              __DIR__.'/Resources/config/doctrine/',
             'Awale'
         ));
+        
+        $container->addCompilerPass($this->buildYamlFixturesCompilerPass('GameAwaleBundle'));
     }
 }

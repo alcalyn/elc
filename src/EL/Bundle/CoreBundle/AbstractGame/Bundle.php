@@ -4,6 +4,7 @@ namespace EL\Bundle\CoreBundle\AbstractGame;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
+use EL\Bundle\CoreBundle\AbstractGame\DependencyInjection\Compiler\RegisterYamlFixturesPass;
 
 abstract class Bundle extends BaseBundle
 {
@@ -23,5 +24,10 @@ abstract class Bundle extends BaseBundle
         ), array(), false, array(
             $entityNamespaceAlias => $entityNamespace,
         ));
+    }
+    
+    protected function buildYamlFixturesCompilerPass($bundleName)
+    {
+        return new RegisterYamlFixturesPass($bundleName);
     }
 }

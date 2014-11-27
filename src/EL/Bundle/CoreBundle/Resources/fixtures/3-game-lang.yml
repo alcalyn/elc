@@ -1,0 +1,18 @@
+model: EL\Core\Entity\GameLang
+fixtures:
+    game-lang-chess-en:
+        game: game-chess
+        lang: lang-en
+        title: Chess
+        slug: chess
+        shortDesc: 'Chess short desc'
+        longDesc: 'Chess long desc'
+        pictureHome: ~
+    game-lang-chess-fr:
+        game: game-chess
+        lang: lang-fr
+        title: Echecs
+        slug: echecs
+        shortDesc: 'Echecs desc courte'
+        longDesc: 'Echecs desc longue'
+        pictureHome: ~

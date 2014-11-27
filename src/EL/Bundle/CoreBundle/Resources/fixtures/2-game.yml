@@ -5,7 +5,7 @@ fixtures:
         nbplayermin: 2
         nbplayermax: 2
         visible: false
-        category: strategy
+        category: category-strategy
         rankingColumns: 'parties,wins,losses,draws,ratio,elo,points'
         rankingOrder: 'wins:d,draws:d'
         rankingReference: wins
@@ -14,7 +14,7 @@ fixtures:
         nbplayermin: 2
         nbplayermax: 8
         visible: false
-        category: casino
+        category: category-casino
         rankingColumns: 'parties,wins,losses,draws,ratio,elo,points'
         rankingOrder: 'wins:d,draws:d'
         rankingReference: wins

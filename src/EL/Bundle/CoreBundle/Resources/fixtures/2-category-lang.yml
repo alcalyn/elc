@@ -1,18 +1,18 @@
 model: EL\Core\Entity\CategoryLang
 fixtures:
     category-lang-strategy-fr:
-        lang: fr
-        category: strategy
+        lang: lang-fr
+        category: category-strategy
         title: Stratégie
     category-lang-strategy-en:
-        lang: en
-        category: strategy
+        lang: lang-en
+        category: category-strategy
         title: Strategy
     category-lang-casino-fr:
-        lang: fr
-        category: casino
+        lang: lang-fr
+        category: category-casino
         title: Casino
     category-lang-casino-en:
-        lang: en
-        category: casino
+        lang: lang-en
+        category: category-casino
         title: Casino

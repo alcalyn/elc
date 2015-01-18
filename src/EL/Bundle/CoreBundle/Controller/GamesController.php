@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use EL\Core\Entity\Party;
-use EL\Bundle\CoreBundle\Services\GameService;
+use EL\Core\Service\GameService;
 
 class GamesController extends Controller
 {

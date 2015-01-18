@@ -1,10 +1,10 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Services;
+namespace EL\Core\Service;
 
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Translation\TranslatorInterface;
-use EL\Bundle\CoreBundle\Services\SessionService;
+use EL\Core\Service\SessionService;
 
 class JsVarsService
 {

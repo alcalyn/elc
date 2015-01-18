@@ -5,7 +5,7 @@ namespace EL\Bundle\Game\AwaleBundle\Services;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\Core\Event\PartyEvent;
 use EL\Core\Entity\Party;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameAdapter;
 use EL\Bundle\Game\AwaleBundle\Form\Type\AwalePartyType;
 use EL\Game\Awale\Entity\AwaleParty;
@@ -119,7 +119,7 @@ class Awale extends ELGameAdapter implements EventSubscriberInterface
     
     /**
      * @param string $_locale
-     * @param \EL\Bundle\CoreBundle\Services\PartyService $partyService
+     * @param \EL\Core\Service\PartyService $partyService
      * @param AwaleParty $extendedParty
      * 
      * @return \Symfony\Component\HttpFoundation\Response

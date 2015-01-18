@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Services;
+namespace EL\Core\Service;
 
 use Doctrine\ORM\EntityManager;
 use EL\Core\Exception\Exception;
@@ -8,8 +8,8 @@ use EL\Core\Entity\Player;
 use EL\Core\Entity\Elo;
 use EL\Core\Entity\Game;
 use EL\Core\Entity\GameVariant;
-use EL\Bundle\CoreBundle\Services\ScoreService;
 use EL\Core\Entity\Party;
+use EL\Core\Service\ScoreService;
 
 class EloService extends ScoreService
 {

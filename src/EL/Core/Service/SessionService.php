@@ -1,22 +1,21 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Services;
+namespace EL\Core\Service;
 
-use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Session\Session;
 use EL\Core\Exception\LoginException;
 use EL\Core\Entity\Player;
 
 class SessionService
 {
     /**
-     * @var \Symfony\Component\HttpFoundation\Session\Session
+     * @var Session
      */
     private $session;
     
     /**
-     *
-     * @var \Doctrine\ORM\EntityManager
+     * @var EntityManager
      */
     private $em;
     
@@ -87,7 +86,7 @@ class SessionService
     /**
      * Logout
      * 
-     * @return \EL\Bundle\CoreBundle\Services\SessionService
+     * @return SessionService
      */
     public function logout()
     {
@@ -172,7 +171,7 @@ class SessionService
      * 
      * @param Player $player
      * 
-     * @return \EL\Bundle\CoreBundle\Services\SessionService
+     * @return SessionService
      */
     public function setPlayer($player)
     {
@@ -184,7 +183,7 @@ class SessionService
     /**
      * Save current user in database
      * 
-     * @return \EL\Bundle\CoreBundle\Services\SessionService
+     * @return SessionService
      */
     public function savePlayer()
     {

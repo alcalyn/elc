@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
 use EL\Core\Entity\Party;
 use EL\Core\Util\Coords;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Game\Checkers\Entity\CheckersParty;
 use EL\Bundle\Game\CheckersBundle\Checkers\CheckersIllegalMoveException;
 use EL\Bundle\Game\CheckersBundle\Checkers\Variant;
@@ -184,8 +184,8 @@ class CheckersController extends Controller
         $coreParty->setState(Party::ENDED);
         $slots = $coreParty->getSlots();
         
-        $eloService = $this->get('el_core.score.elo'); /* @var $eloService \EL\Bundle\CoreBundle\Services\EloService */
-        $wldService = $this->get('el_core.score.wld'); /* @var $wldService \EL\Bundle\CoreBundle\Services\WLDService */
+        $eloService = $this->get('el_core.score.elo'); /* @var $eloService \EL\Core\Service\EloService */
+        $wldService = $this->get('el_core.score.wld'); /* @var $wldService \EL\Core\Service\WLDService */
         
         $game = $checkersParty->getParty()->getGame();
         $gameVariant = $eloService->getGameVariant($game, $variantName);

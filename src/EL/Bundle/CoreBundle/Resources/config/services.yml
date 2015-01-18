@@ -1,46 +1,35 @@
-parameters:
-    el_core.session.class:              EL\Bundle\CoreBundle\Services\SessionService
-    el_core.js_vars.class:              EL\Bundle\CoreBundle\Services\JsVarsService
-    el_core.party.class:                EL\Bundle\CoreBundle\Services\PartyService
-    el_core.game.class:                 EL\Bundle\CoreBundle\Services\GameService
-    el_core.widget.class:               EL\Bundle\CoreBundle\Services\WidgetService
-    el_core.score.class:                EL\Bundle\CoreBundle\Services\ScoreService
-    el_core.points.class:               EL\Bundle\CoreBundle\Services\PointsService
-    el_core.elo.class:                  EL\Bundle\CoreBundle\Services\EloService
-    el_core.wld.class:                  EL\Bundle\CoreBundle\Services\WLDService
-
 services:
     el_core.session:
-        class: %el_core.session.class%
+        class: EL\Core\Service\SessionService
         arguments: [@session, @doctrine.orm.entity_manager]
         
     el_core.js_vars:
-        class: %el_core.js_vars.class%
+        class: EL\Core\Service\JsVarsService
         arguments: [@router, @el_core.session, @translator]
         
     el_core.game:
-        class: %el_core.game.class%
+        class: EL\Core\Service\GameService
         arguments: [@doctrine.orm.entity_manager]
         
     el_core.party:
-        class: %el_core.party.class%
+        class: EL\Core\Service\PartyService
         arguments: [@doctrine.orm.entity_manager, @el_core.session, @event_dispatcher]
         
     el_core.widgets:
-        class: %el_core.widget.class%
+        class: EL\Core\Service\WidgetService
         
     el_core.score:
-        class: %el_core.score.class%
+        class: EL\Core\Service\ScoreService
         arguments: [@doctrine.orm.entity_manager]
         
     el_core.score.points:
-        class: %el_core.points.class%
+        class: EL\Core\Service\PointsService
         arguments: [@doctrine.orm.entity_manager]
         
     el_core.score.elo:
-        class: %el_core.elo.class%
+        class: EL\Core\Service\EloService
         arguments: [@doctrine.orm.entity_manager]
         
     el_core.score.wld:
-        class: %el_core.wld.class%
+        class: EL\Core\Service\WLDService
         arguments: [@doctrine.orm.entity_manager]

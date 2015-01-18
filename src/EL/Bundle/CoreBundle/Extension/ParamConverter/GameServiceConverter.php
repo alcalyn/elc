@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use EL\Bundle\CoreBundle\Services\GameService;
+use EL\Core\Service\GameService;
 use EL\Core\Exception\Exception;
 
 class GameServiceConverter implements ParamConverterInterface
@@ -59,7 +59,7 @@ class GameServiceConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration)
     {
-        return 'EL\Bundle\CoreBundle\Services\GameService' === $configuration->getClass();
+        return 'EL\Core\Service\GameService' === $configuration->getClass();
     }
     
     /**

@@ -2,7 +2,7 @@
 
 namespace EL\Core\Event;
 
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 
 class PartyEvent extends Event
@@ -114,7 +114,7 @@ class PartyEvent extends Event
     /**
      * Constructor
      * 
-     * @param \EL\Bundle\CoreBundle\Services\PartyService $partyService
+     * @param \EL\Core\Service\PartyService $partyService
      * @param \EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface $gameInterface
      * @param \stdClass $extOptions
      */

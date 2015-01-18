@@ -3,7 +3,7 @@
 namespace EL\Core\Event;
 
 use EL\Core\Entity\Party;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 
 class PartyRemakeEvent extends PartyEvent
@@ -28,7 +28,7 @@ class PartyRemakeEvent extends PartyEvent
     /**
      * Constructor
      * 
-     * @param \EL\Bundle\CoreBundle\Services\PartyService $partyService
+     * @param \EL\Core\Service\PartyService $partyService
      * @param \EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface $gameInterface
      * @param \stdClass $oldExtendedParty
      * @param Party $oldCoreParty the old core party that the new party has been remade from

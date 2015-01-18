@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Services;
+namespace EL\Core\Service;
 
 use Doctrine\ORM\EntityManager;
 use EL\Core\Exception\Exception;

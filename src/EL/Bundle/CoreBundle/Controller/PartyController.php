@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use EL\Core\Exception\Exception;
 use EL\Core\Exception\UserException;
 use EL\Core\Entity\Party;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Bundle\CoreBundle\Form\Entity\Options;
 use EL\Bundle\CoreBundle\Form\Type\OptionsType;
 

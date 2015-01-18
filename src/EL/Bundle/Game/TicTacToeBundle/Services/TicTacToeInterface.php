@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EL\Core\Event\PartyEvent;
 use EL\Core\Event\PartyRemakeEvent;
 use EL\Core\Entity\Party as CoreParty;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameAdapter;
 use EL\Bundle\Game\TicTacToeBundle\Form\Type\TicTacToePartyOptionsType;
 use EL\Game\TicTacToe\Entity\TicTacToeParty;

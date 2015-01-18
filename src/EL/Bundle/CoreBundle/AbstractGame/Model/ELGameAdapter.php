@@ -3,7 +3,7 @@
 namespace EL\Bundle\CoreBundle\AbstractGame\Model;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Core\Entity\Party as CoreParty;
 use EL\Core\Exception\Exception;
 use EL\Bundle\CoreBundle\AbstractGame\Form\Entity\AdapterOptions;

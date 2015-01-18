@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Core\Exception\Exception;
 
 class PartyServiceConverter implements ParamConverterInterface
@@ -60,7 +60,7 @@ class PartyServiceConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration)
     {
-        return 'EL\Bundle\CoreBundle\Services\PartyService' === $configuration->getClass();
+        return 'EL\Core\Service\PartyService' === $configuration->getClass();
     }
     
     /**

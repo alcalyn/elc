@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Phax\CoreBundle\Model\PhaxAction;
 use EL\Core\Exception\Exception;
 use EL\Core\Entity\Party;
-use EL\Bundle\CoreBundle\Services\PartyService;
+use EL\Core\Service\PartyService;
 use EL\Game\Awale\Entity\AwaleParty;
 use EL\Bundle\Game\AwaleBundle\Services\AwaleCore;
 
@@ -142,8 +142,8 @@ class AwaleController extends Controller
      */
     private function stopAndScoreParty(Party $coreParty)
     {
-        $eloService = $this->get('el_core.score.elo');  /* @var $eloService \EL\Bundle\CoreBundle\Services\EloService */
-        $wldService = $this->get('el_core.score.wld');  /* @var $wldService \EL\Bundle\CoreBundle\Services\WLDService */
+        $eloService = $this->get('el_core.score.elo');  /* @var $eloService \EL\Core\Service\EloService */
+        $wldService = $this->get('el_core.score.wld');  /* @var $wldService \EL\Core\Service\WLDService */
         
         // stop party
         $coreParty->setState(Party::ENDED);

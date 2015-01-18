@@ -1,19 +1,19 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Services;
+namespace EL\Core\Service;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use EL\Core\Event\PartyEvent;
-use EL\Core\Event\PartyRemakeEvent;
-use Doctrine\ORM\EntityManager;
-use EL\Bundle\CoreBundle\Services\GameService;
+use EL\Core\Exception\Exception;
+use EL\Core\Exception\UserException;
 use EL\Core\Entity\Party;
 use EL\Core\Entity\Slot;
 use EL\Core\Entity\Player;
-use EL\Bundle\CoreBundle\Services\SessionService;
-use EL\Core\Exception\Exception;
-use EL\Core\Exception\UserException;
+use EL\Core\Event\PartyEvent;
+use EL\Core\Event\PartyRemakeEvent;
+use EL\Core\Service\GameService;
+use EL\Core\Service\SessionService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
 
 class PartyService extends GameService
@@ -47,7 +47,7 @@ class PartyService extends GameService
      * Constructor
      * 
      * @param \Doctrine\ORM\EntityManager $em
-     * @param \EL\Bundle\CoreBundle\Services\SessionService $session
+     * @param \EL\Core\Service\SessionService $session
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
      */
     public function __construct(EntityManager $em, SessionService $session, EventDispatcherInterface $eventDispatcher)
@@ -61,7 +61,7 @@ class PartyService extends GameService
     
     /**
      * @param \EL\Core\Entity\Party $party
-     * @return \EL\Bundle\CoreBundle\Services\PartyService
+     * @return \EL\Core\Service\PartyService
      */
     public function setParty(Party $party, Container $container = null)
     {
@@ -80,7 +80,7 @@ class PartyService extends GameService
      * @param string $slugParty
      * @param string $slugGame
      * @param string $locale
-     * @return \EL\Bundle\CoreBundle\Services\PartyService
+     * @return \EL\Core\Service\PartyService
      */
     public function setPartyBySlug($slugParty, $slugGame, $locale, Container $container = null)
     {
@@ -496,7 +496,7 @@ class PartyService extends GameService
      * 
      * @param integer $index
      * @param boolean $open
-     * @return \EL\Bundle\CoreBundle\Services\PartyService
+     * @return \EL\Core\Service\PartyService
      */
     public function openSlot($index, $open = true)
     {

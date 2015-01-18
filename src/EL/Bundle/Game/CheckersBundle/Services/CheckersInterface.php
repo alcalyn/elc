@@ -4,8 +4,8 @@ namespace EL\Bundle\Game\CheckersBundle\Services;
 
 use EL\Core\Entity\Party;
 use EL\Game\Checkers\Entity\CheckersParty;
-use EL\Bundle\CoreBundle\Services\PartyService;
-use EL\Bundle\CoreBundle\Services\SessionService;
+use EL\Core\Service\PartyService;
+use EL\Core\Service\SessionService;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameAdapter;
 use EL\Bundle\Game\CheckersBundle\EventListener\PartyEventListener;
 use EL\Bundle\Game\CheckersBundle\Form\Type\CheckersOptionsType;
@@ -38,7 +38,7 @@ class CheckersInterface extends ELGameAdapter
     
     public function getCreationFormTemplate()
     {
-        $jsVars     = $this->get('el_core.js_vars');    /* @var $jsVars \EL\Bundle\CoreBundle\Services\JsVarsService */
+        $jsVars     = $this->get('el_core.js_vars');    /* @var $jsVars \EL\Core\Service\JsVarsService */
         $checkers   = $this->get('checkers.core');      /* @var $checkers Checkers */
         
         $jsVars
@@ -112,7 +112,7 @@ class CheckersInterface extends ELGameAdapter
     /**
      * 
      * @param string $_locale
-     * @param \EL\Bundle\CoreBundle\Services\PartyService $partyService
+     * @param \EL\Core\Service\PartyService $partyService
      * @param CheckersParty $extendedParty
      * 
      * @return \Symfony\Component\HttpFoundation\Response

@@ -1,6 +1,6 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Services;
+namespace EL\Core\Service;
 
 use Doctrine\ORM\EntityManager;
 use EL\Core\Exception\Exception;
@@ -78,7 +78,7 @@ class ScoreService
     /**
      * Get Score data for a player and a game variant
      * 
-     * @param \EL\Bundle\CoreBundle\Services\Player $player
+     * @param \EL\Core\Service\Player $player
      * @param Game|GameVariant $game
      * 
      * @return Score
@@ -109,7 +109,7 @@ class ScoreService
     /**
      * Get Score data for a player and a game variant
      * 
-     * @param \EL\Bundle\CoreBundle\Services\Player $players
+     * @param \EL\Core\Service\Player $players
      * @param Game|GameVariant $game
      * 
      * @return Score[]

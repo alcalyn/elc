@@ -1,11 +1,11 @@
 <?php
 
-namespace EL\Bundle\CoreBundle\Services;
+namespace EL\Core\Service;
 
 use Symfony\Component\DependencyInjection\Container;
+use EL\Core\Exception\Exception;
 use EL\Core\Entity\Game;
 use EL\Bundle\CoreBundle\AbstractGame\Model\ELGameInterface;
-use EL\Core\Exception\Exception;
 
 class GameService
 {
@@ -39,7 +39,7 @@ class GameService
     
     /**
      * @param \EL\Core\Entity\Game $game
-     * @return \EL\Bundle\CoreBundle\Services\GameService
+     * @return \EL\Core\Service\GameService
      */
     public function setGame(Game $game, Container $container = null)
     {
@@ -55,7 +55,7 @@ class GameService
     /**
      * @param string $slug
      * @param string $locale
-     * @return \EL\Bundle\CoreBundle\Services\GameService
+     * @return \EL\Core\Service\GameService
      */
     public function setGameBySlug($slug, $locale, Container $container = null)
     {
